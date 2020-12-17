@@ -1,6 +1,6 @@
 /**
   ******************************************************************************
-  * @file    sd.c 
+  * @file    sd.c
   * @author  MCD Application Team
   * @brief   This example code shows how to use the SD Driver
   ******************************************************************************
@@ -26,7 +26,7 @@
 
 /** @addtogroup BSP
   * @{
-  */ 
+  */
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
@@ -40,9 +40,9 @@ uint32_t aTxBuffer[BUFFER_WORDS_SIZE];
 uint32_t aRxBuffer[BUFFER_WORDS_SIZE];
 SD_CardInfo CardInfo;
 /* Private function prototypes -----------------------------------------------*/
-static void SD_SetHint(void);
-static void Fill_Buffer(uint32_t *pBuffer, uint32_t uwBufferLenght, uint32_t uwOffset);
-static uint8_t Buffercmp(uint32_t* pBuffer1, uint32_t* pBuffer2, uint16_t BufferLength);
+static void SD_SetHint( void );
+static void Fill_Buffer( uint32_t *pBuffer, uint32_t uwBufferLenght, uint32_t uwOffset );
+static uint8_t Buffercmp( uint32_t *pBuffer1, uint32_t *pBuffer2, uint16_t BufferLength );
 /* Private functions ---------------------------------------------------------*/
 
 /**
@@ -50,123 +50,126 @@ static uint8_t Buffercmp(uint32_t* pBuffer1, uint32_t* pBuffer2, uint16_t Buffer
   * @param  None
   * @retval None
   */
-void SD_demo (void)
-{ 
-  uint8_t SD_state = MSD_OK;
-  __IO uint8_t prev_status = 0; 
+void SD_demo( void )
+{
+    uint8_t SD_state = MSD_OK;
+    __IO uint8_t prev_status = 0;
 
-  SD_SetHint();
+    SD_SetHint();
 
-  SD_state = BSP_SD_Init();
+    SD_state = BSP_SD_Init();
 
-   /* Check if the SD card is plugged in the slot */
-  if(BSP_SD_IsDetected() == SD_PRESENT)
-  {
-    BSP_LCD_SetTextColor(LCD_COLOR_GREEN);
-    BSP_LCD_DisplayStringAt(20, BSP_LCD_GetYSize()-30, (uint8_t *)"SD Connected    ", LEFT_MODE);
-  }
-  else 
-  {
-    BSP_LCD_SetTextColor(LCD_COLOR_RED);
-    BSP_LCD_DisplayStringAt(20, BSP_LCD_GetYSize()-30, (uint8_t *)"SD Not Connected", LEFT_MODE);
-  }
-  BSP_LCD_SetTextColor(LCD_COLOR_BLACK);
-  
-  if(SD_state != MSD_OK)
-  {
-    BSP_LCD_DisplayStringAt(20, 100, (uint8_t *)"SD INITIALIZATION : FAIL.", LEFT_MODE);
-    BSP_LCD_DisplayStringAt(20, 115, (uint8_t *)"SD Test Aborted.", LEFT_MODE);
-  }
-  else
-  {
-    BSP_LCD_DisplayStringAt(20, 100, (uint8_t *)"SD INITIALIZATION : OK.", LEFT_MODE); 
-    
-    BSP_SD_GetCardInfo(&CardInfo);
-
-  if(SD_state != MSD_OK)
+    /* Check if the SD card is plugged in the slot */
+    if( BSP_SD_IsDetected() == SD_PRESENT )
     {
-      BSP_LCD_DisplayStringAt(20, 115, (uint8_t *)"SD GET CARD INFO : FAIL.", LEFT_MODE);
-      BSP_LCD_DisplayStringAt(20, 130, (uint8_t *)"SD Test Aborted.", LEFT_MODE);
+        BSP_LCD_SetTextColor( LCD_COLOR_GREEN );
+        BSP_LCD_DisplayStringAt( 20, BSP_LCD_GetYSize() - 30, ( uint8_t * )"SD Connected    ", LEFT_MODE );
     }
     else
     {
-      BSP_LCD_DisplayStringAt(20, 115, (uint8_t *)"SD GET CARD INFO : OK.", LEFT_MODE);
+        BSP_LCD_SetTextColor( LCD_COLOR_RED );
+        BSP_LCD_DisplayStringAt( 20, BSP_LCD_GetYSize() - 30, ( uint8_t * )"SD Not Connected", LEFT_MODE );
+    }
 
-      SD_state = BSP_SD_Erase(BLOCK_START_ADDR, (BLOCKSIZE * NUM_OF_BLOCKS));
-    
-      /* Verify that SD card is ready to use after the Erase */
-      SD_state |= BSP_SD_GetStatus();
+    BSP_LCD_SetTextColor( LCD_COLOR_BLACK );
 
-      if(SD_state != MSD_OK)
-      {
-        BSP_LCD_DisplayStringAt(20, 130, (uint8_t *)"SD ERASE : FAILED.", LEFT_MODE);
-        BSP_LCD_DisplayStringAt(20, 145, (uint8_t *)"SD Test Aborted.", LEFT_MODE);
-      }
-      else
-      {
-        BSP_LCD_DisplayStringAt(20, 130, (uint8_t *)"SD ERASE : OK.", LEFT_MODE);
-      
-        /* Fill the buffer to write */
-        Fill_Buffer(aTxBuffer, BUFFER_WORDS_SIZE, 0x22FF);
-        SD_state = BSP_SD_WriteBlocks((uint32_t *)aTxBuffer, BLOCK_START_ADDR, BLOCKSIZE, NUM_OF_BLOCKS);
-      
-        if(SD_state != MSD_OK)
+    if( SD_state != MSD_OK )
+    {
+        BSP_LCD_DisplayStringAt( 20, 100, ( uint8_t * )"SD INITIALIZATION : FAIL.", LEFT_MODE );
+        BSP_LCD_DisplayStringAt( 20, 115, ( uint8_t * )"SD Test Aborted.", LEFT_MODE );
+    }
+    else
+    {
+        BSP_LCD_DisplayStringAt( 20, 100, ( uint8_t * )"SD INITIALIZATION : OK.", LEFT_MODE );
+
+        BSP_SD_GetCardInfo( &CardInfo );
+
+        if( SD_state != MSD_OK )
         {
-          BSP_LCD_DisplayStringAt(20, 145, (uint8_t *)"SD WRITE : FAILED.", LEFT_MODE);
-          BSP_LCD_DisplayStringAt(20, 160, (uint8_t *)"SD Test Aborted.", LEFT_MODE);
+            BSP_LCD_DisplayStringAt( 20, 115, ( uint8_t * )"SD GET CARD INFO : FAIL.", LEFT_MODE );
+            BSP_LCD_DisplayStringAt( 20, 130, ( uint8_t * )"SD Test Aborted.", LEFT_MODE );
         }
         else
         {
-          BSP_LCD_DisplayStringAt(20, 145, (uint8_t *)"SD WRITE : OK.", LEFT_MODE);
-          SD_state = BSP_SD_ReadBlocks((uint32_t *)aRxBuffer, BLOCK_START_ADDR, BLOCKSIZE, NUM_OF_BLOCKS);
-          if(SD_state != MSD_OK)
-          {
-            BSP_LCD_DisplayStringAt(20, 160, (uint8_t *)"SD READ : FAILED.", LEFT_MODE);
-            BSP_LCD_DisplayStringAt(20, 175, (uint8_t *)"SD Test Aborted.", LEFT_MODE);
-          }
-          else
-          {
-            BSP_LCD_DisplayStringAt(20, 160, (uint8_t *)"SD READ : OK.", LEFT_MODE);
-            if(Buffercmp(aTxBuffer, aRxBuffer, BUFFER_WORDS_SIZE) > 0)
+            BSP_LCD_DisplayStringAt( 20, 115, ( uint8_t * )"SD GET CARD INFO : OK.", LEFT_MODE );
+
+            SD_state = BSP_SD_Erase( BLOCK_START_ADDR, ( BLOCKSIZE * NUM_OF_BLOCKS ) );
+
+            /* Verify that SD card is ready to use after the Erase */
+            SD_state |= BSP_SD_GetStatus();
+
+            if( SD_state != MSD_OK )
             {
-              BSP_LCD_DisplayStringAt(20, 175, (uint8_t *)"SD COMPARE : FAILED.", LEFT_MODE);
-              BSP_LCD_DisplayStringAt(20, 190, (uint8_t *)"SD Test Aborted.", LEFT_MODE);
+                BSP_LCD_DisplayStringAt( 20, 130, ( uint8_t * )"SD ERASE : FAILED.", LEFT_MODE );
+                BSP_LCD_DisplayStringAt( 20, 145, ( uint8_t * )"SD Test Aborted.", LEFT_MODE );
             }
             else
             {
-              BSP_LCD_DisplayStringAt(20, 175, (uint8_t *)"SD TEST : OK.", LEFT_MODE);
+                BSP_LCD_DisplayStringAt( 20, 130, ( uint8_t * )"SD ERASE : OK.", LEFT_MODE );
+
+                /* Fill the buffer to write */
+                Fill_Buffer( aTxBuffer, BUFFER_WORDS_SIZE, 0x22FF );
+                SD_state = BSP_SD_WriteBlocks( ( uint32_t * )aTxBuffer, BLOCK_START_ADDR, BLOCKSIZE, NUM_OF_BLOCKS );
+
+                if( SD_state != MSD_OK )
+                {
+                    BSP_LCD_DisplayStringAt( 20, 145, ( uint8_t * )"SD WRITE : FAILED.", LEFT_MODE );
+                    BSP_LCD_DisplayStringAt( 20, 160, ( uint8_t * )"SD Test Aborted.", LEFT_MODE );
+                }
+                else
+                {
+                    BSP_LCD_DisplayStringAt( 20, 145, ( uint8_t * )"SD WRITE : OK.", LEFT_MODE );
+                    SD_state = BSP_SD_ReadBlocks( ( uint32_t * )aRxBuffer, BLOCK_START_ADDR, BLOCKSIZE, NUM_OF_BLOCKS );
+
+                    if( SD_state != MSD_OK )
+                    {
+                        BSP_LCD_DisplayStringAt( 20, 160, ( uint8_t * )"SD READ : FAILED.", LEFT_MODE );
+                        BSP_LCD_DisplayStringAt( 20, 175, ( uint8_t * )"SD Test Aborted.", LEFT_MODE );
+                    }
+                    else
+                    {
+                        BSP_LCD_DisplayStringAt( 20, 160, ( uint8_t * )"SD READ : OK.", LEFT_MODE );
+
+                        if( Buffercmp( aTxBuffer, aRxBuffer, BUFFER_WORDS_SIZE ) > 0 )
+                        {
+                            BSP_LCD_DisplayStringAt( 20, 175, ( uint8_t * )"SD COMPARE : FAILED.", LEFT_MODE );
+                            BSP_LCD_DisplayStringAt( 20, 190, ( uint8_t * )"SD Test Aborted.", LEFT_MODE );
+                        }
+                        else
+                        {
+                            BSP_LCD_DisplayStringAt( 20, 175, ( uint8_t * )"SD TEST : OK.", LEFT_MODE );
+                        }
+                    }
+                }
             }
-          }
         }
-      }
     }
-  }
-  
-  while (1)
-  {
-    /* Check if the SD card is plugged in the slot */
-    if(BSP_SD_IsDetected() != SD_PRESENT)
+
+    while( 1 )
     {
-      if(prev_status == 0)
-      {
-        prev_status = 1; 
-        BSP_LCD_SetTextColor(LCD_COLOR_RED);
-        BSP_LCD_DisplayStringAt(20, BSP_LCD_GetYSize()-30, (uint8_t *)"SD Not Connected", LEFT_MODE);
-      }
+        /* Check if the SD card is plugged in the slot */
+        if( BSP_SD_IsDetected() != SD_PRESENT )
+        {
+            if( prev_status == 0 )
+            {
+                prev_status = 1;
+                BSP_LCD_SetTextColor( LCD_COLOR_RED );
+                BSP_LCD_DisplayStringAt( 20, BSP_LCD_GetYSize() - 30, ( uint8_t * )"SD Not Connected", LEFT_MODE );
+            }
+        }
+        else if( prev_status == 1 )
+        {
+            BSP_SD_Init();
+            BSP_LCD_SetTextColor( LCD_COLOR_GREEN );
+            BSP_LCD_DisplayStringAt( 20, BSP_LCD_GetYSize() - 30, ( uint8_t * )"SD Connected    ", LEFT_MODE );
+            prev_status = 0;
+        }
+
+        if( CheckForUserInput() > 0 )
+        {
+            return;
+        }
     }
-    else if (prev_status == 1)
-    {
-      BSP_SD_Init();
-      BSP_LCD_SetTextColor(LCD_COLOR_GREEN);
-      BSP_LCD_DisplayStringAt(20, BSP_LCD_GetYSize()-30, (uint8_t *)"SD Connected    ", LEFT_MODE);
-      prev_status = 0;
-    }
-    
-    if(CheckForUserInput() > 0)
-    {
-      return;
-    }
-  }
 }
 
 /**
@@ -174,31 +177,31 @@ void SD_demo (void)
   * @param  None
   * @retval None
   */
-static void SD_SetHint(void)
+static void SD_SetHint( void )
 {
-  /* Clear the LCD */ 
-  BSP_LCD_Clear(LCD_COLOR_WHITE);
-  
-  /* Set LCD Demo description */
-  BSP_LCD_SetTextColor(LCD_COLOR_BLUE);
-  BSP_LCD_FillRect(0, 0, BSP_LCD_GetXSize(), 80);
-  BSP_LCD_SetTextColor(LCD_COLOR_WHITE);
-  BSP_LCD_SetBackColor(LCD_COLOR_BLUE); 
-  BSP_LCD_SetFont(&Font24);
-  BSP_LCD_DisplayStringAt(0, 0, (uint8_t *)"SD", CENTER_MODE);
-  BSP_LCD_SetFont(&Font12);
-  BSP_LCD_DisplayStringAt(0, 30, (uint8_t *)"This example shows how to write", CENTER_MODE);
-  BSP_LCD_DisplayStringAt(0, 45, (uint8_t *)"and read data on the microSD and also", CENTER_MODE); 
-  BSP_LCD_DisplayStringAt(0, 60, (uint8_t *)"how to detect the presence of the card", CENTER_MODE); 
+    /* Clear the LCD */
+    BSP_LCD_Clear( LCD_COLOR_WHITE );
 
-   /* Set the LCD Text Color */
-  BSP_LCD_SetTextColor(LCD_COLOR_BLUE);  
-  BSP_LCD_DrawRect(10, 90, BSP_LCD_GetXSize() - 20, BSP_LCD_GetYSize()- 100);
-  BSP_LCD_DrawRect(11, 91, BSP_LCD_GetXSize() - 22, BSP_LCD_GetYSize()- 102);
-  
-  BSP_LCD_SetTextColor(LCD_COLOR_BLACK);
-  BSP_LCD_SetBackColor(LCD_COLOR_WHITE); 
- }
+    /* Set LCD Demo description */
+    BSP_LCD_SetTextColor( LCD_COLOR_BLUE );
+    BSP_LCD_FillRect( 0, 0, BSP_LCD_GetXSize(), 80 );
+    BSP_LCD_SetTextColor( LCD_COLOR_WHITE );
+    BSP_LCD_SetBackColor( LCD_COLOR_BLUE );
+    BSP_LCD_SetFont( &Font24 );
+    BSP_LCD_DisplayStringAt( 0, 0, ( uint8_t * )"SD", CENTER_MODE );
+    BSP_LCD_SetFont( &Font12 );
+    BSP_LCD_DisplayStringAt( 0, 30, ( uint8_t * )"This example shows how to write", CENTER_MODE );
+    BSP_LCD_DisplayStringAt( 0, 45, ( uint8_t * )"and read data on the microSD and also", CENTER_MODE );
+    BSP_LCD_DisplayStringAt( 0, 60, ( uint8_t * )"how to detect the presence of the card", CENTER_MODE );
+
+    /* Set the LCD Text Color */
+    BSP_LCD_SetTextColor( LCD_COLOR_BLUE );
+    BSP_LCD_DrawRect( 10, 90, BSP_LCD_GetXSize() - 20, BSP_LCD_GetYSize() - 100 );
+    BSP_LCD_DrawRect( 11, 91, BSP_LCD_GetXSize() - 22, BSP_LCD_GetYSize() - 102 );
+
+    BSP_LCD_SetTextColor( LCD_COLOR_BLACK );
+    BSP_LCD_SetBackColor( LCD_COLOR_WHITE );
+}
 
 /**
   * @brief  Fills buffer with user predefined data.
@@ -207,15 +210,15 @@ static void SD_SetHint(void)
   * @param  uwOffset: first value to fill on the buffer
   * @retval None
   */
-static void Fill_Buffer(uint32_t *pBuffer, uint32_t uwBufferLenght, uint32_t uwOffset)
+static void Fill_Buffer( uint32_t *pBuffer, uint32_t uwBufferLenght, uint32_t uwOffset )
 {
-  uint32_t tmpIndex = 0;
+    uint32_t tmpIndex = 0;
 
-  /* Put in global buffer different values */
-  for (tmpIndex = 0; tmpIndex < uwBufferLenght; tmpIndex++ )
-  {
-    pBuffer[tmpIndex] = tmpIndex + uwOffset;
-  }
+    /* Put in global buffer different values */
+    for( tmpIndex = 0; tmpIndex < uwBufferLenght; tmpIndex++ )
+    {
+        pBuffer[tmpIndex] = tmpIndex + uwOffset;
+    }
 }
 
 /**
@@ -225,27 +228,27 @@ static void Fill_Buffer(uint32_t *pBuffer, uint32_t uwBufferLenght, uint32_t uwO
   * @retval 1: pBuffer identical to pBuffer1
   *         0: pBuffer differs from pBuffer1
   */
-static uint8_t Buffercmp(uint32_t* pBuffer1, uint32_t* pBuffer2, uint16_t BufferLength)
+static uint8_t Buffercmp( uint32_t *pBuffer1, uint32_t *pBuffer2, uint16_t BufferLength )
 {
-  while (BufferLength--)
-  {
-    if (*pBuffer1 != *pBuffer2)
+    while( BufferLength-- )
     {
-      return 1;
+        if( *pBuffer1 != *pBuffer2 )
+        {
+            return 1;
+        }
+
+        pBuffer1++;
+        pBuffer2++;
     }
 
-    pBuffer1++;
-    pBuffer2++;
-  }
-
-  return 0;
+    return 0;
 }
 /**
   * @}
-  */ 
+  */
 
 /**
   * @}
-  */ 
+  */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

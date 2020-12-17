@@ -33,7 +33,7 @@
 #include "stm32l0xx_ll_cortex.h"
 #include <stdio.h>
 #if defined(USE_FULL_ASSERT)
-#include "stm32_assert.h"
+    #include "stm32_assert.h"
 #endif /* USE_FULL_ASSERT */
 
 /* Exported types ------------------------------------------------------------*/
@@ -45,7 +45,7 @@
 #define RTC_ERROR_TIMEOUT 1
 
 /**
-  * @brief LED2 
+  * @brief LED2
   */
 
 #define LED2_PIN                           LL_GPIO_PIN_5
@@ -66,13 +66,13 @@
   */
 #define USER_BUTTON_PIN                         LL_GPIO_PIN_13
 #define USER_BUTTON_GPIO_PORT                   GPIOC
-#define USER_BUTTON_GPIO_CLK_ENABLE()           LL_IOP_GRP1_EnableClock(LL_IOP_GRP1_PERIPH_GPIOC)   
+#define USER_BUTTON_GPIO_CLK_ENABLE()           LL_IOP_GRP1_EnableClock(LL_IOP_GRP1_PERIPH_GPIOC)
 
 /* Exported macro ------------------------------------------------------------*/
 
 /* Exported functions ------------------------------------------------------- */
 /* IRQ Handler treatment.  */
-void TimeStampEvent_Callback(void);
+void TimeStampEvent_Callback( void );
 
 #endif /* __MAIN_H */
 

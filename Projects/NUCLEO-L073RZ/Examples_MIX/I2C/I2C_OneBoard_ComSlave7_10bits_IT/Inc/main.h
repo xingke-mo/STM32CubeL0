@@ -16,7 +16,7 @@
   *
   ******************************************************************************
   */
-  
+
 /* Define to prevent recursive inclusion -------------------------------------*/
 #ifndef __MAIN_H
 #define __MAIN_H
@@ -36,7 +36,7 @@
 #define RCC_I2Cx_MASTERCLKSOURCE_SYSCLK         RCC_I2C3CLKSOURCE_SYSCLK
 #define I2Cx_MASTER_CLK_ENABLE()                __HAL_RCC_I2C3_CLK_ENABLE()
 #define I2Cx_MASTER_SDA_GPIO_CLK_ENABLE()       __HAL_RCC_GPIOC_CLK_ENABLE()
-#define I2Cx_MASTER_SCL_GPIO_CLK_ENABLE()       __HAL_RCC_GPIOC_CLK_ENABLE() 
+#define I2Cx_MASTER_SCL_GPIO_CLK_ENABLE()       __HAL_RCC_GPIOC_CLK_ENABLE()
 
 #define I2Cx_MASTER_FORCE_RESET()               __HAL_RCC_I2C3_FORCE_RESET()
 #define I2Cx_MASTER_RELEASE_RESET()             __HAL_RCC_I2C3_RELEASE_RESET()
@@ -58,7 +58,7 @@
 #define RCC_I2Cx_SLAVECLKSOURCE_SYSCLK          RCC_I2C1CLKSOURCE_SYSCLK
 #define I2Cx_SLAVE_CLK_ENABLE()                 __HAL_RCC_I2C1_CLK_ENABLE()
 #define I2Cx_SLAVE_SDA_GPIO_CLK_ENABLE()        __HAL_RCC_GPIOB_CLK_ENABLE()
-#define I2Cx_SLAVE_SCL_GPIO_CLK_ENABLE()        __HAL_RCC_GPIOB_CLK_ENABLE() 
+#define I2Cx_SLAVE_SCL_GPIO_CLK_ENABLE()        __HAL_RCC_GPIOB_CLK_ENABLE()
 
 #define I2Cx_SLAVE_FORCE_RESET()                __HAL_RCC_I2C1_FORCE_RESET()
 #define I2Cx_SLAVE_RELEASE_RESET()              __HAL_RCC_I2C1_RELEASE_RESET()

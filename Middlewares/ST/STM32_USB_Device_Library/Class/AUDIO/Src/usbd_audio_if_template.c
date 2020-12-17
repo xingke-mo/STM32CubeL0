@@ -65,23 +65,23 @@ EndBSPDependencies */
   * @{
   */
 
-static int8_t  TEMPLATE_Init(uint32_t  AudioFreq, uint32_t Volume, uint32_t options);
-static int8_t  TEMPLATE_DeInit(uint32_t options);
-static int8_t  TEMPLATE_AudioCmd(uint8_t *pbuf, uint32_t size, uint8_t cmd);
-static int8_t  TEMPLATE_VolumeCtl(uint8_t vol);
-static int8_t  TEMPLATE_MuteCtl(uint8_t cmd);
-static int8_t  TEMPLATE_PeriodicTC(uint8_t cmd);
-static int8_t  TEMPLATE_GetState(void);
+static int8_t  TEMPLATE_Init( uint32_t  AudioFreq, uint32_t Volume, uint32_t options );
+static int8_t  TEMPLATE_DeInit( uint32_t options );
+static int8_t  TEMPLATE_AudioCmd( uint8_t *pbuf, uint32_t size, uint8_t cmd );
+static int8_t  TEMPLATE_VolumeCtl( uint8_t vol );
+static int8_t  TEMPLATE_MuteCtl( uint8_t cmd );
+static int8_t  TEMPLATE_PeriodicTC( uint8_t cmd );
+static int8_t  TEMPLATE_GetState( void );
 
 USBD_AUDIO_ItfTypeDef USBD_AUDIO_Template_fops =
 {
-  TEMPLATE_Init,
-  TEMPLATE_DeInit,
-  TEMPLATE_AudioCmd,
-  TEMPLATE_VolumeCtl,
-  TEMPLATE_MuteCtl,
-  TEMPLATE_PeriodicTC,
-  TEMPLATE_GetState,
+    TEMPLATE_Init,
+    TEMPLATE_DeInit,
+    TEMPLATE_AudioCmd,
+    TEMPLATE_VolumeCtl,
+    TEMPLATE_MuteCtl,
+    TEMPLATE_PeriodicTC,
+    TEMPLATE_GetState,
 };
 
 /* Private functions ---------------------------------------------------------*/
@@ -92,12 +92,12 @@ USBD_AUDIO_ItfTypeDef USBD_AUDIO_Template_fops =
   * @param  None
   * @retval Result of the operation: USBD_OK if all operations are OK else USBD_FAIL
   */
-static int8_t TEMPLATE_Init(uint32_t  AudioFreq, uint32_t Volume, uint32_t options)
+static int8_t TEMPLATE_Init( uint32_t  AudioFreq, uint32_t Volume, uint32_t options )
 {
-  /*
-     Add your initialization code here
-  */
-  return (0);
+    /*
+       Add your initialization code here
+    */
+    return ( 0 );
 }
 
 /**
@@ -106,12 +106,12 @@ static int8_t TEMPLATE_Init(uint32_t  AudioFreq, uint32_t Volume, uint32_t optio
   * @param  None
   * @retval Result of the operation: USBD_OK if all operations are OK else USBD_FAIL
   */
-static int8_t TEMPLATE_DeInit(uint32_t options)
+static int8_t TEMPLATE_DeInit( uint32_t options )
 {
-  /*
-     Add your deinitialization code here
-  */
-  return (0);
+    /*
+       Add your deinitialization code here
+    */
+    return ( 0 );
 }
 
 
@@ -123,9 +123,9 @@ static int8_t TEMPLATE_DeInit(uint32_t options)
   * @param  cmd: command opcode
   * @retval Result of the operation: USBD_OK if all operations are OK else USBD_FAIL
   */
-static int8_t TEMPLATE_AudioCmd(uint8_t *pbuf, uint32_t size, uint8_t cmd)
+static int8_t TEMPLATE_AudioCmd( uint8_t *pbuf, uint32_t size, uint8_t cmd )
 {
-  return (0);
+    return ( 0 );
 }
 
 /**
@@ -133,9 +133,9 @@ static int8_t TEMPLATE_AudioCmd(uint8_t *pbuf, uint32_t size, uint8_t cmd)
   * @param  vol: volume level (0..100)
   * @retval Result of the operation: USBD_OK if all operations are OK else USBD_FAIL
   */
-static int8_t TEMPLATE_VolumeCtl(uint8_t vol)
+static int8_t TEMPLATE_VolumeCtl( uint8_t vol )
 {
-  return (0);
+    return ( 0 );
 }
 
 /**
@@ -143,9 +143,9 @@ static int8_t TEMPLATE_VolumeCtl(uint8_t vol)
   * @param  cmd: vmute command
   * @retval Result of the operation: USBD_OK if all operations are OK else USBD_FAIL
   */
-static int8_t TEMPLATE_MuteCtl(uint8_t cmd)
+static int8_t TEMPLATE_MuteCtl( uint8_t cmd )
 {
-  return (0);
+    return ( 0 );
 }
 
 /**
@@ -153,9 +153,9 @@ static int8_t TEMPLATE_MuteCtl(uint8_t cmd)
   * @param  cmd
   * @retval Result of the operation: USBD_OK if all operations are OK else USBD_FAIL
   */
-static int8_t TEMPLATE_PeriodicTC(uint8_t cmd)
+static int8_t TEMPLATE_PeriodicTC( uint8_t cmd )
 {
-  return (0);
+    return ( 0 );
 }
 
 /**
@@ -163,9 +163,9 @@ static int8_t TEMPLATE_PeriodicTC(uint8_t cmd)
   * @param  None
   * @retval Result of the operation: USBD_OK if all operations are OK else USBD_FAIL
   */
-static int8_t TEMPLATE_GetState(void)
+static int8_t TEMPLATE_GetState( void )
 {
-  return (0);
+    return ( 0 );
 }
 /**
   * @}

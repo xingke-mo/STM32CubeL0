@@ -2,7 +2,7 @@
   ******************************************************************************
   * @file    stm32l0538_discovery_epd.c
   * @author  MCD Application Team
-  * @brief   This file includes the EPD driver for Display Module of 
+  * @brief   This file includes the EPD driver for Display Module of
   *          STM32L0538-DISCO kit (MB1143).
   ******************************************************************************
   * @attention
@@ -65,7 +65,7 @@ static EPD_DrvTypeDef  *epd_drv;
 /** @defgroup STM32L0538_DISCOVERY_EPD_Private_FunctionPrototypes
   * @{
   */
-static void DrawChar(uint16_t Xpos, uint16_t Ypos, const uint8_t *c);
+static void DrawChar( uint16_t Xpos, uint16_t Ypos, const uint8_t *c );
 /**
   * @}
   */
@@ -79,27 +79,27 @@ static void DrawChar(uint16_t Xpos, uint16_t Ypos, const uint8_t *c);
   * @param  None
   * @retval EPD state
   */
-uint8_t BSP_EPD_Init(void)
+uint8_t BSP_EPD_Init( void )
 {
-  uint8_t ret = EPD_ERROR;
+    uint8_t ret = EPD_ERROR;
 
-  /* Default value for the Font */
-  pFont = &Font16;
+    /* Default value for the Font */
+    pFont = &Font16;
 
-  epd_drv = &gde021a1_drv;
+    epd_drv = &gde021a1_drv;
 
-  /* EPD Init */
-  epd_drv->Init();
+    /* EPD Init */
+    epd_drv->Init();
 
-  /* Clear the EPD screen */
-  BSP_EPD_Clear(EPD_COLOR_WHITE);
+    /* Clear the EPD screen */
+    BSP_EPD_Clear( EPD_COLOR_WHITE );
 
-  /* Initialize the font */
-  BSP_EPD_SetFont(&EPD_DEFAULT_FONT);
+    /* Initialize the font */
+    BSP_EPD_SetFont( &EPD_DEFAULT_FONT );
 
-  ret = EPD_OK;
+    ret = EPD_OK;
 
-  return ret;
+    return ret;
 }
 
 /**
@@ -107,19 +107,19 @@ uint8_t BSP_EPD_Init(void)
   * @param  None
   * @retval EPD X size
   */
-uint32_t BSP_EPD_GetXSize(void)
+uint32_t BSP_EPD_GetXSize( void )
 {
-  return(epd_drv->GetEpdPixelWidth());
+    return( epd_drv->GetEpdPixelWidth() );
 }
 
 /**
   * @brief  Gets the EPD Y size.
-  * @param  None   
+  * @param  None
   * @retval EPD Y size
   */
-uint32_t BSP_EPD_GetYSize(void)
+uint32_t BSP_EPD_GetYSize( void )
 {
-  return(epd_drv->GetEpdPixelHeight());
+    return( epd_drv->GetEpdPixelHeight() );
 }
 
 /**
@@ -127,9 +127,9 @@ uint32_t BSP_EPD_GetYSize(void)
   * @param  pFonts: specifies the layer font to be used.
   * @retval None
   */
-void BSP_EPD_SetFont(sFONT *pFonts)
+void BSP_EPD_SetFont( sFONT *pFonts )
 {
-  pFont = pFonts;
+    pFont = pFonts;
 }
 
 /**
@@ -137,9 +137,9 @@ void BSP_EPD_SetFont(sFONT *pFonts)
   * @param  None.
   * @retval the used layer font.
   */
-sFONT *BSP_EPD_GetFont(void)
+sFONT *BSP_EPD_GetFont( void )
 {
-  return pFont;
+    return pFont;
 }
 
 /**
@@ -147,16 +147,16 @@ sFONT *BSP_EPD_GetFont(void)
   * @param  Color: Color of the background
   * @retval None
   */
-void BSP_EPD_Clear(uint16_t Color)
+void BSP_EPD_Clear( uint16_t Color )
 {
-  uint32_t index = 0;
+    uint32_t index = 0;
 
-  epd_drv->SetDisplayWindow(0, 0, 171, 17);
+    epd_drv->SetDisplayWindow( 0, 0, 171, 17 );
 
-  for(index = 0; index < 3096; index++)
-  {
-      epd_drv->WritePixel(Color);
-  }
+    for( index = 0; index < 3096; index++ )
+    {
+        epd_drv->WritePixel( Color );
+    }
 }
 
 /**
@@ -166,11 +166,11 @@ void BSP_EPD_Clear(uint16_t Color)
   * @param  Ascii: character ascii code, must be between 0x20 and 0x7E.
   * @retval None
   */
-void BSP_EPD_DisplayChar(uint16_t Xpos, uint16_t Ypos, uint8_t Ascii)
+void BSP_EPD_DisplayChar( uint16_t Xpos, uint16_t Ypos, uint8_t Ascii )
 {
-  Ascii -= 32;
-  
-  DrawChar(Xpos, Ypos, &pFont->table[Ascii * ((pFont->Height) * (pFont->Width))]);
+    Ascii -= 32;
+
+    DrawChar( Xpos, Ypos, &pFont->table[Ascii * ( ( pFont->Height ) * ( pFont->Width ) )] );
 }
 
 /**
@@ -182,56 +182,62 @@ void BSP_EPD_DisplayChar(uint16_t Xpos, uint16_t Ypos, uint8_t Ascii)
   *          This parameter can be one of the following values:
   *            @arg  CENTER_MODE
   *            @arg  RIGHT_MODE
-  *            @arg  LEFT_MODE  
+  *            @arg  LEFT_MODE
   * @retval None
   */
-void BSP_EPD_DisplayStringAt(uint16_t Xpos, uint16_t Ypos, uint8_t *Text, Text_AlignModeTypdef Mode)
+void BSP_EPD_DisplayStringAt( uint16_t Xpos, uint16_t Ypos, uint8_t *Text, Text_AlignModeTypdef Mode )
 {
-  uint16_t refcolumn = 1, i = 0;
-  uint32_t size = 0, xsize = 0; 
-  uint8_t  *ptr = Text;
-  
-  /* Get the text size */
-  while (*ptr++) size ++ ;
-  
-  /* Characters number per line */
-  xsize = (BSP_EPD_GetXSize()/pFont->Width);
-  
-  switch (Mode)
-  {
-  case CENTER_MODE:
+    uint16_t refcolumn = 1, i = 0;
+    uint32_t size = 0, xsize = 0;
+    uint8_t  *ptr = Text;
+
+    /* Get the text size */
+    while( *ptr++ )
     {
-      refcolumn = Xpos + ((xsize - size)* pFont->Width) / 2;
-      break;
+        size ++ ;
     }
-  case LEFT_MODE:
+
+    /* Characters number per line */
+    xsize = ( BSP_EPD_GetXSize() / pFont->Width );
+
+    switch( Mode )
     {
-      refcolumn = Xpos;
-      break;
+    case CENTER_MODE:
+        {
+            refcolumn = Xpos + ( ( xsize - size ) * pFont->Width ) / 2;
+            break;
+        }
+
+    case LEFT_MODE:
+        {
+            refcolumn = Xpos;
+            break;
+        }
+
+    case RIGHT_MODE:
+        {
+            refcolumn =  - Xpos + ( ( xsize - size ) * pFont->Width );
+            break;
+        }
+
+    default:
+        {
+            refcolumn = Xpos;
+            break;
+        }
     }
-  case RIGHT_MODE:
+
+    /* Send the string character by character on EPD */
+    while( ( *Text != 0 ) & ( ( ( BSP_EPD_GetXSize() - ( i * pFont->Width ) ) & 0xFFFF ) >= pFont->Width ) )
     {
-      refcolumn =  - Xpos + ((xsize - size)*pFont->Width);
-      break;
-    }    
-  default:
-    {
-      refcolumn = Xpos;
-      break;
+        /* Display one character on EPD */
+        BSP_EPD_DisplayChar( refcolumn, Ypos, *Text );
+        /* Decrement the column position by 16 */
+        refcolumn += pFont->Width;
+        /* Point on the next character */
+        Text++;
+        i++;
     }
-  }
-  
-  /* Send the string character by character on EPD */
-  while ((*Text != 0) & (((BSP_EPD_GetXSize() - (i*pFont->Width)) & 0xFFFF) >= pFont->Width))
-  {
-    /* Display one character on EPD */
-    BSP_EPD_DisplayChar(refcolumn, Ypos, *Text);
-    /* Decrement the column position by 16 */
-    refcolumn += pFont->Width;
-    /* Point on the next character */
-    Text++;
-    i++;
-  }
 }
 
 /**
@@ -245,29 +251,29 @@ void BSP_EPD_DisplayStringAt(uint16_t Xpos, uint16_t Ypos, uint8_t *Text, Text_A
   * @param  ptr: Pointer to string to display on EPD
   * @retval None
   */
-void BSP_EPD_DisplayStringAtLine(uint16_t Line, uint8_t *ptr)
+void BSP_EPD_DisplayStringAtLine( uint16_t Line, uint8_t *ptr )
 {
-  BSP_EPD_DisplayStringAt(0, LINE(Line), ptr, LEFT_MODE);
+    BSP_EPD_DisplayStringAt( 0, LINE( Line ), ptr, LEFT_MODE );
 }
 
 /**
   * @brief  Draws an horizontal line.
-  * @param  Xpos: X position 
+  * @param  Xpos: X position
   * @param  Ypos: Y position
   * @param  Length: line length
   * @retval None
   */
-void BSP_EPD_DrawHLine(uint16_t Xpos, uint16_t Ypos, uint16_t Length)
+void BSP_EPD_DrawHLine( uint16_t Xpos, uint16_t Ypos, uint16_t Length )
 {
-  uint32_t index = 0;
+    uint32_t index = 0;
 
-  epd_drv->SetDisplayWindow(Xpos, Ypos, Xpos + Length, Ypos);
+    epd_drv->SetDisplayWindow( Xpos, Ypos, Xpos + Length, Ypos );
 
-  for(index = 0; index < Length; index++)
-  {
-    /* Prepare the register to write data on the RAM */
-    epd_drv->WritePixel(0x3F);
-  }
+    for( index = 0; index < Length; index++ )
+    {
+        /* Prepare the register to write data on the RAM */
+        epd_drv->WritePixel( 0x3F );
+    }
 }
 
 /**
@@ -277,17 +283,17 @@ void BSP_EPD_DrawHLine(uint16_t Xpos, uint16_t Ypos, uint16_t Length)
   * @param  Length: line length.
   * @retval None
   */
-void BSP_EPD_DrawVLine(uint16_t Xpos, uint16_t Ypos, uint16_t Length)
+void BSP_EPD_DrawVLine( uint16_t Xpos, uint16_t Ypos, uint16_t Length )
 {
-  uint32_t index = 0;
-  
-  epd_drv->SetDisplayWindow(Xpos, Ypos, Xpos, Ypos + Length);
-  
-  for(index = 0; index < Length; index++)
-  {
-    /* Prepare the register to write data on the RAM */
-    epd_drv->WritePixel(0x00);
-  }
+    uint32_t index = 0;
+
+    epd_drv->SetDisplayWindow( Xpos, Ypos, Xpos, Ypos + Length );
+
+    for( index = 0; index < Length; index++ )
+    {
+        /* Prepare the register to write data on the RAM */
+        epd_drv->WritePixel( 0x00 );
+    }
 }
 
 /**
@@ -298,15 +304,15 @@ void BSP_EPD_DrawVLine(uint16_t Xpos, uint16_t Ypos, uint16_t Length)
   * @param  Width: rectangle width
   * @retval None
   */
-void BSP_EPD_DrawRect(uint16_t Xpos, uint16_t Ypos, uint16_t Width, uint16_t Height)
+void BSP_EPD_DrawRect( uint16_t Xpos, uint16_t Ypos, uint16_t Width, uint16_t Height )
 {
-  /* Draw horizontal lines */
-  BSP_EPD_DrawHLine(Xpos, Ypos, Width);
-  BSP_EPD_DrawHLine(Xpos, (Ypos + Height), (Width + 1));
-  
-  /* Draw vertical lines */
-  BSP_EPD_DrawVLine(Xpos, Ypos, Height);
-  BSP_EPD_DrawVLine((Xpos + Width), Ypos , Height);
+    /* Draw horizontal lines */
+    BSP_EPD_DrawHLine( Xpos, Ypos, Width );
+    BSP_EPD_DrawHLine( Xpos, ( Ypos + Height ), ( Width + 1 ) );
+
+    /* Draw vertical lines */
+    BSP_EPD_DrawVLine( Xpos, Ypos, Height );
+    BSP_EPD_DrawVLine( ( Xpos + Width ), Ypos, Height );
 }
 
 /**
@@ -317,17 +323,17 @@ void BSP_EPD_DrawRect(uint16_t Xpos, uint16_t Ypos, uint16_t Width, uint16_t Hei
   * @param  Width: display rectangle width.
   * @retval None
   */
-void BSP_EPD_FillRect(uint16_t Xpos, uint16_t Ypos, uint16_t Width, uint16_t Height)
+void BSP_EPD_FillRect( uint16_t Xpos, uint16_t Ypos, uint16_t Width, uint16_t Height )
 {
-  uint16_t index = 0;
+    uint16_t index = 0;
 
-  /* Set the rectangle */
-  epd_drv->SetDisplayWindow(Xpos, Ypos, (Xpos + Width), (Ypos + Height));
+    /* Set the rectangle */
+    epd_drv->SetDisplayWindow( Xpos, Ypos, ( Xpos + Width ), ( Ypos + Height ) );
 
-  for(index = 0; index < 3096; index++)
-  {
-    epd_drv->WritePixel(0xFF);
-  }
+    for( index = 0; index < 3096; index++ )
+    {
+        epd_drv->WritePixel( 0xFF );
+    }
 }
 
 /**
@@ -339,16 +345,17 @@ void BSP_EPD_FillRect(uint16_t Xpos, uint16_t Ypos, uint16_t Width, uint16_t Hei
   * @param  pdata: Pointer to the Image address
   * @retval None
   */
-void BSP_EPD_DrawImage(uint16_t Xpos, uint16_t Ypos, uint16_t Xsize, uint16_t Ysize, uint8_t *pdata)
+void BSP_EPD_DrawImage( uint16_t Xpos, uint16_t Ypos, uint16_t Xsize, uint16_t Ysize, uint8_t *pdata )
 {
-  /* Set display window */
-  epd_drv->SetDisplayWindow(Xpos, Ypos, (Xpos+Ysize-1), (Ypos+(Xsize/4)-1));
-  
-  if(epd_drv->DrawImage != NULL)
-  {
-    epd_drv->DrawImage(Xpos, Ypos, Xsize, Ysize, pdata);
-  }
-  epd_drv->SetDisplayWindow(0, 0, BSP_EPD_GetXSize(), BSP_EPD_GetYSize());
+    /* Set display window */
+    epd_drv->SetDisplayWindow( Xpos, Ypos, ( Xpos + Ysize - 1 ), ( Ypos + ( Xsize / 4 ) - 1 ) );
+
+    if( epd_drv->DrawImage != NULL )
+    {
+        epd_drv->DrawImage( Xpos, Ypos, Xsize, Ysize, pdata );
+    }
+
+    epd_drv->SetDisplayWindow( 0, 0, BSP_EPD_GetXSize(), BSP_EPD_GetYSize() );
 }
 
 /**
@@ -356,13 +363,13 @@ void BSP_EPD_DrawImage(uint16_t Xpos, uint16_t Ypos, uint16_t Xsize, uint16_t Ys
   * @param  None
   * @retval None
   */
-void BSP_EPD_CloseChargePump(void)
+void BSP_EPD_CloseChargePump( void )
 {
-  /* Close charge pump */
-  epd_drv->CloseChargePump();
+    /* Close charge pump */
+    epd_drv->CloseChargePump();
 
-  /* Add a 400 ms delay */
-  EPD_Delay(400);
+    /* Add a 400 ms delay */
+    EPD_Delay( 400 );
 }
 
 /**
@@ -370,19 +377,19 @@ void BSP_EPD_CloseChargePump(void)
   * @param  None
   * @retval None
   */
-void BSP_EPD_RefreshDisplay(void)
+void BSP_EPD_RefreshDisplay( void )
 {
-  /* Refresh display sequence */
-  epd_drv->RefreshDisplay();
+    /* Refresh display sequence */
+    epd_drv->RefreshDisplay();
 
-  /* Poll on the BUSY signal and wait for the EPD to be ready */
-  while (HAL_GPIO_ReadPin(EPD_BUSY_GPIO_PORT, EPD_BUSY_PIN) != (uint16_t)RESET);
+    /* Poll on the BUSY signal and wait for the EPD to be ready */
+    while( HAL_GPIO_ReadPin( EPD_BUSY_GPIO_PORT, EPD_BUSY_PIN ) != ( uint16_t )RESET );
 
-  /*  EPD reset pin mamagement */
-  EPD_RESET_HIGH();
+    /*  EPD reset pin mamagement */
+    EPD_RESET_HIGH();
 
-  /* Add a 10 ms Delay after EPD pin Reset */
-  EPD_Delay(10);
+    /* Add a 10 ms Delay after EPD pin Reset */
+    EPD_Delay( 10 );
 }
 
 /*******************************************************************************
@@ -396,41 +403,41 @@ void BSP_EPD_RefreshDisplay(void)
   * @param  c: pointer to the character data
   * @retval None
   */
-static void  DrawChar(uint16_t Xpos, uint16_t Ypos, const uint8_t *c)
+static void  DrawChar( uint16_t Xpos, uint16_t Ypos, const uint8_t *c )
 {
-  uint32_t index = 0;
-  uint32_t data_length = 0;
-  uint16_t height = 0;
-  uint16_t width = 0;
+    uint32_t index = 0;
+    uint32_t data_length = 0;
+    uint16_t height = 0;
+    uint16_t width = 0;
 
-  width  = pFont->Width;
-  height = pFont->Height;
-  
-  /* Set the Character display window */
-  epd_drv->SetDisplayWindow(Xpos, Ypos, (Xpos + width - 1), (Ypos + height - 1));
-  
-  data_length = (height * width);
-    
-  for(index = 0; index < data_length; index++)
-  {
-    epd_drv->WritePixel(c[index]);
-  }
+    width  = pFont->Width;
+    height = pFont->Height;
+
+    /* Set the Character display window */
+    epd_drv->SetDisplayWindow( Xpos, Ypos, ( Xpos + width - 1 ), ( Ypos + height - 1 ) );
+
+    data_length = ( height * width );
+
+    for( index = 0; index < data_length; index++ )
+    {
+        epd_drv->WritePixel( c[index] );
+    }
 }
 
 /**
   * @}
-  */ 
+  */
 
 /**
   * @}
-  */ 
+  */
 
 /**
   * @}
-  */ 
+  */
 
 /**
   * @}
-  */ 
+  */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

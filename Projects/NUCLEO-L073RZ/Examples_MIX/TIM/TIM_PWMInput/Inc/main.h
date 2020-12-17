@@ -54,8 +54,8 @@
 
 
 /* Exported functions ------------------------------------------------------- */
-void TimerCaptureCompare_Ch2_Callback(void);
-void UserButton_Callback(void);
+void TimerCaptureCompare_Ch2_Callback( void );
+void UserButton_Callback( void );
 
 #endif /* __MAIN_H */
 

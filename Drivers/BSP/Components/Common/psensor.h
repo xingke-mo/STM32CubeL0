@@ -23,7 +23,7 @@
 #define __PSENSOR_H
 
 #ifdef __cplusplus
- extern "C" {
+extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
@@ -36,24 +36,24 @@
 /** @addtogroup Components
   * @{
   */
-    
+
 /** @addtogroup PSENSOR
   * @{
   */
 
 /** @defgroup PSENSOR_Exported_Types
   * @{
-  */ 
+  */
 
 /** @defgroup PSENSOR_Driver_structure  Pressure Sensor Driver structure
   * @{
   */
 typedef struct
-{  
-  void       (*Init)(uint16_t);
-  uint8_t    (*ReadID)(uint16_t);
-  float      (*ReadPressure)(uint16_t);
-}PSENSOR_DrvTypeDef;
+{
+    void ( *Init )( uint16_t );
+    uint8_t ( *ReadID )( uint16_t );
+    float ( *ReadPressure )( uint16_t );
+} PSENSOR_DrvTypeDef;
 /**
   * @}
   */

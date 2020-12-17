@@ -5,7 +5,7 @@
 #include "test_templates.h"
 
 /* Bucket of zeros. For comparison with the output of arm_pid_reset_xxx. */
-ARR_DESC_DEFINE(float32_t, zeroes, 3, CURLY(0));
+ARR_DESC_DEFINE( float32_t, zeroes, 3, CURLY( 0 ) );
 
 /**
  *  Define a JTEST_TEST_t for the function arm_pid_reset_xxx function having
@@ -33,20 +33,20 @@ ARR_DESC_DEFINE(float32_t, zeroes, 3, CURLY(0));
             return JTEST_TEST_PASSED;                                   \
     }
 
-ARM_PID_RESET_TEST(f32);
-ARM_PID_RESET_TEST(q31);
-ARM_PID_RESET_TEST(q15);
+ARM_PID_RESET_TEST( f32 );
+ARM_PID_RESET_TEST( q31 );
+ARM_PID_RESET_TEST( q15 );
 
 /*--------------------------------------------------------------------------------*/
 /* Collect all tests in a group */
 /*--------------------------------------------------------------------------------*/
 
-JTEST_DEFINE_GROUP(pid_reset_tests)
+JTEST_DEFINE_GROUP( pid_reset_tests )
 {
     /*
       To skip a test, comment it out.
     */
-    JTEST_TEST_CALL(arm_pid_reset_f32_test);
-    JTEST_TEST_CALL(arm_pid_reset_q31_test);
-    JTEST_TEST_CALL(arm_pid_reset_q15_test);
+    JTEST_TEST_CALL( arm_pid_reset_f32_test );
+    JTEST_TEST_CALL( arm_pid_reset_q31_test );
+    JTEST_TEST_CALL( arm_pid_reset_q15_test );
 }

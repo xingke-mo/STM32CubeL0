@@ -2,7 +2,7 @@
   ******************************************************************************
   * @file    Examples_LL/RTC/RTC_ProgrammingTheWakeUpTimer/Src/main.c
   * @author  MCD Application Team
-  * @brief   This code example shows how to configure the RTC in order to work 
+  * @brief   This code example shows how to configure the RTC in order to work
   *          with the WUT through the STM32L0xx RTC LL API.
   *          Peripheral initialization done using LL unitary services functions.
   ******************************************************************************
@@ -46,22 +46,22 @@
 /*#define RTC_CLOCK_SOURCE_LSE*/
 
 #ifdef RTC_CLOCK_SOURCE_LSI
-/* ck_apre=LSIFreq/(ASYNC prediv + 1) with LSIFreq=37 kHz RC */
-#define RTC_ASYNCH_PREDIV          ((uint32_t)0x7F)
-/* ck_spre=ck_apre/(SYNC prediv + 1) = 1 Hz */
-#define RTC_SYNCH_PREDIV           ((uint32_t)0x122)
+    /* ck_apre=LSIFreq/(ASYNC prediv + 1) with LSIFreq=37 kHz RC */
+    #define RTC_ASYNCH_PREDIV          ((uint32_t)0x7F)
+    /* ck_spre=ck_apre/(SYNC prediv + 1) = 1 Hz */
+    #define RTC_SYNCH_PREDIV           ((uint32_t)0x122)
 #endif
 
 #ifdef RTC_CLOCK_SOURCE_LSE
-/* ck_apre=LSEFreq/(ASYNC prediv + 1) = 256Hz with LSEFreq = 32768Hz */
-#define RTC_ASYNCH_PREDIV          ((uint32_t)0x7F)
-/* ck_spre=ck_apre/(SYNC prediv + 1) = 1 Hz */
-#define RTC_SYNCH_PREDIV           ((uint32_t)0x00FF)
+    /* ck_apre=LSEFreq/(ASYNC prediv + 1) = 256Hz with LSEFreq = 32768Hz */
+    #define RTC_ASYNCH_PREDIV          ((uint32_t)0x7F)
+    /* ck_spre=ck_apre/(SYNC prediv + 1) = 1 Hz */
+    #define RTC_SYNCH_PREDIV           ((uint32_t)0x00FF)
 #endif
 
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
-volatile uint16_t error = 0;  //initialized at 0 and modified by the functions 
+volatile uint16_t error = 0;  //initialized at 0 and modified by the functions
 
 uint8_t bSend = 0;
 uint8_t aStringToSend[20] = "\n00 : 00 : 00 ";
@@ -71,21 +71,21 @@ uint8_t CharReceived = 0;
 uint8_t Alarm = 1; /* set to 1 for the first print */
 
 #if (USE_TIMEOUT == 1)
-uint32_t Timeout = 0; /* Variable used for Timeout management */
+    uint32_t Timeout = 0; /* Variable used for Timeout management */
 #endif /* USE_TIMEOUT */
 
 /* Private function prototypes -----------------------------------------------*/
-void     SystemClock_Config(void);
-void     Configure_USART(void);
-void     Configure_RTC(void);
-uint32_t Enter_RTC_InitMode(void);
-uint32_t Exit_RTC_InitMode(void);
-uint32_t WaitForSynchro_RTC(void);
-void     Set_RTC_Time(uint32_t Hour, uint32_t Minute, uint32_t Second);
-void     Process(void);
-void     LED_Init(void);
-void     LED_Blinking(uint32_t Period);
-void     UserButton_Init(void);
+void     SystemClock_Config( void );
+void     Configure_USART( void );
+void     Configure_RTC( void );
+uint32_t Enter_RTC_InitMode( void );
+uint32_t Exit_RTC_InitMode( void );
+uint32_t WaitForSynchro_RTC( void );
+void     Set_RTC_Time( uint32_t Hour, uint32_t Minute, uint32_t Second );
+void     Process( void );
+void     LED_Init( void );
+void     LED_Blinking( uint32_t Period );
+void     UserButton_Init( void );
 
 /* Private functions ---------------------------------------------------------*/
 
@@ -94,68 +94,68 @@ void     UserButton_Init(void);
   * @param  None
   * @retval None
   */
-int main(void)
+int main( void )
 {
-  /* Configure the system clock to 2.097 MHz */
-  SystemClock_Config();
+    /* Configure the system clock to 2.097 MHz */
+    SystemClock_Config();
 
-  /* Initialize LED2 */
-  LED_Init();
+    /* Initialize LED2 */
+    LED_Init();
 
-  /* Initialize button in EXTI mode */
-  UserButton_Init();
-  
-  /* Configure USART in TX and RX IT mode */
-  Configure_USART();
-  
-  /* Configure RTC */
-  Configure_RTC();
-  
-  /* Initialize RTC time at reset value */
-  Set_RTC_Time(0, 0, 0);
+    /* Initialize button in EXTI mode */
+    UserButton_Init();
 
-  /* Infinite loop */
-  while (1)
-  {
-    Process();
-  }
+    /* Configure USART in TX and RX IT mode */
+    Configure_USART();
+
+    /* Configure RTC */
+    Configure_RTC();
+
+    /* Initialize RTC time at reset value */
+    Set_RTC_Time( 0, 0, 0 );
+
+    /* Infinite loop */
+    while( 1 )
+    {
+        Process();
+    }
 }
 
 /**
   * Brief   This function sets the TIME in RTC.
-  * Param   Hour   New Hour to set 
+  * Param   Hour   New Hour to set
   * Param   Minute New Minute to set
   * Param   Second New Second to set
   * Retval  None
   */
-void Set_RTC_Time(uint32_t Hour, uint32_t Minute, uint32_t Second)
+void Set_RTC_Time( uint32_t Hour, uint32_t Minute, uint32_t Second )
 {
-  /* Disable RTC registers write protection */
-  LL_RTC_DisableWriteProtection(RTC);
-  
-  /* Enter in initialization mode */
-  if (Enter_RTC_InitMode() != RTC_ERROR_NONE)   
-  {
-    /* Initialization Error */
-    LED_Blinking(LED_BLINK_FAST);
-  }
-  
-  /* New time in TR */
-  LL_RTC_TIME_Config(RTC, 
-                     LL_RTC_TIME_FORMAT_PM, 
-                     Hour, 
-                     Minute, 
-                     Second);
-  
-  /* Exit of initialization mode */
-  if (Exit_RTC_InitMode() != RTC_ERROR_NONE)   
-  {
-    /* Initialization Error */
-    LED_Blinking(LED_BLINK_FAST);
-  }
-  
-  /* Enable RTC registers write protection */
-  LL_RTC_EnableWriteProtection(RTC);
+    /* Disable RTC registers write protection */
+    LL_RTC_DisableWriteProtection( RTC );
+
+    /* Enter in initialization mode */
+    if( Enter_RTC_InitMode() != RTC_ERROR_NONE )
+    {
+        /* Initialization Error */
+        LED_Blinking( LED_BLINK_FAST );
+    }
+
+    /* New time in TR */
+    LL_RTC_TIME_Config( RTC,
+                        LL_RTC_TIME_FORMAT_PM,
+                        Hour,
+                        Minute,
+                        Second );
+
+    /* Exit of initialization mode */
+    if( Exit_RTC_InitMode() != RTC_ERROR_NONE )
+    {
+        /* Initialization Error */
+        LED_Blinking( LED_BLINK_FAST );
+    }
+
+    /* Enable RTC registers write protection */
+    LL_RTC_EnableWriteProtection( RTC );
 }
 
 /**
@@ -163,127 +163,143 @@ void Set_RTC_Time(uint32_t Hour, uint32_t Minute, uint32_t Second)
   * Param   None
   * Retval  None
   */
-void Configure_RTC(void)
+void Configure_RTC( void )
 {
-  /*##-1- Enables the PWR Clock and Enables access to the backup domain #######*/
-  /* To change the source clock of the RTC feature (LSE, LSI), you have to:
-     - Enable the power clock
-     - Enable write access to configure the RTC clock source (to be done once after reset).
-     - Reset the Back up Domain
-     - Configure the needed RTC clock source */
-  LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_PWR);
-  LL_PWR_EnableBkUpAccess();
-  
-  /*##-2- Configure LSE/LSI as RTC clock source ###############################*/
+    /*##-1- Enables the PWR Clock and Enables access to the backup domain #######*/
+    /* To change the source clock of the RTC feature (LSE, LSI), you have to:
+       - Enable the power clock
+       - Enable write access to configure the RTC clock source (to be done once after reset).
+       - Reset the Back up Domain
+       - Configure the needed RTC clock source */
+    LL_APB1_GRP1_EnableClock( LL_APB1_GRP1_PERIPH_PWR );
+    LL_PWR_EnableBkUpAccess();
+
+    /*##-2- Configure LSE/LSI as RTC clock source ###############################*/
 #ifdef RTC_CLOCK_SOURCE_LSE
-  /* Enable LSE only if disabled.*/
-  if (LL_RCC_LSE_IsReady() == 0)
-  {
+
+    /* Enable LSE only if disabled.*/
+    if( LL_RCC_LSE_IsReady() == 0 )
+    {
+        LL_RCC_ForceBackupDomainReset();
+        LL_RCC_ReleaseBackupDomainReset();
+        LL_RCC_LSE_Enable();
+#if (USE_TIMEOUT == 1)
+        Timeout = LSE_TIMEOUT_VALUE;
+#endif /* USE_TIMEOUT */
+
+        while( LL_RCC_LSE_IsReady() != 1 )
+        {
+#if (USE_TIMEOUT == 1)
+
+            if( LL_SYSTICK_IsActiveCounterFlag() )
+            {
+                Timeout --;
+            }
+
+            if( Timeout == 0 )
+            {
+                /* LSE activation error */
+                LED_Blinking( LED_BLINK_ERROR );
+            }
+
+#endif /* USE_TIMEOUT */
+        }
+
+        LL_RCC_SetRTCClockSource( LL_RCC_RTC_CLKSOURCE_LSE );
+
+        /*##-3- Enable RTC peripheral Clocks #######################################*/
+        /* Enable RTC Clock */
+        LL_RCC_EnableRTC();
+    }
+
+#elif defined(RTC_CLOCK_SOURCE_LSI)
+    /* Enable LSI */
+    LL_RCC_LSI_Enable();
+#if (USE_TIMEOUT == 1)
+    Timeout = LSI_TIMEOUT_VALUE;
+#endif /* USE_TIMEOUT */
+
+    while( LL_RCC_LSI_IsReady() != 1 )
+    {
+#if (USE_TIMEOUT == 1)
+
+        if( LL_SYSTICK_IsActiveCounterFlag() )
+        {
+            Timeout --;
+        }
+
+        if( Timeout == 0 )
+        {
+            /* LSI activation error */
+            LED_Blinking( LED_BLINK_ERROR );
+        }
+
+#endif /* USE_TIMEOUT */
+    }
+
     LL_RCC_ForceBackupDomainReset();
     LL_RCC_ReleaseBackupDomainReset();
-    LL_RCC_LSE_Enable();
-#if (USE_TIMEOUT == 1)
-    Timeout = LSE_TIMEOUT_VALUE;
-#endif /* USE_TIMEOUT */
-    while (LL_RCC_LSE_IsReady() != 1)
-    {
-#if (USE_TIMEOUT == 1)
-      if (LL_SYSTICK_IsActiveCounterFlag()) 
-      {
-        Timeout --;
-      }
-      if (Timeout == 0)
-      {
-        /* LSE activation error */
-        LED_Blinking(LED_BLINK_ERROR);
-      }  
-#endif /* USE_TIMEOUT */
-    }
-    LL_RCC_SetRTCClockSource(LL_RCC_RTC_CLKSOURCE_LSE);
-    
-    /*##-3- Enable RTC peripheral Clocks #######################################*/
-    /* Enable RTC Clock */ 
-    LL_RCC_EnableRTC();
-  }
-#elif defined(RTC_CLOCK_SOURCE_LSI)
-  /* Enable LSI */
-  LL_RCC_LSI_Enable();
-#if (USE_TIMEOUT == 1)
-  Timeout = LSI_TIMEOUT_VALUE;
-#endif /* USE_TIMEOUT */
-  while (LL_RCC_LSI_IsReady() != 1)
-  {
-#if (USE_TIMEOUT == 1)
-    if (LL_SYSTICK_IsActiveCounterFlag()) 
-    {
-      Timeout --;
-    }
-    if (Timeout == 0)
-    {
-      /* LSI activation error */
-      LED_Blinking(LED_BLINK_ERROR);
-    }  
-#endif /* USE_TIMEOUT */
-  }
-  LL_RCC_ForceBackupDomainReset();
-  LL_RCC_ReleaseBackupDomainReset();
-  LL_RCC_SetRTCClockSource(LL_RCC_RTC_CLKSOURCE_LSI);
+    LL_RCC_SetRTCClockSource( LL_RCC_RTC_CLKSOURCE_LSI );
 
-  /*##-3- Enable RTC peripheral Clocks #######################################*/
-  /* Enable RTC Clock */ 
-  LL_RCC_EnableRTC();
+    /*##-3- Enable RTC peripheral Clocks #######################################*/
+    /* Enable RTC Clock */
+    LL_RCC_EnableRTC();
 
 #else
 #error "configure clock for RTC"
 #endif
 
-  /*##-4- Disable RTC registers write protection ##############################*/
-  LL_RTC_DisableWriteProtection(RTC);
-  
-  /* Set prescaler according to source clock */
-  LL_RTC_SetAsynchPrescaler(RTC, RTC_ASYNCH_PREDIV);
-  LL_RTC_SetSynchPrescaler(RTC, RTC_SYNCH_PREDIV);
+    /*##-4- Disable RTC registers write protection ##############################*/
+    LL_RTC_DisableWriteProtection( RTC );
 
-  /* Disable wake up timer to modify it */
-  LL_RTC_WAKEUP_Disable(RTC);
-  
-  /* Wait until it is allow to modify wake up reload value */
+    /* Set prescaler according to source clock */
+    LL_RTC_SetAsynchPrescaler( RTC, RTC_ASYNCH_PREDIV );
+    LL_RTC_SetSynchPrescaler( RTC, RTC_SYNCH_PREDIV );
+
+    /* Disable wake up timer to modify it */
+    LL_RTC_WAKEUP_Disable( RTC );
+
+    /* Wait until it is allow to modify wake up reload value */
 #if (USE_TIMEOUT == 1)
-  Timeout = RTC_TIMEOUT_VALUE;
+    Timeout = RTC_TIMEOUT_VALUE;
 #endif /* USE_TIMEOUT */
-  while (LL_RTC_IsActiveFlag_WUTW(RTC) != 1)
-  {
-#if (USE_TIMEOUT == 1)
-    if (LL_SYSTICK_IsActiveCounterFlag()) 
+
+    while( LL_RTC_IsActiveFlag_WUTW( RTC ) != 1 )
     {
-      Timeout --;
+#if (USE_TIMEOUT == 1)
+
+        if( LL_SYSTICK_IsActiveCounterFlag() )
+        {
+            Timeout --;
+        }
+
+        if( Timeout == 0 )
+        {
+            /* LSI activation error */
+            LED_Blinking( LED_BLINK_ERROR );
+        }
+
+#endif /* USE_TIMEOUT */
     }
-    if (Timeout == 0)
-    {
-      /* LSI activation error */
-      LED_Blinking(LED_BLINK_ERROR);
-    }  
-#endif /* USE_TIMEOUT */
-  }
-  
-  /* Setting the Wakeup time to 1 s
-       If LL_RTC_WAKEUPCLOCK_CKSPRE is selected, the frequency is 1Hz, 
-       this allows to get a wakeup time equal to 1 s if the counter is 0x0 */
-  LL_RTC_WAKEUP_SetAutoReload(RTC, 0);
-  LL_RTC_WAKEUP_SetClock(RTC, LL_RTC_WAKEUPCLOCK_CKSPRE);
-  
-  /* Enable wake up counter and wake up interrupt */
-  LL_RTC_WAKEUP_Enable(RTC);
-  LL_RTC_EnableIT_WUT(RTC);
-  
-  /* Enable RTC registers write protection */
-  LL_RTC_EnableWriteProtection(RTC);
-  
-  /* Configure exti and nvic for RTC IT */
-  LL_EXTI_EnableIT_0_31(LL_EXTI_LINE_20);
-  LL_EXTI_EnableRisingTrig_0_31(LL_EXTI_LINE_20);
-  NVIC_SetPriority(RTC_IRQn, 0);
-  NVIC_EnableIRQ(RTC_IRQn);
+
+    /* Setting the Wakeup time to 1 s
+         If LL_RTC_WAKEUPCLOCK_CKSPRE is selected, the frequency is 1Hz,
+         this allows to get a wakeup time equal to 1 s if the counter is 0x0 */
+    LL_RTC_WAKEUP_SetAutoReload( RTC, 0 );
+    LL_RTC_WAKEUP_SetClock( RTC, LL_RTC_WAKEUPCLOCK_CKSPRE );
+
+    /* Enable wake up counter and wake up interrupt */
+    LL_RTC_WAKEUP_Enable( RTC );
+    LL_RTC_EnableIT_WUT( RTC );
+
+    /* Enable RTC registers write protection */
+    LL_RTC_EnableWriteProtection( RTC );
+
+    /* Configure exti and nvic for RTC IT */
+    LL_EXTI_EnableIT_0_31( LL_EXTI_LINE_20 );
+    LL_EXTI_EnableRisingTrig_0_31( LL_EXTI_LINE_20 );
+    NVIC_SetPriority( RTC_IRQn, 0 );
+    NVIC_EnableIRQ( RTC_IRQn );
 }
 
 /**
@@ -292,79 +308,86 @@ void Configure_RTC(void)
   * @param  None
   * @retval RTC_ERROR_NONE if no error
   */
-uint32_t Enter_RTC_InitMode(void)
+uint32_t Enter_RTC_InitMode( void )
 {
-  /* Set Initialization mode */
-  LL_RTC_EnableInitMode(RTC);
-  
+    /* Set Initialization mode */
+    LL_RTC_EnableInitMode( RTC );
+
 #if (USE_TIMEOUT == 1)
     Timeout = RTC_TIMEOUT_VALUE;
 #endif /* USE_TIMEOUT */
 
-  /* Check if the Initialization mode is set */
-  while (LL_RTC_IsActiveFlag_INIT(RTC) != 1)
-  {
+    /* Check if the Initialization mode is set */
+    while( LL_RTC_IsActiveFlag_INIT( RTC ) != 1 )
+    {
 #if (USE_TIMEOUT == 1)
-      if (LL_SYSTICK_IsActiveCounterFlag())
-    {
-        Timeout --;
-    }
-      if (Timeout == 0)
-    {
-      return RTC_ERROR_TIMEOUT;
-    }  
+
+        if( LL_SYSTICK_IsActiveCounterFlag() )
+        {
+            Timeout --;
+        }
+
+        if( Timeout == 0 )
+        {
+            return RTC_ERROR_TIMEOUT;
+        }
+
 #endif /* USE_TIMEOUT */
-  }
-  
-  return RTC_ERROR_NONE;
+    }
+
+    return RTC_ERROR_NONE;
 }
 
 /**
-  * @brief  Exit Initialization mode 
+  * @brief  Exit Initialization mode
   * @param  None
   * @retval RTC_ERROR_NONE if no error
   */
-uint32_t Exit_RTC_InitMode(void)
+uint32_t Exit_RTC_InitMode( void )
 {
-  LL_RTC_DisableInitMode(RTC);
-  
-  /* Wait for synchro */
-  /* Note: Needed only if Shadow registers is enabled           */
-  /*       LL_RTC_IsShadowRegBypassEnabled function can be used */
-  return (WaitForSynchro_RTC());
+    LL_RTC_DisableInitMode( RTC );
+
+    /* Wait for synchro */
+    /* Note: Needed only if Shadow registers is enabled           */
+    /*       LL_RTC_IsShadowRegBypassEnabled function can be used */
+    return ( WaitForSynchro_RTC() );
 }
 
 /**
   * @brief  Wait until the RTC Time and Date registers (RTC_TR and RTC_DR) are
   *         synchronized with RTC APB clock.
   * @param  None
-  * @retval RTC_ERROR_NONE if no error (RTC_ERROR_TIMEOUT will occur if RTC is 
+  * @retval RTC_ERROR_NONE if no error (RTC_ERROR_TIMEOUT will occur if RTC is
   *         not synchronized)
   */
-uint32_t WaitForSynchro_RTC(void)
+uint32_t WaitForSynchro_RTC( void )
 {
-  /* Clear RSF flag */
-  LL_RTC_ClearFlag_RS(RTC);
+    /* Clear RSF flag */
+    LL_RTC_ClearFlag_RS( RTC );
 
 #if (USE_TIMEOUT == 1)
     Timeout = RTC_TIMEOUT_VALUE;
 #endif /* USE_TIMEOUT */
 
-  /* Wait the registers to be synchronised */
-  while(LL_RTC_IsActiveFlag_RS(RTC) != 1)
-  {
+    /* Wait the registers to be synchronised */
+    while( LL_RTC_IsActiveFlag_RS( RTC ) != 1 )
+    {
 #if (USE_TIMEOUT == 1)
-      if (LL_SYSTICK_IsActiveCounterFlag())
-    {
-        Timeout --;
-    }
-      if (Timeout == 0)
-    {
-      return RTC_ERROR_TIMEOUT;
-    }  
+
+        if( LL_SYSTICK_IsActiveCounterFlag() )
+        {
+            Timeout --;
+        }
+
+        if( Timeout == 0 )
+        {
+            return RTC_ERROR_TIMEOUT;
+        }
+
 #endif /* USE_TIMEOUT */
-  }
-  return RTC_ERROR_NONE;
+    }
+
+    return RTC_ERROR_NONE;
 }
 
 /**
@@ -372,196 +395,235 @@ uint32_t WaitForSynchro_RTC(void)
   * Param   None
   * Retval  None
   */
-void Process(void)
+void Process( void )
 {
-  register uint32_t time = 0;
-  static uint32_t new_hour = 0, new_minute = 0, new_second = 0;
-  __IO uint32_t temp_read = 0;
-  
-  switch(RTC_InitializationMode)
-  {
-  case 0:
-    /* check alarm and synchronisation flag */
-    if (Alarm && (LL_RTC_IsActiveFlag_RS(RTC) == 1))
+    register uint32_t time = 0;
+    static uint32_t new_hour = 0, new_minute = 0, new_second = 0;
+    __IO uint32_t temp_read = 0;
+
+    switch( RTC_InitializationMode )
     {
-      Alarm = 0;
-      
-      /* get time */
-      time = LL_RTC_TIME_Get(RTC); 
-      /* need to read date also to unlock TR register */
-      temp_read = LL_RTC_ReadReg(RTC, DR); 
-      ((void)(temp_read));  /* To avoid warning */
-      
-      aStringToSend[1] = (uint8_t)((__LL_RTC_GET_HOUR(time) >> 4) + ASCII_CONVERT);/* hour tens */
-      aStringToSend[2] = (uint8_t)((__LL_RTC_GET_HOUR(time) & 0x0F) + ASCII_CONVERT);/* hour units */
-      aStringToSend[6] = (uint8_t)((__LL_RTC_GET_MINUTE(time) >> 4) + ASCII_CONVERT);/* minute tens */
-      aStringToSend[7] = (uint8_t)((__LL_RTC_GET_MINUTE(time) & 0x0F) + ASCII_CONVERT);/* minute units */
-      aStringToSend[11] = (uint8_t)((__LL_RTC_GET_SECOND(time) >> 4) + ASCII_CONVERT);/* second tens */
-      aStringToSend[12] = (uint8_t)((__LL_RTC_GET_SECOND(time) & 0x0F) + ASCII_CONVERT);/* second units */
-      
-      /* start USART transmission */
-      LL_USART_TransmitData8(USART1, aStringToSend[bSend++]); /* Will initiate TC if TXE */
-    }
-  break;
-  case 1:      
-    {
-      if(!bSend)
-      {
-        strcpy((char *)aStringToSend,"\nSend hour tens\n");
-        LL_USART_TransmitData8(USART1, aStringToSend[bSend++]); /* Will initiate TC if TXE */
-        RTC_InitializationMode=2;
-      }
-    }
-    break;
-  case 2: /* Hour tens */
-    {
-      if(CharReceived)
-      {
-        CharReceived=0;
-        CharToReceive -= ASCII_CONVERT;
-        if(CharToReceive<3)
+    case 0:
+
+        /* check alarm and synchronisation flag */
+        if( Alarm && ( LL_RTC_IsActiveFlag_RS( RTC ) == 1 ) )
         {
-          new_hour = CharToReceive << 4;
-          RTC_InitializationMode=3;
+            Alarm = 0;
+
+            /* get time */
+            time = LL_RTC_TIME_Get( RTC );
+            /* need to read date also to unlock TR register */
+            temp_read = LL_RTC_ReadReg( RTC, DR );
+            ( ( void )( temp_read ) ); /* To avoid warning */
+
+            aStringToSend[1] = ( uint8_t )( ( __LL_RTC_GET_HOUR( time ) >> 4 ) + ASCII_CONVERT ); /* hour tens */
+            aStringToSend[2] = ( uint8_t )( ( __LL_RTC_GET_HOUR( time ) & 0x0F ) + ASCII_CONVERT ); /* hour units */
+            aStringToSend[6] = ( uint8_t )( ( __LL_RTC_GET_MINUTE( time ) >> 4 ) + ASCII_CONVERT ); /* minute tens */
+            aStringToSend[7] = ( uint8_t )( ( __LL_RTC_GET_MINUTE( time ) & 0x0F ) + ASCII_CONVERT ); /* minute units */
+            aStringToSend[11] = ( uint8_t )( ( __LL_RTC_GET_SECOND( time ) >> 4 ) + ASCII_CONVERT ); /* second tens */
+            aStringToSend[12] = ( uint8_t )( ( __LL_RTC_GET_SECOND( time ) & 0x0F ) + ASCII_CONVERT ); /* second units */
+
+            /* start USART transmission */
+            LL_USART_TransmitData8( USART1, aStringToSend[bSend++] ); /* Will initiate TC if TXE */
         }
-        else RTC_InitializationMode=1;
-      }
-    }
-    break;
-  case 3:      
-    {
-      if(!bSend)
-      {
-        strcpy((char *)aStringToSend,"\nSend hour units\n");
-        LL_USART_TransmitData8(USART1, aStringToSend[bSend++]); /* Will initiate TC if TXE */
-        RTC_InitializationMode=4;
-      }
-    }
-    break;
-  case 4: /* Hour units */
-    {
-       if(CharReceived)
-      {
-        CharReceived = 0;
-        CharToReceive -= ASCII_CONVERT;
-        if((((new_hour >> 4) == 2) && (CharToReceive < 4)) ||
-            (((new_hour >> 4) < 2) && (CharToReceive < 10)))
+
+        break;
+
+    case 1:
         {
-          new_hour |= CharToReceive;
-          RTC_InitializationMode=5;
+            if( !bSend )
+            {
+                strcpy( ( char * )aStringToSend, "\nSend hour tens\n" );
+                LL_USART_TransmitData8( USART1, aStringToSend[bSend++] ); /* Will initiate TC if TXE */
+                RTC_InitializationMode = 2;
+            }
         }
-        else RTC_InitializationMode=3;
-      }
-    }
-    break;
-  case 5:      
-    {
-      if(!bSend)
-      {
-        strcpy((char *)aStringToSend,"\nSend minute tens\n");
-        LL_USART_TransmitData8(USART1, aStringToSend[bSend++]); /* Will initiate TC if TXE */
-        RTC_InitializationMode=6;
-      }
-    }
-    break;
-  case 6: /* Minute tens */
-    {
-      if(CharReceived)
-      {
-        CharReceived = 0;
-        CharToReceive -= ASCII_CONVERT;
-        if(CharToReceive < 6)
+        break;
+
+    case 2: /* Hour tens */
         {
-          new_minute = CharToReceive << 4;
-          RTC_InitializationMode = 7;
+            if( CharReceived )
+            {
+                CharReceived = 0;
+                CharToReceive -= ASCII_CONVERT;
+
+                if( CharToReceive < 3 )
+                {
+                    new_hour = CharToReceive << 4;
+                    RTC_InitializationMode = 3;
+                }
+                else
+                {
+                    RTC_InitializationMode = 1;
+                }
+            }
         }
-        else RTC_InitializationMode = 5;
-      }
-    }
-    break;
-  case 7:      
-    {
-      if(!bSend)
-      {
-        strcpy((char *)aStringToSend,"\nSend minute units\n");
-        LL_USART_TransmitData8(USART1, aStringToSend[bSend++]); /* Will initiate TC if TXE */
-        RTC_InitializationMode=8;
-      }
-    }
-    break;
-  case 8: /* Minute units */
-    {
-      if(CharReceived)
-      {
-        CharReceived=0;
-        CharToReceive -= ASCII_CONVERT;
-        if(CharToReceive < 10)
+        break;
+
+    case 3:
         {
-          new_minute |= CharToReceive;
-          RTC_InitializationMode = 9;
+            if( !bSend )
+            {
+                strcpy( ( char * )aStringToSend, "\nSend hour units\n" );
+                LL_USART_TransmitData8( USART1, aStringToSend[bSend++] ); /* Will initiate TC if TXE */
+                RTC_InitializationMode = 4;
+            }
         }
-        else RTC_InitializationMode = 7;
-      }
-    }
-    break;
-  case 9:      
-    {
-      if(!bSend)
-      {
-        strcpy((char *)aStringToSend,"\nSend second tens\n");
-        LL_USART_TransmitData8(USART1, aStringToSend[bSend++]); /* Will initiate TC if TXE */
-        RTC_InitializationMode=10;
-      }
-    }
-    break;
-  case 10: /* Second tens */
-    {
-       if(CharReceived)
-      {
-        CharReceived = 0;
-        CharToReceive -= ASCII_CONVERT;
-        if(CharToReceive < 6)
+        break;
+
+    case 4: /* Hour units */
         {
-          new_second = CharToReceive << 4;
-          RTC_InitializationMode = 11;
+            if( CharReceived )
+            {
+                CharReceived = 0;
+                CharToReceive -= ASCII_CONVERT;
+
+                if( ( ( ( new_hour >> 4 ) == 2 ) && ( CharToReceive < 4 ) ) ||
+                        ( ( ( new_hour >> 4 ) < 2 ) && ( CharToReceive < 10 ) ) )
+                {
+                    new_hour |= CharToReceive;
+                    RTC_InitializationMode = 5;
+                }
+                else
+                {
+                    RTC_InitializationMode = 3;
+                }
+            }
         }
-        else RTC_InitializationMode = 9;
-      }
-    }
-    break;
-  case 11:      
-    {
-      if(!bSend)
-      {
-        strcpy((char *)aStringToSend,"\nSend second units\n");
-        LL_USART_TransmitData8(USART1, aStringToSend[bSend++]); /* Will initiate TC if TXE */
-        RTC_InitializationMode = 12;
-      }
-    }
-    break;
-  case 12: /* Second Units */
-    {
-      if(CharReceived)
-      {
-        CharReceived = 0;
-        CharToReceive -= ASCII_CONVERT;
-        if(CharToReceive < 10)
+        break;
+
+    case 5:
         {
-          new_second |= CharToReceive;
-          RTC_InitializationMode = 13;
+            if( !bSend )
+            {
+                strcpy( ( char * )aStringToSend, "\nSend minute tens\n" );
+                LL_USART_TransmitData8( USART1, aStringToSend[bSend++] ); /* Will initiate TC if TXE */
+                RTC_InitializationMode = 6;
+            }
         }
-        else RTC_InitializationMode = 11;
-      }
+        break;
+
+    case 6: /* Minute tens */
+        {
+            if( CharReceived )
+            {
+                CharReceived = 0;
+                CharToReceive -= ASCII_CONVERT;
+
+                if( CharToReceive < 6 )
+                {
+                    new_minute = CharToReceive << 4;
+                    RTC_InitializationMode = 7;
+                }
+                else
+                {
+                    RTC_InitializationMode = 5;
+                }
+            }
+        }
+        break;
+
+    case 7:
+        {
+            if( !bSend )
+            {
+                strcpy( ( char * )aStringToSend, "\nSend minute units\n" );
+                LL_USART_TransmitData8( USART1, aStringToSend[bSend++] ); /* Will initiate TC if TXE */
+                RTC_InitializationMode = 8;
+            }
+        }
+        break;
+
+    case 8: /* Minute units */
+        {
+            if( CharReceived )
+            {
+                CharReceived = 0;
+                CharToReceive -= ASCII_CONVERT;
+
+                if( CharToReceive < 10 )
+                {
+                    new_minute |= CharToReceive;
+                    RTC_InitializationMode = 9;
+                }
+                else
+                {
+                    RTC_InitializationMode = 7;
+                }
+            }
+        }
+        break;
+
+    case 9:
+        {
+            if( !bSend )
+            {
+                strcpy( ( char * )aStringToSend, "\nSend second tens\n" );
+                LL_USART_TransmitData8( USART1, aStringToSend[bSend++] ); /* Will initiate TC if TXE */
+                RTC_InitializationMode = 10;
+            }
+        }
+        break;
+
+    case 10: /* Second tens */
+        {
+            if( CharReceived )
+            {
+                CharReceived = 0;
+                CharToReceive -= ASCII_CONVERT;
+
+                if( CharToReceive < 6 )
+                {
+                    new_second = CharToReceive << 4;
+                    RTC_InitializationMode = 11;
+                }
+                else
+                {
+                    RTC_InitializationMode = 9;
+                }
+            }
+        }
+        break;
+
+    case 11:
+        {
+            if( !bSend )
+            {
+                strcpy( ( char * )aStringToSend, "\nSend second units\n" );
+                LL_USART_TransmitData8( USART1, aStringToSend[bSend++] ); /* Will initiate TC if TXE */
+                RTC_InitializationMode = 12;
+            }
+        }
+        break;
+
+    case 12: /* Second Units */
+        {
+            if( CharReceived )
+            {
+                CharReceived = 0;
+                CharToReceive -= ASCII_CONVERT;
+
+                if( CharToReceive < 10 )
+                {
+                    new_second |= CharToReceive;
+                    RTC_InitializationMode = 13;
+                }
+                else
+                {
+                    RTC_InitializationMode = 11;
+                }
+            }
+        }
+        break;
+
+    case 13:
+        {
+            Set_RTC_Time( new_hour, new_minute, new_second );
+            strcpy( ( char * )aStringToSend, "\n-- : -- : --      " );
+            RTC_InitializationMode = 0;
+        }
+        break;
     }
-    break;
-  case 13:
-    {
-      Set_RTC_Time(new_hour, new_minute, new_second);
-      strcpy((char *)aStringToSend,"\n-- : -- : --      ");
-      RTC_InitializationMode = 0;
-    }
-    break;
-  }  
 }
 
 /**
@@ -569,72 +631,73 @@ void Process(void)
   * @param  None
   * @retval None
   */
-void Configure_USART(void)
+void Configure_USART( void )
 {
-  /* Enables GPIO clock and configures the USART1 pins (TX on PA.09, RX on PA.10) */
+    /* Enables GPIO clock and configures the USART1 pins (TX on PA.09, RX on PA.10) */
 
-  /* Enable the peripheral clock of GPIOA */
-  LL_IOP_GRP1_EnableClock(LL_IOP_GRP1_PERIPH_GPIOA);
+    /* Enable the peripheral clock of GPIOA */
+    LL_IOP_GRP1_EnableClock( LL_IOP_GRP1_PERIPH_GPIOA );
 
-  /* Configure Tx Pin as : Alternate function, High Speed, Push pull, Pull up */
-  LL_GPIO_SetPinMode(GPIOA, LL_GPIO_PIN_9, LL_GPIO_MODE_ALTERNATE);
-  LL_GPIO_SetAFPin_8_15(GPIOA, LL_GPIO_PIN_9, LL_GPIO_AF_4);
-  LL_GPIO_SetPinSpeed(GPIOA, LL_GPIO_PIN_9, LL_GPIO_SPEED_FREQ_HIGH);
-  LL_GPIO_SetPinOutputType(GPIOA, LL_GPIO_PIN_9, LL_GPIO_OUTPUT_PUSHPULL);
-  LL_GPIO_SetPinPull(GPIOA, LL_GPIO_PIN_9, LL_GPIO_PULL_UP);
+    /* Configure Tx Pin as : Alternate function, High Speed, Push pull, Pull up */
+    LL_GPIO_SetPinMode( GPIOA, LL_GPIO_PIN_9, LL_GPIO_MODE_ALTERNATE );
+    LL_GPIO_SetAFPin_8_15( GPIOA, LL_GPIO_PIN_9, LL_GPIO_AF_4 );
+    LL_GPIO_SetPinSpeed( GPIOA, LL_GPIO_PIN_9, LL_GPIO_SPEED_FREQ_HIGH );
+    LL_GPIO_SetPinOutputType( GPIOA, LL_GPIO_PIN_9, LL_GPIO_OUTPUT_PUSHPULL );
+    LL_GPIO_SetPinPull( GPIOA, LL_GPIO_PIN_9, LL_GPIO_PULL_UP );
 
-  /* Configure Rx Pin as : Alternate function, High Speed, Push pull, Pull up */
-  LL_GPIO_SetPinMode(GPIOA, LL_GPIO_PIN_10, LL_GPIO_MODE_ALTERNATE);
-  LL_GPIO_SetAFPin_8_15(GPIOA, LL_GPIO_PIN_10, LL_GPIO_AF_4);
-  LL_GPIO_SetPinSpeed(GPIOA, LL_GPIO_PIN_10, LL_GPIO_SPEED_FREQ_HIGH);
-  LL_GPIO_SetPinOutputType(GPIOA, LL_GPIO_PIN_10, LL_GPIO_OUTPUT_PUSHPULL);
-  LL_GPIO_SetPinPull(GPIOA, LL_GPIO_PIN_10, LL_GPIO_PULL_UP);
+    /* Configure Rx Pin as : Alternate function, High Speed, Push pull, Pull up */
+    LL_GPIO_SetPinMode( GPIOA, LL_GPIO_PIN_10, LL_GPIO_MODE_ALTERNATE );
+    LL_GPIO_SetAFPin_8_15( GPIOA, LL_GPIO_PIN_10, LL_GPIO_AF_4 );
+    LL_GPIO_SetPinSpeed( GPIOA, LL_GPIO_PIN_10, LL_GPIO_SPEED_FREQ_HIGH );
+    LL_GPIO_SetPinOutputType( GPIOA, LL_GPIO_PIN_10, LL_GPIO_OUTPUT_PUSHPULL );
+    LL_GPIO_SetPinPull( GPIOA, LL_GPIO_PIN_10, LL_GPIO_PULL_UP );
 
-  /* Enable the peripheral clock for USART1 */
-  LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_USART1);
+    /* Enable the peripheral clock for USART1 */
+    LL_APB2_GRP1_EnableClock( LL_APB2_GRP1_PERIPH_USART1 );
 
-  /* Configure USART1 */
-  
-  /* Disable USART prior modifying configuration registers */
-  LL_USART_Disable(USART1);
-  /* TX/RX direction */
-  LL_USART_SetTransferDirection(USART1, LL_USART_DIRECTION_TX_RX);
-  /* 8 data bit, 1 start bit, 1 stop bit, no parity */
-  LL_USART_ConfigCharacter(USART1, LL_USART_DATAWIDTH_8B, LL_USART_PARITY_NONE, LL_USART_STOPBITS_1);
-  /* Oversampling by 16 */
-  LL_USART_SetOverSampling(USART1, LL_USART_OVERSAMPLING_16);
-  /* Set Baudrate to 115200 using APB2 frequency set to 2097000 Hz */
-  /* This frequency can also be calculated through LL RCC macro */
-  /* Ex :
-      pllclk = __LL_RCC_CALC_PLLCLK_FREQ(__LL_RCC_CALC_MSI_FREQ(LL_RCC_MSIRANGESEL_RUN, LL_RCC_MSIRANGE_6), LL_RCC_PLLM_DIV1, 40, LL_RCC_PLLR_DIV2);
-      hclk = __LL_RCC_CALC_HCLK_FREQ(pllclk, LL_RCC_GetAHBPrescaler());
-      periphclk = __LL_RCC_CALC_PCLK2_FREQ(hclk, LL_RCC_GetAPB2Prescaler());
-  
-      periphclk is expected to be equal to 2097000 Hz
-      
-      In this example, Peripheral Clock is equal to SystemCoreClock
-  */
-  LL_USART_SetBaudRate(USART1, SystemCoreClock, LL_USART_OVERSAMPLING_16, 115200); 
-  LL_USART_Enable(USART1);
-  
-  /* Polling USART initialisation */
-  while((!(LL_USART_IsActiveFlag_TEACK(USART1))) || (!(LL_USART_IsActiveFlag_REACK(USART1))))
-  { 
-  }
-  /* Configure IT */
-  /*  Set priority for USART1_IRQn */
-  /*  Enable USART1_IRQn */
-  NVIC_SetPriority(USART1_IRQn, 0);  
-  NVIC_EnableIRQ(USART1_IRQn);
+    /* Configure USART1 */
 
-  /* Clear TC Flag */
-  LL_USART_ClearFlag_TC(USART1); 
+    /* Disable USART prior modifying configuration registers */
+    LL_USART_Disable( USART1 );
+    /* TX/RX direction */
+    LL_USART_SetTransferDirection( USART1, LL_USART_DIRECTION_TX_RX );
+    /* 8 data bit, 1 start bit, 1 stop bit, no parity */
+    LL_USART_ConfigCharacter( USART1, LL_USART_DATAWIDTH_8B, LL_USART_PARITY_NONE, LL_USART_STOPBITS_1 );
+    /* Oversampling by 16 */
+    LL_USART_SetOverSampling( USART1, LL_USART_OVERSAMPLING_16 );
+    /* Set Baudrate to 115200 using APB2 frequency set to 2097000 Hz */
+    /* This frequency can also be calculated through LL RCC macro */
+    /* Ex :
+        pllclk = __LL_RCC_CALC_PLLCLK_FREQ(__LL_RCC_CALC_MSI_FREQ(LL_RCC_MSIRANGESEL_RUN, LL_RCC_MSIRANGE_6), LL_RCC_PLLM_DIV1, 40, LL_RCC_PLLR_DIV2);
+        hclk = __LL_RCC_CALC_HCLK_FREQ(pllclk, LL_RCC_GetAHBPrescaler());
+        periphclk = __LL_RCC_CALC_PCLK2_FREQ(hclk, LL_RCC_GetAPB2Prescaler());
 
-  /* Enable RXNE and Error interrupts */
-  LL_USART_EnableIT_RXNE(USART1);
-  /* Enable TC interrupt */
-  LL_USART_EnableIT_TC(USART1); 
-  LL_USART_EnableIT_ERROR(USART1);
+        periphclk is expected to be equal to 2097000 Hz
+
+        In this example, Peripheral Clock is equal to SystemCoreClock
+    */
+    LL_USART_SetBaudRate( USART1, SystemCoreClock, LL_USART_OVERSAMPLING_16, 115200 );
+    LL_USART_Enable( USART1 );
+
+    /* Polling USART initialisation */
+    while( ( !( LL_USART_IsActiveFlag_TEACK( USART1 ) ) ) || ( !( LL_USART_IsActiveFlag_REACK( USART1 ) ) ) )
+    {
+    }
+
+    /* Configure IT */
+    /*  Set priority for USART1_IRQn */
+    /*  Enable USART1_IRQn */
+    NVIC_SetPriority( USART1_IRQn, 0 );
+    NVIC_EnableIRQ( USART1_IRQn );
+
+    /* Clear TC Flag */
+    LL_USART_ClearFlag_TC( USART1 );
+
+    /* Enable RXNE and Error interrupts */
+    LL_USART_EnableIT_RXNE( USART1 );
+    /* Enable TC interrupt */
+    LL_USART_EnableIT_TC( USART1 );
+    LL_USART_EnableIT_ERROR( USART1 );
 }
 
 /**
@@ -642,19 +705,19 @@ void Configure_USART(void)
   * @param  None
   * @retval None
   */
-void LED_Init(void)
+void LED_Init( void )
 {
-  /* Enable the LED2 Clock */
-  LED2_GPIO_CLK_ENABLE();
+    /* Enable the LED2 Clock */
+    LED2_GPIO_CLK_ENABLE();
 
-  /* Configure IO in output push-pull mode to drive external LED2 */
-  LL_GPIO_SetPinMode(LED2_GPIO_PORT, LED2_PIN, LL_GPIO_MODE_OUTPUT);
-  /* Reset value is LL_GPIO_OUTPUT_PUSHPULL */
-  //LL_GPIO_SetPinOutputType(LED2_GPIO_PORT, LED2_PIN, LL_GPIO_OUTPUT_PUSHPULL);
-  /* Reset value is LL_GPIO_SPEED_FREQ_LOW */
-  //LL_GPIO_SetPinSpeed(LED2_GPIO_PORT, LED2_PIN, LL_GPIO_SPEED_FREQ_LOW);
-  /* Reset value is LL_GPIO_PULL_NO */
-  //LL_GPIO_SetPinPull(LED2_GPIO_PORT, LED2_PIN, LL_GPIO_PULL_NO);
+    /* Configure IO in output push-pull mode to drive external LED2 */
+    LL_GPIO_SetPinMode( LED2_GPIO_PORT, LED2_PIN, LL_GPIO_MODE_OUTPUT );
+    /* Reset value is LL_GPIO_OUTPUT_PUSHPULL */
+    //LL_GPIO_SetPinOutputType(LED2_GPIO_PORT, LED2_PIN, LL_GPIO_OUTPUT_PUSHPULL);
+    /* Reset value is LL_GPIO_SPEED_FREQ_LOW */
+    //LL_GPIO_SetPinSpeed(LED2_GPIO_PORT, LED2_PIN, LL_GPIO_SPEED_FREQ_LOW);
+    /* Reset value is LL_GPIO_PULL_NO */
+    //LL_GPIO_SetPinPull(LED2_GPIO_PORT, LED2_PIN, LL_GPIO_PULL_NO);
 }
 
 /**
@@ -666,44 +729,44 @@ void LED_Init(void)
   *     @arg LED_BLINK_FAST : Error specific Blinking
   * @retval None
   */
-void LED_Blinking(uint32_t Period)
+void LED_Blinking( uint32_t Period )
 {
-  /* Toggle IO in an infinite loop */
-  while (1)
-  {
-    LL_GPIO_TogglePin(LED2_GPIO_PORT, LED2_PIN);  
-    LL_mDelay(Period);
-  }
+    /* Toggle IO in an infinite loop */
+    while( 1 )
+    {
+        LL_GPIO_TogglePin( LED2_GPIO_PORT, LED2_PIN );
+        LL_mDelay( Period );
+    }
 }
 
 /**
   * @brief  Configures User push-button in EXTI mode.
-  * @param  None  
+  * @param  None
   * @retval None
   */
-void UserButton_Init(void)
+void UserButton_Init( void )
 {
-  /* Enable the BUTTON Clock */
-  USER_BUTTON_GPIO_CLK_ENABLE();
-  
-  /* Configure GPIO for BUTTON */
-  LL_GPIO_SetPinMode(USER_BUTTON_GPIO_PORT, USER_BUTTON_PIN, LL_GPIO_MODE_INPUT);
-  LL_GPIO_SetPinPull(USER_BUTTON_GPIO_PORT, USER_BUTTON_PIN, LL_GPIO_PULL_NO);
-  /* Connect External Line to the GPIO*/
-  USER_BUTTON_SYSCFG_SET_EXTI();
-  
-  /* Enable a rising trigger EXTI line 13 Interrupt */
-  USER_BUTTON_EXTI_LINE_ENABLE();
-  USER_BUTTON_EXTI_FALLING_TRIG_ENABLE();
-  
-  /* Configure NVIC for USER_BUTTON_EXTI_IRQn */
-  NVIC_EnableIRQ(USER_BUTTON_EXTI_IRQn); 
-  NVIC_SetPriority(USER_BUTTON_EXTI_IRQn,0x03);  
+    /* Enable the BUTTON Clock */
+    USER_BUTTON_GPIO_CLK_ENABLE();
+
+    /* Configure GPIO for BUTTON */
+    LL_GPIO_SetPinMode( USER_BUTTON_GPIO_PORT, USER_BUTTON_PIN, LL_GPIO_MODE_INPUT );
+    LL_GPIO_SetPinPull( USER_BUTTON_GPIO_PORT, USER_BUTTON_PIN, LL_GPIO_PULL_NO );
+    /* Connect External Line to the GPIO*/
+    USER_BUTTON_SYSCFG_SET_EXTI();
+
+    /* Enable a rising trigger EXTI line 13 Interrupt */
+    USER_BUTTON_EXTI_LINE_ENABLE();
+    USER_BUTTON_EXTI_FALLING_TRIG_ENABLE();
+
+    /* Configure NVIC for USER_BUTTON_EXTI_IRQn */
+    NVIC_EnableIRQ( USER_BUTTON_EXTI_IRQn );
+    NVIC_SetPriority( USER_BUTTON_EXTI_IRQn, 0x03 );
 }
 
 /**
   * @brief  System Clock Configuration
-  *         The system Clock is configured as follow : 
+  *         The system Clock is configured as follow :
   *            System Clock source            = MSI
   *            SYSCLK(Hz)                     = 2097000
   *            HCLK(Hz)                       = 2097000
@@ -714,43 +777,50 @@ void UserButton_Init(void)
   *            Main regulator output voltage  = Scale3 mode
   * @retval None
   */
-void SystemClock_Config(void)
+void SystemClock_Config( void )
 {
-  /* MSI configuration and activation */
-  LL_RCC_PLL_Disable();
-  /* Set new latency */
-  LL_FLASH_SetLatency(LL_FLASH_LATENCY_1);
+    /* MSI configuration and activation */
+    LL_RCC_PLL_Disable();
+    /* Set new latency */
+    LL_FLASH_SetLatency( LL_FLASH_LATENCY_1 );
 
-  LL_RCC_MSI_Enable();
-  while(LL_RCC_MSI_IsReady() != 1) 
-  {
-  };
-  LL_RCC_MSI_SetRange(LL_RCC_MSIRANGE_5);  
-  LL_RCC_MSI_SetCalibTrimming(0x0);
+    LL_RCC_MSI_Enable();
 
-  /* Sysclk activation  */
-  LL_RCC_SetAHBPrescaler(LL_RCC_SYSCLK_DIV_1);
-  LL_RCC_SetSysClkSource(LL_RCC_SYS_CLKSOURCE_MSI);
-  while(LL_RCC_GetSysClkSource() != LL_RCC_SYS_CLKSOURCE_STATUS_MSI) 
-  {
-  };
-  
-  /* Set APB1 & APB2 prescaler*/
-  LL_RCC_SetAPB1Prescaler(LL_RCC_APB1_DIV_1);
-  LL_RCC_SetAPB2Prescaler(LL_RCC_APB2_DIV_1);
+    while( LL_RCC_MSI_IsReady() != 1 )
+    {
+    };
 
-  /* Set systick to 1ms in using frequency set to 2MHz */
-  LL_Init1msTick(2097000);
+    LL_RCC_MSI_SetRange( LL_RCC_MSIRANGE_5 );
 
-  /* Update CMSIS variable (which can be updated also through SystemCoreClockUpdate function) */
-  LL_SetSystemCoreClock(2097000);  
+    LL_RCC_MSI_SetCalibTrimming( 0x0 );
 
-  /* Enable Power Control clock */
-  LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_PWR);
-  /* The voltage scaling allows optimizing the power consumption when the device is 
-     clocked below the maximum system frequency, to update the voltage scaling value 
-     regarding system frequency refer to product datasheet.  */
-  LL_PWR_SetRegulVoltageScaling(LL_PWR_REGU_VOLTAGE_SCALE3);
+    /* Sysclk activation  */
+    LL_RCC_SetAHBPrescaler( LL_RCC_SYSCLK_DIV_1 );
+
+    LL_RCC_SetSysClkSource( LL_RCC_SYS_CLKSOURCE_MSI );
+
+    while( LL_RCC_GetSysClkSource() != LL_RCC_SYS_CLKSOURCE_STATUS_MSI )
+    {
+    };
+
+    /* Set APB1 & APB2 prescaler*/
+    LL_RCC_SetAPB1Prescaler( LL_RCC_APB1_DIV_1 );
+
+    LL_RCC_SetAPB2Prescaler( LL_RCC_APB2_DIV_1 );
+
+    /* Set systick to 1ms in using frequency set to 2MHz */
+    LL_Init1msTick( 2097000 );
+
+    /* Update CMSIS variable (which can be updated also through SystemCoreClockUpdate function) */
+    LL_SetSystemCoreClock( 2097000 );
+
+    /* Enable Power Control clock */
+    LL_APB1_GRP1_EnableClock( LL_APB1_GRP1_PERIPH_PWR );
+
+    /* The voltage scaling allows optimizing the power consumption when the device is
+       clocked below the maximum system frequency, to update the voltage scaling value
+       regarding system frequency refer to product datasheet.  */
+    LL_PWR_SetRegulVoltageScaling( LL_PWR_REGU_VOLTAGE_SCALE3 );
 }
 
 
@@ -762,9 +832,9 @@ void SystemClock_Config(void)
   * @param  None
   * @retval None
   */
-void UserButton_Callback(void)
+void UserButton_Callback( void )
 {
-  RTC_InitializationMode = 1;  
+    RTC_InitializationMode = 1;
 }
 
 /**
@@ -773,10 +843,10 @@ void UserButton_Callback(void)
   * @param  None
   * @retval None
   */
-void USART_CharReception_Callback(void)
+void USART_CharReception_Callback( void )
 {
-    CharToReceive = LL_USART_ReceiveData8(USART1); /* Receive data, clear flag */
-    CharReceived = 1;      
+    CharToReceive = LL_USART_ReceiveData8( USART1 ); /* Receive data, clear flag */
+    CharReceived = 1;
 }
 
 /**
@@ -784,16 +854,16 @@ void USART_CharReception_Callback(void)
   * @param  None
   * @retval None
   */
-void USART_CharTransmitComplete_Callback(void)
+void USART_CharTransmitComplete_Callback( void )
 {
-    if(bSend == sizeof(aStringToSend))
+    if( bSend == sizeof( aStringToSend ) )
     {
-      bSend=0;
+        bSend = 0;
     }
     else
     {
-      /* clear transfer complete flag and fill TDR with a new char */
-      LL_USART_TransmitData8(USART1, aStringToSend[bSend++]);
+        /* clear transfer complete flag and fill TDR with a new char */
+        LL_USART_TransmitData8( USART1, aStringToSend[bSend++] );
     }
 }
 
@@ -802,10 +872,10 @@ void USART_CharTransmitComplete_Callback(void)
   * @param  None
   * @retval None
   */
-void RTC_Wakup_Treatement(void)
+void RTC_Wakup_Treatement( void )
 {
     /* Toggle Green LED */
-    LL_GPIO_TogglePin(LED2_GPIO_PORT, LED2_PIN);
+    LL_GPIO_TogglePin( LED2_GPIO_PORT, LED2_PIN );
     Alarm = 1;
 }
 #ifdef  USE_FULL_ASSERT
@@ -817,15 +887,15 @@ void RTC_Wakup_Treatement(void)
   * @param  line: assert_param error line source number
   * @retval None
   */
-void assert_failed(uint8_t *file, uint32_t line)
+void assert_failed( uint8_t *file, uint32_t line )
 {
-  /* User can add his own implementation to report the file name and line number,
-     ex: printf("Wrong parameters value: file %s on line %d", file, line) */
+    /* User can add his own implementation to report the file name and line number,
+       ex: printf("Wrong parameters value: file %s on line %d", file, line) */
 
-  /* Infinite loop */
-  while (1)
-  {
-  }
+    /* Infinite loop */
+    while( 1 )
+    {
+    }
 }
 #endif
 

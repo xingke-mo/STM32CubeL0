@@ -48,10 +48,10 @@ extern "C" {
   */
 typedef enum
 {
-  HAL_TSC_STATE_RESET  = 0x00UL, /*!< TSC registers have their reset value */
-  HAL_TSC_STATE_READY  = 0x01UL, /*!< TSC registers are initialized or acquisition is completed with success */
-  HAL_TSC_STATE_BUSY   = 0x02UL, /*!< TSC initialization or acquisition is on-going */
-  HAL_TSC_STATE_ERROR  = 0x03UL  /*!< Acquisition is completed with max count error */
+    HAL_TSC_STATE_RESET  = 0x00UL, /*!< TSC registers have their reset value */
+    HAL_TSC_STATE_READY  = 0x01UL, /*!< TSC registers are initialized or acquisition is completed with success */
+    HAL_TSC_STATE_BUSY   = 0x02UL, /*!< TSC initialization or acquisition is on-going */
+    HAL_TSC_STATE_ERROR  = 0x03UL  /*!< Acquisition is completed with max count error */
 } HAL_TSC_StateTypeDef;
 
 /**
@@ -59,8 +59,8 @@ typedef enum
   */
 typedef enum
 {
-  TSC_GROUP_ONGOING   = 0x00UL, /*!< Acquisition on group is on-going or not started */
-  TSC_GROUP_COMPLETED = 0x01UL /*!< Acquisition on group is completed with success (no max count error) */
+    TSC_GROUP_ONGOING   = 0x00UL, /*!< Acquisition on group is on-going or not started */
+    TSC_GROUP_COMPLETED = 0x01UL /*!< Acquisition on group is completed with success (no max count error) */
 } TSC_GroupStatusTypeDef;
 
 /**
@@ -68,31 +68,31 @@ typedef enum
   */
 typedef struct
 {
-  uint32_t CTPulseHighLength;       /*!< Charge-transfer high pulse length
+    uint32_t CTPulseHighLength;       /*!< Charge-transfer high pulse length
                                          This parameter can be a value of @ref TSC_CTPulseHL_Config  */
-  uint32_t CTPulseLowLength;        /*!< Charge-transfer low pulse length
+    uint32_t CTPulseLowLength;        /*!< Charge-transfer low pulse length
                                          This parameter can be a value of @ref TSC_CTPulseLL_Config  */
-  FunctionalState SpreadSpectrum;   /*!< Spread spectrum activation
+    FunctionalState SpreadSpectrum;   /*!< Spread spectrum activation
                                          This parameter can be set to ENABLE or DISABLE. */
-  uint32_t SpreadSpectrumDeviation; /*!< Spread spectrum deviation
+    uint32_t SpreadSpectrumDeviation; /*!< Spread spectrum deviation
                                          This parameter must be a number between Min_Data = 0 and Max_Data = 127 */
-  uint32_t SpreadSpectrumPrescaler; /*!< Spread spectrum prescaler
+    uint32_t SpreadSpectrumPrescaler; /*!< Spread spectrum prescaler
                                          This parameter can be a value of @ref TSC_SpreadSpec_Prescaler */
-  uint32_t PulseGeneratorPrescaler; /*!< Pulse generator prescaler
+    uint32_t PulseGeneratorPrescaler; /*!< Pulse generator prescaler
                                          This parameter can be a value of @ref TSC_PulseGenerator_Prescaler */
-  uint32_t MaxCountValue;           /*!< Max count value
+    uint32_t MaxCountValue;           /*!< Max count value
                                          This parameter can be a value of @ref TSC_MaxCount_Value  */
-  uint32_t IODefaultMode;           /*!< IO default mode
+    uint32_t IODefaultMode;           /*!< IO default mode
                                          This parameter can be a value of @ref TSC_IO_Default_Mode  */
-  uint32_t SynchroPinPolarity;      /*!< Synchro pin polarity
+    uint32_t SynchroPinPolarity;      /*!< Synchro pin polarity
                                          This parameter can be a value of @ref TSC_Synchro_Pin_Polarity */
-  uint32_t AcquisitionMode;         /*!< Acquisition mode
+    uint32_t AcquisitionMode;         /*!< Acquisition mode
                                          This parameter can be a value of @ref TSC_Acquisition_Mode  */
-  FunctionalState MaxCountInterrupt;/*!< Max count interrupt activation
+    FunctionalState MaxCountInterrupt;/*!< Max count interrupt activation
                                          This parameter can be set to ENABLE or DISABLE. */
-  uint32_t ChannelIOs;              /*!< Channel IOs mask */
-  uint32_t ShieldIOs;               /*!< Shield IOs mask */
-  uint32_t SamplingIOs;             /*!< Sampling IOs mask */
+    uint32_t ChannelIOs;              /*!< Channel IOs mask */
+    uint32_t ShieldIOs;               /*!< Shield IOs mask */
+    uint32_t SamplingIOs;             /*!< Sampling IOs mask */
 } TSC_InitTypeDef;
 
 /**
@@ -100,9 +100,9 @@ typedef struct
   */
 typedef struct
 {
-  uint32_t ChannelIOs;  /*!< Channel IOs mask */
-  uint32_t ShieldIOs;   /*!< Shield IOs mask */
-  uint32_t SamplingIOs; /*!< Sampling IOs mask */
+    uint32_t ChannelIOs;  /*!< Channel IOs mask */
+    uint32_t ShieldIOs;   /*!< Shield IOs mask */
+    uint32_t SamplingIOs; /*!< Sampling IOs mask */
 } TSC_IOConfigTypeDef;
 
 /**
@@ -114,33 +114,33 @@ typedef struct __TSC_HandleTypeDef
 typedef struct
 #endif  /* USE_HAL_TSC_REGISTER_CALLBACKS */
 {
-  TSC_TypeDef               *Instance;  /*!< Register base address      */
-  TSC_InitTypeDef           Init;       /*!< Initialization parameters  */
-  __IO HAL_TSC_StateTypeDef State;      /*!< Peripheral state           */
-  HAL_LockTypeDef           Lock;       /*!< Lock feature               */
-  __IO uint32_t             ErrorCode;  /*!< TSC Error code             */
+    TSC_TypeDef               *Instance;  /*!< Register base address      */
+    TSC_InitTypeDef           Init;       /*!< Initialization parameters  */
+    __IO HAL_TSC_StateTypeDef State;      /*!< Peripheral state           */
+    HAL_LockTypeDef           Lock;       /*!< Lock feature               */
+    __IO uint32_t             ErrorCode;  /*!< TSC Error code             */
 
 #if (USE_HAL_TSC_REGISTER_CALLBACKS == 1)
-  void (* ConvCpltCallback)(struct __TSC_HandleTypeDef *htsc);   /*!< TSC Conversion complete callback  */
-  void (* ErrorCallback)(struct __TSC_HandleTypeDef *htsc);      /*!< TSC Error callback                */
+    void ( * ConvCpltCallback )( struct __TSC_HandleTypeDef *htsc ); /*!< TSC Conversion complete callback  */
+    void ( * ErrorCallback )( struct __TSC_HandleTypeDef *htsc );  /*!< TSC Error callback                */
 
-  void (* MspInitCallback)(struct __TSC_HandleTypeDef *htsc);    /*!< TSC Msp Init callback             */
-  void (* MspDeInitCallback)(struct __TSC_HandleTypeDef *htsc);  /*!< TSC Msp DeInit callback           */
+    void ( * MspInitCallback )( struct __TSC_HandleTypeDef *htsc ); /*!< TSC Msp Init callback             */
+    void ( * MspDeInitCallback )( struct __TSC_HandleTypeDef *htsc ); /*!< TSC Msp DeInit callback           */
 
 #endif  /* USE_HAL_TSC_REGISTER_CALLBACKS */
 } TSC_HandleTypeDef;
 
 enum
 {
-  TSC_GROUP1_IDX = 0x00UL,
-  TSC_GROUP2_IDX,
-  TSC_GROUP3_IDX,
-  TSC_GROUP4_IDX,
-  TSC_GROUP5_IDX,
-  TSC_GROUP6_IDX,
-  TSC_GROUP7_IDX,
-  TSC_GROUP8_IDX,
-  TSC_NB_OF_GROUPS
+    TSC_GROUP1_IDX = 0x00UL,
+    TSC_GROUP2_IDX,
+    TSC_GROUP3_IDX,
+    TSC_GROUP4_IDX,
+    TSC_GROUP5_IDX,
+    TSC_GROUP6_IDX,
+    TSC_GROUP7_IDX,
+    TSC_GROUP8_IDX,
+    TSC_NB_OF_GROUPS
 };
 
 #if (USE_HAL_TSC_REGISTER_CALLBACKS == 1)
@@ -149,18 +149,18 @@ enum
   */
 typedef enum
 {
-  HAL_TSC_CONV_COMPLETE_CB_ID           = 0x00UL,  /*!< TSC Conversion completed callback ID  */
-  HAL_TSC_ERROR_CB_ID                   = 0x01UL,  /*!< TSC Error callback ID                 */
+    HAL_TSC_CONV_COMPLETE_CB_ID           = 0x00UL,  /*!< TSC Conversion completed callback ID  */
+    HAL_TSC_ERROR_CB_ID                   = 0x01UL,  /*!< TSC Error callback ID                 */
 
-  HAL_TSC_MSPINIT_CB_ID                 = 0x02UL,  /*!< TSC Msp Init callback ID              */
-  HAL_TSC_MSPDEINIT_CB_ID               = 0x03UL   /*!< TSC Msp DeInit callback ID            */
+    HAL_TSC_MSPINIT_CB_ID                 = 0x02UL,  /*!< TSC Msp Init callback ID              */
+    HAL_TSC_MSPDEINIT_CB_ID               = 0x03UL   /*!< TSC Msp DeInit callback ID            */
 
 } HAL_TSC_CallbackIDTypeDef;
 
 /**
   * @brief  HAL TSC Callback pointer definition
   */
-typedef  void (*pTSC_CallbackTypeDef)(TSC_HandleTypeDef *htsc); /*!< pointer to an TSC callback function */
+typedef  void ( *pTSC_CallbackTypeDef )( TSC_HandleTypeDef *htsc ); /*!< pointer to an TSC callback function */
 
 #endif  /* USE_HAL_TSC_REGISTER_CALLBACKS */
 
@@ -703,15 +703,15 @@ typedef  void (*pTSC_CallbackTypeDef)(TSC_HandleTypeDef *htsc); /*!< pointer to 
   * @{
   */
 /* Initialization and de-initialization functions *****************************/
-HAL_StatusTypeDef HAL_TSC_Init(TSC_HandleTypeDef *htsc);
-HAL_StatusTypeDef HAL_TSC_DeInit(TSC_HandleTypeDef *htsc);
-void HAL_TSC_MspInit(TSC_HandleTypeDef *htsc);
-void HAL_TSC_MspDeInit(TSC_HandleTypeDef *htsc);
+HAL_StatusTypeDef HAL_TSC_Init( TSC_HandleTypeDef *htsc );
+HAL_StatusTypeDef HAL_TSC_DeInit( TSC_HandleTypeDef *htsc );
+void HAL_TSC_MspInit( TSC_HandleTypeDef *htsc );
+void HAL_TSC_MspDeInit( TSC_HandleTypeDef *htsc );
 
 /* Callbacks Register/UnRegister functions  ***********************************/
 #if (USE_HAL_TSC_REGISTER_CALLBACKS == 1)
-HAL_StatusTypeDef HAL_TSC_RegisterCallback(TSC_HandleTypeDef *htsc, HAL_TSC_CallbackIDTypeDef CallbackID, pTSC_CallbackTypeDef pCallback);
-HAL_StatusTypeDef HAL_TSC_UnRegisterCallback(TSC_HandleTypeDef *htsc, HAL_TSC_CallbackIDTypeDef CallbackID);
+HAL_StatusTypeDef HAL_TSC_RegisterCallback( TSC_HandleTypeDef *htsc, HAL_TSC_CallbackIDTypeDef CallbackID, pTSC_CallbackTypeDef pCallback );
+HAL_StatusTypeDef HAL_TSC_UnRegisterCallback( TSC_HandleTypeDef *htsc, HAL_TSC_CallbackIDTypeDef CallbackID );
 #endif /* USE_HAL_TSC_REGISTER_CALLBACKS */
 /**
   * @}
@@ -721,13 +721,13 @@ HAL_StatusTypeDef HAL_TSC_UnRegisterCallback(TSC_HandleTypeDef *htsc, HAL_TSC_Ca
   * @{
   */
 /* IO operation functions *****************************************************/
-HAL_StatusTypeDef HAL_TSC_Start(TSC_HandleTypeDef *htsc);
-HAL_StatusTypeDef HAL_TSC_Start_IT(TSC_HandleTypeDef *htsc);
-HAL_StatusTypeDef HAL_TSC_Stop(TSC_HandleTypeDef *htsc);
-HAL_StatusTypeDef HAL_TSC_Stop_IT(TSC_HandleTypeDef *htsc);
-HAL_StatusTypeDef HAL_TSC_PollForAcquisition(TSC_HandleTypeDef *htsc);
-TSC_GroupStatusTypeDef HAL_TSC_GroupGetStatus(TSC_HandleTypeDef *htsc, uint32_t gx_index);
-uint32_t HAL_TSC_GroupGetValue(TSC_HandleTypeDef *htsc, uint32_t gx_index);
+HAL_StatusTypeDef HAL_TSC_Start( TSC_HandleTypeDef *htsc );
+HAL_StatusTypeDef HAL_TSC_Start_IT( TSC_HandleTypeDef *htsc );
+HAL_StatusTypeDef HAL_TSC_Stop( TSC_HandleTypeDef *htsc );
+HAL_StatusTypeDef HAL_TSC_Stop_IT( TSC_HandleTypeDef *htsc );
+HAL_StatusTypeDef HAL_TSC_PollForAcquisition( TSC_HandleTypeDef *htsc );
+TSC_GroupStatusTypeDef HAL_TSC_GroupGetStatus( TSC_HandleTypeDef *htsc, uint32_t gx_index );
+uint32_t HAL_TSC_GroupGetValue( TSC_HandleTypeDef *htsc, uint32_t gx_index );
 /**
   * @}
   */
@@ -736,8 +736,8 @@ uint32_t HAL_TSC_GroupGetValue(TSC_HandleTypeDef *htsc, uint32_t gx_index);
   * @{
   */
 /* Peripheral Control functions ***********************************************/
-HAL_StatusTypeDef HAL_TSC_IOConfig(TSC_HandleTypeDef *htsc, TSC_IOConfigTypeDef *config);
-HAL_StatusTypeDef HAL_TSC_IODischarge(TSC_HandleTypeDef *htsc, FunctionalState choice);
+HAL_StatusTypeDef HAL_TSC_IOConfig( TSC_HandleTypeDef *htsc, TSC_IOConfigTypeDef *config );
+HAL_StatusTypeDef HAL_TSC_IODischarge( TSC_HandleTypeDef *htsc, FunctionalState choice );
 /**
   * @}
   */
@@ -746,7 +746,7 @@ HAL_StatusTypeDef HAL_TSC_IODischarge(TSC_HandleTypeDef *htsc, FunctionalState c
   * @{
   */
 /* Peripheral State and Error functions ***************************************/
-HAL_TSC_StateTypeDef HAL_TSC_GetState(TSC_HandleTypeDef *htsc);
+HAL_TSC_StateTypeDef HAL_TSC_GetState( TSC_HandleTypeDef *htsc );
 /**
   * @}
   */
@@ -755,9 +755,9 @@ HAL_TSC_StateTypeDef HAL_TSC_GetState(TSC_HandleTypeDef *htsc);
  * @{
  */
 /******* TSC IRQHandler and Callbacks used in Interrupt mode */
-void HAL_TSC_IRQHandler(TSC_HandleTypeDef *htsc);
-void HAL_TSC_ConvCpltCallback(TSC_HandleTypeDef *htsc);
-void HAL_TSC_ErrorCallback(TSC_HandleTypeDef *htsc);
+void HAL_TSC_IRQHandler( TSC_HandleTypeDef *htsc );
+void HAL_TSC_ConvCpltCallback( TSC_HandleTypeDef *htsc );
+void HAL_TSC_ErrorCallback( TSC_HandleTypeDef *htsc );
 /**
   * @}
   */

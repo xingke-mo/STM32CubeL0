@@ -84,8 +84,8 @@
 
 /* Ensure stdint is only used by the compiler, and not the assembler. */
 #if defined(__ICCARM__) || defined(__CC_ARM) || defined(__GNUC__)
- #include <stdint.h>
- extern uint32_t SystemCoreClock;
+    #include <stdint.h>
+    extern uint32_t SystemCoreClock;
 #endif
 
 #define configUSE_PREEMPTION                    1
@@ -93,7 +93,7 @@
 #define configUSE_TICK_HOOK                     0
 #define configUSE_TICKLESS_IDLE                 2
 #define configCPU_CLOCK_HZ                      ( SystemCoreClock )
-#define configTICK_RATE_HZ			            ( ( portTickType ) 1000 )
+#define configTICK_RATE_HZ                      ( ( portTickType ) 1000 )
 #define configMAX_PRIORITIES                    ( 7 )
 #define configMINIMAL_STACK_SIZE                ( ( unsigned short ) 128 )
 #define configTOTAL_HEAP_SIZE                   ( ( size_t ) ( 3 * 1024 ) )
@@ -111,7 +111,7 @@
 #define configGENERATE_RUN_TIME_STATS           0
 
 #if defined(__CC_ARM)
-#define configOVERRIDE_DEFAULT_TICK_CONFIGURATION 1
+    #define configOVERRIDE_DEFAULT_TICK_CONFIGURATION 1
 #endif
 
 /* Co-routine definitions. */
@@ -137,10 +137,10 @@ to exclude the API function. */
 
 /* Cortex-M specific definitions. */
 #ifdef __NVIC_PRIO_BITS
- /* __BVIC_PRIO_BITS will be specified when CMSIS is being used. */
- #define configPRIO_BITS                        __NVIC_PRIO_BITS
+    /* __BVIC_PRIO_BITS will be specified when CMSIS is being used. */
+    #define configPRIO_BITS                        __NVIC_PRIO_BITS
 #else
- #define configPRIO_BITS                        2        /* 3 priority levels */
+    #define configPRIO_BITS                        2        /* 3 priority levels */
 #endif
 
 /* The lowest interrupt priority that can be used in a call to a "set priority"
@@ -172,12 +172,12 @@ called pre and post the low power SLEEP mode being entered and exited.  These
 macros can be used to turn turn off and on IO, clocks, the Flash etc. to obtain
 the lowest power possible while the tick is off. */
 #if defined(__ICCARM__) || defined(__CC_ARM) || defined(__GNUC__)
-void vMainPreStopProcessing(void);
-void vMainPostStopProcessing(void);
+    void vMainPreStopProcessing( void );
+    void vMainPostStopProcessing( void );
 #endif /* defined(__ICCARM__) || defined(__CC_ARM) || defined(__GNUC__) */
 
 #define configPRE_STOP_PROCESSING       vMainPreStopProcessing
-#define configPOST_STOP_PROCESSING	    vMainPostStopProcessing
+#define configPOST_STOP_PROCESSING      vMainPostStopProcessing
 
 /* Definitions that map the FreeRTOS port interrupt handlers to their CMSIS
    standard names. */

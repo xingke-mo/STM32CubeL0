@@ -1,6 +1,6 @@
 /**
   ******************************************************************************
-  * @file    IWDG/IWDG_WindowMode/Src/stm32l0xx_hal_msp.c 
+  * @file    IWDG/IWDG_WindowMode/Src/stm32l0xx_hal_msp.c
   * @author  MCD Application Team
   * @brief   HAL MSP module.
   ******************************************************************************
@@ -41,26 +41,26 @@
   */
 
 /**
-  * @brief IWDG MSP Initialization 
-  *        This function configures the hardware resources used in this example: 
-  *           - Peripheral's clock enable 
-  *           - LSI enable 
+  * @brief IWDG MSP Initialization
+  *        This function configures the hardware resources used in this example:
+  *           - Peripheral's clock enable
+  *           - LSI enable
   * @param hwwdg: IWDG handle pointer
   * @retval None
   */
-void HAL_IWDG_MspInit(IWDG_HandleTypeDef* hiwdg)
+void HAL_IWDG_MspInit( IWDG_HandleTypeDef *hiwdg )
 {
-  __HAL_RCC_PWR_CLK_ENABLE(); 
+    __HAL_RCC_PWR_CLK_ENABLE();
 
-  HAL_PWR_EnableBkUpAccess();
-  
-  /*## Enable peripherals and GPIO Clocks ####################################*/
-  /* RCC LSI clock enable */
-  __HAL_RCC_LSI_ENABLE();
-  
-  /* Wait till LSI is ready */
-  while (__HAL_RCC_GET_FLAG(RCC_FLAG_LSIRDY) == RESET)
-  {} 
+    HAL_PWR_EnableBkUpAccess();
+
+    /*## Enable peripherals and GPIO Clocks ####################################*/
+    /* RCC LSI clock enable */
+    __HAL_RCC_LSI_ENABLE();
+
+    /* Wait till LSI is ready */
+    while( __HAL_RCC_GET_FLAG( RCC_FLAG_LSIRDY ) == RESET )
+    {}
 }
 
 /**

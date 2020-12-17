@@ -23,7 +23,7 @@
 #define __STM32L073Z_EVAL_H
 
 #ifdef __cplusplus
- extern "C" {
+extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
@@ -51,74 +51,74 @@
  */
 typedef enum
 {
-  LED1 = 0,
-  LED2 = 1,
-  LED3 = 2,
-  LED4 = 3,
-  /* Color led aliases */
-  LED_GREEN  = LED1,
-  LED_ORANGE = LED2,
-  LED_RED    = LED3,
-  LED_BLUE   = LED4
-}Led_TypeDef;
+    LED1 = 0,
+    LED2 = 1,
+    LED3 = 2,
+    LED4 = 3,
+    /* Color led aliases */
+    LED_GREEN  = LED1,
+    LED_ORANGE = LED2,
+    LED_RED    = LED3,
+    LED_BLUE   = LED4
+} Led_TypeDef;
 
 /**
  * @brief BUTTON Types Definition
  */
-typedef enum 
+typedef enum
 {
-  BUTTON_TAMPER = 0,
-  BUTTON_KEY    = BUTTON_TAMPER,
-  BUTTON_USER   = BUTTON_TAMPER
-}Button_TypeDef;
+    BUTTON_TAMPER = 0,
+    BUTTON_KEY    = BUTTON_TAMPER,
+    BUTTON_USER   = BUTTON_TAMPER
+} Button_TypeDef;
 
-typedef enum 
-{  
-  BUTTON_MODE_GPIO = 0,
-  BUTTON_MODE_EXTI = 1
-}ButtonMode_TypeDef;
+typedef enum
+{
+    BUTTON_MODE_GPIO = 0,
+    BUTTON_MODE_EXTI = 1
+} ButtonMode_TypeDef;
 
 
-typedef enum 
-{  
-  JOY_MODE_GPIO = 0,
-  JOY_MODE_EXTI = 1
-}JOYMode_TypeDef;
+typedef enum
+{
+    JOY_MODE_GPIO = 0,
+    JOY_MODE_EXTI = 1
+} JOYMode_TypeDef;
 
 /**
  * @brief JOYSTICK Types Definition
  */
-typedef enum 
-{ 
-  JOY_NONE  = 0,
-  JOY_SEL   = 1,
-  JOY_DOWN  = 2,
-  JOY_LEFT  = 3,
-  JOY_RIGHT = 4,
-  JOY_UP    = 5
-}JOYState_TypeDef;
+typedef enum
+{
+    JOY_NONE  = 0,
+    JOY_SEL   = 1,
+    JOY_DOWN  = 2,
+    JOY_LEFT  = 3,
+    JOY_RIGHT = 4,
+    JOY_UP    = 5
+} JOYState_TypeDef;
 
 /**
  * @brief COM Types Definition
  */
-typedef enum 
+typedef enum
 {
-  COM1 = 0
-}COM_TypeDef;
+    COM1 = 0
+} COM_TypeDef;
 
 /**
   * @}
-  */ 
+  */
 
 /** @defgroup STM32L073Z_EVAL_LOW_LEVEL_Exported_Constants
   * @{
-  */ 
+  */
 
-/** 
-  * @brief  Define for STM32L073Z_EVAL board  
-  */ 
+/**
+  * @brief  Define for STM32L073Z_EVAL board
+  */
 #if !defined (USE_STM32L073Z_EVAL)
- #define USE_STM32L073Z_EVAL
+#define USE_STM32L073Z_EVAL
 #endif
 
 /** @addtogroup STM32L073Z_EVAL_LOW_LEVEL_LED
@@ -130,17 +130,17 @@ typedef enum
 #define LED1_GPIO_PORT                   GPIOE
 #define LED1_GPIO_CLK_ENABLE()           __HAL_RCC_GPIOE_CLK_ENABLE()
 #define LED1_GPIO_CLK_DISABLE()          __HAL_RCC_GPIOE_CLK_DISABLE()
-  
+
 #define LED2_PIN                         GPIO_PIN_5
 #define LED2_GPIO_PORT                   GPIOE
 #define LED2_GPIO_CLK_ENABLE()           __HAL_RCC_GPIOE_CLK_ENABLE()
 #define LED2_GPIO_CLK_DISABLE()          __HAL_RCC_GPIOE_CLK_DISABLE()
-  
+
 #define LED3_PIN                         GPIO_PIN_1
 #define LED3_GPIO_PORT                   GPIOD
 #define LED3_GPIO_CLK_ENABLE()           __HAL_RCC_GPIOD_CLK_ENABLE()
 #define LED3_GPIO_CLK_DISABLE()          __HAL_RCC_GPIOD_CLK_DISABLE()
-  
+
 #define LED4_PIN                         GPIO_PIN_7
 #define LED4_GPIO_PORT                   GPIOE
 #define LED4_GPIO_CLK_ENABLE()           __HAL_RCC_GPIOE_CLK_ENABLE()
@@ -158,13 +158,13 @@ typedef enum
 
 /**
   * @}
-  */ 
+  */
 
 /** @addtogroup STM32446E_EVAL_LOW_LEVEL_BUTTON
   * @{
-  */ 
-/* Joystick pins are connected to IO Expander (accessible through I2C1 interface) */ 
-#define BUTTONn                          3 
+  */
+/* Joystick pins are connected to IO Expander (accessible through I2C1 interface) */
+#define BUTTONn                          3
 
 /**
  * @brief Tamper push-button
@@ -180,8 +180,8 @@ typedef enum
 #define TAMPERx_GPIO_CLK_DISABLE(__BUTTON__)   (((__BUTTON__) == BUTTON_TAMPER) ? TAMPER_BUTTON_GPIO_CLK_DISABLE(): 0 )
 
 /**
-  * @brief Joystick Pins definition 
-  */ 
+  * @brief Joystick Pins definition
+  */
 #define JOY_SEL_PIN                    IO_PIN_0
 #define JOY_DOWN_PIN                   IO_PIN_1
 #define JOY_LEFT_PIN                   IO_PIN_2
@@ -193,7 +193,7 @@ typedef enum
 /**
  * @brief MFFX IRQ OUT Pin
  */
-#define MFX_IRQOUT_PIN            GPIO_PIN_6 
+#define MFX_IRQOUT_PIN            GPIO_PIN_6
 #define MFX_IRQOUT_PORT           GPIOE
 #define MFX_IRQOUT_CLK_ENABLE()   __HAL_RCC_GPIOE_CLK_ENABLE()
 #define MFX_IRQOUT_CLK_DISABLE()  __HAL_RCC_GPIOE_CLK_DISABLE()
@@ -210,9 +210,9 @@ typedef enum
 
 /* Exported constant IO ------------------------------------------------------*/
 
-/* Ilario: normally with MFX, it should be the same  address for IO and TS. 
+/* Ilario: normally with MFX, it should be the same  address for IO and TS.
    To be verifies.
-   The MFX_I2C_ADDR input pin selects the MFX I2C device address 
+   The MFX_I2C_ADDR input pin selects the MFX I2C device address
         MFX_I2C_ADDR input pin     MFX I2C device address
             0                           b: 1000 010x    (0x84)
             1                           b: 1000 011x    (0x86)
@@ -233,7 +233,7 @@ typedef enum
 
 /**
  * @brief Definition for COM port1, connected to USART2
- */ 
+ */
 #define EVAL_COM1                       USART2
 #define EVAL_COM1_CLK_ENABLE()          __HAL_RCC_USART2_CLK_ENABLE()
 #define EVAL_COM1_CLK_DISABLE()         __HAL_RCC_USART2_CLK_DISABLE()
@@ -261,7 +261,7 @@ typedef enum
 #define EVAL_COM1_RTS_GPIO_CLK_ENABLE() __HAL_RCC_GPIOD_CLK_ENABLE()
 #define EVAL_COM1_RTS_GPIO_CLK_DISABLE() __HAL_RCC_GPIOD_CLK_DISABLE()
 #define EVAL_COM1_RTS_AF                GPIO_AF0_USART2
-   
+
 #define EVAL_COM1_IRQn                  USART2_IRQn
 
 #define COMx_CLK_ENABLE(__COM__)        do {if (__COM__ == COM1) EVAL_COM1_CLK_ENABLE(); } while (0)
@@ -294,21 +294,21 @@ typedef enum
 #define EVAL_I2C1_CLK_ENABLE()           __HAL_RCC_I2C1_CLK_ENABLE()
 #define EVAL_I2C1_CLK_DISABLE()          __HAL_RCC_I2C1_CLK_DISABLE()
 #define EVAL_I2C1_FORCE_RESET()          __HAL_RCC_I2C1_FORCE_RESET()
-#define EVAL_I2C1_RELEASE_RESET()        __HAL_RCC_I2C1_RELEASE_RESET()  
+#define EVAL_I2C1_RELEASE_RESET()        __HAL_RCC_I2C1_RELEASE_RESET()
 
 #define EVAL_I2C1_SCL_PIN                GPIO_PIN_6    /* PB.6 */
 #define EVAL_I2C1_SDA_PIN                GPIO_PIN_7    /* PB.7 */
 
 #define EVAL_I2C1_GPIO_PORT              GPIOB      /* GPIOB */
 #define EVAL_I2C1_GPIO_CLK_ENABLE()      __HAL_RCC_GPIOB_CLK_ENABLE()
-#define EVAL_I2C1_GPIO_CLK_DISABLE()     __HAL_RCC_GPIOB_CLK_DISABLE() 
+#define EVAL_I2C1_GPIO_CLK_DISABLE()     __HAL_RCC_GPIOB_CLK_DISABLE()
 #define EVAL_I2C1_SCL_SDA_AF             GPIO_AF1_I2C1
-  
+
 /* Maximum Timeout values for flags waiting loops. These timeouts are not based
    on accurate values, they just guarantee that the application will not remain
    stuck if the I2C communication is corrupted.
    You may modify these timeout values depending on CPU frequency and application
-   conditions (interrupts routines ...). */   
+   conditions (interrupts routines ...). */
 #define EVAL_I2C1_TIMEOUT_MAX            1000
 
 /* I2C TIMING is calculated in case of the I2C Clock source is the SYSCLK = 32 MHz */
@@ -326,13 +326,13 @@ typedef enum
 #define EVAL_SPIx_CLK_DISABLE()               __HAL_RCC_SPI1_CLK_DISABLE()
 #define EVAL_SPIx_FORCE_RESET()               __HAL_RCC_SPI1_FORCE_RESET()
 #define EVAL_SPIx_RELEASE_RESET()             __HAL_RCC_SPI1_RELEASE_RESET()
-                                              
+
 #define EVAL_SPIx_SCK_PIN                     GPIO_PIN_13    /* PE.13 */
 #define EVAL_SPIx_SCK_GPIO_PORT               GPIOE          /* GPIOE */
 #define EVAL_SPIx_SCK_GPIO_CLK_ENABLE()       __HAL_RCC_GPIOE_CLK_ENABLE()
 #define EVAL_SPIx_SCK_GPIO_CLK_DISABLE()      __HAL_RCC_GPIOE_CLK_DISABLE()
 #define EVAL_SPIx_SCK_AF                      GPIO_AF2_SPI1
-                                              
+
 #define EVAL_SPIx_MISO_PIN                    GPIO_PIN_14    /* PE.14 */
 #define EVAL_SPIx_MISO_GPIO_PORT              GPIOE          /* GPIOE */
 #define EVAL_SPIx_MISO_GPIO_CLK_ENABLE()       __HAL_RCC_GPIOE_CLK_ENABLE()
@@ -354,7 +354,7 @@ typedef enum
    on accurate values, they just guarantee that the application will not remain
    stuck if the SPI communication is corrupted.
    You may modify these timeout values depending on CPU frequency and application
-   conditions (interrupts routines ...). */   
+   conditions (interrupts routines ...). */
 #define EVAL_SPIx_TIMEOUT_MAX                 1000
 
 #endif /* HAL_SPI_MODULE_ENABLED */
@@ -367,12 +367,12 @@ typedef enum
   */
 /*##################### LCD ###################################*/
 /**
-  * @brief  LCD Control pins 
-  */ 
+  * @brief  LCD Control pins
+  */
 #define LCD_NCS_PIN                     GPIO_PIN_10 /* PD. 10 */
 #define LCD_NCS_GPIO_PORT               GPIOE       /* GPIOE */
 #define LCD_NCS_GPIO_CLK_ENABLE()       __HAL_RCC_GPIOE_CLK_ENABLE()
-#define LCD_NCS_GPIO_CLK_DISABLE()      __HAL_RCC_GPIOE_CLK_DISABLE()  
+#define LCD_NCS_GPIO_CLK_DISABLE()      __HAL_RCC_GPIOE_CLK_DISABLE()
 
 /* Chip Select macro definition */
 #define LCD_CS_LOW()                    HAL_GPIO_WritePin(LCD_NCS_GPIO_PORT, LCD_NCS_PIN, GPIO_PIN_RESET)
@@ -394,10 +394,10 @@ typedef enum
 #define IDD_WAKEUP_GPIO_CLK_DISABLE()           __HAL_RCC_GPIOA_CLK_DISABLE()
 #define IDD_WAKEUP_PIN                          GPIO_PIN_4                  /* PA.04 */
 
-/** 
-  ##################### SD ###################################*/  
 /**
-  * @brief SD card Control pin  
+  ##################### SD ###################################*/
+/**
+  * @brief SD card Control pin
   */
 #define SD_CS_PIN                       GPIO_PIN_0              /* PD.00 */
 #define SD_CS_GPIO_PORT                 GPIOD                   /* GPIOD */
@@ -406,7 +406,7 @@ typedef enum
 
 /* Chip Select macro definition */
 #define SD_CS_LOW()                     HAL_GPIO_WritePin(SD_CS_GPIO_PORT, SD_CS_PIN, GPIO_PIN_RESET)
-#define SD_CS_HIGH()                    HAL_GPIO_WritePin(SD_CS_GPIO_PORT, SD_CS_PIN, GPIO_PIN_SET)  
+#define SD_CS_HIGH()                    HAL_GPIO_WritePin(SD_CS_GPIO_PORT, SD_CS_PIN, GPIO_PIN_SET)
 
 /**
   * @}
@@ -415,17 +415,17 @@ typedef enum
 /** @defgroup STM32L073Z_EVAL_LOW_LEVEL_Exported_Functions
   * @{
   */
-uint32_t          BSP_GetVersion(void);
-void              BSP_LED_Init(Led_TypeDef Led);
-void              BSP_LED_On(Led_TypeDef Led);
-void              BSP_LED_Off(Led_TypeDef Led);
-void              BSP_LED_Toggle(Led_TypeDef Led);
-void              BSP_PB_Init(Button_TypeDef Button, ButtonMode_TypeDef Button_Mode);
-uint32_t          BSP_PB_GetState(Button_TypeDef Button);
-uint8_t           BSP_JOY_Init(JOYMode_TypeDef Joy_Mode);
-JOYState_TypeDef  BSP_JOY_GetState(void);
+uint32_t          BSP_GetVersion( void );
+void              BSP_LED_Init( Led_TypeDef Led );
+void              BSP_LED_On( Led_TypeDef Led );
+void              BSP_LED_Off( Led_TypeDef Led );
+void              BSP_LED_Toggle( Led_TypeDef Led );
+void              BSP_PB_Init( Button_TypeDef Button, ButtonMode_TypeDef Button_Mode );
+uint32_t          BSP_PB_GetState( Button_TypeDef Button );
+uint8_t           BSP_JOY_Init( JOYMode_TypeDef Joy_Mode );
+JOYState_TypeDef  BSP_JOY_GetState( void );
 #if defined(HAL_UART_MODULE_ENABLED)
-void              BSP_COM_Init(COM_TypeDef COM, UART_HandleTypeDef* huart);
+void              BSP_COM_Init( COM_TypeDef COM, UART_HandleTypeDef *huart );
 #endif /* HAL_UART_MODULE_ENABLED */
 
 /**

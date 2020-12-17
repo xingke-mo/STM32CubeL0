@@ -179,11 +179,11 @@
         1,                                                      \
         CONV_MAX_INPUT_ELTS)  /* Note the lacking semicolon */
 
-CONV_DEFINE_RAND_INPUT_ARR_DESCS(f32);
-CONV_DEFINE_RAND_INPUT_ARR_DESCS(q31);
-CONV_DEFINE_RAND_INPUT_ARR_DESCS(q15);
-CONV_DEFINE_RAND_INPUT_ARR_DESCS(q7);
-ARR_DESC_DEFINE(float32_t, conv_input_zeros, CONV_MAX_INPUT_ELTS, CURLY(0));
+CONV_DEFINE_RAND_INPUT_ARR_DESCS( f32 );
+CONV_DEFINE_RAND_INPUT_ARR_DESCS( q31 );
+CONV_DEFINE_RAND_INPUT_ARR_DESCS( q15 );
+CONV_DEFINE_RAND_INPUT_ARR_DESCS( q7 );
+ARR_DESC_DEFINE( float32_t, conv_input_zeros, CONV_MAX_INPUT_ELTS, CURLY( 0 ) );
 
 /**
  *  Define Input #ARR_DESC_t arrays by type suffix.
@@ -216,10 +216,10 @@ ARR_DESC_DEFINE(float32_t, conv_input_zeros, CONV_MAX_INPUT_ELTS, CURLY(0));
                         &conv_input_rand2_##type_suffix     \
                         )) /* Note the lacking semicolon */
 
-CONV_DEFINE_ALL_INPUTS(f32);
-CONV_DEFINE_ALL_INPUTS(q31);
-CONV_DEFINE_ALL_INPUTS(q15);
-CONV_DEFINE_ALL_INPUTS(q7);
+CONV_DEFINE_ALL_INPUTS( f32 );
+CONV_DEFINE_ALL_INPUTS( q31 );
+CONV_DEFINE_ALL_INPUTS( q15 );
+CONV_DEFINE_ALL_INPUTS( q7 );
 
 /*--------------------------------------------------------------------------------*/
 /* Convolution Lengths */
@@ -236,50 +236,50 @@ CONV_DEFINE_ALL_INPUTS(q7);
  *  - 15 * MAX : Longest convolution , one side is degenerate .
  *  MAX * MAX  : Longest convolution.
  */
-ARR_DESC_DEFINE(uint32_t,
-                conv_lens_a,
-                5,
-                CURLY(
-                    1,
-                    1,
-                    17,
-                    15,
-                    CONV_MAX_INPUT_ELTS
-                    ));
+ARR_DESC_DEFINE( uint32_t,
+                 conv_lens_a,
+                 5,
+                 CURLY(
+                     1,
+                     1,
+                     17,
+                     15,
+                     CONV_MAX_INPUT_ELTS
+                 ) );
 
-ARR_DESC_DEFINE(uint32_t,
-                conv_lens_b,
-                5,
-                CURLY(
-                    1,
-                    2,
-                    1,
-                    CONV_MAX_INPUT_ELTS,
-                    CONV_MAX_INPUT_ELTS
-                    ));
+ARR_DESC_DEFINE( uint32_t,
+                 conv_lens_b,
+                 5,
+                 CURLY(
+                     1,
+                     2,
+                     1,
+                     CONV_MAX_INPUT_ELTS,
+                     CONV_MAX_INPUT_ELTS
+                 ) );
 
 /*--------------------------------------------------------------------------------*/
 /* Partial Indexing */
 /*--------------------------------------------------------------------------------*/
 
-ARR_DESC_DEFINE(uint32_t,
-                first_index_arr_desc,
-                4,
-                CURLY(
-                    0,
-                    1,
-                    CONV_MAX_INPUT_ELTS / 2,
-                    CONV_MAX_INPUT_ELTS
-                    ));
+ARR_DESC_DEFINE( uint32_t,
+                 first_index_arr_desc,
+                 4,
+                 CURLY(
+                     0,
+                     1,
+                     CONV_MAX_INPUT_ELTS / 2,
+                     CONV_MAX_INPUT_ELTS
+                 ) );
 
-ARR_DESC_DEFINE(uint32_t,
-                num_points_arr_desc,
-                3,
-                CURLY(
-                    1,
-                    CONV_MAX_OUTPUT_ELTS / 2,
-                    CONV_MAX_OUTPUT_ELTS
-                    ));
+ARR_DESC_DEFINE( uint32_t,
+                 num_points_arr_desc,
+                 3,
+                 CURLY(
+                     1,
+                     CONV_MAX_OUTPUT_ELTS / 2,
+                     CONV_MAX_OUTPUT_ELTS
+                 ) );
 
 /*--------------------------------------------------------------------------------*/
 /* Convolution Tests */
@@ -415,59 +415,59 @@ ARR_DESC_DEFINE(uint32_t,
         ) /* Note the lacking semicolon*/
 
 /* Tests on functions without partial outputs */
-CONV_DEFINE_TEST(conv          , f32, float32_t, CONV_TEST_TEMPLATE);
-CONV_DEFINE_TEST(conv          , q31, q31_t    , CONV_TEST_TEMPLATE);
-CONV_DEFINE_TEST(conv          , q15, q15_t    , CONV_TEST_TEMPLATE);
-CONV_DEFINE_TEST(conv          , q7 , q7_t     , CONV_TEST_TEMPLATE);
-CONV_DEFINE_TEST(conv_opt      , q15, q15_t    , CONV_TEST_TEMPLATE);
-CONV_DEFINE_TEST(conv_opt      , q7 , q7_t     , CONV_TEST_TEMPLATE);
-CONV_DEFINE_TEST(conv_fast     , q31, q31_t    , CONV_TEST_TEMPLATE);
-CONV_DEFINE_TEST(conv_fast     , q15, q15_t    , CONV_TEST_TEMPLATE);
-CONV_DEFINE_TEST(conv_fast_opt , q15, q15_t    , CONV_TEST_TEMPLATE);
+CONV_DEFINE_TEST( conv, f32, float32_t, CONV_TEST_TEMPLATE );
+CONV_DEFINE_TEST( conv, q31, q31_t, CONV_TEST_TEMPLATE );
+CONV_DEFINE_TEST( conv, q15, q15_t, CONV_TEST_TEMPLATE );
+CONV_DEFINE_TEST( conv, q7, q7_t, CONV_TEST_TEMPLATE );
+CONV_DEFINE_TEST( conv_opt, q15, q15_t, CONV_TEST_TEMPLATE );
+CONV_DEFINE_TEST( conv_opt, q7, q7_t, CONV_TEST_TEMPLATE );
+CONV_DEFINE_TEST( conv_fast, q31, q31_t, CONV_TEST_TEMPLATE );
+CONV_DEFINE_TEST( conv_fast, q15, q15_t, CONV_TEST_TEMPLATE );
+CONV_DEFINE_TEST( conv_fast_opt, q15, q15_t, CONV_TEST_TEMPLATE );
 
 /* Tests on functions with partial outputs  */
-CONV_DEFINE_TEST(conv_partial          , f32, float32_t, CONV_PARTIAL_TEST_TEMPLATE);
-CONV_DEFINE_TEST(conv_partial          , q31, q31_t    , CONV_PARTIAL_TEST_TEMPLATE);
-CONV_DEFINE_TEST(conv_partial          , q15, q15_t    , CONV_PARTIAL_TEST_TEMPLATE);
-CONV_DEFINE_TEST(conv_partial          , q7 , q7_t     , CONV_PARTIAL_TEST_TEMPLATE);
-CONV_DEFINE_TEST(conv_partial_fast     , q31, q31_t    , CONV_PARTIAL_TEST_TEMPLATE);
-CONV_DEFINE_TEST(conv_partial_fast     , q15, q15_t    , CONV_PARTIAL_TEST_TEMPLATE);
-CONV_DEFINE_TEST(conv_partial_fast_opt , q15, q15_t    , CONV_PARTIAL_TEST_TEMPLATE);
-CONV_DEFINE_TEST(conv_partial_opt      , q15, q15_t    , CONV_PARTIAL_TEST_TEMPLATE);
-CONV_DEFINE_TEST(conv_partial_opt      , q7 , q7_t     , CONV_PARTIAL_TEST_TEMPLATE);
+CONV_DEFINE_TEST( conv_partial, f32, float32_t, CONV_PARTIAL_TEST_TEMPLATE );
+CONV_DEFINE_TEST( conv_partial, q31, q31_t, CONV_PARTIAL_TEST_TEMPLATE );
+CONV_DEFINE_TEST( conv_partial, q15, q15_t, CONV_PARTIAL_TEST_TEMPLATE );
+CONV_DEFINE_TEST( conv_partial, q7, q7_t, CONV_PARTIAL_TEST_TEMPLATE );
+CONV_DEFINE_TEST( conv_partial_fast, q31, q31_t, CONV_PARTIAL_TEST_TEMPLATE );
+CONV_DEFINE_TEST( conv_partial_fast, q15, q15_t, CONV_PARTIAL_TEST_TEMPLATE );
+CONV_DEFINE_TEST( conv_partial_fast_opt, q15, q15_t, CONV_PARTIAL_TEST_TEMPLATE );
+CONV_DEFINE_TEST( conv_partial_opt, q15, q15_t, CONV_PARTIAL_TEST_TEMPLATE );
+CONV_DEFINE_TEST( conv_partial_opt, q7, q7_t, CONV_PARTIAL_TEST_TEMPLATE );
 
 /*--------------------------------------------------------------------------------*/
 /* Collect all tests in a group. */
 /*--------------------------------------------------------------------------------*/
 
-JTEST_DEFINE_GROUP(conv_tests)
+JTEST_DEFINE_GROUP( conv_tests )
 {
     /*
       To skip a test, comment it out.
     */
-    JTEST_TEST_CALL(arm_conv_f32_tests);
-    JTEST_TEST_CALL(arm_conv_q31_tests);
-    JTEST_TEST_CALL(arm_conv_q15_tests);
-    JTEST_TEST_CALL(arm_conv_q7_tests);
+    JTEST_TEST_CALL( arm_conv_f32_tests );
+    JTEST_TEST_CALL( arm_conv_q31_tests );
+    JTEST_TEST_CALL( arm_conv_q15_tests );
+    JTEST_TEST_CALL( arm_conv_q7_tests );
 
-    JTEST_TEST_CALL(arm_conv_opt_q15_tests);
-    JTEST_TEST_CALL(arm_conv_opt_q7_tests);
+    JTEST_TEST_CALL( arm_conv_opt_q15_tests );
+    JTEST_TEST_CALL( arm_conv_opt_q7_tests );
 
-    JTEST_TEST_CALL(arm_conv_fast_q31_tests);
-    JTEST_TEST_CALL(arm_conv_fast_q15_tests);
+    JTEST_TEST_CALL( arm_conv_fast_q31_tests );
+    JTEST_TEST_CALL( arm_conv_fast_q15_tests );
 
-    JTEST_TEST_CALL(arm_conv_fast_opt_q15_tests);
+    JTEST_TEST_CALL( arm_conv_fast_opt_q15_tests );
 
-    JTEST_TEST_CALL(arm_conv_partial_f32_tests);
-    JTEST_TEST_CALL(arm_conv_partial_q31_tests);
-    JTEST_TEST_CALL(arm_conv_partial_q15_tests);
-    JTEST_TEST_CALL(arm_conv_partial_q7_tests);
+    JTEST_TEST_CALL( arm_conv_partial_f32_tests );
+    JTEST_TEST_CALL( arm_conv_partial_q31_tests );
+    JTEST_TEST_CALL( arm_conv_partial_q15_tests );
+    JTEST_TEST_CALL( arm_conv_partial_q7_tests );
 
-    JTEST_TEST_CALL(arm_conv_partial_fast_q31_tests);
-    JTEST_TEST_CALL(arm_conv_partial_fast_q15_tests);
+    JTEST_TEST_CALL( arm_conv_partial_fast_q31_tests );
+    JTEST_TEST_CALL( arm_conv_partial_fast_q15_tests );
 
-    JTEST_TEST_CALL(arm_conv_partial_fast_opt_q15_tests);
+    JTEST_TEST_CALL( arm_conv_partial_fast_opt_q15_tests );
 
-    JTEST_TEST_CALL(arm_conv_partial_opt_q15_tests);
-    JTEST_TEST_CALL(arm_conv_partial_opt_q7_tests);
+    JTEST_TEST_CALL( arm_conv_partial_opt_q15_tests );
+    JTEST_TEST_CALL( arm_conv_partial_opt_q7_tests );
 }

@@ -3,7 +3,7 @@
   * @file    TIM/TIM_PWMOutput/Src/stm32l0xx_hal_msp.c
   * @author  MCD Application Team
   * @brief   HAL MSP module.
-  *         
+  *
   @verbatim
  ===============================================================================
                      ##### How to use this driver #####
@@ -24,7 +24,7 @@
   *                        opensource.org/licenses/BSD-3-Clause
   *
   ******************************************************************************
-  */ 
+  */
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32l0xx_hal.h"
@@ -51,46 +51,46 @@
   */
 
 /**
-  * @brief TIM MSP Initialization 
-  *        This function configures the hardware resources used in this example: 
+  * @brief TIM MSP Initialization
+  *        This function configures the hardware resources used in this example:
   *           - Peripheral's clock enable
-  *           - Peripheral's GPIO Configuration  
+  *           - Peripheral's GPIO Configuration
   * @param htim: TIM handle pointer
   * @retval None
   */
-void HAL_TIM_PWM_MspInit(TIM_HandleTypeDef *htim)
+void HAL_TIM_PWM_MspInit( TIM_HandleTypeDef *htim )
 {
-  GPIO_InitTypeDef   GPIO_InitStruct;
-  
-  /*##-1- Enable peripherals and GPIO Clocks #################################*/
-  /* TIM2 Peripheral clock enable */
-  __HAL_RCC_TIM2_CLK_ENABLE();
-    
-  /* Enable GPIO Channels Clock */
-  __HAL_RCC_GPIOA_CLK_ENABLE();
-  __HAL_RCC_GPIOB_CLK_ENABLE();
-  
-  /*##-2- Configure I/Os #####################################################*/
-  /* Configure PA.0 (TIM2_Channel1), PB.3 (TIM2_Channel2), PB.10 (TIM2_Channel3),
-     PB.11 (TIM2_Channel4) in output, push-pull, alternate function mode
-  */
-  /* Common configuration for all channels */
-  GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-  GPIO_InitStruct.Pull = GPIO_PULLUP;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-  GPIO_InitStruct.Alternate = GPIO_AF2_TIM2;
-  
-  GPIO_InitStruct.Pin = GPIO_PIN_0;
-  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-  
-  GPIO_InitStruct.Pin = GPIO_PIN_3;
-  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
-  
-  GPIO_InitStruct.Pin = GPIO_PIN_10;
-  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
-  
-  GPIO_InitStruct.Pin = GPIO_PIN_11;
-  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+    GPIO_InitTypeDef   GPIO_InitStruct;
+
+    /*##-1- Enable peripherals and GPIO Clocks #################################*/
+    /* TIM2 Peripheral clock enable */
+    __HAL_RCC_TIM2_CLK_ENABLE();
+
+    /* Enable GPIO Channels Clock */
+    __HAL_RCC_GPIOA_CLK_ENABLE();
+    __HAL_RCC_GPIOB_CLK_ENABLE();
+
+    /*##-2- Configure I/Os #####################################################*/
+    /* Configure PA.0 (TIM2_Channel1), PB.3 (TIM2_Channel2), PB.10 (TIM2_Channel3),
+       PB.11 (TIM2_Channel4) in output, push-pull, alternate function mode
+    */
+    /* Common configuration for all channels */
+    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+    GPIO_InitStruct.Pull = GPIO_PULLUP;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+    GPIO_InitStruct.Alternate = GPIO_AF2_TIM2;
+
+    GPIO_InitStruct.Pin = GPIO_PIN_0;
+    HAL_GPIO_Init( GPIOA, &GPIO_InitStruct );
+
+    GPIO_InitStruct.Pin = GPIO_PIN_3;
+    HAL_GPIO_Init( GPIOB, &GPIO_InitStruct );
+
+    GPIO_InitStruct.Pin = GPIO_PIN_10;
+    HAL_GPIO_Init( GPIOB, &GPIO_InitStruct );
+
+    GPIO_InitStruct.Pin = GPIO_PIN_11;
+    HAL_GPIO_Init( GPIOB, &GPIO_InitStruct );
 }
 
 /**
@@ -98,20 +98,20 @@ void HAL_TIM_PWM_MspInit(TIM_HandleTypeDef *htim)
   * @param  None
   * @retval None
   */
-void HAL_MspInit(void)
+void HAL_MspInit( void )
 {
-  /* NOTE : This function is eventually modified by the user */
+    /* NOTE : This function is eventually modified by the user */
 
 }
 
 /**
   * @brief  DeInitializes the Global MSP.
-  * @param  None  
+  * @param  None
   * @retval None
   */
-void HAL_MspDeInit(void)
+void HAL_MspDeInit( void )
 {
-  /* NOTE : This function is eventually modified by the user */
+    /* NOTE : This function is eventually modified by the user */
 
 }
 

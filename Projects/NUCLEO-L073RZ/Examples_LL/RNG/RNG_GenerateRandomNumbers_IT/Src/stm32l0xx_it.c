@@ -1,4 +1,4 @@
-/** 
+/**
   ******************************************************************************
   * @file    Examples_LL/RNG/RNG_GenerateRandomNumbers_IT/Src/stm32l0xx_it.c
   * @author  MCD Application Team
@@ -47,7 +47,7 @@
   * @param  None
   * @retval None
   */
-void NMI_Handler(void)
+void NMI_Handler( void )
 {
 }
 
@@ -56,12 +56,12 @@ void NMI_Handler(void)
   * @param  None
   * @retval None
   */
-void HardFault_Handler(void)
+void HardFault_Handler( void )
 {
-  /* Go to infinite loop when Hard Fault exception occurs */
-  while (1)
-  {
-  }
+    /* Go to infinite loop when Hard Fault exception occurs */
+    while( 1 )
+    {
+    }
 }
 
 /**
@@ -69,7 +69,7 @@ void HardFault_Handler(void)
   * @param  None
   * @retval None
   */
-void SVC_Handler(void)
+void SVC_Handler( void )
 {
 }
 
@@ -78,7 +78,7 @@ void SVC_Handler(void)
   * @param  None
   * @retval None
   */
-void PendSV_Handler(void)
+void PendSV_Handler( void )
 {
 }
 
@@ -87,7 +87,7 @@ void PendSV_Handler(void)
   * @param  None
   * @retval None
   */
-void SysTick_Handler(void)
+void SysTick_Handler( void )
 {
 }
 
@@ -103,17 +103,17 @@ void SysTick_Handler(void)
   * @param  None
   * @retval None
   */
-void USER_BUTTON_IRQHANDLER(void)
+void USER_BUTTON_IRQHANDLER( void )
 {
-  /* Manage Flags */
-  if(LL_EXTI_IsActiveFlag_0_31(USER_BUTTON_EXTI_LINE) != RESET)
-  {
-    /* Clear EXTI flag */
-    LL_EXTI_ClearFlag_0_31(USER_BUTTON_EXTI_LINE);
+    /* Manage Flags */
+    if( LL_EXTI_IsActiveFlag_0_31( USER_BUTTON_EXTI_LINE ) != RESET )
+    {
+        /* Clear EXTI flag */
+        LL_EXTI_ClearFlag_0_31( USER_BUTTON_EXTI_LINE );
 
-    /* Handle user button press in dedicated function */
-    UserButton_Callback(); 
-  }
+        /* Handle user button press in dedicated function */
+        UserButton_Callback();
+    }
 }
 
 /**
@@ -121,23 +121,23 @@ void USER_BUTTON_IRQHANDLER(void)
   * Param   None
   * Retval  None
   */
-void RNG_LPUART1_IRQHandler(void)
+void RNG_LPUART1_IRQHandler( void )
 {
-  if (   (LL_RNG_IsActiveFlag_CECS(RNG))
-      || (LL_RNG_IsActiveFlag_SECS(RNG))  )
-  {
-    /* Call Error function */
-    Error_Callback();
-  }
+    if( ( LL_RNG_IsActiveFlag_CECS( RNG ) )
+            || ( LL_RNG_IsActiveFlag_SECS( RNG ) ) )
+    {
+        /* Call Error function */
+        Error_Callback();
+    }
 
-  if(LL_RNG_IsActiveFlag_DRDY(RNG))
-  {
-    /* DRDY flag will be automatically cleared when reading 
-       newly generated random number in DR register */
+    if( LL_RNG_IsActiveFlag_DRDY( RNG ) )
+    {
+        /* DRDY flag will be automatically cleared when reading
+           newly generated random number in DR register */
 
-    /* Call function in charge of handling DR reading */
-    RNG_DataReady_Callback();
-  }
+        /* Call function in charge of handling DR reading */
+        RNG_DataReady_Callback();
+    }
 }
 
 /**

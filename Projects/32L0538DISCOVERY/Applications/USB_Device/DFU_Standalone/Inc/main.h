@@ -1,6 +1,6 @@
 /**
   ******************************************************************************
-  * @file    USB_Device/DFU_Standalone/Inc/main.h 
+  * @file    USB_Device/DFU_Standalone/Inc/main.h
   * @author  MCD Application Team
   * @brief   Header for main.c module
   ******************************************************************************
@@ -16,7 +16,7 @@
   *
   ******************************************************************************
   */
-  
+
 /* Define to prevent recursive inclusion -------------------------------------*/
 #ifndef __MAIN_H
 #define __MAIN_H
@@ -26,7 +26,7 @@
 #include "stm32l0538_discovery.h"
 #include "usbd_core.h"
 #include "usbd_desc.h"
-#include "usbd_dfu.h" 
+#include "usbd_dfu.h"
 #include "usbd_dfu_flash.h"
 
 /* Exported types ------------------------------------------------------------*/

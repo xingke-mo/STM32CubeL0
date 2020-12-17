@@ -23,9 +23,9 @@
 #include "stm32l0xx_ll_bus.h"
 
 #ifdef  USE_FULL_ASSERT
-#include "stm32_assert.h"
+    #include "stm32_assert.h"
 #else
-#define assert_param(expr) ((void)0U)
+    #define assert_param(expr) ((void)0U)
 #endif
 
 /** @addtogroup STM32L0xx_LL_Driver
@@ -60,27 +60,27 @@
   *          - SUCCESS: CRC registers are de-initialized
   *          - ERROR: CRC registers are not de-initialized
   */
-ErrorStatus LL_CRC_DeInit(CRC_TypeDef *CRCx)
+ErrorStatus LL_CRC_DeInit( CRC_TypeDef *CRCx )
 {
-  ErrorStatus status = SUCCESS;
+    ErrorStatus status = SUCCESS;
 
-  /* Check the parameters */
-  assert_param(IS_CRC_ALL_INSTANCE(CRCx));
+    /* Check the parameters */
+    assert_param( IS_CRC_ALL_INSTANCE( CRCx ) );
 
-  if (CRCx == CRC)
-  {
-    /* Force CRC reset */
-    LL_AHB1_GRP1_ForceReset(LL_AHB1_GRP1_PERIPH_CRC);
+    if( CRCx == CRC )
+    {
+        /* Force CRC reset */
+        LL_AHB1_GRP1_ForceReset( LL_AHB1_GRP1_PERIPH_CRC );
 
-    /* Release CRC reset */
-    LL_AHB1_GRP1_ReleaseReset(LL_AHB1_GRP1_PERIPH_CRC);
-  }
-  else
-  {
-    status = ERROR;
-  }
+        /* Release CRC reset */
+        LL_AHB1_GRP1_ReleaseReset( LL_AHB1_GRP1_PERIPH_CRC );
+    }
+    else
+    {
+        status = ERROR;
+    }
 
-  return (status);
+    return ( status );
 }
 
 /**

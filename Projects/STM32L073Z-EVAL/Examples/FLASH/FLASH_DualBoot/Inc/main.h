@@ -1,6 +1,6 @@
 /**
   ******************************************************************************
-  * @file    FLASH/FLASH_DualBoot/Inc/main.h 
+  * @file    FLASH/FLASH_DualBoot/Inc/main.h
   * @author  MCD Application Team
   * @brief   Header for main.c module
   ******************************************************************************

@@ -1,6 +1,6 @@
 /**
   ******************************************************************************
-  * @file    COMP/COMP_PulseWidthMeasurement/Inc/main.h 
+  * @file    COMP/COMP_PulseWidthMeasurement/Inc/main.h
   * @author  MCD Application Team
   * @brief   Header for main.c module
   ******************************************************************************
@@ -27,7 +27,7 @@
 
 /* Exported types ------------------------------------------------------------*/
 /* Exported constants --------------------------------------------------------*/
-/* User can use this section to tailor TIMx instance used and associated 
+/* User can use this section to tailor TIMx instance used and associated
    resources */
 /* Definition for TIMx clock resources */
 #define TIMx                           TIM2
@@ -37,7 +37,7 @@
 #define TIMx_IRQn                      TIM2_IRQn
 #define TIMx_IRQHandler                TIM2_IRQHandler
 
-/* User can use this section to tailor DACx instance used and associated 
+/* User can use this section to tailor DACx instance used and associated
    resources */
 /* Definition for DACx clock resources */
 #define DACx                            DAC
@@ -45,7 +45,7 @@
 #define DACx_CHANNEL_GPIO_CLK_ENABLE()  __HAL_RCC_GPIOA_CLK_ENABLE()
 /* Definition for DACx's Channel */
 #define DACx_CHANNEL                    DAC_CHANNEL_1
-     
+
 /* User can use this section to tailor I2Cx/I2Cx instance used and associated
    resources */
 /* Definition for I2Cx clock resources */

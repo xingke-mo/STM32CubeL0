@@ -3,7 +3,7 @@
   * @file    HAL/HAL_TimeBase/Src/stm32l0xx_hal_msp.c
   * @author  MCD Application Team
   * @brief   HAL MSP module.
-  *         
+  *
   @verbatim
  ===============================================================================
                      ##### How to use this driver #####
@@ -24,7 +24,7 @@
   *                        opensource.org/licenses/BSD-3-Clause
   *
   ******************************************************************************
-  */ 
+  */
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32l0xx_hal.h"
@@ -55,20 +55,20 @@
   * @param  None
   * @retval None
   */
-void HAL_MspInit(void)
+void HAL_MspInit( void )
 {
-  /* NOTE : This function is eventually modified by the user */
+    /* NOTE : This function is eventually modified by the user */
 
 }
 
 /**
   * @brief  DeInitializes the Global MSP.
-  * @param  None  
+  * @param  None
   * @retval None
   */
-void HAL_MspDeInit(void)
+void HAL_MspDeInit( void )
 {
-  /* NOTE : This function is eventually modified by the user */
+    /* NOTE : This function is eventually modified by the user */
 
 }
 

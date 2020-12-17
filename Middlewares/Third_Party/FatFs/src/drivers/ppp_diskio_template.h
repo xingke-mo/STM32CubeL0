@@ -4,7 +4,7 @@
   * @author  MCD Application Team
   * @brief   Header for ppp_diskio.c module. the PPP diskio driver is not
              functional and is intended to show how to implement
-	     a FatFS diskio driver.
+         a FatFS diskio driver.
   ******************************************************************************
   * @attention
   *

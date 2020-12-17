@@ -1,9 +1,9 @@
 /**
   ******************************************************************************
-  * @file    RTC/RTC_Tamper/Src/stm32l0xx_it.c 
+  * @file    RTC/RTC_Tamper/Src/stm32l0xx_it.c
   * @author  MCD Application Team
   * @brief   Main Interrupt Service Routines.
-  *          This file provides template for all exceptions handler and 
+  *          This file provides template for all exceptions handler and
   *          peripherals interrupt service routine.
   ******************************************************************************
   * @attention
@@ -20,7 +20,7 @@
   */
 
 /* Includes ------------------------------------------------------------------*/
-#include "stm32l0xx_it.h" 
+#include "stm32l0xx_it.h"
 
 /** @addtogroup STM32L0xx_HAL_Examples
   * @{
@@ -37,7 +37,7 @@
 /* RTC handler declared in "main.c" file */
 extern RTC_HandleTypeDef RtcHandle;
 
-extern __IO FlagStatus TamperStatus; 
+extern __IO FlagStatus TamperStatus;
 
 /* Private function prototypes -----------------------------------------------*/
 /* Private functions ---------------------------------------------------------*/
@@ -51,7 +51,7 @@ extern __IO FlagStatus TamperStatus;
   * @param  None
   * @retval None
   */
-void NMI_Handler(void)
+void NMI_Handler( void )
 {
 }
 
@@ -60,12 +60,12 @@ void NMI_Handler(void)
   * @param  None
   * @retval None
   */
-void HardFault_Handler(void)
+void HardFault_Handler( void )
 {
-  /* Go to infinite loop when Hard Fault exception occurs */
-  while (1)
-  {
-  }
+    /* Go to infinite loop when Hard Fault exception occurs */
+    while( 1 )
+    {
+    }
 }
 
 /**
@@ -73,7 +73,7 @@ void HardFault_Handler(void)
   * @param  None
   * @retval None
   */
-void SVC_Handler(void)
+void SVC_Handler( void )
 {
 }
 
@@ -82,7 +82,7 @@ void SVC_Handler(void)
   * @param  None
   * @retval None
   */
-void PendSV_Handler(void)
+void PendSV_Handler( void )
 {
 }
 
@@ -91,9 +91,9 @@ void PendSV_Handler(void)
   * @param  None
   * @retval None
   */
-void SysTick_Handler(void)
+void SysTick_Handler( void )
 {
-  HAL_IncTick();
+    HAL_IncTick();
 }
 
 /******************************************************************************/
@@ -108,10 +108,10 @@ void SysTick_Handler(void)
   * @param  None
   * @retval None
   */
-void RTC_IRQHandler(void)
+void RTC_IRQHandler( void )
 {
-  HAL_RTCEx_TamperTimeStampIRQHandler(&RtcHandle);
-  TamperStatus = SET;
+    HAL_RTCEx_TamperTimeStampIRQHandler( &RtcHandle );
+    TamperStatus = SET;
 }
 
 /**
@@ -126,7 +126,7 @@ void RTC_IRQHandler(void)
 
 /**
   * @}
-  */ 
+  */
 
 /**
   * @}

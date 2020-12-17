@@ -3,7 +3,7 @@
   * @file    ADC/ADC_RegularConversion_Polling/Src/stm32l0xx_hal_msp.c
   * @author  MCD Application Team
   * @brief   HAL MSP module.
-  *         
+  *
   @verbatim
  ===============================================================================
                      ##### How to use this driver #####
@@ -57,21 +57,21 @@
   * @param hadc: ADC handle pointer
   * @retval None
   */
-void HAL_ADC_MspInit(ADC_HandleTypeDef *hadc)
+void HAL_ADC_MspInit( ADC_HandleTypeDef *hadc )
 {
-  GPIO_InitTypeDef          GPIO_InitStruct;
+    GPIO_InitTypeDef          GPIO_InitStruct;
 
-  /*##-1- Enable peripherals and GPIO Clocks #################################*/
-  /* Enable GPIO clock ****************************************/
-  __HAL_RCC_GPIOA_CLK_ENABLE();
-  /* ADC1 Periph clock enable */
-  __HAL_RCC_ADC1_CLK_ENABLE();
-  
-  /*##- 2- Configure peripheral GPIO #########################################*/
-  GPIO_InitStruct.Pin = GPIO_PIN_4;
-  GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+    /*##-1- Enable peripherals and GPIO Clocks #################################*/
+    /* Enable GPIO clock ****************************************/
+    __HAL_RCC_GPIOA_CLK_ENABLE();
+    /* ADC1 Periph clock enable */
+    __HAL_RCC_ADC1_CLK_ENABLE();
+
+    /*##- 2- Configure peripheral GPIO #########################################*/
+    GPIO_InitStruct.Pin = GPIO_PIN_4;
+    GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    HAL_GPIO_Init( GPIOA, &GPIO_InitStruct );
 }
 
 /**
@@ -79,20 +79,20 @@ void HAL_ADC_MspInit(ADC_HandleTypeDef *hadc)
   * @param  None
   * @retval None
   */
-void HAL_MspInit(void)
+void HAL_MspInit( void )
 {
-  /* NOTE : This function is eventually modified by the user */
+    /* NOTE : This function is eventually modified by the user */
 
 }
 
 /**
   * @brief  DeInitializes the Global MSP.
-  * @param  None  
+  * @param  None
   * @retval None
   */
-void HAL_MspDeInit(void)
+void HAL_MspDeInit( void )
 {
-  /* NOTE : This function is eventually modified by the user */
+    /* NOTE : This function is eventually modified by the user */
 
 }
 

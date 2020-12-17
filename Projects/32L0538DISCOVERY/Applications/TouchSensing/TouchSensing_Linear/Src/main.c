@@ -1,6 +1,6 @@
 /**
   ******************************************************************************
-  * @file    TouchSensing/TouchSensing_Linear/Src/main.c 
+  * @file    TouchSensing/TouchSensing_Linear/Src/main.c
   * @author  MCD Application Team
   * @brief   Main program body
   ******************************************************************************
@@ -47,9 +47,9 @@
 TSC_HandleTypeDef TscHandle;
 
 /* Private function prototypes -----------------------------------------------*/
-static void SystemClock_Config(void);
-static void Error_Handler(void);
-void Process_Sensors(tsl_user_status_t status);
+static void SystemClock_Config( void );
+static void Error_Handler( void );
+void Process_Sensors( tsl_user_status_t status );
 
 /* Private functions ---------------------------------------------------------*/
 
@@ -58,63 +58,65 @@ void Process_Sensors(tsl_user_status_t status);
   * @param  None
   * @retval None
   */
-int main(void)
+int main( void )
 {
-  tsl_user_status_t tsl_status;
-  
-  /* STM32L0xx HAL library initialization:
-       - Configure the Flash prefetch, Flash preread and Buffer caches
-       - Configure the Systick to generate an interrupt each 1 msec
-       - Low Level Initialization
-     */
-  HAL_Init();
+    tsl_user_status_t tsl_status;
 
-  /* Configure the System clock to have a frequency of 2 MHz (Up to 32MHZ possible) */
-  SystemClock_Config();
+    /* STM32L0xx HAL library initialization:
+         - Configure the Flash prefetch, Flash preread and Buffer caches
+         - Configure the Systick to generate an interrupt each 1 msec
+         - Low Level Initialization
+       */
+    HAL_Init();
 
-  /* Configure the TSC peripheral */
-  TscHandle.Instance = TSC;
-  TscHandle.Init.AcquisitionMode         = TSC_ACQ_MODE_NORMAL;
-  TscHandle.Init.CTPulseHighLength       = TSC_CTPH_2CYCLES;
-  TscHandle.Init.CTPulseLowLength        = TSC_CTPL_2CYCLES;
-  TscHandle.Init.IODefaultMode           = TSC_IODEF_OUT_PP_LOW;
-  TscHandle.Init.MaxCountInterrupt       = DISABLE;
-  TscHandle.Init.MaxCountValue           = TSC_MCV_8191;
-  TscHandle.Init.PulseGeneratorPrescaler = TSC_PG_PRESC_DIV2;
-  TscHandle.Init.SpreadSpectrum          = DISABLE;
-  TscHandle.Init.SpreadSpectrumDeviation = 127;
-  TscHandle.Init.SpreadSpectrumPrescaler = TSC_SS_PRESC_DIV1;
-  TscHandle.Init.SynchroPinPolarity      = TSC_SYNC_POLARITY_FALLING;
-  /* All channel, shield and sampling IOs must be declared below */
-  TscHandle.Init.ChannelIOs              = TSC_GROUP1_IO3 | TSC_GROUP2_IO3 | TSC_GROUP3_IO2;
-  TscHandle.Init.SamplingIOs             = TSC_GROUP1_IO4 | TSC_GROUP2_IO4 | TSC_GROUP3_IO3;
-  TscHandle.Init.ShieldIOs               = 0;
-  if (HAL_TSC_Init(&TscHandle) != HAL_OK)
-  {
-    /* Initialization Error */
-    Error_Handler();
-  }
+    /* Configure the System clock to have a frequency of 2 MHz (Up to 32MHZ possible) */
+    SystemClock_Config();
 
-  /* Initialize the STMTouch driver */
-  tsl_user_Init();
-  
-  /* Infinite loop */
-  while (1)
-  {
-    /* Execute STMTouch Driver state machine */
-    tsl_status = tsl_user_Exec();
-    if (tsl_status != TSL_USER_STATUS_BUSY)
+    /* Configure the TSC peripheral */
+    TscHandle.Instance = TSC;
+    TscHandle.Init.AcquisitionMode         = TSC_ACQ_MODE_NORMAL;
+    TscHandle.Init.CTPulseHighLength       = TSC_CTPH_2CYCLES;
+    TscHandle.Init.CTPulseLowLength        = TSC_CTPL_2CYCLES;
+    TscHandle.Init.IODefaultMode           = TSC_IODEF_OUT_PP_LOW;
+    TscHandle.Init.MaxCountInterrupt       = DISABLE;
+    TscHandle.Init.MaxCountValue           = TSC_MCV_8191;
+    TscHandle.Init.PulseGeneratorPrescaler = TSC_PG_PRESC_DIV2;
+    TscHandle.Init.SpreadSpectrum          = DISABLE;
+    TscHandle.Init.SpreadSpectrumDeviation = 127;
+    TscHandle.Init.SpreadSpectrumPrescaler = TSC_SS_PRESC_DIV1;
+    TscHandle.Init.SynchroPinPolarity      = TSC_SYNC_POLARITY_FALLING;
+    /* All channel, shield and sampling IOs must be declared below */
+    TscHandle.Init.ChannelIOs              = TSC_GROUP1_IO3 | TSC_GROUP2_IO3 | TSC_GROUP3_IO2;
+    TscHandle.Init.SamplingIOs             = TSC_GROUP1_IO4 | TSC_GROUP2_IO4 | TSC_GROUP3_IO3;
+    TscHandle.Init.ShieldIOs               = 0;
+
+    if( HAL_TSC_Init( &TscHandle ) != HAL_OK )
     {
-      Process_Sensors(tsl_status);
+        /* Initialization Error */
+        Error_Handler();
     }
-  }
+
+    /* Initialize the STMTouch driver */
+    tsl_user_Init();
+
+    /* Infinite loop */
+    while( 1 )
+    {
+        /* Execute STMTouch Driver state machine */
+        tsl_status = tsl_user_Exec();
+
+        if( tsl_status != TSL_USER_STATUS_BUSY )
+        {
+            Process_Sensors( tsl_status );
+        }
+    }
 }
 
 
 
 /**
   * @brief  System Clock Configuration
-  *         The system Clock is configured as follow : 
+  *         The system Clock is configured as follow :
   *            System Clock source            = HSI
   *            SYSCLK(Hz)                     = 16000000
   *            HCLK(Hz)                       = 16000000
@@ -127,41 +129,43 @@ int main(void)
   * @param  None
   * @retval None
   */
-void SystemClock_Config(void)
+void SystemClock_Config( void )
 {
-  RCC_ClkInitTypeDef RCC_ClkInitStruct;
-  RCC_OscInitTypeDef RCC_OscInitStruct;
- 
-   /* Enable Power Controller clock */
-  __HAL_RCC_PWR_CLK_ENABLE();
-  
-  /* The voltage scaling allows optimizing the power consumption when the device is 
-  clocked below the maximum system frequency, to update the voltage scaling value 
-  regarding system frequency refer to product datasheet. */
-  __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE2); 
-  
-  /* Enable HSI Oscillator to be used as System clock source */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
-  RCC_OscInitStruct.HSIState = RCC_HSI_ON;
-  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
-  if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
-  {
-    /* Initialization Error */
-    Error_Handler();
-  }
-  
-  /* Select HSI as system clock source and configure the HCLK, PCLK1 and PCLK2 
-     clock dividers */
-  RCC_ClkInitStruct.ClockType = (RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2);
-  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_HSI;
-  RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
-  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
-  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
-  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_1)!= HAL_OK)
-  {
-    /* Initialization Error */
-    Error_Handler();
-  }
+    RCC_ClkInitTypeDef RCC_ClkInitStruct;
+    RCC_OscInitTypeDef RCC_OscInitStruct;
+
+    /* Enable Power Controller clock */
+    __HAL_RCC_PWR_CLK_ENABLE();
+
+    /* The voltage scaling allows optimizing the power consumption when the device is
+    clocked below the maximum system frequency, to update the voltage scaling value
+    regarding system frequency refer to product datasheet. */
+    __HAL_PWR_VOLTAGESCALING_CONFIG( PWR_REGULATOR_VOLTAGE_SCALE2 );
+
+    /* Enable HSI Oscillator to be used as System clock source */
+    RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
+    RCC_OscInitStruct.HSIState = RCC_HSI_ON;
+    RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
+
+    if( HAL_RCC_OscConfig( &RCC_OscInitStruct ) != HAL_OK )
+    {
+        /* Initialization Error */
+        Error_Handler();
+    }
+
+    /* Select HSI as system clock source and configure the HCLK, PCLK1 and PCLK2
+       clock dividers */
+    RCC_ClkInitStruct.ClockType = ( RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2 );
+    RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_HSI;
+    RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+    RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
+    RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
+
+    if( HAL_RCC_ClockConfig( &RCC_ClkInitStruct, FLASH_LATENCY_1 ) != HAL_OK )
+    {
+        /* Initialization Error */
+        Error_Handler();
+    }
 
 }
 /**
@@ -169,29 +173,33 @@ void SystemClock_Config(void)
   * @param  status TSL user status
   * @retval None
   */
-void Process_Sensors(tsl_user_status_t status)
+void Process_Sensors( tsl_user_status_t status )
 {
-  if (LINEAR_DETECT)
-  {
-    LED4_ON;
-  }
-  else
-  {
-    LED4_OFF;
-  }
-  
-#ifdef ECS_INFO  
-  /* ECS information */
-  switch (status)
-  {
+    if( LINEAR_DETECT )
+    {
+        LED4_ON;
+    }
+    else
+    {
+        LED4_OFF;
+    }
+
+#ifdef ECS_INFO
+
+    /* ECS information */
+    switch( status )
+    {
     case TSL_USER_STATUS_OK_ECS_OFF:
-      break;
+        break;
+
     case TSL_USER_STATUS_OK_ECS_ON:
-      break;
+        break;
+
     default:
-      break;
-  }
-#endif  
+        break;
+    }
+
+#endif
 }
 
 /**
@@ -199,50 +207,50 @@ void Process_Sensors(tsl_user_status_t status)
   * @param  None
   * @retval None
   */
-void User_Tick_Management(void)
+void User_Tick_Management( void )
 {
-  static uint32_t tempo_50ms=0;
-  static uint32_t tempo_100ms=0;
-  static uint32_t tempo_200ms=0;
-  static uint32_t tempo_500ms=0;
-  
-  tempo_50ms++;
-  tempo_50ms%=50;
-  tempo_100ms++;
-  tempo_100ms%=100;
-  tempo_200ms++;
-  tempo_200ms%=200;
-  tempo_500ms++;
-  tempo_500ms%=500;
-  
-  if (LINEAR_POSITION < 4)
-  {
-    if (tempo_500ms==0)
+    static uint32_t tempo_50ms = 0;
+    static uint32_t tempo_100ms = 0;
+    static uint32_t tempo_200ms = 0;
+    static uint32_t tempo_500ms = 0;
+
+    tempo_50ms++;
+    tempo_50ms %= 50;
+    tempo_100ms++;
+    tempo_100ms %= 100;
+    tempo_200ms++;
+    tempo_200ms %= 200;
+    tempo_500ms++;
+    tempo_500ms %= 500;
+
+    if( LINEAR_POSITION < 4 )
     {
-      LED3_TOGGLE;
+        if( tempo_500ms == 0 )
+        {
+            LED3_TOGGLE;
+        }
     }
-  }
-  else if (LINEAR_POSITION < 8)
-  {
-    if (tempo_200ms==0)
+    else if( LINEAR_POSITION < 8 )
     {
-      LED3_TOGGLE;
+        if( tempo_200ms == 0 )
+        {
+            LED3_TOGGLE;
+        }
     }
-  }
-  else if (LINEAR_POSITION < 12)
-  {
-    if (tempo_100ms==0)
+    else if( LINEAR_POSITION < 12 )
     {
-      LED3_TOGGLE;
+        if( tempo_100ms == 0 )
+        {
+            LED3_TOGGLE;
+        }
     }
-  }
-  else
-  {
-    if (tempo_50ms==0)
+    else
     {
-      LED3_TOGGLE;
+        if( tempo_50ms == 0 )
+        {
+            LED3_TOGGLE;
+        }
     }
-  }
 }
 
 /**
@@ -250,12 +258,12 @@ void User_Tick_Management(void)
   * @param  None
   * @retval None
   */
-static void Error_Handler(void)
+static void Error_Handler( void )
 {
-  /* User may add here some code to deal with this error */
-  while(1)
-  {
-  }
+    /* User may add here some code to deal with this error */
+    while( 1 )
+    {
+    }
 }
 
 #ifdef  USE_FULL_ASSERT
@@ -267,24 +275,24 @@ static void Error_Handler(void)
   * @param  line: assert_param error line source number
   * @retval None
   */
-void assert_failed(uint8_t *file, uint32_t line)
-{ 
-  /* User can add his own implementation to report the file name and line number,
-     ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
+void assert_failed( uint8_t *file, uint32_t line )
+{
+    /* User can add his own implementation to report the file name and line number,
+       ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
 
-  /* Infinite loop */
-  while (1)
-  {
-  }
+    /* Infinite loop */
+    while( 1 )
+    {
+    }
 }
 #endif
 
 /**
   * @}
-  */ 
+  */
 
 /**
   * @}
-  */ 
+  */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

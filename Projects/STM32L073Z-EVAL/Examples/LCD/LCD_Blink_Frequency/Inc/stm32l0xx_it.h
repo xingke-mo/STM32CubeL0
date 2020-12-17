@@ -1,6 +1,6 @@
 /**
   ******************************************************************************
-  * @file    LCD/LCD_Blink_Frequency/Inc/stm32l0xx_it.h 
+  * @file    LCD/LCD_Blink_Frequency/Inc/stm32l0xx_it.h
   * @author  MCD Application Team
   * @brief   This file contains the headers of the interrupt handlers.
   ******************************************************************************
@@ -31,12 +31,12 @@ extern "C" {
 /* Exported macro ------------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */
 
-void NMI_Handler(void);
-void HardFault_Handler(void);
-void SVC_Handler(void);
-void PendSV_Handler(void);
-void SysTick_Handler(void);
-void EXTI4_15_IRQHandler(void);
+void NMI_Handler( void );
+void HardFault_Handler( void );
+void SVC_Handler( void );
+void PendSV_Handler( void );
+void SysTick_Handler( void );
+void EXTI4_15_IRQHandler( void );
 #ifdef __cplusplus
 }
 #endif

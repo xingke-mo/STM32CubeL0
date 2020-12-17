@@ -128,17 +128,17 @@ extern  uint8_t ReadFormatCapacity_Data [];
 
 typedef struct _SENSE_ITEM
 {
-  char Skey;
-  union
-  {
-    struct _ASCs
+    char Skey;
+    union
     {
-      char ASC;
-      char ASCQ;
-    } b;
-    uint8_t ASC;
-    char *pData;
-  } w;
+        struct _ASCs
+        {
+            char ASC;
+            char ASCQ;
+        } b;
+        uint8_t ASC;
+        char *pData;
+    } w;
 } USBD_SCSI_SenseTypeDef;
 /**
   * @}
@@ -162,10 +162,10 @@ typedef struct _SENSE_ITEM
 /** @defgroup USBD_SCSI_Exported_FunctionsPrototype
   * @{
   */
-int8_t SCSI_ProcessCmd(USBD_HandleTypeDef *pdev, uint8_t lun, uint8_t *cmd);
+int8_t SCSI_ProcessCmd( USBD_HandleTypeDef *pdev, uint8_t lun, uint8_t *cmd );
 
-void SCSI_SenseCode(USBD_HandleTypeDef *pdev, uint8_t lun, uint8_t sKey,
-                    uint8_t ASC);
+void SCSI_SenseCode( USBD_HandleTypeDef *pdev, uint8_t lun, uint8_t sKey,
+                     uint8_t ASC );
 
 /**
   * @}

@@ -1,6 +1,6 @@
 /**
   ******************************************************************************
-  * @file    USB_Device/HID_TSL_Standalone_BCD/Inc/main.h 
+  * @file    USB_Device/HID_TSL_Standalone_BCD/Inc/main.h
   * @author  MCD Application Team
   * @brief   Header for main.c module
   ******************************************************************************
@@ -16,7 +16,7 @@
   *
   ******************************************************************************
   */
-  
+
 /* Define to prevent recursive inclusion -------------------------------------*/
 #ifndef __MAIN_H
 #define __MAIN_H
@@ -27,7 +27,7 @@
 #include "tsl_user.h"
 #include "usbd_core.h"
 #include "usbd_desc.h"
-#include "usbd_hid.h" 
+#include "usbd_hid.h"
 
 /* Exported types ------------------------------------------------------------*/
 /* Exported constants --------------------------------------------------------*/

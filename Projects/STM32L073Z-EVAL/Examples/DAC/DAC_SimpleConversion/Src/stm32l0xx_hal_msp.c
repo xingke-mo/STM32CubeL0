@@ -47,22 +47,22 @@
   * @param hdac: DAC handle pointer
   * @retval None
   */
-void HAL_DAC_MspInit(DAC_HandleTypeDef *hdac)
+void HAL_DAC_MspInit( DAC_HandleTypeDef *hdac )
 {
-  GPIO_InitTypeDef          GPIO_InitStruct;
+    GPIO_InitTypeDef          GPIO_InitStruct;
 
-  /*##-1- Enable peripherals and GPIO Clocks #################################*/
-  /* Enable GPIO clock ****************************************/
-  DACx_CHANNEL_GPIO_CLK_ENABLE();
-  /* DAC Periph clock enable */
-  DACx_CLK_ENABLE();
+    /*##-1- Enable peripherals and GPIO Clocks #################################*/
+    /* Enable GPIO clock ****************************************/
+    DACx_CHANNEL_GPIO_CLK_ENABLE();
+    /* DAC Periph clock enable */
+    DACx_CLK_ENABLE();
 
-  /*##-2- Configure peripheral GPIO ##########################################*/
-  /* DAC Channel1 GPIO pin configuration */
-  GPIO_InitStruct.Pin = DACx_CHANNEL_PIN;
-  GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(DACx_CHANNEL_GPIO_PORT, &GPIO_InitStruct);
+    /*##-2- Configure peripheral GPIO ##########################################*/
+    /* DAC Channel1 GPIO pin configuration */
+    GPIO_InitStruct.Pin = DACx_CHANNEL_PIN;
+    GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    HAL_GPIO_Init( DACx_CHANNEL_GPIO_PORT, &GPIO_InitStruct );
 }
 
 /**
@@ -71,13 +71,13 @@ void HAL_DAC_MspInit(DAC_HandleTypeDef *hdac)
   *         the configuration information for the specified DAC.
   * @retval None
   */
-void HAL_DAC_MspDeInit(DAC_HandleTypeDef *hdac)
+void HAL_DAC_MspDeInit( DAC_HandleTypeDef *hdac )
 {
-  /* Enable DAC reset state */
-  DACx_FORCE_RESET();
+    /* Enable DAC reset state */
+    DACx_FORCE_RESET();
 
-  /* Release DAC from reset state */
-  DACx_RELEASE_RESET();
+    /* Release DAC from reset state */
+    DACx_RELEASE_RESET();
 }
 
 /**

@@ -23,7 +23,7 @@
 #define __MFXSTM32L152_H
 
 #ifdef __cplusplus
- extern "C" {
+extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
@@ -50,35 +50,35 @@
   */
 typedef struct
 {
-  uint8_t SYS_CTRL;
-  uint8_t ERROR_SRC;
-  uint8_t ERROR_MSG;
-  uint8_t IRQ_OUT;
-  uint8_t IRQ_SRC_EN;
-  uint8_t IRQ_PENDING;
-  uint8_t IDD_CTRL;
-  uint8_t IDD_PRE_DELAY;
-  uint8_t IDD_SHUNT0_MSB;
-  uint8_t IDD_SHUNT0_LSB;
-  uint8_t IDD_SHUNT1_MSB;
-  uint8_t IDD_SHUNT1_LSB;
-  uint8_t IDD_SHUNT2_MSB;
-  uint8_t IDD_SHUNT2_LSB;
-  uint8_t IDD_SHUNT3_MSB;
-  uint8_t IDD_SHUNT3_LSB;
-  uint8_t IDD_SHUNT4_MSB;
-  uint8_t IDD_SHUNT4_LSB;
-  uint8_t IDD_GAIN_MSB;
-  uint8_t IDD_GAIN_LSB;
-  uint8_t IDD_VDD_MIN_MSB;
-  uint8_t IDD_VDD_MIN_LSB;
-  uint8_t IDD_VALUE_MSB;
-  uint8_t IDD_VALUE_MID;
-  uint8_t IDD_VALUE_LSB;
-  uint8_t IDD_CAL_OFFSET_MSB;
-  uint8_t IDD_CAL_OFFSET_LSB;
-  uint8_t IDD_SHUNT_USED;
-}IDD_dbgTypeDef;
+    uint8_t SYS_CTRL;
+    uint8_t ERROR_SRC;
+    uint8_t ERROR_MSG;
+    uint8_t IRQ_OUT;
+    uint8_t IRQ_SRC_EN;
+    uint8_t IRQ_PENDING;
+    uint8_t IDD_CTRL;
+    uint8_t IDD_PRE_DELAY;
+    uint8_t IDD_SHUNT0_MSB;
+    uint8_t IDD_SHUNT0_LSB;
+    uint8_t IDD_SHUNT1_MSB;
+    uint8_t IDD_SHUNT1_LSB;
+    uint8_t IDD_SHUNT2_MSB;
+    uint8_t IDD_SHUNT2_LSB;
+    uint8_t IDD_SHUNT3_MSB;
+    uint8_t IDD_SHUNT3_LSB;
+    uint8_t IDD_SHUNT4_MSB;
+    uint8_t IDD_SHUNT4_LSB;
+    uint8_t IDD_GAIN_MSB;
+    uint8_t IDD_GAIN_LSB;
+    uint8_t IDD_VDD_MIN_MSB;
+    uint8_t IDD_VDD_MIN_LSB;
+    uint8_t IDD_VALUE_MSB;
+    uint8_t IDD_VALUE_MID;
+    uint8_t IDD_VALUE_LSB;
+    uint8_t IDD_CAL_OFFSET_MSB;
+    uint8_t IDD_CAL_OFFSET_LSB;
+    uint8_t IDD_SHUNT_USED;
+} IDD_dbgTypeDef;
 
 /**
   * @}
@@ -90,63 +90,63 @@ typedef struct
   * @{
   */
 
- /**
-  * @brief  MFX COMMON defines
-  */
+/**
+ * @brief  MFX COMMON defines
+ */
 
- /**
-  * @brief  Register address: chip IDs (R)
-  */
+/**
+ * @brief  Register address: chip IDs (R)
+ */
 #define MFXSTM32L152_REG_ADR_ID                 ((uint8_t)0x00)
- /**
-  * @brief  Register address: chip FW_VERSION  (R)
-  */
+/**
+ * @brief  Register address: chip FW_VERSION  (R)
+ */
 #define MFXSTM32L152_REG_ADR_FW_VERSION_MSB     ((uint8_t)0x01)
 #define MFXSTM32L152_REG_ADR_FW_VERSION_LSB     ((uint8_t)0x00)
- /**
-  * @brief  Register address: System Control Register (R/W)
-  */
+/**
+ * @brief  Register address: System Control Register (R/W)
+ */
 #define MFXSTM32L152_REG_ADR_SYS_CTRL           ((uint8_t)0x40)
- /**
-  * @brief  Register address: Vdd monitoring (R)
-  */
+/**
+ * @brief  Register address: Vdd monitoring (R)
+ */
 #define MFXSTM32L152_REG_ADR_VDD_REF_MSB        ((uint8_t)0x06)
 #define MFXSTM32L152_REG_ADR_VDD_REF_LSB        ((uint8_t)0x07)
- /**
-  * @brief  Register address: Error source
-  */
+/**
+ * @brief  Register address: Error source
+ */
 #define MFXSTM32L152_REG_ADR_ERROR_SRC          ((uint8_t)0x03)
- /**
-  * @brief  Register address: Error Message
-  */
+/**
+ * @brief  Register address: Error Message
+ */
 #define MFXSTM32L152_REG_ADR_ERROR_MSG          ((uint8_t)0x04)
 
- /**
-  * @brief  Reg Addr IRQs: to config the pin that informs Main MCU that MFX events appear
-  */
+/**
+ * @brief  Reg Addr IRQs: to config the pin that informs Main MCU that MFX events appear
+ */
 #define MFXSTM32L152_REG_ADR_MFX_IRQ_OUT        ((uint8_t)0x41)
- /**
-  * @brief  Reg Addr IRQs: to select the events which activate the MFXSTM32L152_IRQ_OUT signal
-  */
+/**
+ * @brief  Reg Addr IRQs: to select the events which activate the MFXSTM32L152_IRQ_OUT signal
+ */
 #define MFXSTM32L152_REG_ADR_IRQ_SRC_EN         ((uint8_t)0x42)
- /**
-  * @brief  Reg Addr IRQs: the Main MCU must read the IRQ_PENDING register to know the interrupt reason
-  */
+/**
+ * @brief  Reg Addr IRQs: the Main MCU must read the IRQ_PENDING register to know the interrupt reason
+ */
 #define MFXSTM32L152_REG_ADR_IRQ_PENDING        ((uint8_t)0x08)
- /**
-  * @brief  Reg Addr IRQs: the Main MCU must acknowledge it thanks to a writing access to the IRQ_ACK register
-  */
+/**
+ * @brief  Reg Addr IRQs: the Main MCU must acknowledge it thanks to a writing access to the IRQ_ACK register
+ */
 #define MFXSTM32L152_REG_ADR_IRQ_ACK            ((uint8_t)0x44)
 
-  /**
-  * @brief  MFXSTM32L152_REG_ADR_ID choices
-  */
+/**
+* @brief  MFXSTM32L152_REG_ADR_ID choices
+*/
 #define MFXSTM32L152_ID_1                    ((uint8_t)0x7B)
 #define MFXSTM32L152_ID_2                    ((uint8_t)0x79)
 
-  /**
-  * @brief  MFXSTM32L152_REG_ADR_SYS_CTRL choices
-  */
+/**
+* @brief  MFXSTM32L152_REG_ADR_SYS_CTRL choices
+*/
 #define MFXSTM32L152_SWRST                    ((uint8_t)0x80)
 #define MFXSTM32L152_STANDBY                  ((uint8_t)0x40)
 #define MFXSTM32L152_ALTERNATE_GPIO_EN        ((uint8_t)0x08) /* by the way if IDD and TS are enabled they take automatically the AF pins*/
@@ -154,24 +154,24 @@ typedef struct
 #define MFXSTM32L152_TS_EN                    ((uint8_t)0x02)
 #define MFXSTM32L152_GPIO_EN                  ((uint8_t)0x01)
 
-  /**
-  * @brief  MFXSTM32L152_REG_ADR_ERROR_SRC choices
-  */
+/**
+* @brief  MFXSTM32L152_REG_ADR_ERROR_SRC choices
+*/
 #define MFXSTM32L152_IDD_ERROR_SRC             ((uint8_t)0x04)  /* Error raised by Idd */
 #define MFXSTM32L152_TS_ERROR_SRC              ((uint8_t)0x02)  /* Error raised by Touch Screen */
 #define MFXSTM32L152_GPIO_ERROR_SRC            ((uint8_t)0x01)  /* Error raised by Gpio */
 
- /**
-  * @brief  MFXSTM32L152_REG_ADR_MFX_IRQ_OUT choices
-  */
+/**
+ * @brief  MFXSTM32L152_REG_ADR_MFX_IRQ_OUT choices
+ */
 #define MFXSTM32L152_OUT_PIN_TYPE_OPENDRAIN   ((uint8_t)0x00)
 #define MFXSTM32L152_OUT_PIN_TYPE_PUSHPULL    ((uint8_t)0x01)
 #define MFXSTM32L152_OUT_PIN_POLARITY_LOW     ((uint8_t)0x00)
 #define MFXSTM32L152_OUT_PIN_POLARITY_HIGH    ((uint8_t)0x02)
 
- /**
-   * @brief  REG_ADR_IRQ_SRC_EN, REG_ADR_IRQ_PENDING & REG_ADR_IRQ_ACK choices
-  */
+/**
+  * @brief  REG_ADR_IRQ_SRC_EN, REG_ADR_IRQ_PENDING & REG_ADR_IRQ_ACK choices
+ */
 #define MFXSTM32L152_IRQ_TS_OVF               ((uint8_t)0x80)  /* TouchScreen FIFO Overflow irq*/
 #define MFXSTM32L152_IRQ_TS_FULL              ((uint8_t)0x40)  /* TouchScreen FIFO Full irq*/
 #define MFXSTM32L152_IRQ_TS_TH                ((uint8_t)0x20)  /* TouchScreen FIFO threshold triggered irq*/
@@ -184,88 +184,88 @@ typedef struct
 #define MFXSTM32L152_IRQ_TS                  (MFXSTM32L152_IRQ_TS_DET | MFXSTM32L152_IRQ_TS_NE |  MFXSTM32L152_IRQ_TS_TH | MFXSTM32L152_IRQ_TS_FULL | MFXSTM32L152_IRQ_TS_OVF )
 
 
- /**
-  * @brief  GPIO: 24 programmable input/output called MFXSTM32L152_GPIO[23:0] are provided
-  */
+/**
+ * @brief  GPIO: 24 programmable input/output called MFXSTM32L152_GPIO[23:0] are provided
+ */
 
- /**
-   * @brief  Reg addr: GPIO DIRECTION (R/W): GPIO pins direction: (0) input, (1) output.
-  */
+/**
+  * @brief  Reg addr: GPIO DIRECTION (R/W): GPIO pins direction: (0) input, (1) output.
+ */
 #define MFXSTM32L152_REG_ADR_GPIO_DIR1          ((uint8_t)0x60)  /* gpio [0:7] */
 #define MFXSTM32L152_REG_ADR_GPIO_DIR2          ((uint8_t)0x61)  /* gpio [8:15] */
 #define MFXSTM32L152_REG_ADR_GPIO_DIR3          ((uint8_t)0x62)  /* agpio [0:7] */
- /**
-  * @brief  Reg addr: GPIO TYPE (R/W): If GPIO in output: (0) output push pull, (1) output open drain.
-  *                          If GPIO in input: (0) input without pull resistor, (1) input with pull resistor.
-  */
+/**
+ * @brief  Reg addr: GPIO TYPE (R/W): If GPIO in output: (0) output push pull, (1) output open drain.
+ *                          If GPIO in input: (0) input without pull resistor, (1) input with pull resistor.
+ */
 #define MFXSTM32L152_REG_ADR_GPIO_TYPE1         ((uint8_t)0x64)  /* gpio [0:7] */
 #define MFXSTM32L152_REG_ADR_GPIO_TYPE2         ((uint8_t)0x65)  /* gpio [8:15] */
 #define MFXSTM32L152_REG_ADR_GPIO_TYPE3         ((uint8_t)0x66)  /* agpio [0:7] */
- /**
-  * @brief  Reg addr: GPIO PULL_UP_PULL_DOWN (R/W):  discussion open with Jean Claude
-  */
+/**
+ * @brief  Reg addr: GPIO PULL_UP_PULL_DOWN (R/W):  discussion open with Jean Claude
+ */
 #define MFXSTM32L152_REG_ADR_GPIO_PUPD1         ((uint8_t)0x68)  /* gpio [0:7] */
 #define MFXSTM32L152_REG_ADR_GPIO_PUPD2         ((uint8_t)0x69)  /* gpio [8:15] */
 #define MFXSTM32L152_REG_ADR_GPIO_PUPD3         ((uint8_t)0x6A)  /* agpio [0:7] */
- /**
-  * @brief  Reg addr: GPIO SET (W): When GPIO is in output mode, write (1) puts the corresponding GPO in High level.
-  */
+/**
+ * @brief  Reg addr: GPIO SET (W): When GPIO is in output mode, write (1) puts the corresponding GPO in High level.
+ */
 #define MFXSTM32L152_REG_ADR_GPO_SET1           ((uint8_t)0x6C)  /* gpio [0:7] */
 #define MFXSTM32L152_REG_ADR_GPO_SET2           ((uint8_t)0x6D)  /* gpio [8:15] */
 #define MFXSTM32L152_REG_ADR_GPO_SET3           ((uint8_t)0x6E)  /* agpio [0:7] */
- /**
-  * @brief  Reg addr: GPIO CLEAR (W): When GPIO is in output mode, write (1) puts the corresponding GPO in Low level.
-  */
+/**
+ * @brief  Reg addr: GPIO CLEAR (W): When GPIO is in output mode, write (1) puts the corresponding GPO in Low level.
+ */
 #define MFXSTM32L152_REG_ADR_GPO_CLR1           ((uint8_t)0x70)  /* gpio [0:7] */
 #define MFXSTM32L152_REG_ADR_GPO_CLR2           ((uint8_t)0x71)  /* gpio [8:15] */
 #define MFXSTM32L152_REG_ADR_GPO_CLR3           ((uint8_t)0x72)  /* agpio [0:7] */
- /**
-  * @brief  Reg addr: GPIO STATE (R): Give state of the GPIO pin.
-  */
+/**
+ * @brief  Reg addr: GPIO STATE (R): Give state of the GPIO pin.
+ */
 #define MFXSTM32L152_REG_ADR_GPIO_STATE1         ((uint8_t)0x10)  /* gpio [0:7] */
 #define MFXSTM32L152_REG_ADR_GPIO_STATE2         ((uint8_t)0x11)  /* gpio [8:15] */
 #define MFXSTM32L152_REG_ADR_GPIO_STATE3         ((uint8_t)0x12)  /* agpio [0:7] */
 
-  /**
-  * @brief  GPIO IRQ_GPIs
-  */
+/**
+* @brief  GPIO IRQ_GPIs
+*/
 /* GPIOs can INDIVIDUALLY generate interruption to the Main MCU thanks to the MFXSTM32L152_IRQ_OUT signal */
 /* the general MFXSTM32L152_IRQ_GPIO_SRC_EN shall be enabled too          */
-  /**
-  * @brief  GPIO IRQ_GPI_SRC1/2/3 (R/W): registers enable or not the feature to generate irq
-  */
+/**
+* @brief  GPIO IRQ_GPI_SRC1/2/3 (R/W): registers enable or not the feature to generate irq
+*/
 #define MFXSTM32L152_REG_ADR_IRQ_GPI_SRC1       ((uint8_t)0x48)  /* gpio [0:7] */
 #define MFXSTM32L152_REG_ADR_IRQ_GPI_SRC2       ((uint8_t)0x49)  /* gpio [8:15] */
 #define MFXSTM32L152_REG_ADR_IRQ_GPI_SRC3       ((uint8_t)0x4A)  /* agpio [0:7] */
-  /**
-  * @brief  GPIO IRQ_GPI_EVT1/2/3 (R/W): Irq generated on level (0) or edge (1).
-  */
+/**
+* @brief  GPIO IRQ_GPI_EVT1/2/3 (R/W): Irq generated on level (0) or edge (1).
+*/
 #define MFXSTM32L152_REG_ADR_IRQ_GPI_EVT1       ((uint8_t)0x4C)  /* gpio [0:7] */
 #define MFXSTM32L152_REG_ADR_IRQ_GPI_EVT2       ((uint8_t)0x4D)  /* gpio [8:15] */
 #define MFXSTM32L152_REG_ADR_IRQ_GPI_EVT3       ((uint8_t)0x4E)  /* agpio [0:7] */
-  /**
-  * @brief  GPIO IRQ_GPI_TYPE1/2/3 (R/W): Irq generated on (0) : Low level or Falling edge. (1) : High level or Rising edge.
-  */
+/**
+* @brief  GPIO IRQ_GPI_TYPE1/2/3 (R/W): Irq generated on (0) : Low level or Falling edge. (1) : High level or Rising edge.
+*/
 #define MFXSTM32L152_REG_ADR_IRQ_GPI_TYPE1      ((uint8_t)0x50)  /* gpio [0:7] */
 #define MFXSTM32L152_REG_ADR_IRQ_GPI_TYPE2      ((uint8_t)0x51)  /* gpio [8:15] */
 #define MFXSTM32L152_REG_ADR_IRQ_GPI_TYPE3      ((uint8_t)0x52)  /* agpio [0:7] */
-  /**
-  * @brief  GPIO IRQ_GPI_PENDING1/2/3 (R): irq occurs
-  */
+/**
+* @brief  GPIO IRQ_GPI_PENDING1/2/3 (R): irq occurs
+*/
 #define MFXSTM32L152_REG_ADR_IRQ_GPI_PENDING1   ((uint8_t)0x0C)  /* gpio [0:7] */
 #define MFXSTM32L152_REG_ADR_IRQ_GPI_PENDING2   ((uint8_t)0x0D)  /* gpio [8:15] */
 #define MFXSTM32L152_REG_ADR_IRQ_GPI_PENDING3   ((uint8_t)0x0E)  /* agpio [0:7] */
-  /**
-  * @brief  GPIO IRQ_GPI_ACK1/2/3 (W): Write (1) to acknowledge IRQ event
-  */
+/**
+* @brief  GPIO IRQ_GPI_ACK1/2/3 (W): Write (1) to acknowledge IRQ event
+*/
 #define MFXSTM32L152_REG_ADR_IRQ_GPI_ACK1       ((uint8_t)0x54)  /* gpio [0:7] */
 #define MFXSTM32L152_REG_ADR_IRQ_GPI_ACK2       ((uint8_t)0x55)  /* gpio [8:15] */
 #define MFXSTM32L152_REG_ADR_IRQ_GPI_ACK3       ((uint8_t)0x56)  /* agpio [0:7] */
 
 
- /**
-  * @brief  GPIO: IO Pins definition
-  */
+/**
+ * @brief  GPIO: IO Pins definition
+ */
 #define MFXSTM32L152_GPIO_PIN_0                  ((uint32_t)0x0001)
 #define MFXSTM32L152_GPIO_PIN_1                  ((uint32_t)0x0002)
 #define MFXSTM32L152_GPIO_PIN_2                  ((uint32_t)0x0004)
@@ -304,9 +304,9 @@ typedef struct
 
 #define MFXSTM32L152_GPIO_PINS_ALL             ((uint32_t)0xFFFFFF)
 
- /**
-  * @brief  GPIO: constant
-  */
+/**
+ * @brief  GPIO: constant
+ */
 #define MFXSTM32L152_GPIO_DIR_IN                ((uint8_t)0x0)
 #define MFXSTM32L152_GPIO_DIR_OUT               ((uint8_t)0x1)
 #define MFXSTM32L152_IRQ_GPI_EVT_LEVEL          ((uint8_t)0x0)
@@ -321,13 +321,13 @@ typedef struct
 #define MFXSTM32L152_GPIO_PULL_UP               ((uint8_t)0x1)
 
 
-  /**
-  * @brief  TOUCH SCREEN Registers
-  */
+/**
+* @brief  TOUCH SCREEN Registers
+*/
 
-  /**
-  * @brief  Touch Screen Registers
-  */
+/**
+* @brief  Touch Screen Registers
+*/
 #define MFXSTM32L152_TS_SETTLING            ((uint8_t)0xA0)
 #define MFXSTM32L152_TS_TOUCH_DET_DELAY     ((uint8_t)0xA1)
 #define MFXSTM32L152_TS_AVE                 ((uint8_t)0xA2)
@@ -337,9 +337,9 @@ typedef struct
 #define MFXSTM32L152_TS_FIFO_LEVEL          ((uint8_t)0x21)
 #define MFXSTM32L152_TS_XY_DATA             ((uint8_t)0x24)
 
-  /**
-  * @brief TS registers masks
-  */
+/**
+* @brief TS registers masks
+*/
 #define MFXSTM32L152_TS_CTRL_STATUS         ((uint8_t)0x08)
 #define MFXSTM32L152_TS_CLEAR_FIFO          ((uint8_t)0x80)
 
@@ -523,94 +523,94 @@ typedef struct
 /**
   * @brief MFXSTM32L152 Control functions
   */
-void     mfxstm32l152_Init(uint16_t DeviceAddr);
-void     mfxstm32l152_DeInit(uint16_t DeviceAddr);
-void     mfxstm32l152_Reset(uint16_t DeviceAddr);
-uint16_t mfxstm32l152_ReadID(uint16_t DeviceAddr);
-uint16_t mfxstm32l152_ReadFwVersion(uint16_t DeviceAddr);
-void     mfxstm32l152_LowPower(uint16_t DeviceAddr);
-void     mfxstm32l152_WakeUp(uint16_t DeviceAddr);
+void     mfxstm32l152_Init( uint16_t DeviceAddr );
+void     mfxstm32l152_DeInit( uint16_t DeviceAddr );
+void     mfxstm32l152_Reset( uint16_t DeviceAddr );
+uint16_t mfxstm32l152_ReadID( uint16_t DeviceAddr );
+uint16_t mfxstm32l152_ReadFwVersion( uint16_t DeviceAddr );
+void     mfxstm32l152_LowPower( uint16_t DeviceAddr );
+void     mfxstm32l152_WakeUp( uint16_t DeviceAddr );
 
-void     mfxstm32l152_EnableITSource(uint16_t DeviceAddr, uint8_t Source);
-void     mfxstm32l152_DisableITSource(uint16_t DeviceAddr, uint8_t Source);
-uint8_t  mfxstm32l152_GlobalITStatus(uint16_t DeviceAddr, uint8_t Source);
-void     mfxstm32l152_ClearGlobalIT(uint16_t DeviceAddr, uint8_t Source);
+void     mfxstm32l152_EnableITSource( uint16_t DeviceAddr, uint8_t Source );
+void     mfxstm32l152_DisableITSource( uint16_t DeviceAddr, uint8_t Source );
+uint8_t  mfxstm32l152_GlobalITStatus( uint16_t DeviceAddr, uint8_t Source );
+void     mfxstm32l152_ClearGlobalIT( uint16_t DeviceAddr, uint8_t Source );
 
-void     mfxstm32l152_SetIrqOutPinPolarity(uint16_t DeviceAddr, uint8_t Polarity);
-void     mfxstm32l152_SetIrqOutPinType(uint16_t DeviceAddr, uint8_t Type);
+void     mfxstm32l152_SetIrqOutPinPolarity( uint16_t DeviceAddr, uint8_t Polarity );
+void     mfxstm32l152_SetIrqOutPinType( uint16_t DeviceAddr, uint8_t Type );
 
 
 /**
   * @brief MFXSTM32L152 IO functionalities functions
   */
-void     mfxstm32l152_IO_Start(uint16_t DeviceAddr, uint32_t IO_Pin);
-uint8_t  mfxstm32l152_IO_Config(uint16_t DeviceAddr, uint32_t IO_Pin, IO_ModeTypedef IO_Mode);
-void     mfxstm32l152_IO_WritePin(uint16_t DeviceAddr, uint32_t IO_Pin, uint8_t PinState);
-uint32_t mfxstm32l152_IO_ReadPin(uint16_t DeviceAddr, uint32_t IO_Pin);
-void     mfxstm32l152_IO_EnableIT(uint16_t DeviceAddr);
-void     mfxstm32l152_IO_DisableIT(uint16_t DeviceAddr);
-uint32_t mfxstm32l152_IO_ITStatus(uint16_t DeviceAddr, uint32_t IO_Pin);
-void     mfxstm32l152_IO_ClearIT(uint16_t DeviceAddr, uint32_t IO_Pin);
+void     mfxstm32l152_IO_Start( uint16_t DeviceAddr, uint32_t IO_Pin );
+uint8_t  mfxstm32l152_IO_Config( uint16_t DeviceAddr, uint32_t IO_Pin, IO_ModeTypedef IO_Mode );
+void     mfxstm32l152_IO_WritePin( uint16_t DeviceAddr, uint32_t IO_Pin, uint8_t PinState );
+uint32_t mfxstm32l152_IO_ReadPin( uint16_t DeviceAddr, uint32_t IO_Pin );
+void     mfxstm32l152_IO_EnableIT( uint16_t DeviceAddr );
+void     mfxstm32l152_IO_DisableIT( uint16_t DeviceAddr );
+uint32_t mfxstm32l152_IO_ITStatus( uint16_t DeviceAddr, uint32_t IO_Pin );
+void     mfxstm32l152_IO_ClearIT( uint16_t DeviceAddr, uint32_t IO_Pin );
 
-void     mfxstm32l152_IO_InitPin(uint16_t DeviceAddr, uint32_t IO_Pin, uint8_t Direction);
-void     mfxstm32l152_IO_EnableAF(uint16_t DeviceAddr);
-void     mfxstm32l152_IO_DisableAF(uint16_t DeviceAddr);
-void     mfxstm32l152_IO_SetIrqTypeMode(uint16_t DeviceAddr, uint32_t IO_Pin, uint8_t Type);
-void     mfxstm32l152_IO_SetIrqEvtMode(uint16_t DeviceAddr, uint32_t IO_Pin, uint8_t Evt);
-void     mfxstm32l152_IO_EnablePinIT(uint16_t DeviceAddr, uint32_t IO_Pin);
-void     mfxstm32l152_IO_DisablePinIT(uint16_t DeviceAddr, uint32_t IO_Pin);
+void     mfxstm32l152_IO_InitPin( uint16_t DeviceAddr, uint32_t IO_Pin, uint8_t Direction );
+void     mfxstm32l152_IO_EnableAF( uint16_t DeviceAddr );
+void     mfxstm32l152_IO_DisableAF( uint16_t DeviceAddr );
+void     mfxstm32l152_IO_SetIrqTypeMode( uint16_t DeviceAddr, uint32_t IO_Pin, uint8_t Type );
+void     mfxstm32l152_IO_SetIrqEvtMode( uint16_t DeviceAddr, uint32_t IO_Pin, uint8_t Evt );
+void     mfxstm32l152_IO_EnablePinIT( uint16_t DeviceAddr, uint32_t IO_Pin );
+void     mfxstm32l152_IO_DisablePinIT( uint16_t DeviceAddr, uint32_t IO_Pin );
 
 /**
   * @brief MFXSTM32L152 Touch screen functionalities functions
   */
-void     mfxstm32l152_TS_Start(uint16_t DeviceAddr);
-uint8_t  mfxstm32l152_TS_DetectTouch(uint16_t DeviceAddr);
-void     mfxstm32l152_TS_GetXY(uint16_t DeviceAddr, uint16_t *X, uint16_t *Y);
-void     mfxstm32l152_TS_EnableIT(uint16_t DeviceAddr);
-void     mfxstm32l152_TS_DisableIT(uint16_t DeviceAddr);
-uint8_t  mfxstm32l152_TS_ITStatus (uint16_t DeviceAddr);
-void     mfxstm32l152_TS_ClearIT (uint16_t DeviceAddr);
+void     mfxstm32l152_TS_Start( uint16_t DeviceAddr );
+uint8_t  mfxstm32l152_TS_DetectTouch( uint16_t DeviceAddr );
+void     mfxstm32l152_TS_GetXY( uint16_t DeviceAddr, uint16_t *X, uint16_t *Y );
+void     mfxstm32l152_TS_EnableIT( uint16_t DeviceAddr );
+void     mfxstm32l152_TS_DisableIT( uint16_t DeviceAddr );
+uint8_t  mfxstm32l152_TS_ITStatus( uint16_t DeviceAddr );
+void     mfxstm32l152_TS_ClearIT( uint16_t DeviceAddr );
 
 /**
   * @brief MFXSTM32L152 IDD current measurement functionalities functions
   */
-void     mfxstm32l152_IDD_Start(uint16_t DeviceAddr);
-void     mfxstm32l152_IDD_Config(uint16_t DeviceAddr, IDD_ConfigTypeDef MfxIddConfig);
-void     mfxstm32l152_IDD_ConfigShuntNbLimit(uint16_t DeviceAddr, uint8_t ShuntNbLimit);
-void     mfxstm32l152_IDD_GetValue(uint16_t DeviceAddr, uint32_t *ReadValue);
-uint8_t  mfxstm32l152_IDD_GetShuntUsed(uint16_t DeviceAddr);
-void     mfxstm32l152_IDD_EnableIT(uint16_t DeviceAddr);
-void     mfxstm32l152_IDD_ClearIT(uint16_t DeviceAddr);
-uint8_t  mfxstm32l152_IDD_GetITStatus(uint16_t DeviceAddr);
-void     mfxstm32l152_IDD_DisableIT(uint16_t DeviceAddr);
+void     mfxstm32l152_IDD_Start( uint16_t DeviceAddr );
+void     mfxstm32l152_IDD_Config( uint16_t DeviceAddr, IDD_ConfigTypeDef MfxIddConfig );
+void     mfxstm32l152_IDD_ConfigShuntNbLimit( uint16_t DeviceAddr, uint8_t ShuntNbLimit );
+void     mfxstm32l152_IDD_GetValue( uint16_t DeviceAddr, uint32_t *ReadValue );
+uint8_t  mfxstm32l152_IDD_GetShuntUsed( uint16_t DeviceAddr );
+void     mfxstm32l152_IDD_EnableIT( uint16_t DeviceAddr );
+void     mfxstm32l152_IDD_ClearIT( uint16_t DeviceAddr );
+uint8_t  mfxstm32l152_IDD_GetITStatus( uint16_t DeviceAddr );
+void     mfxstm32l152_IDD_DisableIT( uint16_t DeviceAddr );
 
 /**
   * @brief MFXSTM32L152 Error management functions
   */
-uint8_t  mfxstm32l152_Error_ReadSrc(uint16_t DeviceAddr);
-uint8_t  mfxstm32l152_Error_ReadMsg(uint16_t DeviceAddr);
-void     mfxstm32l152_Error_EnableIT(uint16_t DeviceAddr);
-void     mfxstm32l152_Error_ClearIT(uint16_t DeviceAddr);
-uint8_t  mfxstm32l152_Error_GetITStatus(uint16_t DeviceAddr);
-void     mfxstm32l152_Error_DisableIT(uint16_t DeviceAddr);
+uint8_t  mfxstm32l152_Error_ReadSrc( uint16_t DeviceAddr );
+uint8_t  mfxstm32l152_Error_ReadMsg( uint16_t DeviceAddr );
+void     mfxstm32l152_Error_EnableIT( uint16_t DeviceAddr );
+void     mfxstm32l152_Error_ClearIT( uint16_t DeviceAddr );
+uint8_t  mfxstm32l152_Error_GetITStatus( uint16_t DeviceAddr );
+void     mfxstm32l152_Error_DisableIT( uint16_t DeviceAddr );
 
-uint8_t  mfxstm32l152_ReadReg(uint16_t DeviceAddr, uint8_t RegAddr);
-void     mfxstm32l152_WriteReg(uint16_t DeviceAddr, uint8_t RegAddr, uint8_t Value);
+uint8_t  mfxstm32l152_ReadReg( uint16_t DeviceAddr, uint8_t RegAddr );
+void     mfxstm32l152_WriteReg( uint16_t DeviceAddr, uint8_t RegAddr, uint8_t Value );
 
 
 
 /**
   * @brief iobus prototypes (they should be defined in common/stm32_iobus.h)
   */
-void     MFX_IO_Init(void);
-void     MFX_IO_DeInit(void);
-void     MFX_IO_ITConfig (void);
-void     MFX_IO_EnableWakeupPin(void);
-void     MFX_IO_Wakeup(void);
-void     MFX_IO_Delay(uint32_t delay);
-void     MFX_IO_Write(uint16_t addr, uint8_t reg, uint8_t value);
-uint8_t  MFX_IO_Read(uint16_t addr, uint8_t reg);
-uint16_t MFX_IO_ReadMultiple(uint16_t addr, uint8_t reg, uint8_t *buffer, uint16_t length);
+void     MFX_IO_Init( void );
+void     MFX_IO_DeInit( void );
+void     MFX_IO_ITConfig( void );
+void     MFX_IO_EnableWakeupPin( void );
+void     MFX_IO_Wakeup( void );
+void     MFX_IO_Delay( uint32_t delay );
+void     MFX_IO_Write( uint16_t addr, uint8_t reg, uint8_t value );
+uint8_t  MFX_IO_Read( uint16_t addr, uint8_t reg );
+uint16_t MFX_IO_ReadMultiple( uint16_t addr, uint8_t reg, uint8_t *buffer, uint16_t length );
 
 /**
   * @}

@@ -2,7 +2,7 @@
   ******************************************************************************
   * @file    Examples_LL/RCC/RCC_UseHSEasSystemClock/Src/main.c
   * @author  MCD Application Team
-  * @brief   This example describes how to use the RCC LL API how to start the HSE 
+  * @brief   This example describes how to use the RCC LL API how to start the HSE
   *          and use it as system clock.
   ******************************************************************************
   * @attention
@@ -32,17 +32,17 @@
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
 #if (USE_TIMEOUT == 1)
-#define TIMEOUT_VALUE    1000 /* Time-out set to 1 sec */
+    #define TIMEOUT_VALUE    1000 /* Time-out set to 1 sec */
 #endif /* USE_TIMEOUT */
 
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
 /* Private function prototypes -----------------------------------------------*/
-void     StartHSE(void);
-uint32_t RCC_WaitForHSEReady(void);
-void     LED_Init(void);
-void     LED_On(void);
-void     LED_Blinking(uint32_t Period);
+void     StartHSE( void );
+uint32_t RCC_WaitForHSEReady( void );
+void     LED_Init( void );
+void     LED_On( void );
+void     LED_Blinking( uint32_t Period );
 
 /* Private functions ---------------------------------------------------------*/
 
@@ -51,36 +51,36 @@ void     LED_Blinking(uint32_t Period);
   * @param  None
   * @retval None
   */
-int main(void)
+int main( void )
 {
-  register uint32_t frequency = 0;
-  
-  /* Configure Systick to 1 ms with the current frequency which should be MSI */
-  frequency = __LL_RCC_CALC_MSI_FREQ(LL_RCC_MSI_GetRange());
-									   
-  LL_Init1msTick(frequency);
+    register uint32_t frequency = 0;
 
-  /* Initialize LED2 */
-  LED_Init();
+    /* Configure Systick to 1 ms with the current frequency which should be MSI */
+    frequency = __LL_RCC_CALC_MSI_FREQ( LL_RCC_MSI_GetRange() );
 
-  /* Start HSE */
-  StartHSE();
+    LL_Init1msTick( frequency );
 
-  if (RCC_WaitForHSEReady() == RCC_ERROR_NONE)
-  {
-    /* Turn-on LED2 to indicate that HSE is ready */
-    LED_On();
-  }
-  else
-  {
-    /* Problem to switch to HSE, blink LED2 */
-     LED_Blinking(LED_BLINK_ERROR);
-  }
-  
-  /* Infinite loop */
-  while (1)
-  {
-  }
+    /* Initialize LED2 */
+    LED_Init();
+
+    /* Start HSE */
+    StartHSE();
+
+    if( RCC_WaitForHSEReady() == RCC_ERROR_NONE )
+    {
+        /* Turn-on LED2 to indicate that HSE is ready */
+        LED_On();
+    }
+    else
+    {
+        /* Problem to switch to HSE, blink LED2 */
+        LED_Blinking( LED_BLINK_ERROR );
+    }
+
+    /* Infinite loop */
+    while( 1 )
+    {
+    }
 }
 
 /**
@@ -89,22 +89,22 @@ int main(void)
   * @param  None
   * Retval  None
   */
-void StartHSE(void)
+void StartHSE( void )
 {
-  /* Configure NVIC for RCC */
-  NVIC_EnableIRQ(RCC_IRQn); 
-  NVIC_SetPriority(RCC_IRQn,0); 
-  
-  /* Enable interrupt on HSE ready */
-  /* Enable the CSS 
-     Enable the HSE and set HSEBYP to use the external clock 
-     instead of an oscillator 
-     Enable HSE */
-  /* Note : the clock is switched to HSE in the RCC_IRQHandler ISR */
-  LL_RCC_EnableIT_HSERDY(); 
-  LL_RCC_HSE_EnableCSS(); 
-  LL_RCC_HSE_EnableBypass(); 
-  LL_RCC_HSE_Enable(); 
+    /* Configure NVIC for RCC */
+    NVIC_EnableIRQ( RCC_IRQn );
+    NVIC_SetPriority( RCC_IRQn, 0 );
+
+    /* Enable interrupt on HSE ready */
+    /* Enable the CSS
+       Enable the HSE and set HSEBYP to use the external clock
+       instead of an oscillator
+       Enable HSE */
+    /* Note : the clock is switched to HSE in the RCC_IRQHandler ISR */
+    LL_RCC_EnableIT_HSERDY();
+    LL_RCC_HSE_EnableCSS();
+    LL_RCC_HSE_EnableBypass();
+    LL_RCC_HSE_Enable();
 }
 
 /**
@@ -115,26 +115,29 @@ void StartHSE(void)
 uint32_t RCC_WaitForHSEReady()
 {
 #if (USE_TIMEOUT == 1)
-  /* Set timeout to 1 sec */
-  uint32_t timeout = TIMEOUT_VALUE;
+    /* Set timeout to 1 sec */
+    uint32_t timeout = TIMEOUT_VALUE;
 #endif /* USE_TIMEOUT */
-  
-  /* Check that the condition is met */
-  while (LL_RCC_GetSysClkSource() != LL_RCC_SYS_CLKSOURCE_STATUS_HSE)
-  {
+
+    /* Check that the condition is met */
+    while( LL_RCC_GetSysClkSource() != LL_RCC_SYS_CLKSOURCE_STATUS_HSE )
+    {
 #if (USE_TIMEOUT == 1)
-    /* Check Systick counter flag to decrement the time-out value */
-    if (LL_SYSTICK_IsActiveCounterFlag()) 
-    { 
-      if(--timeout == 0)
-      {
-        /* Time-out occurred. Return an error */
-        return RCC_ERROR_TIMEOUT;
-      }
-    } 
+
+        /* Check Systick counter flag to decrement the time-out value */
+        if( LL_SYSTICK_IsActiveCounterFlag() )
+        {
+            if( --timeout == 0 )
+            {
+                /* Time-out occurred. Return an error */
+                return RCC_ERROR_TIMEOUT;
+            }
+        }
+
 #endif /* USE_TIMEOUT */
-  }
-  return RCC_ERROR_NONE;
+    }
+
+    return RCC_ERROR_NONE;
 }
 
 /**
@@ -142,19 +145,19 @@ uint32_t RCC_WaitForHSEReady()
   * @param  None
   * @retval None
   */
-void LED_Init(void)
+void LED_Init( void )
 {
-  /* Enable the LED2 Clock */
-  LED2_GPIO_CLK_ENABLE();
+    /* Enable the LED2 Clock */
+    LED2_GPIO_CLK_ENABLE();
 
-  /* Configure IO in output push-pull mode to drive external LED2 */
-  LL_GPIO_SetPinMode(LED2_GPIO_PORT, LED2_PIN, LL_GPIO_MODE_OUTPUT);
-  /* Reset value is LL_GPIO_OUTPUT_PUSHPULL */
-  //LL_GPIO_SetPinOutputType(LED2_GPIO_PORT, LED2_PIN, LL_GPIO_OUTPUT_PUSHPULL);
-  /* Reset value is LL_GPIO_SPEED_FREQ_LOW */
-  //LL_GPIO_SetPinSpeed(LED2_GPIO_PORT, LED2_PIN, LL_GPIO_SPEED_FREQ_LOW);
-  /* Reset value is LL_GPIO_PULL_NO */
-  //LL_GPIO_SetPinPull(LED2_GPIO_PORT, LED2_PIN, LL_GPIO_PULL_NO);
+    /* Configure IO in output push-pull mode to drive external LED2 */
+    LL_GPIO_SetPinMode( LED2_GPIO_PORT, LED2_PIN, LL_GPIO_MODE_OUTPUT );
+    /* Reset value is LL_GPIO_OUTPUT_PUSHPULL */
+    //LL_GPIO_SetPinOutputType(LED2_GPIO_PORT, LED2_PIN, LL_GPIO_OUTPUT_PUSHPULL);
+    /* Reset value is LL_GPIO_SPEED_FREQ_LOW */
+    //LL_GPIO_SetPinSpeed(LED2_GPIO_PORT, LED2_PIN, LL_GPIO_SPEED_FREQ_LOW);
+    /* Reset value is LL_GPIO_PULL_NO */
+    //LL_GPIO_SetPinPull(LED2_GPIO_PORT, LED2_PIN, LL_GPIO_PULL_NO);
 }
 
 /**
@@ -162,10 +165,10 @@ void LED_Init(void)
   * @param  None
   * @retval None
   */
-void LED_On(void)
+void LED_On( void )
 {
-  /* Turn LED2 on */
-  LL_GPIO_SetOutputPin(LED2_GPIO_PORT, LED2_PIN);
+    /* Turn LED2 on */
+    LL_GPIO_SetOutputPin( LED2_GPIO_PORT, LED2_PIN );
 }
 
 /**
@@ -177,18 +180,18 @@ void LED_On(void)
   *     @arg LED_BLINK_ERROR : Error specific Blinking
   * @retval None
   */
-void LED_Blinking(uint32_t Period)
+void LED_Blinking( uint32_t Period )
 {
-  /* Turn LED2 on */
-  LL_GPIO_SetOutputPin(LED2_GPIO_PORT, LED2_PIN);
-  
-  /* Toggle IO in an infinite loop */
-  while (1)
-  {
-    /* Error if LED2 is slowly blinking (1 sec. period) */
-    LL_GPIO_TogglePin(LED2_GPIO_PORT, LED2_PIN);  
-    LL_mDelay(Period);
-  }
+    /* Turn LED2 on */
+    LL_GPIO_SetOutputPin( LED2_GPIO_PORT, LED2_PIN );
+
+    /* Toggle IO in an infinite loop */
+    while( 1 )
+    {
+        /* Error if LED2 is slowly blinking (1 sec. period) */
+        LL_GPIO_TogglePin( LED2_GPIO_PORT, LED2_PIN );
+        LL_mDelay( Period );
+    }
 }
 
 /******************************************************************************/
@@ -199,13 +202,13 @@ void LED_Blinking(uint32_t Period)
   * @param  None
   * @retval None
   */
-void HSEReady_Callback(void)
+void HSEReady_Callback( void )
 {
-  /* Switch the system clock to HSE */
-  LL_RCC_SetSysClkSource(LL_RCC_SYS_CLKSOURCE_HSE); 
-  
-  /* 1ms config with HSE 8MHz*/
-  LL_Init1msTick(HSE_VALUE);
+    /* Switch the system clock to HSE */
+    LL_RCC_SetSysClkSource( LL_RCC_SYS_CLKSOURCE_HSE );
+
+    /* 1ms config with HSE 8MHz*/
+    LL_Init1msTick( HSE_VALUE );
 }
 
 /**
@@ -213,9 +216,9 @@ void HSEReady_Callback(void)
   * @param  None
   * @retval None
   */
-void HSEFailureDetection_Callback(void)
+void HSEFailureDetection_Callback( void )
 {
-  LED_Blinking(LED_BLINK_ERROR);
+    LED_Blinking( LED_BLINK_ERROR );
 }
 
 #ifdef  USE_FULL_ASSERT
@@ -227,15 +230,15 @@ void HSEFailureDetection_Callback(void)
   * @param  line: assert_param error line source number
   * @retval None
   */
-void assert_failed(uint8_t *file, uint32_t line)
+void assert_failed( uint8_t *file, uint32_t line )
 {
-  /* User can add his own implementation to report the file name and line number,
-     ex: printf("Wrong parameters value: file %s on line %d", file, line) */
+    /* User can add his own implementation to report the file name and line number,
+       ex: printf("Wrong parameters value: file %s on line %d", file, line) */
 
-  /* Infinite loop */
-  while (1)
-  {
-  }
+    /* Infinite loop */
+    while( 1 )
+    {
+    }
 }
 #endif
 

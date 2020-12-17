@@ -35,7 +35,7 @@
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
 extern DMA_HandleTypeDef   DmaHandle;
-extern DMA_TypeDef*        DmaInstance;
+extern DMA_TypeDef        *DmaInstance;
 
 /* Private function prototypes -----------------------------------------------*/
 /* Private functions ---------------------------------------------------------*/
@@ -49,7 +49,7 @@ extern DMA_TypeDef*        DmaInstance;
   * @param  None
   * @retval None
   */
-void NMI_Handler(void)
+void NMI_Handler( void )
 {
 }
 
@@ -58,12 +58,12 @@ void NMI_Handler(void)
   * @param  None
   * @retval None
   */
-void HardFault_Handler(void)
+void HardFault_Handler( void )
 {
-  /* Go to infinite loop when Hard Fault exception occurs */
-  while (1)
-  {
-  }
+    /* Go to infinite loop when Hard Fault exception occurs */
+    while( 1 )
+    {
+    }
 }
 
 /**
@@ -71,7 +71,7 @@ void HardFault_Handler(void)
   * @param  None
   * @retval None
   */
-void SVC_Handler(void)
+void SVC_Handler( void )
 {
 }
 
@@ -80,7 +80,7 @@ void SVC_Handler(void)
   * @param  None
   * @retval None
   */
-void PendSV_Handler(void)
+void PendSV_Handler( void )
 {
 }
 
@@ -89,9 +89,9 @@ void PendSV_Handler(void)
   * @param  None
   * @retval None
   */
-void SysTick_Handler(void)
+void SysTick_Handler( void )
 {
-  HAL_IncTick();
+    HAL_IncTick();
 }
 
 /******************************************************************************/
@@ -106,28 +106,28 @@ void SysTick_Handler(void)
   * @param  None
   * @retval None
   */
-void DMA_INSTANCE_IRQHANDLER(void)
+void DMA_INSTANCE_IRQHANDLER( void )
 {
-  /* Check the interrupts and clear flags */
+    /* Check the interrupts and clear flags */
 
-  /* Customize process using LL interface to improve performance           */
-  /* (exhaustive feature management not handled)                           */
-  /* Using LL interface, use :                                             */
-  /* - LL_DMA_IsActiveFlag_TC1() to check complete DMA1_Channel1 Interrupt */
-  /* - LL_DMA_IsActiveFlag_TE1() to check error DMA1_Channel1 Interrupt    */
-  /* - LL_DMA_ClearFlag_GI1() to clear all DMA1_Channel1 Interrupts        */
-  if(LL_DMA_IsActiveFlag_TC1(DmaInstance) == 1)
-  {
-    LL_DMA_ClearFlag_GI1(DmaInstance);
-    TransferComplete(&DmaHandle);
-  }
-  else if(LL_DMA_IsActiveFlag_TE1(DmaInstance) == 1)
-  {
-    TransferError(&DmaHandle);
-  }
+    /* Customize process using LL interface to improve performance           */
+    /* (exhaustive feature management not handled)                           */
+    /* Using LL interface, use :                                             */
+    /* - LL_DMA_IsActiveFlag_TC1() to check complete DMA1_Channel1 Interrupt */
+    /* - LL_DMA_IsActiveFlag_TE1() to check error DMA1_Channel1 Interrupt    */
+    /* - LL_DMA_ClearFlag_GI1() to clear all DMA1_Channel1 Interrupts        */
+    if( LL_DMA_IsActiveFlag_TC1( DmaInstance ) == 1 )
+    {
+        LL_DMA_ClearFlag_GI1( DmaInstance );
+        TransferComplete( &DmaHandle );
+    }
+    else if( LL_DMA_IsActiveFlag_TE1( DmaInstance ) == 1 )
+    {
+        TransferError( &DmaHandle );
+    }
 
-  /* Using HAL interface, use :                                             */
-  /* - HAL_DMA_IRQHandler() to handle all DMA Interrupts (complete, errors) */
+    /* Using HAL interface, use :                                             */
+    /* - HAL_DMA_IRQHandler() to handle all DMA Interrupts (complete, errors) */
 }
 
 /**

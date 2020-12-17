@@ -1,6 +1,6 @@
 /**
   ******************************************************************************
-  * @file    USB_Device/HID_Standalone_LPM/Inc/main.h 
+  * @file    USB_Device/HID_Standalone_LPM/Inc/main.h
   * @author  MCD Application Team
   * @brief   Header for main.c module
   ******************************************************************************
@@ -16,7 +16,7 @@
   *
   ******************************************************************************
   */
-  
+
 /* Define to prevent recursive inclusion -------------------------------------*/
 #ifndef __MAIN_H
 #define __MAIN_H
@@ -27,7 +27,7 @@
 #include "stm32l073z_eval_io.h"
 #include "usbd_core.h"
 #include "usbd_desc.h"
-#include "usbd_hid.h" 
+#include "usbd_hid.h"
 
 /* Exported types ------------------------------------------------------------*/
 /* Exported constants --------------------------------------------------------*/
@@ -38,11 +38,11 @@
 #define USE_USB_CLKSOURCE_PLL        1
 
 #if !defined (USE_USB_CLKSOURCE_PLL) && !defined (USE_USB_CLKSOURCE_CRSHSI48)
- #error "Missing USB clock definition"
+    #error "Missing USB clock definition"
 #endif
 /* Exported functions ------------------------------------------------------- */
-void Error_Handler(void);
-void usbd_hid_Process (void);
+void Error_Handler( void );
+void usbd_hid_Process( void );
 #endif /* __MAIN_H */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

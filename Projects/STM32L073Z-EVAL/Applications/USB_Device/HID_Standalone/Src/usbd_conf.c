@@ -33,8 +33,8 @@ extern USBD_HandleTypeDef USBD_Device;
 
 /* Private function prototypes -----------------------------------------------*/
 /* Private functions ---------------------------------------------------------*/
-static void SystemClockConfig_STOP(void);
-static void GetPointerData(uint8_t * pbuf);
+static void SystemClockConfig_STOP( void );
+static void GetPointerData( uint8_t *pbuf );
 
 /*******************************************************************************
                        PCD BSP Routines
@@ -45,35 +45,35 @@ static void GetPointerData(uint8_t * pbuf);
   * @param  hpcd: PCD handle
   * @retval None
   */
-void HAL_PCD_MspInit(PCD_HandleTypeDef *hpcd)
+void HAL_PCD_MspInit( PCD_HandleTypeDef *hpcd )
 {
-  GPIO_InitTypeDef  GPIO_InitStruct;
+    GPIO_InitTypeDef  GPIO_InitStruct;
 
-  /* Enable the GPIOA clock */
-  __HAL_RCC_GPIOA_CLK_ENABLE();
+    /* Enable the GPIOA clock */
+    __HAL_RCC_GPIOA_CLK_ENABLE();
 
-  /* Configure USB DM and DP pins.
-     This is optional, and maintained only for user guidance. */
-  GPIO_InitStruct.Pin = (GPIO_PIN_11 | GPIO_PIN_12);
-  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+    /* Configure USB DM and DP pins.
+       This is optional, and maintained only for user guidance. */
+    GPIO_InitStruct.Pin = ( GPIO_PIN_11 | GPIO_PIN_12 );
+    GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+    HAL_GPIO_Init( GPIOA, &GPIO_InitStruct );
 
-  /* Enable USB FS Clock */
-  __HAL_RCC_USB_CLK_ENABLE();
+    /* Enable USB FS Clock */
+    __HAL_RCC_USB_CLK_ENABLE();
 
-  if(hpcd->Init.low_power_enable == 1)
-  {
-    /* Enable EXTI Line 18 for USB wakeup */
-    __HAL_USB_WAKEUP_EXTI_ENABLE_IT();
-  }
+    if( hpcd->Init.low_power_enable == 1 )
+    {
+        /* Enable EXTI Line 18 for USB wakeup */
+        __HAL_USB_WAKEUP_EXTI_ENABLE_IT();
+    }
 
-  /* Set USB FS Interrupt priority */
-  HAL_NVIC_SetPriority(USB_IRQn, 3, 0);
+    /* Set USB FS Interrupt priority */
+    HAL_NVIC_SetPriority( USB_IRQn, 3, 0 );
 
-  /* Enable USB FS Interrupt */
-  HAL_NVIC_EnableIRQ(USB_IRQn);
+    /* Enable USB FS Interrupt */
+    HAL_NVIC_EnableIRQ( USB_IRQn );
 }
 
 /**
@@ -81,10 +81,10 @@ void HAL_PCD_MspInit(PCD_HandleTypeDef *hpcd)
   * @param  hpcd: PCD handle
   * @retval None
   */
-void HAL_PCD_MspDeInit(PCD_HandleTypeDef *hpcd)
+void HAL_PCD_MspDeInit( PCD_HandleTypeDef *hpcd )
 {
-  /* Disable USB FS Clock */
-  __HAL_RCC_USB_CLK_DISABLE();
+    /* Disable USB FS Clock */
+    __HAL_RCC_USB_CLK_DISABLE();
 }
 
 /*******************************************************************************
@@ -96,9 +96,9 @@ void HAL_PCD_MspDeInit(PCD_HandleTypeDef *hpcd)
   * @param  hpcd: PCD handle
   * @retval None
   */
-void HAL_PCD_SetupStageCallback(PCD_HandleTypeDef *hpcd)
+void HAL_PCD_SetupStageCallback( PCD_HandleTypeDef *hpcd )
 {
-  USBD_LL_SetupStage(hpcd->pData, (uint8_t *)hpcd->Setup);
+    USBD_LL_SetupStage( hpcd->pData, ( uint8_t * )hpcd->Setup );
 }
 
 /**
@@ -107,9 +107,9 @@ void HAL_PCD_SetupStageCallback(PCD_HandleTypeDef *hpcd)
   * @param  epnum: Endpoint Number
   * @retval None
   */
-void HAL_PCD_DataOutStageCallback(PCD_HandleTypeDef *hpcd, uint8_t epnum)
+void HAL_PCD_DataOutStageCallback( PCD_HandleTypeDef *hpcd, uint8_t epnum )
 {
-  USBD_LL_DataOutStage(hpcd->pData, epnum, hpcd->OUT_ep[epnum].xfer_buff);
+    USBD_LL_DataOutStage( hpcd->pData, epnum, hpcd->OUT_ep[epnum].xfer_buff );
 }
 
 /**
@@ -118,9 +118,9 @@ void HAL_PCD_DataOutStageCallback(PCD_HandleTypeDef *hpcd, uint8_t epnum)
   * @param  epnum: Endpoint Number
   * @retval None
   */
-void HAL_PCD_DataInStageCallback(PCD_HandleTypeDef *hpcd, uint8_t epnum)
+void HAL_PCD_DataInStageCallback( PCD_HandleTypeDef *hpcd, uint8_t epnum )
 {
-  USBD_LL_DataInStage(hpcd->pData, epnum, hpcd->IN_ep[epnum].xfer_buff);
+    USBD_LL_DataInStage( hpcd->pData, epnum, hpcd->IN_ep[epnum].xfer_buff );
 }
 
 /**
@@ -128,9 +128,9 @@ void HAL_PCD_DataInStageCallback(PCD_HandleTypeDef *hpcd, uint8_t epnum)
   * @param  hpcd: PCD handle
   * @retval None
   */
-void HAL_PCD_SOFCallback(PCD_HandleTypeDef *hpcd)
+void HAL_PCD_SOFCallback( PCD_HandleTypeDef *hpcd )
 {
-  USBD_LL_SOF(hpcd->pData);
+    USBD_LL_SOF( hpcd->pData );
 }
 
 /**
@@ -138,11 +138,11 @@ void HAL_PCD_SOFCallback(PCD_HandleTypeDef *hpcd)
   * @param  hpcd: PCD handle
   * @retval None
   */
-void HAL_PCD_ResetCallback(PCD_HandleTypeDef *hpcd)
+void HAL_PCD_ResetCallback( PCD_HandleTypeDef *hpcd )
 {
-  USBD_LL_SetSpeed(hpcd->pData, USBD_SPEED_FULL);
-  /* Reset Device */
-  USBD_LL_Reset(hpcd->pData);
+    USBD_LL_SetSpeed( hpcd->pData, USBD_SPEED_FULL );
+    /* Reset Device */
+    USBD_LL_Reset( hpcd->pData );
 }
 
 /**
@@ -150,17 +150,17 @@ void HAL_PCD_ResetCallback(PCD_HandleTypeDef *hpcd)
   * @param  hpcd: PCD handle
   * @retval None
   */
-void HAL_PCD_SuspendCallback(PCD_HandleTypeDef *hpcd)
+void HAL_PCD_SuspendCallback( PCD_HandleTypeDef *hpcd )
 {
-  /* Inform USB library that core enters in suspend Mode */
-  USBD_LL_Suspend(hpcd->pData);
+    /* Inform USB library that core enters in suspend Mode */
+    USBD_LL_Suspend( hpcd->pData );
 
-  /*Enter in STOP mode */
-  if (hpcd->Init.low_power_enable)
-  {
-    /* Set SLEEPDEEP bit and SleepOnExit of Cortex System Control Register */
-    SCB->SCR |= (uint32_t)((uint32_t)(SCB_SCR_SLEEPDEEP_Msk | SCB_SCR_SLEEPONEXIT_Msk));
-  }
+    /*Enter in STOP mode */
+    if( hpcd->Init.low_power_enable )
+    {
+        /* Set SLEEPDEEP bit and SleepOnExit of Cortex System Control Register */
+        SCB->SCR |= ( uint32_t )( ( uint32_t )( SCB_SCR_SLEEPDEEP_Msk | SCB_SCR_SLEEPONEXIT_Msk ) );
+    }
 }
 
 /**
@@ -168,28 +168,18 @@ void HAL_PCD_SuspendCallback(PCD_HandleTypeDef *hpcd)
   * @param  hpcd: PCD handle
   * @retval None
   */
-void HAL_PCD_ResumeCallback(PCD_HandleTypeDef *hpcd)
+void HAL_PCD_ResumeCallback( PCD_HandleTypeDef *hpcd )
 {
-  if ((hpcd->Init.low_power_enable)&&(remotewakeupon == 0))
-  {
-    /* Reset SLEEPDEEP bit of Cortex System Control Register */
-    SCB->SCR &= (uint32_t)~((uint32_t)(SCB_SCR_SLEEPDEEP_Msk | SCB_SCR_SLEEPONEXIT_Msk));
+    if( ( hpcd->Init.low_power_enable ) && ( remotewakeupon == 0 ) )
+    {
+        /* Reset SLEEPDEEP bit of Cortex System Control Register */
+        SCB->SCR &= ( uint32_t )~( ( uint32_t )( SCB_SCR_SLEEPDEEP_Msk | SCB_SCR_SLEEPONEXIT_Msk ) );
 
-    SystemClockConfig_STOP();
-  }
-  USBD_LL_Resume(hpcd->pData);
-  remotewakeupon=0;
-}
+        SystemClockConfig_STOP();
+    }
 
-/**
-  * @brief  SOF callback.
-  * @param  hpcd: PCD handle
-  * @param  epnum: Endpoint Number
-  * @retval None
-  */
-void HAL_PCD_ISOOUTIncompleteCallback(PCD_HandleTypeDef *hpcd, uint8_t epnum)
-{
-  USBD_LL_IsoOUTIncomplete(hpcd->pData, epnum);
+    USBD_LL_Resume( hpcd->pData );
+    remotewakeupon = 0;
 }
 
 /**
@@ -198,9 +188,20 @@ void HAL_PCD_ISOOUTIncompleteCallback(PCD_HandleTypeDef *hpcd, uint8_t epnum)
   * @param  epnum: Endpoint Number
   * @retval None
   */
-void HAL_PCD_ISOINIncompleteCallback(PCD_HandleTypeDef *hpcd, uint8_t epnum)
+void HAL_PCD_ISOOUTIncompleteCallback( PCD_HandleTypeDef *hpcd, uint8_t epnum )
 {
-  USBD_LL_IsoINIncomplete(hpcd->pData, epnum);
+    USBD_LL_IsoOUTIncomplete( hpcd->pData, epnum );
+}
+
+/**
+  * @brief  SOF callback.
+  * @param  hpcd: PCD handle
+  * @param  epnum: Endpoint Number
+  * @retval None
+  */
+void HAL_PCD_ISOINIncompleteCallback( PCD_HandleTypeDef *hpcd, uint8_t epnum )
+{
+    USBD_LL_IsoINIncomplete( hpcd->pData, epnum );
 }
 
 /**
@@ -208,9 +209,9 @@ void HAL_PCD_ISOINIncompleteCallback(PCD_HandleTypeDef *hpcd, uint8_t epnum)
   * @param  hpcd: PCD handle
   * @retval None
   */
-void HAL_PCD_ConnectCallback(PCD_HandleTypeDef *hpcd)
+void HAL_PCD_ConnectCallback( PCD_HandleTypeDef *hpcd )
 {
-  USBD_LL_DevConnected(hpcd->pData);
+    USBD_LL_DevConnected( hpcd->pData );
 }
 
 /**
@@ -218,10 +219,10 @@ void HAL_PCD_ConnectCallback(PCD_HandleTypeDef *hpcd)
   * @param  hpcd: PCD handle
   * @retval None
   */
-void HAL_PCD_DisconnectCallback(PCD_HandleTypeDef *hpcd)
+void HAL_PCD_DisconnectCallback( PCD_HandleTypeDef *hpcd )
 {
-  USBD_LL_DevDisconnected(hpcd->pData);
-  hpcd->LPM_State = LPM_L0;
+    USBD_LL_DevDisconnected( hpcd->pData );
+    hpcd->LPM_State = LPM_L0;
 }
 
 /*******************************************************************************
@@ -233,27 +234,27 @@ void HAL_PCD_DisconnectCallback(PCD_HandleTypeDef *hpcd)
   * @param  pdev: Device handle
   * @retval USBD Status
   */
-USBD_StatusTypeDef USBD_LL_Init(USBD_HandleTypeDef *pdev)
+USBD_StatusTypeDef USBD_LL_Init( USBD_HandleTypeDef *pdev )
 {
-  /* Set LL Driver parameters */
-  hpcd.Instance = USB;
-  hpcd.Init.dev_endpoints = 8;
-  hpcd.Init.phy_itface = PCD_PHY_EMBEDDED;
-  hpcd.Init.speed = PCD_SPEED_FULL;
-  hpcd.Init.low_power_enable = 1;
+    /* Set LL Driver parameters */
+    hpcd.Instance = USB;
+    hpcd.Init.dev_endpoints = 8;
+    hpcd.Init.phy_itface = PCD_PHY_EMBEDDED;
+    hpcd.Init.speed = PCD_SPEED_FULL;
+    hpcd.Init.low_power_enable = 1;
 
-  /* Link The driver to the stack */
-  hpcd.pData = pdev;
-  pdev->pData = &hpcd;
+    /* Link The driver to the stack */
+    hpcd.pData = pdev;
+    pdev->pData = &hpcd;
 
-  /* Initialize LL Driver */
-  HAL_PCD_Init(pdev->pData);
+    /* Initialize LL Driver */
+    HAL_PCD_Init( pdev->pData );
 
-  HAL_PCDEx_PMAConfig(pdev->pData , 0x00 , PCD_SNG_BUF, 0x18);
-  HAL_PCDEx_PMAConfig(pdev->pData , 0x80 , PCD_SNG_BUF, 0x58);
-  HAL_PCDEx_PMAConfig(pdev->pData , 0x81 , PCD_SNG_BUF, 0x100);
+    HAL_PCDEx_PMAConfig( pdev->pData, 0x00, PCD_SNG_BUF, 0x18 );
+    HAL_PCDEx_PMAConfig( pdev->pData, 0x80, PCD_SNG_BUF, 0x58 );
+    HAL_PCDEx_PMAConfig( pdev->pData, 0x81, PCD_SNG_BUF, 0x100 );
 
-  return USBD_OK;
+    return USBD_OK;
 }
 
 /**
@@ -261,10 +262,10 @@ USBD_StatusTypeDef USBD_LL_Init(USBD_HandleTypeDef *pdev)
   * @param  pdev: Device handle
   * @retval USBD Status
   */
-USBD_StatusTypeDef USBD_LL_DeInit(USBD_HandleTypeDef *pdev)
+USBD_StatusTypeDef USBD_LL_DeInit( USBD_HandleTypeDef *pdev )
 {
-  HAL_PCD_DeInit(pdev->pData);
-  return USBD_OK;
+    HAL_PCD_DeInit( pdev->pData );
+    return USBD_OK;
 }
 
 /**
@@ -272,10 +273,10 @@ USBD_StatusTypeDef USBD_LL_DeInit(USBD_HandleTypeDef *pdev)
   * @param  pdev: Device handle
   * @retval USBD Status
   */
-USBD_StatusTypeDef USBD_LL_Start(USBD_HandleTypeDef *pdev)
+USBD_StatusTypeDef USBD_LL_Start( USBD_HandleTypeDef *pdev )
 {
-  HAL_PCD_Start(pdev->pData);
-  return USBD_OK;
+    HAL_PCD_Start( pdev->pData );
+    return USBD_OK;
 }
 
 /**
@@ -283,10 +284,10 @@ USBD_StatusTypeDef USBD_LL_Start(USBD_HandleTypeDef *pdev)
   * @param  pdev: Device handle
   * @retval USBD Status
   */
-USBD_StatusTypeDef USBD_LL_Stop(USBD_HandleTypeDef *pdev)
+USBD_StatusTypeDef USBD_LL_Stop( USBD_HandleTypeDef *pdev )
 {
-  HAL_PCD_Stop(pdev->pData);
-  return USBD_OK;
+    HAL_PCD_Stop( pdev->pData );
+    return USBD_OK;
 }
 
 /**
@@ -297,17 +298,17 @@ USBD_StatusTypeDef USBD_LL_Stop(USBD_HandleTypeDef *pdev)
   * @param  ep_mps: Endpoint Max Packet Size
   * @retval USBD Status
   */
-USBD_StatusTypeDef USBD_LL_OpenEP(USBD_HandleTypeDef *pdev,
-                                  uint8_t ep_addr,
-                                  uint8_t ep_type,
-                                  uint16_t ep_mps)
+USBD_StatusTypeDef USBD_LL_OpenEP( USBD_HandleTypeDef *pdev,
+                                   uint8_t ep_addr,
+                                   uint8_t ep_type,
+                                   uint16_t ep_mps )
 {
-  HAL_PCD_EP_Open(pdev->pData,
-                  ep_addr,
-                  ep_mps,
-                  ep_type);
+    HAL_PCD_EP_Open( pdev->pData,
+                     ep_addr,
+                     ep_mps,
+                     ep_type );
 
-  return USBD_OK;
+    return USBD_OK;
 }
 
 /**
@@ -316,10 +317,10 @@ USBD_StatusTypeDef USBD_LL_OpenEP(USBD_HandleTypeDef *pdev,
   * @param  ep_addr: Endpoint Number
   * @retval USBD Status
   */
-USBD_StatusTypeDef USBD_LL_CloseEP(USBD_HandleTypeDef *pdev, uint8_t ep_addr)
+USBD_StatusTypeDef USBD_LL_CloseEP( USBD_HandleTypeDef *pdev, uint8_t ep_addr )
 {
-  HAL_PCD_EP_Close(pdev->pData, ep_addr);
-  return USBD_OK;
+    HAL_PCD_EP_Close( pdev->pData, ep_addr );
+    return USBD_OK;
 }
 
 /**
@@ -328,10 +329,10 @@ USBD_StatusTypeDef USBD_LL_CloseEP(USBD_HandleTypeDef *pdev, uint8_t ep_addr)
   * @param  ep_addr: Endpoint Number
   * @retval USBD Status
   */
-USBD_StatusTypeDef USBD_LL_FlushEP(USBD_HandleTypeDef *pdev, uint8_t ep_addr)
+USBD_StatusTypeDef USBD_LL_FlushEP( USBD_HandleTypeDef *pdev, uint8_t ep_addr )
 {
-  HAL_PCD_EP_Flush(pdev->pData, ep_addr);
-  return USBD_OK;
+    HAL_PCD_EP_Flush( pdev->pData, ep_addr );
+    return USBD_OK;
 }
 
 /**
@@ -340,10 +341,10 @@ USBD_StatusTypeDef USBD_LL_FlushEP(USBD_HandleTypeDef *pdev, uint8_t ep_addr)
   * @param  ep_addr: Endpoint Number
   * @retval USBD Status
   */
-USBD_StatusTypeDef USBD_LL_StallEP(USBD_HandleTypeDef *pdev, uint8_t ep_addr)
+USBD_StatusTypeDef USBD_LL_StallEP( USBD_HandleTypeDef *pdev, uint8_t ep_addr )
 {
-  HAL_PCD_EP_SetStall(pdev->pData, ep_addr);
-  return USBD_OK;
+    HAL_PCD_EP_SetStall( pdev->pData, ep_addr );
+    return USBD_OK;
 }
 
 /**
@@ -352,10 +353,10 @@ USBD_StatusTypeDef USBD_LL_StallEP(USBD_HandleTypeDef *pdev, uint8_t ep_addr)
   * @param  ep_addr: Endpoint Number
   * @retval USBD Status
   */
-USBD_StatusTypeDef USBD_LL_ClearStallEP(USBD_HandleTypeDef *pdev, uint8_t ep_addr)
+USBD_StatusTypeDef USBD_LL_ClearStallEP( USBD_HandleTypeDef *pdev, uint8_t ep_addr )
 {
-  HAL_PCD_EP_ClrStall(pdev->pData, ep_addr);
-  return USBD_OK;
+    HAL_PCD_EP_ClrStall( pdev->pData, ep_addr );
+    return USBD_OK;
 }
 
 /**
@@ -364,18 +365,18 @@ USBD_StatusTypeDef USBD_LL_ClearStallEP(USBD_HandleTypeDef *pdev, uint8_t ep_add
   * @param  ep_addr: Endpoint Number
   * @retval Stall (1: Yes, 0: No)
   */
-uint8_t USBD_LL_IsStallEP(USBD_HandleTypeDef *pdev, uint8_t ep_addr)
+uint8_t USBD_LL_IsStallEP( USBD_HandleTypeDef *pdev, uint8_t ep_addr )
 {
-  PCD_HandleTypeDef *hpcd = pdev->pData;
+    PCD_HandleTypeDef *hpcd = pdev->pData;
 
-  if((ep_addr & 0x80) == 0x80)
-  {
-    return hpcd->IN_ep[ep_addr & 0x7F].is_stall;
-  }
-  else
-  {
-    return hpcd->OUT_ep[ep_addr & 0x7F].is_stall;
-  }
+    if( ( ep_addr & 0x80 ) == 0x80 )
+    {
+        return hpcd->IN_ep[ep_addr & 0x7F].is_stall;
+    }
+    else
+    {
+        return hpcd->OUT_ep[ep_addr & 0x7F].is_stall;
+    }
 }
 
 /**
@@ -384,10 +385,10 @@ uint8_t USBD_LL_IsStallEP(USBD_HandleTypeDef *pdev, uint8_t ep_addr)
   * @param  ep_addr: Endpoint Number
   * @retval USBD Status
   */
-USBD_StatusTypeDef USBD_LL_SetUSBAddress(USBD_HandleTypeDef *pdev, uint8_t dev_addr)
+USBD_StatusTypeDef USBD_LL_SetUSBAddress( USBD_HandleTypeDef *pdev, uint8_t dev_addr )
 {
-  HAL_PCD_SetAddress(pdev->pData, dev_addr);
-  return USBD_OK;
+    HAL_PCD_SetAddress( pdev->pData, dev_addr );
+    return USBD_OK;
 }
 
 /**
@@ -398,13 +399,13 @@ USBD_StatusTypeDef USBD_LL_SetUSBAddress(USBD_HandleTypeDef *pdev, uint8_t dev_a
   * @param  size: Data size
   * @retval USBD Status
   */
-USBD_StatusTypeDef USBD_LL_Transmit(USBD_HandleTypeDef *pdev,
-                                    uint8_t ep_addr,
-                                    uint8_t *pbuf,
-                                    uint16_t size)
+USBD_StatusTypeDef USBD_LL_Transmit( USBD_HandleTypeDef *pdev,
+                                     uint8_t ep_addr,
+                                     uint8_t *pbuf,
+                                     uint16_t size )
 {
-  HAL_PCD_EP_Transmit(pdev->pData, ep_addr, pbuf, size);
-  return USBD_OK;
+    HAL_PCD_EP_Transmit( pdev->pData, ep_addr, pbuf, size );
+    return USBD_OK;
 }
 
 /**
@@ -415,13 +416,13 @@ USBD_StatusTypeDef USBD_LL_Transmit(USBD_HandleTypeDef *pdev,
   * @param  size: Data size
   * @retval USBD Status
   */
-USBD_StatusTypeDef USBD_LL_PrepareReceive(USBD_HandleTypeDef *pdev,
-                                          uint8_t ep_addr,
-                                          uint8_t *pbuf,
-                                          uint16_t size)
+USBD_StatusTypeDef USBD_LL_PrepareReceive( USBD_HandleTypeDef *pdev,
+        uint8_t ep_addr,
+        uint8_t *pbuf,
+        uint16_t size )
 {
-  HAL_PCD_EP_Receive(pdev->pData, ep_addr, pbuf, size);
-  return USBD_OK;
+    HAL_PCD_EP_Receive( pdev->pData, ep_addr, pbuf, size );
+    return USBD_OK;
 }
 
 /**
@@ -430,9 +431,9 @@ USBD_StatusTypeDef USBD_LL_PrepareReceive(USBD_HandleTypeDef *pdev,
   * @param  ep_addr: Endpoint Number
   * @retval Recived Data Size
   */
-uint32_t USBD_LL_GetRxDataSize(USBD_HandleTypeDef *pdev, uint8_t ep_addr)
+uint32_t USBD_LL_GetRxDataSize( USBD_HandleTypeDef *pdev, uint8_t ep_addr )
 {
-  return HAL_PCD_EP_GetRxCount(pdev->pData, ep_addr);
+    return HAL_PCD_EP_GetRxCount( pdev->pData, ep_addr );
 }
 
 /**
@@ -440,9 +441,9 @@ uint32_t USBD_LL_GetRxDataSize(USBD_HandleTypeDef *pdev, uint8_t ep_addr)
   * @param  Delay: Delay in ms
   * @retval None
   */
-void USBD_LL_Delay(uint32_t Delay)
+void USBD_LL_Delay( uint32_t Delay )
 {
-  HAL_Delay(Delay);
+    HAL_Delay( Delay );
 }
 
 /**
@@ -450,10 +451,10 @@ void USBD_LL_Delay(uint32_t Delay)
   * @param  size: size of allocated memory
   * @retval None
   */
-void *USBD_static_malloc(uint32_t size)
+void *USBD_static_malloc( uint32_t size )
 {
-  static uint32_t mem[MAX_STATIC_ALLOC_SIZE];
-  return mem;
+    static uint32_t mem[MAX_STATIC_ALLOC_SIZE];
+    return mem;
 }
 
 /**
@@ -461,7 +462,7 @@ void *USBD_static_malloc(uint32_t size)
   * @param  *p pointer to allocated  memory address
   * @retval None
   */
-void USBD_static_free(void *p)
+void USBD_static_free( void *p )
 {
 
 }
@@ -471,50 +472,50 @@ void USBD_static_free(void *p)
   * @param  None
   * @retval None
   */
-static void SystemClockConfig_STOP(void)
+static void SystemClockConfig_STOP( void )
 {
-  RCC_ClkInitTypeDef RCC_ClkInitStruct;
-  RCC_OscInitTypeDef RCC_OscInitStruct;
+    RCC_ClkInitTypeDef RCC_ClkInitStruct;
+    RCC_OscInitTypeDef RCC_OscInitStruct;
 
 #if defined (USE_USB_CLKSOURCE_CRSHSI48)
 
-  /* After wakeup from STOP mode;
-      - enable the HSI and select it as system clock source
-      - enable HSI48 for the USB clock
-      - other clock settings are unchanged (USB clocked by the HSI48 with CRS enabled,
-        HCLK/PCLKx prescalers..) */
+    /* After wakeup from STOP mode;
+        - enable the HSI and select it as system clock source
+        - enable HSI48 for the USB clock
+        - other clock settings are unchanged (USB clocked by the HSI48 with CRS enabled,
+          HCLK/PCLKx prescalers..) */
 
-  /* Enable HSI Oscillator to be used as System Clock Source
-     Enable HSI48 Oscillator to be used as USB Clock Source */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI | RCC_OSCILLATORTYPE_HSI48;
-  RCC_OscInitStruct.HSIState = RCC_HSI_ON;
-  RCC_OscInitStruct.HSI48State = RCC_HSI48_ON;
-  HAL_RCC_OscConfig(&RCC_OscInitStruct);
+    /* Enable HSI Oscillator to be used as System Clock Source
+       Enable HSI48 Oscillator to be used as USB Clock Source */
+    RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI | RCC_OSCILLATORTYPE_HSI48;
+    RCC_OscInitStruct.HSIState = RCC_HSI_ON;
+    RCC_OscInitStruct.HSI48State = RCC_HSI48_ON;
+    HAL_RCC_OscConfig( &RCC_OscInitStruct );
 
-  /* Select HSI as system clock source, SYSCLK = 16 MHz */
-  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_SYSCLK;
-  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_HSI;
-  HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_0);
+    /* Select HSI as system clock source, SYSCLK = 16 MHz */
+    RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_SYSCLK;
+    RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_HSI;
+    HAL_RCC_ClockConfig( &RCC_ClkInitStruct, FLASH_LATENCY_0 );
 
 #elif defined (USE_USB_CLKSOURCE_PLL)
 
-  /* After wakeup from STOP mode;
-      - enable the HSE, configure the PLL (clocked by the HSE) and select the PLL as system clock source.
-      - other clock settings are unchanged (USB clocked by the PLL, HCLK/PCLKx prescalers..) */
+    /* After wakeup from STOP mode;
+        - enable the HSE, configure the PLL (clocked by the HSE) and select the PLL as system clock source.
+        - other clock settings are unchanged (USB clocked by the PLL, HCLK/PCLKx prescalers..) */
 
-  /* Enable HSE Oscillator and activate PLL with HSE as source */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
-  RCC_OscInitStruct.HSEState = RCC_HSE_ON;
-  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
-  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
-  RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL12;
-  RCC_OscInitStruct.PLL.PLLDIV = RCC_PLL_DIV3;
-  HAL_RCC_OscConfig(&RCC_OscInitStruct);
+    /* Enable HSE Oscillator and activate PLL with HSE as source */
+    RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
+    RCC_OscInitStruct.HSEState = RCC_HSE_ON;
+    RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
+    RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
+    RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL12;
+    RCC_OscInitStruct.PLL.PLLDIV = RCC_PLL_DIV3;
+    HAL_RCC_OscConfig( &RCC_OscInitStruct );
 
-  /* Select PLL as system clock source, SYSCLK = 32 MHz */
-  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_SYSCLK;
-  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
-  HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_1);
+    /* Select PLL as system clock source, SYSCLK = 32 MHz */
+    RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_SYSCLK;
+    RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
+    HAL_RCC_ClockConfig( &RCC_ClkInitStruct, FLASH_LATENCY_1 );
 
 #endif /*USE_USB_CLKSOURCE_CRSHSI48*/
 }
@@ -525,38 +526,38 @@ static void SystemClockConfig_STOP(void)
   * @param  GPIO_Pin
   * @retval None
   */
-void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+void HAL_GPIO_EXTI_Callback( uint16_t GPIO_Pin )
 {
-  if (GPIO_Pin == TAMPER_BUTTON_PIN)
-  {
-    if ((((USBD_HandleTypeDef *)hpcd.pData)->dev_remote_wakeup == 1) &&
-         (((USBD_HandleTypeDef *)hpcd.pData)->dev_state == USBD_STATE_SUSPENDED))
+    if( GPIO_Pin == TAMPER_BUTTON_PIN )
     {
-      if ((&hpcd)->Init.low_power_enable)
-      {
-        /* Reset SLEEPDEEP bit of Cortex System Control Register */
-        SCB->SCR &= (uint32_t)~((uint32_t)(SCB_SCR_SLEEPDEEP_Msk | SCB_SCR_SLEEPONEXIT_Msk));
+        if( ( ( ( USBD_HandleTypeDef * )hpcd.pData )->dev_remote_wakeup == 1 ) &&
+                ( ( ( USBD_HandleTypeDef * )hpcd.pData )->dev_state == USBD_STATE_SUSPENDED ) )
+        {
+            if( ( &hpcd )->Init.low_power_enable )
+            {
+                /* Reset SLEEPDEEP bit of Cortex System Control Register */
+                SCB->SCR &= ( uint32_t )~( ( uint32_t )( SCB_SCR_SLEEPDEEP_Msk | SCB_SCR_SLEEPONEXIT_Msk ) );
 
-        SystemClockConfig_STOP();
-      }
+                SystemClockConfig_STOP();
+            }
 
-      /* Activate Remote wakeup */
-      HAL_PCD_ActivateRemoteWakeup((&hpcd));
-      /* remote wakeup delay */
-      HAL_Delay(10);
-      /* Disable Remote wakeup */
-      HAL_PCD_DeActivateRemoteWakeup((&hpcd));
+            /* Activate Remote wakeup */
+            HAL_PCD_ActivateRemoteWakeup( ( &hpcd ) );
+            /* remote wakeup delay */
+            HAL_Delay( 10 );
+            /* Disable Remote wakeup */
+            HAL_PCD_DeActivateRemoteWakeup( ( &hpcd ) );
 
-      /* change remote_wakeup feature to 0*/
-      ((USBD_HandleTypeDef *)hpcd.pData)->dev_remote_wakeup=0;
+            /* change remote_wakeup feature to 0*/
+            ( ( USBD_HandleTypeDef * )hpcd.pData )->dev_remote_wakeup = 0;
 
-      remotewakeupon = 1;
+            remotewakeupon = 1;
+        }
+        else
+        {
+            KeyPressed = 1U;
+        }
     }
-    else
-    {
-      KeyPressed = 1U;
-    }
-  }
 }
 
 
@@ -565,26 +566,28 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
   * @param  None
   * @retval None
   */
-void usbd_hid_Process (void)
+void usbd_hid_Process( void )
 {
-  uint8_t HID_Buffer[4];
+    uint8_t HID_Buffer[4];
 
 
-  if ((hpcd.LPM_State == LPM_L0) && (KeyPressed == 1U))
-  {
-    KeyPressed = 0U;
-    if(((USBD_HandleTypeDef *)hpcd.pData)->dev_state == USBD_STATE_CONFIGURED)
+    if( ( hpcd.LPM_State == LPM_L0 ) && ( KeyPressed == 1U ) )
     {
-      GetPointerData(HID_Buffer);
+        KeyPressed = 0U;
 
-      /* send data though IN endpoint*/
-      if((HID_Buffer[1] != 0) || (HID_Buffer[2] != 0))
-      {
-        USBD_HID_SendReport(&USBD_Device, HID_Buffer, 4);
-      }
-      HAL_Delay(100);
+        if( ( ( USBD_HandleTypeDef * )hpcd.pData )->dev_state == USBD_STATE_CONFIGURED )
+        {
+            GetPointerData( HID_Buffer );
+
+            /* send data though IN endpoint*/
+            if( ( HID_Buffer[1] != 0 ) || ( HID_Buffer[2] != 0 ) )
+            {
+                USBD_HID_SendReport( &USBD_Device, HID_Buffer, 4 );
+            }
+
+            HAL_Delay( 100 );
+        }
     }
-  }
 }
 
 /**
@@ -592,22 +595,23 @@ void usbd_hid_Process (void)
   * @param  pbuf: Pointer to report
   * @retval None
   */
-void GetPointerData(uint8_t *pbuf)
+void GetPointerData( uint8_t *pbuf )
 {
-  static int8_t cnt = 0;
-  int8_t x = 0, y = 0;
+    static int8_t cnt = 0;
+    int8_t x = 0, y = 0;
 
-  if (cnt++ > 0)
-  {
-    x = CURSOR_STEP;
-  }
-  else
-  {
-    x = -CURSOR_STEP;
-  }
-  pbuf[0] = 0;
-  pbuf[1] = x;
-  pbuf[2] = y;
-  pbuf[3] = 0;
+    if( cnt++ > 0 )
+    {
+        x = CURSOR_STEP;
+    }
+    else
+    {
+        x = -CURSOR_STEP;
+    }
+
+    pbuf[0] = 0;
+    pbuf[1] = x;
+    pbuf[2] = y;
+    pbuf[3] = 0;
 }
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

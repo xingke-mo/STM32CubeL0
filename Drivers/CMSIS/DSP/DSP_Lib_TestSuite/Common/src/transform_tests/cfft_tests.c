@@ -97,48 +97,48 @@
 
 
 /* Test declarations */
-JTEST_DEFINE_TEST(cfft_f32_test, cfft_f32)
+JTEST_DEFINE_TEST( cfft_f32_test, cfft_f32 )
 {
-    CFFT_TEST_BODY((uint8_t) 0, f32, float32_t);
+    CFFT_TEST_BODY( ( uint8_t ) 0, f32, float32_t );
 }
 
-JTEST_DEFINE_TEST(cfft_f32_ifft_test, cfft_f32)
+JTEST_DEFINE_TEST( cfft_f32_ifft_test, cfft_f32 )
 {
-    CFFT_TEST_BODY((uint8_t) 1, f32, float32_t);
+    CFFT_TEST_BODY( ( uint8_t ) 1, f32, float32_t );
 }
 
-JTEST_DEFINE_TEST(cfft_q31_test, cfft_q31)
+JTEST_DEFINE_TEST( cfft_q31_test, cfft_q31 )
 {
-    CFFT_TEST_BODY((uint8_t) 0, q31, q31_t);
+    CFFT_TEST_BODY( ( uint8_t ) 0, q31, q31_t );
 }
 
-JTEST_DEFINE_TEST(cfft_q31_ifft_test, cfft_q31)
+JTEST_DEFINE_TEST( cfft_q31_ifft_test, cfft_q31 )
 {
-    CFFT_TEST_BODY((uint8_t) 1, q31, q31_t);
+    CFFT_TEST_BODY( ( uint8_t ) 1, q31, q31_t );
 }
 
-JTEST_DEFINE_TEST(cfft_q15_test, cfft_q15)
+JTEST_DEFINE_TEST( cfft_q15_test, cfft_q15 )
 {
-    CFFT_TEST_BODY((uint8_t) 0, q15, q15_t);
+    CFFT_TEST_BODY( ( uint8_t ) 0, q15, q15_t );
 }
 
-JTEST_DEFINE_TEST(cfft_q15_ifft_test, cfft_q15)
+JTEST_DEFINE_TEST( cfft_q15_ifft_test, cfft_q15 )
 {
-    CFFT_TEST_BODY((uint8_t) 1, q15, q15_t);
+    CFFT_TEST_BODY( ( uint8_t ) 1, q15, q15_t );
 }
 
 /*--------------------------------------------------------------------------------*/
 /* Collect all tests in a group */
 /*--------------------------------------------------------------------------------*/
 
-JTEST_DEFINE_GROUP(cfft_tests)
+JTEST_DEFINE_GROUP( cfft_tests )
 {
-    JTEST_TEST_CALL(cfft_f32_test);
-    JTEST_TEST_CALL(cfft_f32_ifft_test);
+    JTEST_TEST_CALL( cfft_f32_test );
+    JTEST_TEST_CALL( cfft_f32_ifft_test );
 
-    JTEST_TEST_CALL(cfft_q31_test);
-    JTEST_TEST_CALL(cfft_q31_ifft_test);
+    JTEST_TEST_CALL( cfft_q31_test );
+    JTEST_TEST_CALL( cfft_q31_ifft_test );
 
-    JTEST_TEST_CALL(cfft_q15_test);
-    JTEST_TEST_CALL(cfft_q15_ifft_test);
+    JTEST_TEST_CALL( cfft_q15_test );
+    JTEST_TEST_CALL( cfft_q15_ifft_test );
 }

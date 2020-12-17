@@ -48,10 +48,10 @@
   * @param hwwdg: WWDG handle pointer
   * @retval None
   */
-void HAL_WWDG_MspInit(WWDG_HandleTypeDef *hwwdg)
+void HAL_WWDG_MspInit( WWDG_HandleTypeDef *hwwdg )
 {
-  /* WWDG Peripheral clock enable */
-  __HAL_RCC_WWDG_CLK_ENABLE();
+    /* WWDG Peripheral clock enable */
+    __HAL_RCC_WWDG_CLK_ENABLE();
 }
 
 

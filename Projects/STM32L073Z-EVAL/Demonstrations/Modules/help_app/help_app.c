@@ -32,27 +32,27 @@
 */
 
 /** @defgroup HELP_MODULE
-* @brief low power routines 
+* @brief low power routines
 * @{
 */
 
 
 
 /* Private function prototypes -----------------------------------------------*/
-KMODULE_RETURN _HelpDemoExec(void);
+KMODULE_RETURN _HelpDemoExec( void );
 
 
-static void GenericHelpApp(void);
-static void SystemHelpApp(void);
-static void BoardHelpApp(void);
-static void LpUartHelpApp(void);
-static void LowPowerHelpApp(void);
-static void ThermometerHelpApp(void);
-static void LcSensorHelpApp(void);
-static void PressureHelpApp(void);
+static void GenericHelpApp( void );
+static void SystemHelpApp( void );
+static void BoardHelpApp( void );
+static void LpUartHelpApp( void );
+static void LowPowerHelpApp( void );
+static void ThermometerHelpApp( void );
+static void LcSensorHelpApp( void );
+static void PressureHelpApp( void );
 
-static void displayTitleAndMsg(char *title, char *msg);
-static void WaitJoyDown(void);
+static void displayTitleAndMsg( char *title, char *msg );
+static void WaitJoyDown( void );
 
 /* Defines used for the menu. */
 
@@ -159,45 +159,47 @@ ADC 12 bits.\n"
 /* Help menu */
 const tMenuItem HelpMenuItem[] =
 {
-  {TITLE_GENERIC_HELP, 14,30,SEL_EXEC, MODULE_NONE,GenericHelpApp,NULL, NULL, NULL },
-  {TITLE_SYSTEM_HELP,14,30,SEL_EXEC, MODULE_NONE,SystemHelpApp,NULL, NULL, NULL },
-  {TITLE_BOARD_HELP,14,30,SEL_EXEC, MODULE_NONE,BoardHelpApp,NULL, NULL, NULL },
-  {TITLE_LPUART_HELP,14,30,SEL_EXEC, MODULE_NONE,LpUartHelpApp,NULL, NULL, NULL },
-  {TITLE_LOW_POWER_HELP,14,30,SEL_EXEC, MODULE_NONE,LowPowerHelpApp,NULL, NULL, NULL },
-  {TITLE_THERMOMETER_HELP,14,30,SEL_EXEC, MODULE_NONE,ThermometerHelpApp,NULL, NULL, NULL },
-  {TITLE_LC_SENSOR_HELP,14,30,SEL_EXEC, MODULE_NONE,LcSensorHelpApp,NULL, NULL, NULL },
-  {TITLE_PRESSURE_HELP,14,30,SEL_EXEC, MODULE_NONE,PressureHelpApp,NULL, NULL, NULL },
-  {TITLE_RETURN, 0, 0,SEL_EXIT, MODULE_NONE, NULL, NULL, NULL, NULL }
+    {TITLE_GENERIC_HELP, 14, 30, SEL_EXEC, MODULE_NONE, GenericHelpApp, NULL, NULL, NULL },
+    {TITLE_SYSTEM_HELP, 14, 30, SEL_EXEC, MODULE_NONE, SystemHelpApp, NULL, NULL, NULL },
+    {TITLE_BOARD_HELP, 14, 30, SEL_EXEC, MODULE_NONE, BoardHelpApp, NULL, NULL, NULL },
+    {TITLE_LPUART_HELP, 14, 30, SEL_EXEC, MODULE_NONE, LpUartHelpApp, NULL, NULL, NULL },
+    {TITLE_LOW_POWER_HELP, 14, 30, SEL_EXEC, MODULE_NONE, LowPowerHelpApp, NULL, NULL, NULL },
+    {TITLE_THERMOMETER_HELP, 14, 30, SEL_EXEC, MODULE_NONE, ThermometerHelpApp, NULL, NULL, NULL },
+    {TITLE_LC_SENSOR_HELP, 14, 30, SEL_EXEC, MODULE_NONE, LcSensorHelpApp, NULL, NULL, NULL },
+    {TITLE_PRESSURE_HELP, 14, 30, SEL_EXEC, MODULE_NONE, PressureHelpApp, NULL, NULL, NULL },
+    {TITLE_RETURN, 0, 0, SEL_EXIT, MODULE_NONE, NULL, NULL, NULL, NULL }
 };
 
-const tMenu HelpMenu = {
-  " HELP ", HelpMenuItem, countof(HelpMenuItem), TYPE_TEXT, 1, 1};
+const tMenu HelpMenu =
+{
+    " HELP ", HelpMenuItem, countof( HelpMenuItem ), TYPE_TEXT, 1, 1
+};
 
 /* used to exit application */
-static __IO uint8_t user_action=0;
+static __IO uint8_t user_action = 0;
 
 /* Private typedef -----------------------------------------------------------*/
 /* External variables --------------------------------------------------------*/
 const K_ModuleItem_Typedef HelpModuleItem =
 {
-  MODULE_SYSTEM_INFO,
-  NULL,
-  _HelpDemoExec,
-  NULL,
-  NULL
+    MODULE_SYSTEM_INFO,
+    NULL,
+    _HelpDemoExec,
+    NULL,
+    NULL
 };
 
 /**
-* @brief  Run the Lowpower application 
+* @brief  Run the Lowpower application
 * @param  None.
-* @note   run and display information about the lowpower feature.  
+* @note   run and display information about the lowpower feature.
 * @retval None.
 */
-KMODULE_RETURN _HelpDemoExec(void)
+KMODULE_RETURN _HelpDemoExec( void )
 {
-  /* Prepare Execute the main MMI of Help application */
-  kMenu_Execute(HelpMenu);
-  return KMODULE_OK;
+    /* Prepare Execute the main MMI of Help application */
+    kMenu_Execute( HelpMenu );
+    return KMODULE_OK;
 }
 
 /**
@@ -205,39 +207,39 @@ KMODULE_RETURN _HelpDemoExec(void)
 * @param  None.
 * @retval None.
 */
-static void GenericHelpApp(void)
+static void GenericHelpApp( void )
 {
-  uint8_t LCDStr[30];
-  
-  displayTitleAndMsg(TITLE_GENERIC_HELP , "");
+    uint8_t LCDStr[30];
 
-  BSP_LCD_SetFont(&Font16);
-  
-  sprintf((char*)LCDStr, "%s", EVAL_BOARD);
-  BSP_LCD_DisplayStringAt(3,60, (uint8_t*)LCDStr,CENTER_MODE);
-  
-  sprintf((char*)LCDStr, "%s", "Demonstration");
-  BSP_LCD_DisplayStringAt(3,80, (uint8_t*)LCDStr,CENTER_MODE);
-  
-  sprintf((char*)LCDStr, "%s",DEMO_VERSION);
-  BSP_LCD_DisplayStringAt(3,100, (uint8_t*)LCDStr,CENTER_MODE);
-  
-  sprintf((char*)LCDStr, "%s",DEMO_DATE);
-  BSP_LCD_DisplayStringAt(3,120, (uint8_t*)LCDStr,CENTER_MODE);
-  
-  sprintf((char*)LCDStr, "%s",DEMO_INFO1);
-  BSP_LCD_DisplayStringAt(3,140, (uint8_t*)LCDStr,CENTER_MODE);
-  
-  sprintf((char*)LCDStr, "%s", DEMO_INFO2);
-  BSP_LCD_DisplayStringAt(3,160, (uint8_t*)LCDStr,CENTER_MODE);
-  
-  sprintf((char*)LCDStr, "%s", DEMO_INFO3);
-  BSP_LCD_DisplayStringAt(3,180, (uint8_t*)LCDStr,CENTER_MODE);
-  
-  BSP_LCD_SetFont(&Font24);
-  
-  /* Wait user action */
-  WaitJoyDown();  
+    displayTitleAndMsg( TITLE_GENERIC_HELP, "" );
+
+    BSP_LCD_SetFont( &Font16 );
+
+    sprintf( ( char * )LCDStr, "%s", EVAL_BOARD );
+    BSP_LCD_DisplayStringAt( 3, 60, ( uint8_t * )LCDStr, CENTER_MODE );
+
+    sprintf( ( char * )LCDStr, "%s", "Demonstration" );
+    BSP_LCD_DisplayStringAt( 3, 80, ( uint8_t * )LCDStr, CENTER_MODE );
+
+    sprintf( ( char * )LCDStr, "%s", DEMO_VERSION );
+    BSP_LCD_DisplayStringAt( 3, 100, ( uint8_t * )LCDStr, CENTER_MODE );
+
+    sprintf( ( char * )LCDStr, "%s", DEMO_DATE );
+    BSP_LCD_DisplayStringAt( 3, 120, ( uint8_t * )LCDStr, CENTER_MODE );
+
+    sprintf( ( char * )LCDStr, "%s", DEMO_INFO1 );
+    BSP_LCD_DisplayStringAt( 3, 140, ( uint8_t * )LCDStr, CENTER_MODE );
+
+    sprintf( ( char * )LCDStr, "%s", DEMO_INFO2 );
+    BSP_LCD_DisplayStringAt( 3, 160, ( uint8_t * )LCDStr, CENTER_MODE );
+
+    sprintf( ( char * )LCDStr, "%s", DEMO_INFO3 );
+    BSP_LCD_DisplayStringAt( 3, 180, ( uint8_t * )LCDStr, CENTER_MODE );
+
+    BSP_LCD_SetFont( &Font24 );
+
+    /* Wait user action */
+    WaitJoyDown();
 }
 
 /**
@@ -247,77 +249,86 @@ static void GenericHelpApp(void)
 * @param  None.
 * @retval None.
 */
-static void SystemHelpApp(void)
+static void SystemHelpApp( void )
 {
-  RCC_ClkInitTypeDef clkdef;
-  RCC_OscInitTypeDef  rcc_oscInitStruct;
-  uint32_t latency;
-  uint8_t LCDStr[22];
-  uint16_t version;
-  
-  displayTitleAndMsg(TITLE_SYSTEM_HELP , "");
-  
-  BSP_LCD_SetFont(&Font16);
+    RCC_ClkInitTypeDef clkdef;
+    RCC_OscInitTypeDef  rcc_oscInitStruct;
+    uint32_t latency;
+    uint8_t LCDStr[22];
+    uint16_t version;
 
-  BSP_LCD_DisplayStringAtLine(2,(uint8_t *)"-----------Version-------------");
-  /* Get the MFX version */
-  /***********************/
-  version = mfxstm32l152_ReadFwVersion(IDD_I2C_ADDRESS);
-  sprintf((char*)LCDStr, "%s = %x", C_MFX_VERSION,version);
-  BSP_LCD_DisplayStringAtLine(3, (uint8_t*)LCDStr);
-  
-  /* Get the HAL version */
-  /***********************/
-  sprintf((char*)LCDStr, "%s = %x",C_HAL_VERSION,(int)HAL_GetHalVersion());
-  BSP_LCD_DisplayStringAtLine(4, (uint8_t*)LCDStr);
-  
-  BSP_LCD_DisplayStringAtLine(6,(uint8_t *)"--------Clock setup------------");
-  /* System System clock  */
-  /************************/
-  HAL_RCC_GetClockConfig(&clkdef, &latency);
-  
-  switch(clkdef.SYSCLKSource)
-  {
-  case RCC_SYSCLKSOURCE_MSI :    sprintf((char*)LCDStr, "%s = %s",C_CLK_SRC,"MSI");
-  break;
-  case RCC_SYSCLKSOURCE_HSI :    sprintf((char*)LCDStr, "%s = %s",C_CLK_SRC,"HSI");
-  break;
-  case RCC_SYSCLKSOURCE_HSE :    sprintf((char*)LCDStr, "%s = %s",C_CLK_SRC,"HSE");
-  break;
-  case RCC_SYSCLKSOURCE_PLLCLK :
-    HAL_RCC_GetOscConfig(&rcc_oscInitStruct);
-    switch(rcc_oscInitStruct.PLL.PLLSource)
+    displayTitleAndMsg( TITLE_SYSTEM_HELP, "" );
+
+    BSP_LCD_SetFont( &Font16 );
+
+    BSP_LCD_DisplayStringAtLine( 2, ( uint8_t * )"-----------Version-------------" );
+    /* Get the MFX version */
+    /***********************/
+    version = mfxstm32l152_ReadFwVersion( IDD_I2C_ADDRESS );
+    sprintf( ( char * )LCDStr, "%s = %x", C_MFX_VERSION, version );
+    BSP_LCD_DisplayStringAtLine( 3, ( uint8_t * )LCDStr );
+
+    /* Get the HAL version */
+    /***********************/
+    sprintf( ( char * )LCDStr, "%s = %x", C_HAL_VERSION, ( int )HAL_GetHalVersion() );
+    BSP_LCD_DisplayStringAtLine( 4, ( uint8_t * )LCDStr );
+
+    BSP_LCD_DisplayStringAtLine( 6, ( uint8_t * )"--------Clock setup------------" );
+    /* System System clock  */
+    /************************/
+    HAL_RCC_GetClockConfig( &clkdef, &latency );
+
+    switch( clkdef.SYSCLKSource )
     {
-    case RCC_PLLSOURCE_HSI  :sprintf((char*)LCDStr,"%s = %s",C_CLK_SRC,"PLL-HSI");
-    break;
-    case RCC_PLLSOURCE_HSE  : sprintf((char*)LCDStr,"%s = %s",C_CLK_SRC,"PLL-HSE");
-    break;
-    default                 : sprintf((char*)LCDStr, "%s = %s",C_CLK_SRC,"?");
-    break;
+    case RCC_SYSCLKSOURCE_MSI :    sprintf( ( char * )LCDStr, "%s = %s", C_CLK_SRC, "MSI" );
+        break;
+
+    case RCC_SYSCLKSOURCE_HSI :    sprintf( ( char * )LCDStr, "%s = %s", C_CLK_SRC, "HSI" );
+        break;
+
+    case RCC_SYSCLKSOURCE_HSE :    sprintf( ( char * )LCDStr, "%s = %s", C_CLK_SRC, "HSE" );
+        break;
+
+    case RCC_SYSCLKSOURCE_PLLCLK :
+        HAL_RCC_GetOscConfig( &rcc_oscInitStruct );
+
+        switch( rcc_oscInitStruct.PLL.PLLSource )
+        {
+        case RCC_PLLSOURCE_HSI  : sprintf( ( char * )LCDStr, "%s = %s", C_CLK_SRC, "PLL-HSI" );
+            break;
+
+        case RCC_PLLSOURCE_HSE  : sprintf( ( char * )LCDStr, "%s = %s", C_CLK_SRC, "PLL-HSE" );
+            break;
+
+        default                 : sprintf( ( char * )LCDStr, "%s = %s", C_CLK_SRC, "?" );
+            break;
+        }
+
+        break;
+
+    default :                      break;
+
     }
-    break;
-  default :                      break;
-  
-  }
-  BSP_LCD_DisplayStringAtLine(7, (uint8_t*)LCDStr);
-  
-  /* Frequency           */
-  /************************/
-  
-  sprintf((char*)LCDStr, "%s = %d MHz",C_SYS_CLOCK, (int)(HAL_RCC_GetSysClockFreq()/1000000));
-  BSP_LCD_DisplayStringAtLine(8, (uint8_t*)LCDStr);
-  
-  sprintf((char*)LCDStr, "%s = %d MHz",C_SYS_HCLOCK, (int)(HAL_RCC_GetHCLKFreq()/1000000));
-  BSP_LCD_DisplayStringAtLine(9, (uint8_t*)LCDStr);
-  
-  sprintf((char*)LCDStr, "%s = %d MHz",C_SYS_PCLOCK1, (int)(HAL_RCC_GetPCLK1Freq()/1000000));
-  BSP_LCD_DisplayStringAtLine(10, (uint8_t*)LCDStr);
-  
-  sprintf((char*)LCDStr, "%s = %d MHz",C_SYS_PCLOCK2, (int)(HAL_RCC_GetPCLK2Freq()/1000000));
-  BSP_LCD_DisplayStringAtLine(11, (uint8_t*)LCDStr);
-  
-  /* Wait user action */
-  WaitJoyDown();
+
+    BSP_LCD_DisplayStringAtLine( 7, ( uint8_t * )LCDStr );
+
+    /* Frequency           */
+    /************************/
+
+    sprintf( ( char * )LCDStr, "%s = %d MHz", C_SYS_CLOCK, ( int )( HAL_RCC_GetSysClockFreq() / 1000000 ) );
+    BSP_LCD_DisplayStringAtLine( 8, ( uint8_t * )LCDStr );
+
+    sprintf( ( char * )LCDStr, "%s = %d MHz", C_SYS_HCLOCK, ( int )( HAL_RCC_GetHCLKFreq() / 1000000 ) );
+    BSP_LCD_DisplayStringAtLine( 9, ( uint8_t * )LCDStr );
+
+    sprintf( ( char * )LCDStr, "%s = %d MHz", C_SYS_PCLOCK1, ( int )( HAL_RCC_GetPCLK1Freq() / 1000000 ) );
+    BSP_LCD_DisplayStringAtLine( 10, ( uint8_t * )LCDStr );
+
+    sprintf( ( char * )LCDStr, "%s = %d MHz", C_SYS_PCLOCK2, ( int )( HAL_RCC_GetPCLK2Freq() / 1000000 ) );
+    BSP_LCD_DisplayStringAtLine( 11, ( uint8_t * )LCDStr );
+
+    /* Wait user action */
+    WaitJoyDown();
 }
 
 /**
@@ -325,11 +336,11 @@ static void SystemHelpApp(void)
 * @param  None.
 * @retval None.
 */
-static void BoardHelpApp(void)
+static void BoardHelpApp( void )
 {
 
-  displayTitleAndMsg(TITLE_BOARD_HELP , MSG_BOARD_HELP);
-  WaitJoyDown();
+    displayTitleAndMsg( TITLE_BOARD_HELP, MSG_BOARD_HELP );
+    WaitJoyDown();
 }
 
 /**
@@ -337,10 +348,10 @@ static void BoardHelpApp(void)
 * @param  None.
 * @retval None.
 */
-static void LpUartHelpApp(void)
+static void LpUartHelpApp( void )
 {
-  displayTitleAndMsg(TITLE_LPUART_HELP , MSG_LPUART_HELP);
-  WaitJoyDown();
+    displayTitleAndMsg( TITLE_LPUART_HELP, MSG_LPUART_HELP );
+    WaitJoyDown();
 }
 
 /**
@@ -349,11 +360,11 @@ static void LpUartHelpApp(void)
 * @param  None.
 * @retval None.
 */
-static void LowPowerHelpApp(void)
+static void LowPowerHelpApp( void )
 {
-  displayTitleAndMsg(TITLE_LOW_POWER_HELP , MSG_LOW_POWER_HELP);
-  WaitJoyDown();
-  
+    displayTitleAndMsg( TITLE_LOW_POWER_HELP, MSG_LOW_POWER_HELP );
+    WaitJoyDown();
+
 }
 
 /**
@@ -362,10 +373,10 @@ static void LowPowerHelpApp(void)
 * @param  None.
 * @retval None.
 */
-static void ThermometerHelpApp(void)
+static void ThermometerHelpApp( void )
 {
-  displayTitleAndMsg(TITLE_THERMOMETER_HELP , MSG_THERMOMETER_HELP);
-  WaitJoyDown();
+    displayTitleAndMsg( TITLE_THERMOMETER_HELP, MSG_THERMOMETER_HELP );
+    WaitJoyDown();
 
 }
 
@@ -374,10 +385,10 @@ static void ThermometerHelpApp(void)
 * @param  None.
 * @retval None.
 */
-static void LcSensorHelpApp(void)
+static void LcSensorHelpApp( void )
 {
-  displayTitleAndMsg(TITLE_LC_SENSOR_HELP , MSG_LC_SENSOR_HELP);
-  WaitJoyDown();
+    displayTitleAndMsg( TITLE_LC_SENSOR_HELP, MSG_LC_SENSOR_HELP );
+    WaitJoyDown();
 }
 
 /**
@@ -385,26 +396,27 @@ static void LcSensorHelpApp(void)
 * @param  None.
 * @retval None.
 */
-static void PressureHelpApp(void)
+static void PressureHelpApp( void )
 {
-  displayTitleAndMsg(TITLE_PRESSURE_HELP , MSG_PRESSURE_HELP);
-  WaitJoyDown();
+    displayTitleAndMsg( TITLE_PRESSURE_HELP, MSG_PRESSURE_HELP );
+    WaitJoyDown();
 }
 
 /**
 * @brief  Wait user action.
 * @retval None
 */
-static void WaitJoyDown(void)
+static void WaitJoyDown( void )
 {
-  JOYState_TypeDef joyState = JOY_NONE;
+    JOYState_TypeDef joyState = JOY_NONE;
 
-  /* Wait down to exit */
-  while(joyState != JOY_DOWN)
-  {
-    joyState = BSP_JOY_GetState();
-  }
-  while(BSP_JOY_GetState() != JOY_NONE);
+    /* Wait down to exit */
+    while( joyState != JOY_DOWN )
+    {
+        joyState = BSP_JOY_GetState();
+    }
+
+    while( BSP_JOY_GetState() != JOY_NONE );
 }
 /**
 * @brief  Handle a generic window display.
@@ -412,50 +424,51 @@ static void WaitJoyDown(void)
 * @param  msg to display a message, \n is used for multiple line.
 * @retval None
 */
-static void displayTitleAndMsg(char *title, char *msg)
+static void displayTitleAndMsg( char *title, char *msg )
 {
-  uint8_t substring[LINE_MAX];
-  uint8_t lineindex;
-  uint16_t index,subindex;
-  lineindex = subindex = index = 0;
-  
-  /* Title */
-  kWindow_PopupCentered(title, LCD_COLOR_WHITE, LCD_COLOR_BLUE, "", LCD_COLOR_BLUE, LCD_COLOR_WHITE );
-  
-  /* Msg */
-  BSP_LCD_SetFont(&Font16);
-  do
-  {
-    substring[subindex]=msg[index];
-    if((msg[index] == '\n') || (msg[subindex] == '\0') || (subindex == LINE_MAX))
+    uint8_t substring[LINE_MAX];
+    uint8_t lineindex;
+    uint16_t index, subindex;
+    lineindex = subindex = index = 0;
+
+    /* Title */
+    kWindow_PopupCentered( title, LCD_COLOR_WHITE, LCD_COLOR_BLUE, "", LCD_COLOR_BLUE, LCD_COLOR_WHITE );
+
+    /* Msg */
+    BSP_LCD_SetFont( &Font16 );
+
+    do
     {
-      substring[subindex] = '\0';
-      BSP_LCD_DisplayStringAt(0, (2+lineindex) * Font16.Height, substring, LEFT_MODE);
-      lineindex++;
-      subindex = 0;
-    }
-    else
-    {
-      subindex++;
-    }
-    
-    if(msg[index] != '\0')
-    {
-      index++;
-    }
-  }
-  while(msg[index] != '\0');
-  
-  /* Footer part*/
-  BSP_LCD_SetTextColor(LCD_COLOR_BLUE);
-  BSP_LCD_SetBackColor(LCD_COLOR_BLUE);
-  BSP_LCD_FillRect(0, BSP_LCD_GetYSize()-30, BSP_LCD_GetXSize(), 30);
-  BSP_LCD_SetTextColor(LCD_COLOR_WHITE);
-  BSP_LCD_SetFont(&Font24);
-  BSP_LCD_DisplayStringAt(0, BSP_LCD_GetYSize()-Font24.Height , (uint8_t*)"Press down to exit", CENTER_MODE);
-  
-  BSP_LCD_SetTextColor(LCD_COLOR_BLUE);
-  BSP_LCD_SetBackColor(LCD_COLOR_WHITE);
+        substring[subindex] = msg[index];
+
+        if( ( msg[index] == '\n' ) || ( msg[subindex] == '\0' ) || ( subindex == LINE_MAX ) )
+        {
+            substring[subindex] = '\0';
+            BSP_LCD_DisplayStringAt( 0, ( 2 + lineindex ) * Font16.Height, substring, LEFT_MODE );
+            lineindex++;
+            subindex = 0;
+        }
+        else
+        {
+            subindex++;
+        }
+
+        if( msg[index] != '\0' )
+        {
+            index++;
+        }
+    } while( msg[index] != '\0' );
+
+    /* Footer part*/
+    BSP_LCD_SetTextColor( LCD_COLOR_BLUE );
+    BSP_LCD_SetBackColor( LCD_COLOR_BLUE );
+    BSP_LCD_FillRect( 0, BSP_LCD_GetYSize() - 30, BSP_LCD_GetXSize(), 30 );
+    BSP_LCD_SetTextColor( LCD_COLOR_WHITE );
+    BSP_LCD_SetFont( &Font24 );
+    BSP_LCD_DisplayStringAt( 0, BSP_LCD_GetYSize() - Font24.Height, ( uint8_t * )"Press down to exit", CENTER_MODE );
+
+    BSP_LCD_SetTextColor( LCD_COLOR_BLUE );
+    BSP_LCD_SetBackColor( LCD_COLOR_WHITE );
 }
 
 

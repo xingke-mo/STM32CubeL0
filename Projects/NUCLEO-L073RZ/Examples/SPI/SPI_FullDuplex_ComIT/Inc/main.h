@@ -26,7 +26,7 @@
 
 /* Exported types ------------------------------------------------------------*/
 /* Exported constants --------------------------------------------------------*/
-/* User can use this section to tailor SPIx instance used and associated 
+/* User can use this section to tailor SPIx instance used and associated
    resources */
 /* Definition for SPIx clock resources */
 #define SPIx                             SPI2

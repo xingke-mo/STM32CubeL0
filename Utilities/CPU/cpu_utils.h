@@ -33,14 +33,14 @@
   * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   *
   ******************************************************************************
-  */ 
+  */
 
 /* Define to prevent recursive inclusion -------------------------------------*/
 #ifndef _CPU_UTILS_H__
 #define _CPU_UTILS_H__
 
 #ifdef __cplusplus
- extern "C" {
+extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
@@ -53,7 +53,7 @@
 #define CALCULATION_PERIOD    1000
 
 /* Exported functions ------------------------------------------------------- */
-uint16_t osGetCPUUsage (void);
+uint16_t osGetCPUUsage( void );
 
 #ifdef __cplusplus
 }

@@ -1,9 +1,9 @@
 /**
   ******************************************************************************
-  * @file    UART/UART_TwoBoards_ComIT/Src/stm32l0xx_it.c 
+  * @file    UART/UART_TwoBoards_ComIT/Src/stm32l0xx_it.c
   * @author  MCD Application Team
   * @brief   Main Interrupt Service Routines.
-  *          This file provides template for all exceptions handler and 
+  *          This file provides template for all exceptions handler and
   *          peripherals interrupt service routine.
   ******************************************************************************
   * @attention
@@ -20,7 +20,7 @@
   */
 
 /* Includes ------------------------------------------------------------------*/
-#include "stm32l0xx_it.h" 
+#include "stm32l0xx_it.h"
 
 /** @addtogroup STM32L0xx_HAL_Examples
   * @{
@@ -48,7 +48,7 @@ extern UART_HandleTypeDef UartHandle;
   * @param  None
   * @retval None
   */
-void NMI_Handler(void)
+void NMI_Handler( void )
 {
 }
 
@@ -57,12 +57,12 @@ void NMI_Handler(void)
   * @param  None
   * @retval None
   */
-void HardFault_Handler(void)
+void HardFault_Handler( void )
 {
-  /* Go to infinite loop when Hard Fault exception occurs */
-  while (1)
-  {
-  }
+    /* Go to infinite loop when Hard Fault exception occurs */
+    while( 1 )
+    {
+    }
 }
 
 /**
@@ -70,7 +70,7 @@ void HardFault_Handler(void)
   * @param  None
   * @retval None
   */
-void SVC_Handler(void)
+void SVC_Handler( void )
 {
 }
 
@@ -79,7 +79,7 @@ void SVC_Handler(void)
   * @param  None
   * @retval None
   */
-void PendSV_Handler(void)
+void PendSV_Handler( void )
 {
 }
 
@@ -88,9 +88,9 @@ void PendSV_Handler(void)
   * @param  None
   * @retval None
   */
-void SysTick_Handler(void)
+void SysTick_Handler( void )
 {
-  HAL_IncTick();
+    HAL_IncTick();
 }
 
 /******************************************************************************/
@@ -100,15 +100,15 @@ void SysTick_Handler(void)
 /*  file (startup_stm32l0xx.s).                                               */
 /******************************************************************************/
 /**
-  * @brief  This function handles UART interrupt request.  
+  * @brief  This function handles UART interrupt request.
   * @param  None
   * @retval None
-  * @Note   This function is redefined in "main.h" and related to DMA stream 
-  *         used for USART data transmission     
+  * @Note   This function is redefined in "main.h" and related to DMA stream
+  *         used for USART data transmission
   */
-void USARTx_IRQHandler(void)
+void USARTx_IRQHandler( void )
 {
-  HAL_UART_IRQHandler(& UartHandle);
+    HAL_UART_IRQHandler( & UartHandle );
 }
 
 /**
@@ -123,7 +123,7 @@ void USARTx_IRQHandler(void)
 
 /**
   * @}
-  */ 
+  */
 
 /**
   * @}

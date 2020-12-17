@@ -1,6 +1,6 @@
 /**
   ******************************************************************************
-  * @file    DMA/DMA_FLASHToRAM/Inc/main.h 
+  * @file    DMA/DMA_FLASHToRAM/Inc/main.h
   * @author  MCD Application Team
   * @brief   Header for main.c module
   ******************************************************************************
@@ -16,7 +16,7 @@
   *
   ******************************************************************************
   */
-  
+
 /* Define to prevent recursive inclusion -------------------------------------*/
 #ifndef __MAIN_H
 #define __MAIN_H
@@ -31,12 +31,12 @@
 /* DMA Stream parameters definitions. You can modify these parameters to select
    a different DMA Stream and/or channel.
    But note that only DMA1 Streams are capable of Memory to Memory transfers. */
-#define DMA_CHANNEL               DMA1_Channel1 
+#define DMA_CHANNEL               DMA1_Channel1
 #define DMA_CHANNEL_IRQ           DMA1_Channel1_IRQn
 #define DMA_CHANNEL_IRQHANDLER    DMA1_Channel1_IRQHandler
 
 #define BUFFER_SIZE              32
-  
+
 /* Exported macro ------------------------------------------------------------*/
 
 /* Exported functions ------------------------------------------------------- */

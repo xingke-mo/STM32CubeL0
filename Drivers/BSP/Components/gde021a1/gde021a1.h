@@ -23,7 +23,7 @@
 #define __GDE021A1_H
 
 #ifdef __cplusplus
- extern "C" {
+extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
@@ -108,29 +108,29 @@
 /** @defgroup SPI_EPD_Exported_Functions
   * @{
   */
-void     gde021a1_Init(void);
-void     gde021a1_WriteReg(uint8_t EPD_Reg, uint8_t EPD_RegValue);
-uint8_t  gde021a1_ReadReg(uint8_t EPD_Reg);
+void     gde021a1_Init( void );
+void     gde021a1_WriteReg( uint8_t EPD_Reg, uint8_t EPD_RegValue );
+uint8_t  gde021a1_ReadReg( uint8_t EPD_Reg );
 
-void     gde021a1_WritePixel(uint8_t HEX_Code);
+void     gde021a1_WritePixel( uint8_t HEX_Code );
 
-void     gde021a1_DrawImage(uint16_t Xpos, uint16_t Ypos, uint16_t Xsize, uint16_t Ysize, uint8_t *pdata);
-void     gde021a1_RefreshDisplay(void);
-void     gde021a1_CloseChargePump(void);
+void     gde021a1_DrawImage( uint16_t Xpos, uint16_t Ypos, uint16_t Xsize, uint16_t Ysize, uint8_t *pdata );
+void     gde021a1_RefreshDisplay( void );
+void     gde021a1_CloseChargePump( void );
 
-void     gde021a1_SetDisplayWindow(uint16_t Xpos, uint16_t Ypos, uint16_t Width, uint16_t Height);
-uint16_t gde021a1_GetEpdPixelWidth(void);
-uint16_t gde021a1_GetEpdPixelHeight(void);
+void     gde021a1_SetDisplayWindow( uint16_t Xpos, uint16_t Ypos, uint16_t Width, uint16_t Height );
+uint16_t gde021a1_GetEpdPixelWidth( void );
+uint16_t gde021a1_GetEpdPixelHeight( void );
 
 /* EPD driver structure */
 extern EPD_DrvTypeDef   gde021a1_drv;
 
 /* EPD IO functions */
-void      EPD_IO_Init(void);
-void      EPD_IO_WriteData(uint16_t RegValue);
-void      EPD_IO_WriteReg(uint8_t Reg);
-uint16_t  EPD_IO_ReadData(void);
-void      EPD_Delay (uint32_t delay);
+void      EPD_IO_Init( void );
+void      EPD_IO_WriteData( uint16_t RegValue );
+void      EPD_IO_WriteReg( uint8_t Reg );
+uint16_t  EPD_IO_ReadData( void );
+void      EPD_Delay( uint32_t delay );
 /**
   * @}
   */

@@ -15,14 +15,14 @@
   *                        opensource.org/licenses/BSD-3-Clause
   *
   ******************************************************************************
-  */ 
+  */
 
 /* Define to prevent recursive inclusion -------------------------------------*/
 #ifndef __STM32L0xx_HAL_COMP_EX_H
 #define __STM32L0xx_HAL_COMP_EX_H
 
 #ifdef __cplusplus
- extern "C" {
+extern "C" {
 #endif
 
 #if !defined(STM32L010xB) && !defined (STM32L010x8) && !defined (STM32L010x6) && !defined (STM32L010x4)
@@ -46,9 +46,9 @@
  * @{
  */
 /* COMP specific functions to manage VREFINT *************************************/
-void HAL_COMPEx_EnableVREFINT(void);
-void HAL_COMPEx_DisableVREFINT(void);
-   
+void HAL_COMPEx_EnableVREFINT( void );
+void HAL_COMPEx_DisableVREFINT( void );
+
 /**
   * @}
   */

@@ -47,7 +47,7 @@
   * @param  None
   * @retval None
   */
-void NMI_Handler(void)
+void NMI_Handler( void )
 {
 }
 
@@ -56,12 +56,12 @@ void NMI_Handler(void)
   * @param  None
   * @retval None
   */
-void HardFault_Handler(void)
+void HardFault_Handler( void )
 {
-  /* Go to infinite loop when Hard Fault exception occurs */
-  while (1)
-  {
-  }
+    /* Go to infinite loop when Hard Fault exception occurs */
+    while( 1 )
+    {
+    }
 }
 
 /**
@@ -69,7 +69,7 @@ void HardFault_Handler(void)
   * @param  None
   * @retval None
   */
-void SVC_Handler(void)
+void SVC_Handler( void )
 {
 }
 
@@ -78,7 +78,7 @@ void SVC_Handler(void)
   * @param  None
   * @retval None
   */
-void PendSV_Handler(void)
+void PendSV_Handler( void )
 {
 }
 
@@ -87,7 +87,7 @@ void PendSV_Handler(void)
   * @param  None
   * @retval None
   */
-void SysTick_Handler(void)
+void SysTick_Handler( void )
 {
 }
 
@@ -103,16 +103,16 @@ void SysTick_Handler(void)
   * @param  None
   * @retval None
   */
-void USER_BUTTON_IRQHANDLER(void)
+void USER_BUTTON_IRQHANDLER( void )
 {
-  /* Manage Flags */
-  if(LL_EXTI_IsActiveFlag_0_31(USER_BUTTON_EXTI_LINE) != RESET)
-  {
-    LL_EXTI_ClearFlag_0_31(USER_BUTTON_EXTI_LINE);
+    /* Manage Flags */
+    if( LL_EXTI_IsActiveFlag_0_31( USER_BUTTON_EXTI_LINE ) != RESET )
+    {
+        LL_EXTI_ClearFlag_0_31( USER_BUTTON_EXTI_LINE );
 
-    /* Manage code in main.c */
-    UserButton_Callback(); 
-  }
+        /* Manage code in main.c */
+        UserButton_Callback();
+    }
 }
 
 /**
@@ -120,31 +120,31 @@ void USER_BUTTON_IRQHANDLER(void)
   * @param  None
   * @retval None
   */
-void DMA1_Channel2_3_IRQHandler(void)
+void DMA1_Channel2_3_IRQHandler( void )
 {
 
-  if(LL_DMA_IsActiveFlag_TC2(DMA1))
-  {
-    LL_DMA_ClearFlag_GI2(DMA1);
-    /* Call function Reception complete Callback */
-    DMA1_ReceiveComplete_Callback();
-  }
-  else if(LL_DMA_IsActiveFlag_TE2(DMA1))
-  {
-    /* Call Error function */
-    SPI1_TransferError_Callback();
-  }
-  else if(LL_DMA_IsActiveFlag_TC3(DMA1))
-  {
-    LL_DMA_ClearFlag_GI3(DMA1);
-    /* Call function Transmission complete Callback */
-    DMA1_TransmitComplete_Callback();
-  }
-  else if(LL_DMA_IsActiveFlag_TE3(DMA1))
-  {
-    /* Call Error function */
-    SPI1_TransferError_Callback();
-  }
+    if( LL_DMA_IsActiveFlag_TC2( DMA1 ) )
+    {
+        LL_DMA_ClearFlag_GI2( DMA1 );
+        /* Call function Reception complete Callback */
+        DMA1_ReceiveComplete_Callback();
+    }
+    else if( LL_DMA_IsActiveFlag_TE2( DMA1 ) )
+    {
+        /* Call Error function */
+        SPI1_TransferError_Callback();
+    }
+    else if( LL_DMA_IsActiveFlag_TC3( DMA1 ) )
+    {
+        LL_DMA_ClearFlag_GI3( DMA1 );
+        /* Call function Transmission complete Callback */
+        DMA1_TransmitComplete_Callback();
+    }
+    else if( LL_DMA_IsActiveFlag_TE3( DMA1 ) )
+    {
+        /* Call Error function */
+        SPI1_TransferError_Callback();
+    }
 
 }
 

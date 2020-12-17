@@ -20,7 +20,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "stm32l0xx_it.h"
-   
+
 /** @addtogroup STM32L0xx_HAL_Examples
   * @{
   */
@@ -45,7 +45,7 @@
   * @param  None
   * @retval None
   */
-void NMI_Handler(void)
+void NMI_Handler( void )
 {
 }
 
@@ -54,12 +54,12 @@ void NMI_Handler(void)
   * @param  None
   * @retval None
   */
-void HardFault_Handler(void)
+void HardFault_Handler( void )
 {
-  /* Go to infinite loop when Hard Fault exception occurs */
-  while (1)
-  {
-  }
+    /* Go to infinite loop when Hard Fault exception occurs */
+    while( 1 )
+    {
+    }
 }
 
 /**
@@ -67,7 +67,7 @@ void HardFault_Handler(void)
   * @param  None
   * @retval None
   */
-void SVC_Handler(void)
+void SVC_Handler( void )
 {
 }
 
@@ -76,7 +76,7 @@ void SVC_Handler(void)
   * @param  None
   * @retval None
   */
-void PendSV_Handler(void)
+void PendSV_Handler( void )
 {
 }
 
@@ -85,10 +85,10 @@ void PendSV_Handler(void)
   * @param  None
   * @retval None
   */
-void SysTick_Handler(void)
+void SysTick_Handler( void )
 {
-  HAL_IncTick();
-  TSL_tim_ProcessIT(); /* Used by the STMTouch driver for ECS and DTO */
+    HAL_IncTick();
+    TSL_tim_ProcessIT(); /* Used by the STMTouch driver for ECS and DTO */
 }
 
 /******************************************************************************/
@@ -102,9 +102,9 @@ void SysTick_Handler(void)
   * @param  None
   * @retval None
   */
-void TSCx_EXTI_IRQHandler(void)
+void TSCx_EXTI_IRQHandler( void )
 {
-  /* Not used in this example. Keep it for reference. */
+    /* Not used in this example. Keep it for reference. */
 }
 
 /**
@@ -118,7 +118,7 @@ void TSCx_EXTI_IRQHandler(void)
 
 /**
   * @}
-  */ 
+  */
 
 /**
   * @}

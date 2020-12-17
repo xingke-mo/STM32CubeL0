@@ -2,7 +2,7 @@
 /**
   ******************************************************************************
   * @file    lowpower_app.c
-  * @author  MCD Application Team   
+  * @author  MCD Application Team
   * @brief   low power application.
   ******************************************************************************
   * @attention
@@ -32,78 +32,79 @@
   */
 
 /** @defgroup LOWPOWER_MODULE
-  * @brief low power routines 
+  * @brief low power routines
   * @{
   */
 
-  typedef enum {
-      CONFIG_CLOCK_HSE_32M,
-      CONFIG_CLOCK_MSI_64K,
-      CONFIG_CLOCK_HSI_16M,
-      CONFIG_CLOCK_DEFAULT,
-  } clockConfigTypeEnum;
+typedef enum
+{
+    CONFIG_CLOCK_HSE_32M,
+    CONFIG_CLOCK_MSI_64K,
+    CONFIG_CLOCK_HSI_16M,
+    CONFIG_CLOCK_DEFAULT,
+} clockConfigTypeEnum;
 
 /* External function prototypes -----------------------------------------------*/
 
-extern void SystemClock_Config(void);
-/* Private typedef ----------------------------------------------------------*/    
+extern void SystemClock_Config( void );
+/* Private typedef ----------------------------------------------------------*/
 /* Private constants ----------------------------------------------------------*/
 
 /* Global function prototypes -----------------------------------------------*/
-KMODULE_RETURN _LowPowerDemoExec(void);
-KMODULE_RETURN _LowPowerDemoConfig(void);
-KMODULE_RETURN _LowPowerDemoUnConfig(void);
+KMODULE_RETURN _LowPowerDemoExec( void );
+KMODULE_RETURN _LowPowerDemoConfig( void );
+KMODULE_RETURN _LowPowerDemoUnConfig( void );
 
-void LowPowerDemo(void);
-void LowPowerUserAction(uint8_t sel);
-void DisplayStandbyIddMeasurement(void);
+void LowPowerDemo( void );
+void LowPowerUserAction( uint8_t sel );
+void DisplayStandbyIddMeasurement( void );
 
 /* Private function prototypes -----------------------------------------------*/
-static void StartIddMeasurement(void);
+static void StartIddMeasurement( void );
 
-static void LowPowerStopEXTI(void);
-static void LowPowerStopRTCAlarm(void);
+static void LowPowerStopEXTI( void );
+static void LowPowerStopRTCAlarm( void );
 
-static void LowPowerStandbyEXTI(void);
-static void LowPowerStandbyRTCAlarm(void);
+static void LowPowerStandbyEXTI( void );
+static void LowPowerStandbyRTCAlarm( void );
 
-static void LowPowerSleepEXTI(void);
-static void LowPowerSleepRTCAlarm(void);
+static void LowPowerSleepEXTI( void );
+static void LowPowerSleepRTCAlarm( void );
 
-static void LowPowerLowSleepEXTI(void);
-static void LowPowerLowSleepRTCAlarm(void);
+static void LowPowerLowSleepEXTI( void );
+static void LowPowerLowSleepRTCAlarm( void );
 
-static void LowPowerRunEXTI(void);
-static void LowPowerRunRTCAlarm(void);
+static void LowPowerRunEXTI( void );
+static void LowPowerRunRTCAlarm( void );
 
-static void RunEXTI(void);
-static void RunRTCAlarm(void);
+static void RunEXTI( void );
+static void RunRTCAlarm( void );
 
-static void RTC_Init(void);
-static void LowPowerHandleAlarm(void);
-static void RTC_Config(void);
-static void DesactivateAlarm(void);
-static void RTC_DeConfig(void);
+static void RTC_Init( void );
+static void LowPowerHandleAlarm( void );
+static void RTC_Config( void );
+static void DesactivateAlarm( void );
+static void RTC_DeConfig( void );
 
-static void InitUserInteractionInExtiMode(char * messTitle,char * messActionToDo);
-static void InitUserInteractionInRtcMode(char * messTitle,char * messActionToDo);
-static void WaitForTamperButton(void);
-static void ManageIddMeasurementMenu(char * messTitle,uint32_t flagModeIt);
-static void IddInfoDisplay(uint32_t iddvalueInNanoAmps,uint32_t iddState,char * messTitle);
-static void CopyGpioConfiguration(uint32_t index , GPIO_TypeDef * gpio);
-static void RestoreGpioConfiguration(uint32_t index , GPIO_TypeDef * gpio);
-static void SaveGpioContextAndDisable(uint32_t mode);
-static void RestoreGpioContext(void);
-static void DisplayNewClockConfig(clockConfigTypeEnum clockConfig);
-static void ApplyNewClockConfig(clockConfigTypeEnum clockConfig);
-static void ManageSleepLowPowerMode(uint32_t mode,clockConfigTypeEnum clockConfig);
-static void ManageRunMode(uint32_t mode,clockConfigTypeEnum clockConfig);
-static void ManageStopMode(uint32_t mode);
-static void ManageSleepMode(uint32_t mode);
-static void ManageStandbyMode(uint32_t mode);
-static void DisplayActionExti(void);
-static void DisplaySimpleAction(uint8_t * messAction);
-static void DisplayDelayAction(void);
+static void InitUserInteractionInExtiMode( char *messTitle, char *messActionToDo );
+static void InitUserInteractionInRtcMode( char *messTitle, char *messActionToDo );
+static void WaitForTamperButton( void );
+static void ManageIddMeasurementMenu( char *messTitle, uint32_t flagModeIt );
+static void IddInfoDisplay( uint32_t iddvalueInNanoAmps, uint32_t iddState, char *messTitle );
+static void CopyGpioConfiguration( uint32_t index, GPIO_TypeDef *gpio );
+static void RestoreGpioConfiguration( uint32_t index, GPIO_TypeDef *gpio );
+static void SaveGpioContextAndDisable( uint32_t mode );
+static void RestoreGpioContext( void );
+static void DisplayNewClockConfig( clockConfigTypeEnum clockConfig );
+static void ApplyNewClockConfig( clockConfigTypeEnum clockConfig );
+static void ManageSleepLowPowerMode( uint32_t mode, clockConfigTypeEnum clockConfig );
+static void ManageRunMode( uint32_t mode, clockConfigTypeEnum clockConfig );
+static void ManageStopMode( uint32_t mode );
+static void ManageSleepMode( uint32_t mode );
+static void ManageStandbyMode( uint32_t mode );
+static void DisplayActionExti( void );
+static void DisplaySimpleAction( uint8_t *messAction );
+static void DisplayDelayAction( void );
 
 /* Defines used for the menu. */
 
@@ -192,96 +193,104 @@ RTC_HandleTypeDef RtcHandle;
 
 static GPIO_TypeDef   GpioConfiguration[6];
 static __IO uint8_t   FlagRTCAlarmAsExpired = 0;
-static __IO uint8_t   FlagUserActionDetection=0;
+static __IO uint8_t   FlagUserActionDetection = 0;
 
 /* Menu handlers  ----------------------------------------------------------*/
 
 /* stop mode menu */
 const tMenuItem StopModeMenuItems[] =
 {
-    {SUBMENU_STOP_MODE_EXTI, 14, 30,SEL_EXEC, MODULE_NONE,LowPowerStopEXTI,LowPowerUserAction, NULL, NULL },
-    {SUBMENU_STOP_MODE_RTC, 14, 30,SEL_EXEC, MODULE_NONE, LowPowerStopRTCAlarm,LowPowerUserAction, NULL, NULL },
-    {TITLE_RETURN,0,0,SEL_EXIT, MODULE_NONE, NULL, NULL, NULL, NULL }
+    {SUBMENU_STOP_MODE_EXTI, 14, 30, SEL_EXEC, MODULE_NONE, LowPowerStopEXTI, LowPowerUserAction, NULL, NULL },
+    {SUBMENU_STOP_MODE_RTC, 14, 30, SEL_EXEC, MODULE_NONE, LowPowerStopRTCAlarm, LowPowerUserAction, NULL, NULL },
+    {TITLE_RETURN, 0, 0, SEL_EXIT, MODULE_NONE, NULL, NULL, NULL, NULL }
 };
 
-const tMenu StopModeMenu = {
-  MAIN_MENU_STOP_MODE, StopModeMenuItems, countof(StopModeMenuItems), TYPE_TEXT, 1, 1
+const tMenu StopModeMenu =
+{
+    MAIN_MENU_STOP_MODE, StopModeMenuItems, countof( StopModeMenuItems ), TYPE_TEXT, 1, 1
 };
 /* SIZE MAX "                  " */
 /* standby mode menu */
 const tMenuItem StandbyModeMenuItems[] =
-{   
-    {SUBMENU_STANDBY_MODE_EXTI, 14,30,SEL_EXEC, MODULE_NONE, LowPowerStandbyEXTI,LowPowerUserAction, NULL, NULL },
-    {SUBMENU_STANDBY_MODE_RTC,14,30,SEL_EXEC, MODULE_NONE, LowPowerStandbyRTCAlarm,LowPowerUserAction, NULL, NULL },
-    {TITLE_RETURN, 0, 0,SEL_EXIT, MODULE_NONE, NULL, NULL, NULL, NULL }
+{
+    {SUBMENU_STANDBY_MODE_EXTI, 14, 30, SEL_EXEC, MODULE_NONE, LowPowerStandbyEXTI, LowPowerUserAction, NULL, NULL },
+    {SUBMENU_STANDBY_MODE_RTC, 14, 30, SEL_EXEC, MODULE_NONE, LowPowerStandbyRTCAlarm, LowPowerUserAction, NULL, NULL },
+    {TITLE_RETURN, 0, 0, SEL_EXIT, MODULE_NONE, NULL, NULL, NULL, NULL }
 };
 
-const tMenu StandbyModeMenu = {
-  MAIN_MENU_STANDBY_MODE, StandbyModeMenuItems, countof(StandbyModeMenuItems), TYPE_TEXT, 1, 1
+const tMenu StandbyModeMenu =
+{
+    MAIN_MENU_STANDBY_MODE, StandbyModeMenuItems, countof( StandbyModeMenuItems ), TYPE_TEXT, 1, 1
 };
 
 /* sleep mode menu */
 const tMenuItem SleepModeMenuItems[] =
 {
-    {SUBMENU_SLEEP_MODE_EXTI, 14,30,SEL_EXEC, MODULE_NONE,LowPowerSleepEXTI,LowPowerUserAction, NULL, NULL },
-    {SUBMENU_SLEEP_MODE_RTC,14,30,SEL_EXEC, MODULE_NONE,LowPowerSleepRTCAlarm,LowPowerUserAction, NULL, NULL },
-    {TITLE_RETURN, 0, 0,SEL_EXIT, MODULE_NONE, NULL, NULL, NULL, NULL }
+    {SUBMENU_SLEEP_MODE_EXTI, 14, 30, SEL_EXEC, MODULE_NONE, LowPowerSleepEXTI, LowPowerUserAction, NULL, NULL },
+    {SUBMENU_SLEEP_MODE_RTC, 14, 30, SEL_EXEC, MODULE_NONE, LowPowerSleepRTCAlarm, LowPowerUserAction, NULL, NULL },
+    {TITLE_RETURN, 0, 0, SEL_EXIT, MODULE_NONE, NULL, NULL, NULL, NULL }
 };
 
-const tMenu SleepModeMenu = {
-  MAIN_MENU_SLEEP_MODE, SleepModeMenuItems, countof(SleepModeMenuItems), TYPE_TEXT, 1, 1
+const tMenu SleepModeMenu =
+{
+    MAIN_MENU_SLEEP_MODE, SleepModeMenuItems, countof( SleepModeMenuItems ), TYPE_TEXT, 1, 1
 };
 
 /* low power sleep mode menu */
 const tMenuItem LowSleepModeMenuItems[] =
 {
-    {SUBMENU_LPSLEEP_MODE_EXTI, 14,30,SEL_EXEC, MODULE_NONE,LowPowerLowSleepEXTI,LowPowerUserAction, NULL, NULL },
-    {SUBMENU_LPSLEEP_MODE_RTC,14,30,SEL_EXEC, MODULE_NONE,LowPowerLowSleepRTCAlarm,LowPowerUserAction, NULL, NULL },
-    {TITLE_RETURN, 0, 0,SEL_EXIT, MODULE_NONE, NULL, NULL, NULL, NULL }
+    {SUBMENU_LPSLEEP_MODE_EXTI, 14, 30, SEL_EXEC, MODULE_NONE, LowPowerLowSleepEXTI, LowPowerUserAction, NULL, NULL },
+    {SUBMENU_LPSLEEP_MODE_RTC, 14, 30, SEL_EXEC, MODULE_NONE, LowPowerLowSleepRTCAlarm, LowPowerUserAction, NULL, NULL },
+    {TITLE_RETURN, 0, 0, SEL_EXIT, MODULE_NONE, NULL, NULL, NULL, NULL }
 };
 
-const tMenu LowSleepModeMenu = {
-  MAIN_MENU_LP_SLEEP_MODE, LowSleepModeMenuItems, countof(LowSleepModeMenuItems), TYPE_TEXT, 1, 1
+const tMenu LowSleepModeMenu =
+{
+    MAIN_MENU_LP_SLEEP_MODE, LowSleepModeMenuItems, countof( LowSleepModeMenuItems ), TYPE_TEXT, 1, 1
 };
 
 /* low power run mode menu */
 const tMenuItem LowRunModeMenuItems[] =
 {
-    {SUBMENU_RUN_MODE_EXTI, 14,30,SEL_EXEC, MODULE_NONE,LowPowerRunEXTI,LowPowerUserAction, NULL, NULL },
-    {SUBMENU_RUN_MODE_RTC,14,30,SEL_EXEC, MODULE_NONE,LowPowerRunRTCAlarm,LowPowerUserAction, NULL, NULL },
-    {TITLE_RETURN, 0, 0,SEL_EXIT, MODULE_NONE, NULL, NULL, NULL, NULL }
+    {SUBMENU_RUN_MODE_EXTI, 14, 30, SEL_EXEC, MODULE_NONE, LowPowerRunEXTI, LowPowerUserAction, NULL, NULL },
+    {SUBMENU_RUN_MODE_RTC, 14, 30, SEL_EXEC, MODULE_NONE, LowPowerRunRTCAlarm, LowPowerUserAction, NULL, NULL },
+    {TITLE_RETURN, 0, 0, SEL_EXIT, MODULE_NONE, NULL, NULL, NULL, NULL }
 };
 
-const tMenu LowRunModeMenu = {
-  MAIN_MENU_RUN_MODE, LowRunModeMenuItems, countof(LowRunModeMenuItems), TYPE_TEXT, 1, 1
+const tMenu LowRunModeMenu =
+{
+    MAIN_MENU_RUN_MODE, LowRunModeMenuItems, countof( LowRunModeMenuItems ), TYPE_TEXT, 1, 1
 };
 
 /* low power run mode menu */
 const tMenuItem RunModeMenuItems[] =
 {
-    {SUBMENU_RUN_STD_MODE_EXTI, 14,30,SEL_EXEC, MODULE_NONE,RunEXTI,LowPowerUserAction, NULL, NULL },
-    {SUBMENU_RUN_STD_MODE_RTC,14,30,SEL_EXEC, MODULE_NONE,RunRTCAlarm,LowPowerUserAction, NULL, NULL },
-    {TITLE_RETURN, 0, 0,SEL_EXIT, MODULE_NONE, NULL, NULL, NULL, NULL }
+    {SUBMENU_RUN_STD_MODE_EXTI, 14, 30, SEL_EXEC, MODULE_NONE, RunEXTI, LowPowerUserAction, NULL, NULL },
+    {SUBMENU_RUN_STD_MODE_RTC, 14, 30, SEL_EXEC, MODULE_NONE, RunRTCAlarm, LowPowerUserAction, NULL, NULL },
+    {TITLE_RETURN, 0, 0, SEL_EXIT, MODULE_NONE, NULL, NULL, NULL, NULL }
 };
 
-const tMenu RunModeMenu = {
-  MAIN_MENU_RUN_STD_MODE, RunModeMenuItems, countof(RunModeMenuItems), TYPE_TEXT, 1, 1
+const tMenu RunModeMenu =
+{
+    MAIN_MENU_RUN_STD_MODE, RunModeMenuItems, countof( RunModeMenuItems ), TYPE_TEXT, 1, 1
 };
 
 /* Main menu */
 const tMenuItem LowPowerMenuItems[] =
 {
-    {MAIN_MENU_STOP_MODE,       14, 30,SEL_SUBMENU, MODULE_NONE, NULL, NULL, (const tMenu*)&StopModeMenu, NULL },
-    {MAIN_MENU_STANDBY_MODE,    14, 30,SEL_SUBMENU, MODULE_NONE, NULL, NULL, (const tMenu*)&StandbyModeMenu, NULL },
-    {MAIN_MENU_SLEEP_MODE,      14, 30,SEL_SUBMENU, MODULE_NONE, NULL, NULL, (const tMenu*)&SleepModeMenu, NULL },
-    {MAIN_MENU_LP_SLEEP_MODE,   14, 30,SEL_SUBMENU, MODULE_NONE, NULL, NULL, (const tMenu*)&LowSleepModeMenu, NULL },
-    {MAIN_MENU_RUN_MODE,        14, 30,SEL_SUBMENU, MODULE_NONE, NULL, NULL, (const tMenu*)&LowRunModeMenu, NULL },
-    {MAIN_MENU_RUN_STD_MODE,    14, 30,SEL_SUBMENU, MODULE_NONE, NULL, NULL, (const tMenu*)&RunModeMenu, NULL },
-    {TITLE_RETURN,              0,  0,SEL_EXIT, MODULE_NONE, NULL, NULL, NULL, NULL }
+    {MAIN_MENU_STOP_MODE,       14, 30, SEL_SUBMENU, MODULE_NONE, NULL, NULL, ( const tMenu * ) &StopModeMenu, NULL },
+    {MAIN_MENU_STANDBY_MODE,    14, 30, SEL_SUBMENU, MODULE_NONE, NULL, NULL, ( const tMenu * ) &StandbyModeMenu, NULL },
+    {MAIN_MENU_SLEEP_MODE,      14, 30, SEL_SUBMENU, MODULE_NONE, NULL, NULL, ( const tMenu * ) &SleepModeMenu, NULL },
+    {MAIN_MENU_LP_SLEEP_MODE,   14, 30, SEL_SUBMENU, MODULE_NONE, NULL, NULL, ( const tMenu * ) &LowSleepModeMenu, NULL },
+    {MAIN_MENU_RUN_MODE,        14, 30, SEL_SUBMENU, MODULE_NONE, NULL, NULL, ( const tMenu * ) &LowRunModeMenu, NULL },
+    {MAIN_MENU_RUN_STD_MODE,    14, 30, SEL_SUBMENU, MODULE_NONE, NULL, NULL, ( const tMenu * ) &RunModeMenu, NULL },
+    {TITLE_RETURN,              0,  0, SEL_EXIT, MODULE_NONE, NULL, NULL, NULL, NULL }
 };
 
-const tMenu LowpowerMenu = {
-  MAIN_TITLE, LowPowerMenuItems, countof(LowPowerMenuItems), TYPE_TEXT, 1, 1};
+const tMenu LowpowerMenu =
+{
+    MAIN_TITLE, LowPowerMenuItems, countof( LowPowerMenuItems ), TYPE_TEXT, 1, 1
+};
 
 
 
@@ -289,60 +298,60 @@ const tMenu LowpowerMenu = {
 /* External variables --------------------------------------------------------*/
 const K_ModuleItem_Typedef LowPowerModuleItem =
 {
-  MODULE_LOW_POWER,
-  _LowPowerDemoConfig,
-  _LowPowerDemoExec,
-  _LowPowerDemoUnConfig,
-  NULL
+    MODULE_LOW_POWER,
+    _LowPowerDemoConfig,
+    _LowPowerDemoExec,
+    _LowPowerDemoUnConfig,
+    NULL
 };
 
 /**
-  * @brief  Configure the Lowpower application 
+  * @brief  Configure the Lowpower application
   * @param  None.
-  * @note   run and display information about the lowpower feature.  
+  * @note   run and display information about the lowpower feature.
   * @retval None.
   */
-KMODULE_RETURN _LowPowerDemoConfig(void)
+KMODULE_RETURN _LowPowerDemoConfig( void )
 {
-  return KMODULE_OK;
+    return KMODULE_OK;
 }
 
 /**
-  * @brief  un-Configure the Lowpower application 
+  * @brief  un-Configure the Lowpower application
   * @param  None.
-  * @note   run and display information about the lowpower feature.  
+  * @note   run and display information about the lowpower feature.
   * @retval None.
   */
-KMODULE_RETURN _LowPowerDemoUnConfig(void)
+KMODULE_RETURN _LowPowerDemoUnConfig( void )
 {
-  return KMODULE_OK;
+    return KMODULE_OK;
 }
 
 /**
-  * @brief  Run the Lowpower application 
+  * @brief  Run the Lowpower application
   * @param  None.
-  * @note   run and display information about the lowpower feature.  
+  * @note   run and display information about the lowpower feature.
   * @retval None.
   */
-KMODULE_RETURN _LowPowerDemoExec(void)
+KMODULE_RETURN _LowPowerDemoExec( void )
 {
-  /* Prepare Execute the main MMI of lowpower application */
-  kMenu_Execute(LowpowerMenu);
-  return KMODULE_OK;
+    /* Prepare Execute the main MMI of lowpower application */
+    kMenu_Execute( LowpowerMenu );
+    return KMODULE_OK;
 }
 
 /**
-  * @brief  Get User action 
+  * @brief  Get User action
   * @param  sel : User selection (JOY_SEL,...)
-  * @note   This example is the only way to get user information.  
+  * @note   This example is the only way to get user information.
   * @retval None
   */
-void LowPowerUserAction(uint8_t sel)
+void LowPowerUserAction( uint8_t sel )
 {
-  if (FlagUserActionDetection == 0)
-  {
-    FlagUserActionDetection = 1;
-  }
+    if( FlagUserActionDetection == 0 )
+    {
+        FlagUserActionDetection = 1;
+    }
 }
 
 /**
@@ -352,38 +361,38 @@ void LowPowerUserAction(uint8_t sel)
   * @retval None
   */
 
-static void RunEXTI(void)
+static void RunEXTI( void )
 {
 
-  /* Ensure that the RTC is off */
-  RTC_Config();
-  RTC_DeConfig();
+    /* Ensure that the RTC is off */
+    RTC_Config();
+    RTC_DeConfig();
 
-  /* Init the demo to handle wake through EXTI */
-  InitUserInteractionInExtiMode(TITLE_SUBMENU_STD_RUN_EXTI,
-                                TITLE_ENDMENU_RUN_STD_EXTI);
+    /* Init the demo to handle wake through EXTI */
+    InitUserInteractionInExtiMode( TITLE_SUBMENU_STD_RUN_EXTI,
+                                   TITLE_ENDMENU_RUN_STD_EXTI );
 
-  DisplayNewClockConfig(CONFIG_CLOCK_HSI_16M);
-  ApplyNewClockConfig(CONFIG_CLOCK_HSI_16M);
+    DisplayNewClockConfig( CONFIG_CLOCK_HSI_16M );
+    ApplyNewClockConfig( CONFIG_CLOCK_HSI_16M );
 
-  __HAL_RCC_PWR_CLK_ENABLE();
+    __HAL_RCC_PWR_CLK_ENABLE();
 
-  /* Start IDD measurement */
-  StartIddMeasurement();
+    /* Start IDD measurement */
+    StartIddMeasurement();
 
-  /* GPIO config */
-  SaveGpioContextAndDisable(C_MODE_FULL_DISABLE);
-  BSP_PB_Init(BUTTON_TAMPER,BUTTON_MODE_EXTI);
+    /* GPIO config */
+    SaveGpioContextAndDisable( C_MODE_FULL_DISABLE );
+    BSP_PB_Init( BUTTON_TAMPER, BUTTON_MODE_EXTI );
 
-  /* Do nothing until the user press Tamper Button...*/
-  WaitForTamperButton();
+    /* Do nothing until the user press Tamper Button...*/
+    WaitForTamperButton();
 
-  /* GPIO config and clock */
-  RestoreGpioContext();
-  ApplyNewClockConfig(CONFIG_CLOCK_HSE_32M);
+    /* GPIO config and clock */
+    RestoreGpioContext();
+    ApplyNewClockConfig( CONFIG_CLOCK_HSE_32M );
 
-  /* Measure the power */
-  ManageIddMeasurementMenu(IDD_MEASURE_TITLE_RUN,0);
+    /* Measure the power */
+    ManageIddMeasurementMenu( IDD_MEASURE_TITLE_RUN, 0 );
 }
 
 /**
@@ -392,71 +401,71 @@ static void RunEXTI(void)
   * @note   This example enter in stop mode.
   * @retval None
   */
-static void RunRTCAlarm(void)
+static void RunRTCAlarm( void )
 {
-  /* Init the demo to handle wake through EXTI */
-  InitUserInteractionInRtcMode(SUBMENU_RUN_STD_MODE_RTC,
-                               TITLE_ENDMENU_RUN_STD_RTC);
+    /* Init the demo to handle wake through EXTI */
+    InitUserInteractionInRtcMode( SUBMENU_RUN_STD_MODE_RTC,
+                                  TITLE_ENDMENU_RUN_STD_RTC );
 
-  DisplayNewClockConfig(CONFIG_CLOCK_HSI_16M);
-  ApplyNewClockConfig(CONFIG_CLOCK_HSI_16M);
+    DisplayNewClockConfig( CONFIG_CLOCK_HSI_16M );
+    ApplyNewClockConfig( CONFIG_CLOCK_HSI_16M );
 
-  /* Start the measurement */
-  StartIddMeasurement();
+    /* Start the measurement */
+    StartIddMeasurement();
 
-  /* GPIO config */
-  SaveGpioContextAndDisable(C_MODE_FULL_DISABLE);
+    /* GPIO config */
+    SaveGpioContextAndDisable( C_MODE_FULL_DISABLE );
 
-  /* Wait until RTC alarm expire  */
-  while(FlagRTCAlarmAsExpired == 0)
-  {
-  }
+    /* Wait until RTC alarm expire  */
+    while( FlagRTCAlarmAsExpired == 0 )
+    {
+    }
 
-  /* GPIO config and clock */
-  RestoreGpioContext();
-  ApplyNewClockConfig(CONFIG_CLOCK_HSE_32M);
+    /* GPIO config and clock */
+    RestoreGpioContext();
+    ApplyNewClockConfig( CONFIG_CLOCK_HSE_32M );
 
-  /* Desactivate the alarm */
-  DesactivateAlarm();
+    /* Desactivate the alarm */
+    DesactivateAlarm();
 
-  /* Measure the power */
-  ManageIddMeasurementMenu(IDD_MEASURE_TITLE_RUN,0);
+    /* Measure the power */
+    ManageIddMeasurementMenu( IDD_MEASURE_TITLE_RUN, 0 );
 
 }
 
 /**
   * @brief  Enter in stop mode and exit by pressing the tamper button
   * @param  None
-  * @note   This example enter in stop mode.  
+  * @note   This example enter in stop mode.
   * @retval None
   */
 
-static void LowPowerStopEXTI(void)
+static void LowPowerStopEXTI( void )
 {
-  /* Ensure that the RTC is off */
-  RTC_Config();
-  RTC_DeConfig();
+    /* Ensure that the RTC is off */
+    RTC_Config();
+    RTC_DeConfig();
 
-  /* Init the demo to handle wake through EXTI */
-  InitUserInteractionInExtiMode(TITLE_SUBMENU_STOP_EXTI,
-                                TITLE_ENDMENU_STOP_EXTI);
+    /* Init the demo to handle wake through EXTI */
+    InitUserInteractionInExtiMode( TITLE_SUBMENU_STOP_EXTI,
+                                   TITLE_ENDMENU_STOP_EXTI );
 
-  ManageStopMode(C_MODE_EXTI);
+    ManageStopMode( C_MODE_EXTI );
 }
 
 /**
   * @brief  Enter in stop mode and exit by an alarm
   * @param  None
-  * @note   This example enter in stop mode.  
+  * @note   This example enter in stop mode.
   * @retval None
   */
-static void LowPowerStopRTCAlarm(void)
+static void LowPowerStopRTCAlarm( void )
 {
     /* Init the demo to handle wake through EXTI */
-  InitUserInteractionInRtcMode(SUBMENU_STOP_MODE_RTC,
-                               TITLE_ENDMENU_STOP_RTC);
+    InitUserInteractionInRtcMode( SUBMENU_STOP_MODE_RTC,
+                                  TITLE_ENDMENU_STOP_RTC );
 
-  ManageStopMode(C_MODE_RTC);
+    ManageStopMode( C_MODE_RTC );
 }
 
 /**
@@ -466,18 +475,18 @@ static void LowPowerStopRTCAlarm(void)
   * @retval None
   */
 
-static void LowPowerLowSleepEXTI(void)
+static void LowPowerLowSleepEXTI( void )
 {
-  /* Ensure that the RTC is off */
-  RTC_Config();
-  RTC_DeConfig();
+    /* Ensure that the RTC is off */
+    RTC_Config();
+    RTC_DeConfig();
 
-  /* Init the demo to handle wake through EXTI */
-  InitUserInteractionInExtiMode(TITLE_SUBMENU_LOWSLEEP_EXTI,
-                                TITLE_ENDMENU_SLEEP_EXTI);
+    /* Init the demo to handle wake through EXTI */
+    InitUserInteractionInExtiMode( TITLE_SUBMENU_LOWSLEEP_EXTI,
+                                   TITLE_ENDMENU_SLEEP_EXTI );
 
-  DisplayNewClockConfig(CONFIG_CLOCK_MSI_64K);
-  ManageSleepLowPowerMode(C_MODE_EXTI,CONFIG_CLOCK_MSI_64K);
+    DisplayNewClockConfig( CONFIG_CLOCK_MSI_64K );
+    ManageSleepLowPowerMode( C_MODE_EXTI, CONFIG_CLOCK_MSI_64K );
 }
 
 /**
@@ -486,15 +495,15 @@ static void LowPowerLowSleepEXTI(void)
   * @note   This example enter in stop mode.
   * @retval None
   */
-static void LowPowerLowSleepRTCAlarm(void)
+static void LowPowerLowSleepRTCAlarm( void )
 {
 
-  /* Init the demo to handle wake through RTC */
-  InitUserInteractionInRtcMode(TITLE_SUBMENU_LOWSLEEP_RTC,
-                               TITLE_ENDMENU_LOWSLEEP_RTC);
+    /* Init the demo to handle wake through RTC */
+    InitUserInteractionInRtcMode( TITLE_SUBMENU_LOWSLEEP_RTC,
+                                  TITLE_ENDMENU_LOWSLEEP_RTC );
 
-  DisplayNewClockConfig(CONFIG_CLOCK_MSI_64K);
-  ManageSleepLowPowerMode(C_MODE_RTC,CONFIG_CLOCK_MSI_64K);
+    DisplayNewClockConfig( CONFIG_CLOCK_MSI_64K );
+    ManageSleepLowPowerMode( C_MODE_RTC, CONFIG_CLOCK_MSI_64K );
 }
 
 /**
@@ -504,17 +513,17 @@ static void LowPowerLowSleepRTCAlarm(void)
   * @retval None
   */
 
-static void LowPowerSleepEXTI(void)
+static void LowPowerSleepEXTI( void )
 {
-  /* Ensure that the RTC is off */
-  RTC_Config();
-  RTC_DeConfig();
+    /* Ensure that the RTC is off */
+    RTC_Config();
+    RTC_DeConfig();
 
-  /* Init the demo to handle wake through EXTI */
-  InitUserInteractionInExtiMode(TITLE_SUBMENU_SLEEP_EXTI,
-                                TITLE_ENDMENU_LOWSLEEP_EXTI);
+    /* Init the demo to handle wake through EXTI */
+    InitUserInteractionInExtiMode( TITLE_SUBMENU_SLEEP_EXTI,
+                                   TITLE_ENDMENU_LOWSLEEP_EXTI );
 
-  ManageSleepMode(C_MODE_EXTI);
+    ManageSleepMode( C_MODE_EXTI );
 
 }
 
@@ -524,14 +533,14 @@ static void LowPowerSleepEXTI(void)
   * @note   This example enter in stop mode.
   * @retval None
   */
-static void LowPowerSleepRTCAlarm(void)
+static void LowPowerSleepRTCAlarm( void )
 {
 
-  /* Init the demo to handle wake through RTC */
-  InitUserInteractionInRtcMode(TITLE_SUBMENU_SLEEP_RTC,
-                               TITLE_ENDMENU_LOWSLEEP_RTC);
+    /* Init the demo to handle wake through RTC */
+    InitUserInteractionInRtcMode( TITLE_SUBMENU_SLEEP_RTC,
+                                  TITLE_ENDMENU_LOWSLEEP_RTC );
 
-   ManageSleepMode(C_MODE_EXTI);
+    ManageSleepMode( C_MODE_EXTI );
 }
 
 /**
@@ -541,21 +550,21 @@ static void LowPowerSleepRTCAlarm(void)
   * @retval None
   */
 
-static void LowPowerStandbyEXTI(void)
+static void LowPowerStandbyEXTI( void )
 {
 
-  /* Ensure that the RTC is off */
-  RTC_Config();
-  RTC_DeConfig();
+    /* Ensure that the RTC is off */
+    RTC_Config();
+    RTC_DeConfig();
 
-  /* Disable all used wakeup sources: PWR_WAKEUP_PIN2 */
-  HAL_PWR_DisableWakeUpPin(PWR_WAKEUP_PIN2);
+    /* Disable all used wakeup sources: PWR_WAKEUP_PIN2 */
+    HAL_PWR_DisableWakeUpPin( PWR_WAKEUP_PIN2 );
 
-  /* Init the demo to handle wake through EXTI */
-  InitUserInteractionInExtiMode(TITLE_SUBMENU_STANDBY_EXTI,
-                                TITLE_ENDMENU_STANDBY_EXTI);
+    /* Init the demo to handle wake through EXTI */
+    InitUserInteractionInExtiMode( TITLE_SUBMENU_STANDBY_EXTI,
+                                   TITLE_ENDMENU_STANDBY_EXTI );
 
-  ManageStandbyMode(C_MODE_EXTI);
+    ManageStandbyMode( C_MODE_EXTI );
 
 }
 
@@ -565,16 +574,16 @@ static void LowPowerStandbyEXTI(void)
   * @note   This example enter in stop mode.
   * @retval None
   */
-static void LowPowerStandbyRTCAlarm(void)
+static void LowPowerStandbyRTCAlarm( void )
 {
 
-  HAL_PWR_DisableWakeUpPin(PWR_WAKEUP_PIN2);
+    HAL_PWR_DisableWakeUpPin( PWR_WAKEUP_PIN2 );
 
-   /* Init the demo to handle wake through RTC */
-  InitUserInteractionInRtcMode(TITLE_SUBMENU_STANDBY_RTC,
-                               TITLE_ENDMENU_STANDBY_RTC);
+    /* Init the demo to handle wake through RTC */
+    InitUserInteractionInRtcMode( TITLE_SUBMENU_STANDBY_RTC,
+                                  TITLE_ENDMENU_STANDBY_RTC );
 
-  ManageStandbyMode(C_MODE_RTC);
+    ManageStandbyMode( C_MODE_RTC );
 }
 
 /**
@@ -584,18 +593,18 @@ static void LowPowerStandbyRTCAlarm(void)
   * @retval None
   */
 
-static void LowPowerRunEXTI(void)
+static void LowPowerRunEXTI( void )
 {
-  /* Ensure that the RTC is off */
-  RTC_Config();
-  RTC_DeConfig();
+    /* Ensure that the RTC is off */
+    RTC_Config();
+    RTC_DeConfig();
 
-  /* Init the demo to handle wake through EXTI */
-  InitUserInteractionInExtiMode(TITLE_SUBMENU_RUN_EXTI,
-                                TITLE_ENDMENU_RUN_EXTI);
+    /* Init the demo to handle wake through EXTI */
+    InitUserInteractionInExtiMode( TITLE_SUBMENU_RUN_EXTI,
+                                   TITLE_ENDMENU_RUN_EXTI );
 
-  DisplayNewClockConfig(CONFIG_CLOCK_MSI_64K);
-  ManageRunMode(C_MODE_EXTI,CONFIG_CLOCK_MSI_64K);
+    DisplayNewClockConfig( CONFIG_CLOCK_MSI_64K );
+    ManageRunMode( C_MODE_EXTI, CONFIG_CLOCK_MSI_64K );
 }
 
 /**
@@ -604,15 +613,15 @@ static void LowPowerRunEXTI(void)
   * @note   This example enter in stop mode.
   * @retval None
   */
-static void LowPowerRunRTCAlarm(void)
+static void LowPowerRunRTCAlarm( void )
 {
 
-  /* Init the demo to handle wake through RTC */
-  InitUserInteractionInRtcMode(TITLE_SUBMENU_RUN_RTC,
-                               TITLE_ENDMENU_RUN_RTC);
+    /* Init the demo to handle wake through RTC */
+    InitUserInteractionInRtcMode( TITLE_SUBMENU_RUN_RTC,
+                                  TITLE_ENDMENU_RUN_RTC );
 
-  DisplayNewClockConfig(CONFIG_CLOCK_MSI_64K);
-  ManageRunMode(C_MODE_RTC,CONFIG_CLOCK_MSI_64K);
+    DisplayNewClockConfig( CONFIG_CLOCK_MSI_64K );
+    ManageRunMode( C_MODE_RTC, CONFIG_CLOCK_MSI_64K );
 }
 
 /**
@@ -620,17 +629,17 @@ static void LowPowerRunRTCAlarm(void)
   * @param  None
   * @retval None
   */
-static void RTC_Config(void)
+static void RTC_Config( void )
 {
-  /* Enable Power Clock*/
-  __HAL_RCC_PWR_CLK_ENABLE();
-  
-  /* Allow Access to RTC Backup domaine */
-  HAL_PWR_EnableBkUpAccess();
-  
-  /* Initialize the RTC */
-  RTC_Init();
-  
+    /* Enable Power Clock*/
+    __HAL_RCC_PWR_CLK_ENABLE();
+
+    /* Allow Access to RTC Backup domaine */
+    HAL_PWR_EnableBkUpAccess();
+
+    /* Initialize the RTC */
+    RTC_Init();
+
 }
 
 /**
@@ -638,15 +647,16 @@ static void RTC_Config(void)
   * @param  None
   * @retval None
   */
-static void RTC_DeConfig(void)
+static void RTC_DeConfig( void )
 {
-  /* DeInit Rtc instance */
-  if(HAL_RTC_DeInit(&RtcHandle) != HAL_OK)
-  {
-    /* Initialization Error */
-     BSP_LCD_DisplayStringAtLine(3,(uint8_t *)"FATAL ERROR RTC_DECONFIG");
-    while(1);
-  }
+    /* DeInit Rtc instance */
+    if( HAL_RTC_DeInit( &RtcHandle ) != HAL_OK )
+    {
+        /* Initialization Error */
+        BSP_LCD_DisplayStringAtLine( 3, ( uint8_t * )"FATAL ERROR RTC_DECONFIG" );
+
+        while( 1 );
+    }
 }
 
 /**
@@ -654,17 +664,17 @@ static void RTC_DeConfig(void)
   * @param  None
   * @retval None
   */
-static void DesactivateAlarm(void)
+static void DesactivateAlarm( void )
 {
-  /* Desactivate the alarm */
-  HAL_RTC_DeactivateAlarm(&RtcHandle, RTC_ALARM_A);
-  /* Clear the Alarm interrupt pending bit */
-  __HAL_RTC_ALARM_CLEAR_FLAG(&RtcHandle,RTC_FLAG_ALRAF);
-  /* Clear the EXTI's line Flag for RTC Alarm */
-  __HAL_RTC_ALARM_EXTI_CLEAR_FLAG();
+    /* Desactivate the alarm */
+    HAL_RTC_DeactivateAlarm( &RtcHandle, RTC_ALARM_A );
+    /* Clear the Alarm interrupt pending bit */
+    __HAL_RTC_ALARM_CLEAR_FLAG( &RtcHandle, RTC_FLAG_ALRAF );
+    /* Clear the EXTI's line Flag for RTC Alarm */
+    __HAL_RTC_ALARM_EXTI_CLEAR_FLAG();
 
-  /*Deinitialise the RTC */
-  RTC_DeConfig();
+    /*Deinitialise the RTC */
+    RTC_DeConfig();
 }
 
 /**
@@ -673,7 +683,7 @@ static void DesactivateAlarm(void)
   * @note   This function wait user info to setup the alarm.
   * @retval None
   */
-static void RTC_Init(void)
+static void RTC_Init( void )
 {
     RtcHandle.Instance = RTC;
     RtcHandle.Init.HourFormat = RTC_HOURFORMAT_24;
@@ -682,193 +692,262 @@ static void RTC_Init(void)
     RtcHandle.Init.OutPut = RTC_OUTPUT_DISABLE;
     RtcHandle.Init.OutPutPolarity = RTC_OUTPUT_POLARITY_HIGH;
     RtcHandle.Init.OutPutType = RTC_OUTPUT_TYPE_OPENDRAIN;
-    if(HAL_RTC_Init(&RtcHandle) != HAL_OK)
+
+    if( HAL_RTC_Init( &RtcHandle ) != HAL_OK )
     {
-      /* Initialization Error */
-      BSP_LCD_DisplayStringAtLine(3,(uint8_t *)"RTC_Init");
-      while(1);
+        /* Initialization Error */
+        BSP_LCD_DisplayStringAtLine( 3, ( uint8_t * )"RTC_Init" );
+
+        while( 1 );
     }
 
-      /*#### Disable all used wakeup sources ####*/
-     HAL_RTC_DeactivateAlarm(&RtcHandle, RTC_ALARM_A);
-     /* Disable all previous wake up interrupt */
-     HAL_PWR_DisableWakeUpPin(PWR_WAKEUP_PIN1);
+    /*#### Disable all used wakeup sources ####*/
+    HAL_RTC_DeactivateAlarm( &RtcHandle, RTC_ALARM_A );
+    /* Disable all previous wake up interrupt */
+    HAL_PWR_DisableWakeUpPin( PWR_WAKEUP_PIN1 );
 
-     /*#### Clear all related wakeup flags ####*/
-     /* Clear the Alarm interrupt pending bit */
-     __HAL_RTC_ALARM_CLEAR_FLAG(&RtcHandle,RTC_FLAG_ALRAF);
-     /* Clear PWR wake up Flag */
-     __HAL_PWR_CLEAR_FLAG(PWR_FLAG_WU);
+    /*#### Clear all related wakeup flags ####*/
+    /* Clear the Alarm interrupt pending bit */
+    __HAL_RTC_ALARM_CLEAR_FLAG( &RtcHandle, RTC_FLAG_ALRAF );
+    /* Clear PWR wake up Flag */
+    __HAL_PWR_CLEAR_FLAG( PWR_FLAG_WU );
 }
 
 /**
   * @brief  Get user info to setup an alarm
   * @param  RTC handle
-  * @note   This function wait user info to setup the alarm.  
+  * @note   This function wait user info to setup the alarm.
   * @retval None
   */
-static void LowPowerHandleAlarm(void)
+static void LowPowerHandleAlarm( void )
 {
-  enum {
-    HOURS,
-    MINUTES,
-    SECONDS,
-    END
-  };
-  
-  RTC_DateTypeDef currentdate;
-  RTC_TimeTypeDef time, currenttime;
-  RTC_AlarmTypeDef Alarm;
-  uint8_t temp[16];
-  uint8_t exit = 0;
-  uint8_t index = SECONDS;
-  uint8_t position = 0;
-  JOYState_TypeDef JoyState = JOY_NONE;
-
-  /****************************/
-  /* Init                     */
-  /****************************/
-
-  memset(&Alarm, 0x00, sizeof(RTC_AlarmTypeDef));
-  memset(&time,0x00,sizeof(RTC_TimeTypeDef));
-  memset(&currenttime,0x00,sizeof(RTC_TimeTypeDef));
-  
-
-  /**************************************/
-  /* Get the time from the user         */
-  /**************************************/
-
-  /* Set the JOYSTICK in GPIO mode */
-  BSP_JOY_Init(JOY_MODE_GPIO);
-
-  /* Set the initial time to 5 sec by default*/
-  time.Seconds = 5;
-  /* Get the alarm time from user */
-  do
-  {
-    BSP_LCD_SetTextColor(LCD_COLOR_BLUE);
-    sprintf((char *)temp, "    %.2d:%.2d:%.2d", time.Hours, time.Minutes, time.Seconds);
-    BSP_LCD_DisplayStringAt(0, 5 * Font24.Height, temp, NO_MODE);
-    BSP_LCD_SetTextColor(LCD_COLOR_RED);
-    
-    switch(index)
+    enum
     {
-    case HOURS :
-      position = 4;
-      sprintf((char *)temp, "%.2d", time.Hours);
-      break;
-    case MINUTES:
-      position = 7;
-      sprintf((char *)temp, "%.2d", time.Minutes);
-      break;
-    case SECONDS :
-      position = 10;
-      sprintf((char *)temp, "%.2d", time.Seconds);
-      break;
-    }
-    BSP_LCD_DisplayStringAt(position* Font24.Width, 5 * Font24.Height, temp, NO_MODE);
-    
-    /* Retrieve the joystik state */
-    HAL_Delay(100);
-    JoyState = BSP_JOY_GetState();
-    
-    switch(JoyState)
+        HOURS,
+        MINUTES,
+        SECONDS,
+        END
+    };
+
+    RTC_DateTypeDef currentdate;
+    RTC_TimeTypeDef time, currenttime;
+    RTC_AlarmTypeDef Alarm;
+    uint8_t temp[16];
+    uint8_t exit = 0;
+    uint8_t index = SECONDS;
+    uint8_t position = 0;
+    JOYState_TypeDef JoyState = JOY_NONE;
+
+    /****************************/
+    /* Init                     */
+    /****************************/
+
+    memset( &Alarm, 0x00, sizeof( RTC_AlarmTypeDef ) );
+    memset( &time, 0x00, sizeof( RTC_TimeTypeDef ) );
+    memset( &currenttime, 0x00, sizeof( RTC_TimeTypeDef ) );
+
+
+    /**************************************/
+    /* Get the time from the user         */
+    /**************************************/
+
+    /* Set the JOYSTICK in GPIO mode */
+    BSP_JOY_Init( JOY_MODE_GPIO );
+
+    /* Set the initial time to 5 sec by default*/
+    time.Seconds = 5;
+
+    /* Get the alarm time from user */
+    do
     {
-    case JOY_UP :
-      if(index == HOURS)
-      {
-        if( time.Hours == 23 ) time.Hours = 0;
-        else
-          time.Hours++;
-      }
-      
-      if(index == MINUTES)
-      {
-        if(time.Minutes == 59 ) time.Minutes= 0;
-        else
-          time.Minutes++;
-      }
-      if(index == SECONDS)
-      {
-        if(time.Seconds == 59 ) time.Seconds =0;
-        else
-          time.Seconds++;
-      }
-      break;
-    case JOY_DOWN :
-      if(index == HOURS)
-      {
-        if (time.Hours == 0 ) time.Hours = 23;
-        else time.Hours--;
-      }
-      if(index == MINUTES)
-      {
-        if(time.Minutes == 0) time.Minutes=59;
-        else 
-          time.Minutes--;
-      }
-      if(index == SECONDS)
-      {
-        if(time.Seconds == 0) time.Seconds = 59;
-        else
-          time.Seconds--;
-      }
-      break;
-    case JOY_RIGHT :
-      if(index != SECONDS ) index++; 
-      break;
-    case JOY_LEFT :
-      if(index != HOURS ) index--;
-      break;
-    case JOY_SEL :
-      exit = 1;
-      break;
-    case JOY_NONE :
-       break;
+        BSP_LCD_SetTextColor( LCD_COLOR_BLUE );
+        sprintf( ( char * )temp, "    %.2d:%.2d:%.2d", time.Hours, time.Minutes, time.Seconds );
+        BSP_LCD_DisplayStringAt( 0, 5 * Font24.Height, temp, NO_MODE );
+        BSP_LCD_SetTextColor( LCD_COLOR_RED );
+
+        switch( index )
+        {
+        case HOURS :
+            position = 4;
+            sprintf( ( char * )temp, "%.2d", time.Hours );
+            break;
+
+        case MINUTES:
+            position = 7;
+            sprintf( ( char * )temp, "%.2d", time.Minutes );
+            break;
+
+        case SECONDS :
+            position = 10;
+            sprintf( ( char * )temp, "%.2d", time.Seconds );
+            break;
+        }
+
+        BSP_LCD_DisplayStringAt( position * Font24.Width, 5 * Font24.Height, temp, NO_MODE );
+
+        /* Retrieve the joystik state */
+        HAL_Delay( 100 );
+        JoyState = BSP_JOY_GetState();
+
+        switch( JoyState )
+        {
+        case JOY_UP :
+            if( index == HOURS )
+            {
+                if( time.Hours == 23 )
+                {
+                    time.Hours = 0;
+                }
+                else
+                {
+                    time.Hours++;
+                }
+            }
+
+            if( index == MINUTES )
+            {
+                if( time.Minutes == 59 )
+                {
+                    time.Minutes = 0;
+                }
+                else
+                {
+                    time.Minutes++;
+                }
+            }
+
+            if( index == SECONDS )
+            {
+                if( time.Seconds == 59 )
+                {
+                    time.Seconds = 0;
+                }
+                else
+                {
+                    time.Seconds++;
+                }
+            }
+
+            break;
+
+        case JOY_DOWN :
+            if( index == HOURS )
+            {
+                if( time.Hours == 0 )
+                {
+                    time.Hours = 23;
+                }
+                else
+                {
+                    time.Hours--;
+                }
+            }
+
+            if( index == MINUTES )
+            {
+                if( time.Minutes == 0 )
+                {
+                    time.Minutes = 59;
+                }
+                else
+                {
+                    time.Minutes--;
+                }
+            }
+
+            if( index == SECONDS )
+            {
+                if( time.Seconds == 0 )
+                {
+                    time.Seconds = 59;
+                }
+                else
+                {
+                    time.Seconds--;
+                }
+            }
+
+            break;
+
+        case JOY_RIGHT :
+            if( index != SECONDS )
+            {
+                index++;
+            }
+
+            break;
+
+        case JOY_LEFT :
+            if( index != HOURS )
+            {
+                index--;
+            }
+
+            break;
+
+        case JOY_SEL :
+            exit = 1;
+            break;
+
+        case JOY_NONE :
+            break;
+        }
+
+        /* 4 seconds are needed to proceed to the measurement */
+        if( ( time.Seconds <= 4 ) && ( time.Minutes == 0 ) && ( time.Hours == 0 ) )
+        {
+            time.Seconds = 4;
+        }
+
+    } while( exit == 0 );
+
+    /**************************************/
+    /* Manage the RTC timer               */
+    /**************************************/
+
+    /* Get the curent time */
+    HAL_RTC_GetTime( &RtcHandle, &currenttime,  RTC_FORMAT_BIN );
+    HAL_RTC_GetDate( &RtcHandle, &currentdate, RTC_FORMAT_BIN );
+
+    time.SubSeconds = currenttime.SubSeconds;
+
+    if( ( time.Seconds + currenttime.Seconds ) > 60 )
+    {
+        time.Minutes++;
     }
-    
-    /* 4 seconds are needed to proceed to the measurement */
-    if ((time.Seconds <= 4) && (time.Minutes == 0) && (time.Hours == 0))
-      time.Seconds = 4;
-    
-  } while(exit == 0);
 
-  /**************************************/
-  /* Manage the RTC timer               */
-  /**************************************/
+    time.Seconds = ( ( time.Seconds + currenttime.Seconds ) % 60 );
 
-  /* Get the curent time */
-  HAL_RTC_GetTime(&RtcHandle, &currenttime,  RTC_FORMAT_BIN);
-  HAL_RTC_GetDate(&RtcHandle, &currentdate, RTC_FORMAT_BIN);
+    if( ( time.Minutes + currenttime.Minutes ) > 60 )
+    {
+        time.Hours++;
+    }
 
-  time.SubSeconds = currenttime.SubSeconds;
-  if((time.Seconds + currenttime.Seconds) > 60 )  time.Minutes++;
-  time.Seconds = ((time.Seconds + currenttime.Seconds) % 60);
-  
-  if((time.Minutes + currenttime.Minutes) > 60 )  time.Hours++;
-  time.Minutes = ((time.Minutes + currenttime.Minutes) % 60);
-  
-  time.Hours = ((time.Hours + currenttime.Hours) % 24);
-  
-  /* Set the alarm */
-  Alarm.Alarm = RTC_ALARM_A;
-  Alarm.AlarmDateWeekDay = RTC_WEEKDAY_MONDAY;
-  Alarm.AlarmDateWeekDaySel = RTC_ALARMDATEWEEKDAYSEL_DATE;
-  Alarm.AlarmMask = RTC_ALARMMASK_DATEWEEKDAY;
-  Alarm.AlarmSubSecondMask = RTC_ALARMSUBSECONDMASK_ALL;
-  Alarm.AlarmTime.TimeFormat = RTC_HOURFORMAT_24;
-  Alarm.AlarmTime.Hours = time.Hours;
-  Alarm.AlarmTime.Minutes = time.Minutes;
-  Alarm.AlarmTime.Seconds = time.Seconds;
-  Alarm.AlarmTime.SubSeconds = time.SubSeconds;
+    time.Minutes = ( ( time.Minutes + currenttime.Minutes ) % 60 );
 
-   /* Set the timer in order to generate an alarm after the tmo set by the user */
-  FlagRTCAlarmAsExpired = 0;
-  if(HAL_RTC_SetAlarm_IT(&RtcHandle, &Alarm, RTC_FORMAT_BIN) != HAL_OK)
-  {
-    BSP_LCD_DisplayStringAtLine(3,(uint8_t *)"LowPowerHandleAlarm2");
-    while(1);
-  }
+    time.Hours = ( ( time.Hours + currenttime.Hours ) % 24 );
+
+    /* Set the alarm */
+    Alarm.Alarm = RTC_ALARM_A;
+    Alarm.AlarmDateWeekDay = RTC_WEEKDAY_MONDAY;
+    Alarm.AlarmDateWeekDaySel = RTC_ALARMDATEWEEKDAYSEL_DATE;
+    Alarm.AlarmMask = RTC_ALARMMASK_DATEWEEKDAY;
+    Alarm.AlarmSubSecondMask = RTC_ALARMSUBSECONDMASK_ALL;
+    Alarm.AlarmTime.TimeFormat = RTC_HOURFORMAT_24;
+    Alarm.AlarmTime.Hours = time.Hours;
+    Alarm.AlarmTime.Minutes = time.Minutes;
+    Alarm.AlarmTime.Seconds = time.Seconds;
+    Alarm.AlarmTime.SubSeconds = time.SubSeconds;
+
+    /* Set the timer in order to generate an alarm after the tmo set by the user */
+    FlagRTCAlarmAsExpired = 0;
+
+    if( HAL_RTC_SetAlarm_IT( &RtcHandle, &Alarm, RTC_FORMAT_BIN ) != HAL_OK )
+    {
+        BSP_LCD_DisplayStringAtLine( 3, ( uint8_t * )"LowPowerHandleAlarm2" );
+
+        while( 1 );
+    }
 }
 
 /**
@@ -877,12 +956,12 @@ static void LowPowerHandleAlarm(void)
   * @retval None
   */
 
-void HAL_RTC_AlarmAEventCallback(RTC_HandleTypeDef *hrtc)
+void HAL_RTC_AlarmAEventCallback( RTC_HandleTypeDef *hrtc )
 {
-  /* Clear Wake Up Flag */
-  __HAL_PWR_CLEAR_FLAG(PWR_FLAG_WU);
-  /* Set the RTC expire flag to 1 */
-  FlagRTCAlarmAsExpired = 1;
+    /* Clear Wake Up Flag */
+    __HAL_PWR_CLEAR_FLAG( PWR_FLAG_WU );
+    /* Set the RTC expire flag to 1 */
+    FlagRTCAlarmAsExpired = 1;
 }
 
 /**
@@ -892,22 +971,22 @@ void HAL_RTC_AlarmAEventCallback(RTC_HandleTypeDef *hrtc)
   * @retval None
   */
 
-static void InitUserInteractionInExtiMode(char * messTitle,
-                                   char * messActionToDo)
+static void InitUserInteractionInExtiMode( char *messTitle,
+        char *messActionToDo )
 {
 
-  kWindow_PopupAligned(messTitle, LCD_COLOR_WHITE, LCD_COLOR_BLUE,        \
-                       messActionToDo, \
-                       LCD_COLOR_GREEN, LCD_COLOR_WHITE );
+    kWindow_PopupAligned( messTitle, LCD_COLOR_WHITE, LCD_COLOR_BLUE,        \
+                          messActionToDo, \
+                          LCD_COLOR_GREEN, LCD_COLOR_WHITE );
 
-  DisplayActionExti();
+    DisplayActionExti();
 
 
 
-  /* User push-button (EXTI_Line0) will be used to wakeup the system  */
+    /* User push-button (EXTI_Line0) will be used to wakeup the system  */
 
- __HAL_GPIO_EXTI_CLEAR_IT(TAMPER_BUTTON_PIN);
-  BSP_PB_Init(BUTTON_TAMPER, BUTTON_MODE_EXTI);
+    __HAL_GPIO_EXTI_CLEAR_IT( TAMPER_BUTTON_PIN );
+    BSP_PB_Init( BUTTON_TAMPER, BUTTON_MODE_EXTI );
 
 }
 
@@ -917,63 +996,73 @@ static void InitUserInteractionInExtiMode(char * messTitle,
   * @param  messActionToDo Message showing the action to do
   * @retval None
   */
-static void DisplayNewClockConfig(clockConfigTypeEnum clockConfig)
+static void DisplayNewClockConfig( clockConfigTypeEnum clockConfig )
 {
-  BSP_LCD_SetFont(&Font16);
+    BSP_LCD_SetFont( &Font16 );
 
-  /* WARNING : It is not possible to compute the clock values because it takes too much time to be
-   *           displayed once the clock is slowed down !!
-   */
-  switch(clockConfig)
-  {
-      case CONFIG_CLOCK_HSE_32M :BSP_LCD_DisplayStringAtLine(7, (uint8_t *)"  System Clock : PLL-HSE");
-                                 BSP_LCD_DisplayStringAtLine(8, (uint8_t *)"  SYSCLK       : 32 MHz");
-                                 BSP_LCD_DisplayStringAtLine(9, (uint8_t *)"  HCLK         : 32 MHz");
-                                 break;
-      case CONFIG_CLOCK_MSI_64K :BSP_LCD_DisplayStringAtLine(7, (uint8_t *)"  System Clock : MSI");
-                                 BSP_LCD_DisplayStringAtLine(8, (uint8_t *)"  SYSCLK       : 64 kHz");
-                                 BSP_LCD_DisplayStringAtLine(9, (uint8_t *)"  HCLK         : 32 kHz");
-                                 break;
-      case CONFIG_CLOCK_HSI_16M :BSP_LCD_DisplayStringAtLine(7, (uint8_t *)"  System Clock : HSI");
-                                 BSP_LCD_DisplayStringAtLine(8, (uint8_t *)"  SYSCLK       : 16 MHz");
-                                 BSP_LCD_DisplayStringAtLine(9, (uint8_t *)"  HCLK         : 16 MHz");
-                                 break;
-      case CONFIG_CLOCK_DEFAULT :BSP_LCD_DisplayStringAtLine(7, (uint8_t *)"");
-                                 break;
-      default                :   break;
-  }
-   BSP_LCD_SetFont(&Font24);
+    /* WARNING : It is not possible to compute the clock values because it takes too much time to be
+     *           displayed once the clock is slowed down !!
+     */
+    switch( clockConfig )
+    {
+    case CONFIG_CLOCK_HSE_32M : BSP_LCD_DisplayStringAtLine( 7, ( uint8_t * )"  System Clock : PLL-HSE" );
+        BSP_LCD_DisplayStringAtLine( 8, ( uint8_t * )"  SYSCLK       : 32 MHz" );
+        BSP_LCD_DisplayStringAtLine( 9, ( uint8_t * )"  HCLK         : 32 MHz" );
+        break;
+
+    case CONFIG_CLOCK_MSI_64K : BSP_LCD_DisplayStringAtLine( 7, ( uint8_t * )"  System Clock : MSI" );
+        BSP_LCD_DisplayStringAtLine( 8, ( uint8_t * )"  SYSCLK       : 64 kHz" );
+        BSP_LCD_DisplayStringAtLine( 9, ( uint8_t * )"  HCLK         : 32 kHz" );
+        break;
+
+    case CONFIG_CLOCK_HSI_16M : BSP_LCD_DisplayStringAtLine( 7, ( uint8_t * )"  System Clock : HSI" );
+        BSP_LCD_DisplayStringAtLine( 8, ( uint8_t * )"  SYSCLK       : 16 MHz" );
+        BSP_LCD_DisplayStringAtLine( 9, ( uint8_t * )"  HCLK         : 16 MHz" );
+        break;
+
+    case CONFIG_CLOCK_DEFAULT : BSP_LCD_DisplayStringAtLine( 7, ( uint8_t * )"" );
+        break;
+
+    default                :   break;
+    }
+
+    BSP_LCD_SetFont( &Font24 );
 }
 
-static void ApplyNewClockConfig(clockConfigTypeEnum clockConfig)
+static void ApplyNewClockConfig( clockConfigTypeEnum clockConfig )
 {
-  BSP_LCD_SetTextColor(LCD_COLOR_BLACK);
-  switch(clockConfig)
-  {
-      case CONFIG_CLOCK_HSE_32M :SystemClock_Config();
-                         /*         The system Clock is configured as follow :
-                          *            System Clock source            = PLL (HSE)
-                          *            SYSCLK(Hz)                     = 32000000
-                          *            HCLK(Hz)                       = 32000000
-                          */
-                                 break;
-      case CONFIG_CLOCK_MSI_64K :SystemClock_ConfigMSI();
-                         /*            System Clock source            = (MSI)
-                          *            SYSCLK(Hz)                     = 64000
-                          *            HCLK(Hz)                       = 32000
-                          */
-                                 break;
-      case CONFIG_CLOCK_HSI_16M :SystemClock_ConfigHSI_noPLL_16M();
-                         /*            System Clock source            = HSI
-                          *            SYSCLK(Hz)                     = 16000000
-                          *            HCLK(Hz)                       = 16000000
-                          */
-                                 break;
-      case CONFIG_CLOCK_DEFAULT :
-                                 break;
-      default                :   break;
+    BSP_LCD_SetTextColor( LCD_COLOR_BLACK );
 
-  }
+    switch( clockConfig )
+    {
+    case CONFIG_CLOCK_HSE_32M : SystemClock_Config();
+        /*         The system Clock is configured as follow :
+         *            System Clock source            = PLL (HSE)
+         *            SYSCLK(Hz)                     = 32000000
+         *            HCLK(Hz)                       = 32000000
+         */
+        break;
+
+    case CONFIG_CLOCK_MSI_64K : SystemClock_ConfigMSI();
+        /*            System Clock source            = (MSI)
+         *            SYSCLK(Hz)                     = 64000
+         *            HCLK(Hz)                       = 32000
+         */
+        break;
+
+    case CONFIG_CLOCK_HSI_16M : SystemClock_ConfigHSI_noPLL_16M();
+        /*            System Clock source            = HSI
+         *            SYSCLK(Hz)                     = 16000000
+         *            HCLK(Hz)                       = 16000000
+         */
+        break;
+
+    case CONFIG_CLOCK_DEFAULT :
+        break;
+
+    default                :   break;
+
+    }
 }
 
 /**
@@ -983,37 +1072,37 @@ static void ApplyNewClockConfig(clockConfigTypeEnum clockConfig)
   * @retval None
   */
 
-static void InitUserInteractionInRtcMode(char * messTitle,
-                                         char * messActionToDo)
+static void InitUserInteractionInRtcMode( char *messTitle,
+        char *messActionToDo )
 {
-  kWindow_PopupAligned(messTitle, LCD_COLOR_WHITE, LCD_COLOR_BLUE,\
-                "\nSet delay time\n",                          \
-                LCD_COLOR_BLUE, LCD_COLOR_WHITE );
+    kWindow_PopupAligned( messTitle, LCD_COLOR_WHITE, LCD_COLOR_BLUE, \
+                          "\nSet delay time\n",                          \
+                          LCD_COLOR_BLUE, LCD_COLOR_WHITE );
 
-  DisplayDelayAction();
+    DisplayDelayAction();
 
-  /* Configure RTC */
-  RTC_Config();
+    /* Configure RTC */
+    RTC_Config();
 
-   /*Disable all used wakeup sources */
-  HAL_PWR_DisableWakeUpPin(PWR_WAKEUP_PIN1);
+    /*Disable all used wakeup sources */
+    HAL_PWR_DisableWakeUpPin( PWR_WAKEUP_PIN1 );
 
-  /*Clear all related wakeup flags */
-  /* Clear the Alarm interrupt pending bit */
-  __HAL_RTC_ALARM_CLEAR_FLAG(&RtcHandle,RTC_FLAG_ALRAF);
-  /* Clear PWR wake up Flag */
-  __HAL_PWR_CLEAR_FLAG(PWR_FLAG_WU);
+    /*Clear all related wakeup flags */
+    /* Clear the Alarm interrupt pending bit */
+    __HAL_RTC_ALARM_CLEAR_FLAG( &RtcHandle, RTC_FLAG_ALRAF );
+    /* Clear PWR wake up Flag */
+    __HAL_PWR_CLEAR_FLAG( PWR_FLAG_WU );
 
-  /* Set the alarm */
-  LowPowerHandleAlarm();
+    /* Set the alarm */
+    LowPowerHandleAlarm();
 
-  /* Display the message */
-  kWindow_PopupAligned(messTitle, LCD_COLOR_WHITE, LCD_COLOR_BLUE, \
-                       messActionToDo,\
-                       LCD_COLOR_GREEN, LCD_COLOR_WHITE );
-/* Max size                      "------------------" */
+    /* Display the message */
+    kWindow_PopupAligned( messTitle, LCD_COLOR_WHITE, LCD_COLOR_BLUE, \
+                          messActionToDo, \
+                          LCD_COLOR_GREEN, LCD_COLOR_WHITE );
+    /* Max size                      "------------------" */
 
-    DisplaySimpleAction((uint8_t *)C_STRING_WAIT_RTC);
+    DisplaySimpleAction( ( uint8_t * )C_STRING_WAIT_RTC );
 }
 
 /**
@@ -1022,16 +1111,17 @@ static void InitUserInteractionInRtcMode(char * messTitle,
   * @retval None
   */
 
-static void WaitForTamperButton(void)
+static void WaitForTamperButton( void )
 {
-  FlagItTamperButton = RESET;
-  __HAL_GPIO_EXTI_CLEAR_IT(TAMPER_BUTTON_PIN);
-  BSP_PB_Init(BUTTON_TAMPER, BUTTON_MODE_EXTI);
+    FlagItTamperButton = RESET;
+    __HAL_GPIO_EXTI_CLEAR_IT( TAMPER_BUTTON_PIN );
+    BSP_PB_Init( BUTTON_TAMPER, BUTTON_MODE_EXTI );
 
-  while(FlagItTamperButton == RESET)
-  {
-  };
-  FlagItTamperButton = RESET;
+    while( FlagItTamperButton == RESET )
+    {
+    };
+
+    FlagItTamperButton = RESET;
 }
 
 /**
@@ -1041,62 +1131,64 @@ static void WaitForTamperButton(void)
   * @param  MessTitle Title message detected
   * @retval None
   */
-static void IddInfoDisplay(uint32_t IddvalueInTenNanoAmps,
-                           uint32_t IddState,
-                           char * MessTitle)
+static void IddInfoDisplay( uint32_t IddvalueInTenNanoAmps,
+                            uint32_t IddState,
+                            char *MessTitle )
 {
-  float TempIddDisplay = 0;
-  uint8_t LCDStr[48];
+    float TempIddDisplay = 0;
+    uint8_t LCDStr[48];
 
-  kWindow_PopupAligned(MessTitle, LCD_COLOR_WHITE, LCD_COLOR_BLUE,        \
-                      "",LCD_COLOR_BLUE, LCD_COLOR_WHITE );
+    kWindow_PopupAligned( MessTitle, LCD_COLOR_WHITE, LCD_COLOR_BLUE,        \
+                          "", LCD_COLOR_BLUE, LCD_COLOR_WHITE );
 
 
-  /* Display the measurement */
-  if (IddState == IDD_MEASURE_COMPLETED)
-  {
-    TempIddDisplay = (float) IddvalueInTenNanoAmps * 10;  //Value in nano amps
-
-    if (TempIddDisplay < 1000)
+    /* Display the measurement */
+    if( IddState == IDD_MEASURE_COMPLETED )
     {
-      sprintf((char*)LCDStr, "Idd = %.0f nA", TempIddDisplay);
-      BSP_LCD_DisplayStringAtLine(4, (uint8_t*)LCDStr);
+        TempIddDisplay = ( float ) IddvalueInTenNanoAmps * 10; //Value in nano amps
+
+        if( TempIddDisplay < 1000 )
+        {
+            sprintf( ( char * )LCDStr, "Idd = %.0f nA", TempIddDisplay );
+            BSP_LCD_DisplayStringAtLine( 4, ( uint8_t * )LCDStr );
+        }
+        else
+        {
+            /* Value in uA */
+            TempIddDisplay = TempIddDisplay / 1000;
+
+            if( TempIddDisplay < 1000 )
+            {
+                sprintf( ( char * )LCDStr, "Idd = %.3f uA", TempIddDisplay );
+                BSP_LCD_DisplayStringAtLine( 4, ( uint8_t * )LCDStr );
+            }
+            else
+            {
+                /* Value in mA */
+                TempIddDisplay = TempIddDisplay / 1000;
+                sprintf( ( char * )LCDStr, "Idd = %.3f mA", TempIddDisplay );
+                BSP_LCD_DisplayStringAtLine( 4, ( uint8_t * )LCDStr );
+            }
+        }
     }
     else
     {
-      /* Value in uA */
-      TempIddDisplay = TempIddDisplay/1000;
-      if (TempIddDisplay < 1000)
-      {
-        sprintf((char*)LCDStr, "Idd = %.3f uA", TempIddDisplay);
-        BSP_LCD_DisplayStringAtLine(4, (uint8_t*)LCDStr);
-      }
-      else
-      { /* Value in mA */
-        TempIddDisplay = TempIddDisplay/1000;
-        sprintf((char*)LCDStr, "Idd = %.3f mA", TempIddDisplay);
-        BSP_LCD_DisplayStringAtLine(4, (uint8_t*)LCDStr);
-      }
+        BSP_LCD_DisplayStringAtLine( 3, ( uint8_t * )"Idd measurement  " );
+        BSP_LCD_DisplayStringAtLine( 4, ( uint8_t * )"not available.   " );
     }
-  }
-  else
-  {
-    BSP_LCD_DisplayStringAtLine(3,(uint8_t *)"Idd measurement  ");
-    BSP_LCD_DisplayStringAtLine(4,(uint8_t *)"not available.   ");
-  }
 
-  /* JP10 Warning if zero is read */
-  if (TempIddDisplay == 0)
-  {
-    BSP_LCD_SetTextColor(LCD_COLOR_RED);
-    BSP_LCD_SetFont(&Font12);
-    sprintf((char*)LCDStr, "Please check that the jumper JP10 is switched");
-    BSP_LCD_DisplayStringAtLine(12, (uint8_t*)LCDStr);
-    sprintf((char*)LCDStr, "to IDD.");
-    BSP_LCD_DisplayStringAtLine(13, (uint8_t*)LCDStr);
-    BSP_LCD_SetTextColor(LCD_COLOR_BLUE);
-    BSP_LCD_SetFont(&Font16);
-  }
+    /* JP10 Warning if zero is read */
+    if( TempIddDisplay == 0 )
+    {
+        BSP_LCD_SetTextColor( LCD_COLOR_RED );
+        BSP_LCD_SetFont( &Font12 );
+        sprintf( ( char * )LCDStr, "Please check that the jumper JP10 is switched" );
+        BSP_LCD_DisplayStringAtLine( 12, ( uint8_t * )LCDStr );
+        sprintf( ( char * )LCDStr, "to IDD." );
+        BSP_LCD_DisplayStringAtLine( 13, ( uint8_t * )LCDStr );
+        BSP_LCD_SetTextColor( LCD_COLOR_BLUE );
+        BSP_LCD_SetFont( &Font16 );
+    }
 }
 /**
   * @brief  This function is used to manage the display
@@ -1121,33 +1213,33 @@ static void IddInfoDisplay(uint32_t IddvalueInTenNanoAmps,
   * @retval None
 */
 
-static void ManageIddMeasurementMenu(char * messTitle,uint32_t flagModeIt)
+static void ManageIddMeasurementMenu( char *messTitle, uint32_t flagModeIt )
 {
-  uint32_t IddReadValue = 0;
-  uint32_t JoyState = JOY_NONE_PIN;
-  uint32_t IddState = IDD_STATE_UNCHANGED;
+    uint32_t IddReadValue = 0;
+    uint32_t JoyState = JOY_NONE_PIN;
+    uint32_t IddState = IDD_STATE_UNCHANGED;
 
- /* Check the status */
-  if (flagModeIt == 1)
-  {
-    DecodeMFXInterrupt(&JoyState,&IddState);
-  }
-  else
-  {
-    IddState = IDD_MEASURE_COMPLETED;
-  }
+    /* Check the status */
+    if( flagModeIt == 1 )
+    {
+        DecodeMFXInterrupt( &JoyState, &IddState );
+    }
+    else
+    {
+        IddState = IDD_MEASURE_COMPLETED;
+    }
 
-  /* Get the values from MFX regarding the IDD measurement */
-  BSP_IDD_GetValue(&IddReadValue);
+    /* Get the values from MFX regarding the IDD measurement */
+    BSP_IDD_GetValue( &IddReadValue );
 
-  /* Display the results */
-  IddInfoDisplay(IddReadValue,IddState,messTitle);
+    /* Display the results */
+    IddInfoDisplay( IddReadValue, IddState, messTitle );
 
-  /* Display message to exit.. */
-  DisplaySimpleAction((uint8_t *)C_STRING_PRESS_TAMPER);
+    /* Display message to exit.. */
+    DisplaySimpleAction( ( uint8_t * )C_STRING_PRESS_TAMPER );
 
-  /* wait for button to exit  */
-  WaitForTamperButton();
+    /* wait for button to exit  */
+    WaitForTamperButton();
 }
 
 /**
@@ -1158,12 +1250,12 @@ static void ManageIddMeasurementMenu(char * messTitle,uint32_t flagModeIt)
   */
 static void StartIddMeasurement()
 {
-  BSP_IDD_Init();
-  BSP_IDD_ClearIT();
-  BSP_IDD_ErrorClearIT();
-  BSP_IDD_DisableIT();
-  BSP_IDD_ErrorDisableIT();
-  BSP_IDD_StartMeasure();
+    BSP_IDD_Init();
+    BSP_IDD_ClearIT();
+    BSP_IDD_ErrorClearIT();
+    BSP_IDD_DisableIT();
+    BSP_IDD_ErrorDisableIT();
+    BSP_IDD_StartMeasure();
 }
 
 /**
@@ -1171,7 +1263,7 @@ static void StartIddMeasurement()
   * @param  None
   * @retval None
   */
-static void CopyGpioConfiguration(uint32_t  index, GPIO_TypeDef * gpio)
+static void CopyGpioConfiguration( uint32_t  index, GPIO_TypeDef *gpio )
 {
     GpioConfiguration[index].MODER = gpio-> MODER;
     GpioConfiguration[index].OTYPER = gpio-> OTYPER;
@@ -1191,7 +1283,7 @@ static void CopyGpioConfiguration(uint32_t  index, GPIO_TypeDef * gpio)
   * @param  None
   * @retval None
   */
-static void RestoreGpioConfiguration(uint32_t  index, GPIO_TypeDef * gpio)
+static void RestoreGpioConfiguration( uint32_t  index, GPIO_TypeDef *gpio )
 {
     gpio-> MODER = GpioConfiguration[index].MODER ;
     gpio-> OTYPER = GpioConfiguration[index].OTYPER ;
@@ -1211,70 +1303,76 @@ static void RestoreGpioConfiguration(uint32_t  index, GPIO_TypeDef * gpio)
   * @param  None
   * @retval None
   */
-static void SaveGpioContextAndDisable(uint32_t mode)
+static void SaveGpioContextAndDisable( uint32_t mode )
 {
-  GPIO_InitTypeDef GPIO_InitStructure;
+    GPIO_InitTypeDef GPIO_InitStructure;
 
-  /* Enable GPIOs clock */
-  __HAL_RCC_GPIOA_CLK_ENABLE();
-  __HAL_RCC_GPIOB_CLK_ENABLE();
-  __HAL_RCC_GPIOC_CLK_ENABLE();
-  __HAL_RCC_GPIOD_CLK_ENABLE();
-  __HAL_RCC_GPIOE_CLK_ENABLE();
-  __HAL_RCC_GPIOH_CLK_ENABLE();
+    /* Enable GPIOs clock */
+    __HAL_RCC_GPIOA_CLK_ENABLE();
+    __HAL_RCC_GPIOB_CLK_ENABLE();
+    __HAL_RCC_GPIOC_CLK_ENABLE();
+    __HAL_RCC_GPIOD_CLK_ENABLE();
+    __HAL_RCC_GPIOE_CLK_ENABLE();
+    __HAL_RCC_GPIOH_CLK_ENABLE();
 
-  /* Store the GPIOs..*/
-  CopyGpioConfiguration(0,GPIOA);
-  CopyGpioConfiguration(1,GPIOB);
-  CopyGpioConfiguration(2,GPIOC);
-  CopyGpioConfiguration(3,GPIOD);
-  CopyGpioConfiguration(4,GPIOE);
-  CopyGpioConfiguration(5,GPIOH);
+    /* Store the GPIOs..*/
+    CopyGpioConfiguration( 0, GPIOA );
+    CopyGpioConfiguration( 1, GPIOB );
+    CopyGpioConfiguration( 2, GPIOC );
+    CopyGpioConfiguration( 3, GPIOD );
+    CopyGpioConfiguration( 4, GPIOE );
+    CopyGpioConfiguration( 5, GPIOH );
 
-  /* Configure all GPIO port pins in Analog Input mode (floating input trigger OFF) */
-  GPIO_InitStructure.Mode = GPIO_MODE_ANALOG;
-  GPIO_InitStructure.Pull = GPIO_NOPULL;
+    /* Configure all GPIO port pins in Analog Input mode (floating input trigger OFF) */
+    GPIO_InitStructure.Mode = GPIO_MODE_ANALOG;
+    GPIO_InitStructure.Pull = GPIO_NOPULL;
 
- /* GPIO_A */
-  GPIO_InitStructure.Pin = GPIOA_PIN_AVAILABLE;
-  HAL_GPIO_Init(GPIOA, &GPIO_InitStructure);
-  /* GPIO_B */
-  /* Warning PIO_PB6 and GPIO_PB7 are used by MFX */
-  GPIO_InitStructure.Pin = GPIOB_PIN_AVAILABLE;
-  HAL_GPIO_Init(GPIOB, &GPIO_InitStructure);
-  /* GPIO_C */
-  /* Warning PC_13 is used for the Tamper button */
-  if (mode == C_MODE_EXTI)
-  {
-    /* It is mandatory to keep C active ... */
-    GPIO_InitStructure.Pin = GPIOC_PIN_AVAILABLE & ~GPIO_PIN_13;
-    HAL_GPIO_Init(GPIOC, &GPIO_InitStructure);
-  }
-  else
-  {
-    GPIO_InitStructure.Pin = GPIOC_PIN_AVAILABLE;
-    HAL_GPIO_Init(GPIOC, &GPIO_InitStructure);
-  }
-  /* GPIO_D */
-  GPIO_InitStructure.Pin = GPIOD_PIN_AVAILABLE;
-  HAL_GPIO_Init(GPIOD, &GPIO_InitStructure);
+    /* GPIO_A */
+    GPIO_InitStructure.Pin = GPIOA_PIN_AVAILABLE;
+    HAL_GPIO_Init( GPIOA, &GPIO_InitStructure );
+    /* GPIO_B */
+    /* Warning PIO_PB6 and GPIO_PB7 are used by MFX */
+    GPIO_InitStructure.Pin = GPIOB_PIN_AVAILABLE;
+    HAL_GPIO_Init( GPIOB, &GPIO_InitStructure );
 
-   /* GPIO_E */
-  GPIO_InitStructure.Pin = GPIOE_PIN_AVAILABLE;
-  HAL_GPIO_Init(GPIOE, &GPIO_InitStructure);
+    /* GPIO_C */
+    /* Warning PC_13 is used for the Tamper button */
+    if( mode == C_MODE_EXTI )
+    {
+        /* It is mandatory to keep C active ... */
+        GPIO_InitStructure.Pin = GPIOC_PIN_AVAILABLE & ~GPIO_PIN_13;
+        HAL_GPIO_Init( GPIOC, &GPIO_InitStructure );
+    }
+    else
+    {
+        GPIO_InitStructure.Pin = GPIOC_PIN_AVAILABLE;
+        HAL_GPIO_Init( GPIOC, &GPIO_InitStructure );
+    }
 
-  /* GPIO_H */
-  GPIO_InitStructure.Pin = GPIOH_PIN_AVAILABLE;
-  HAL_GPIO_Init(GPIOH, &GPIO_InitStructure);
+    /* GPIO_D */
+    GPIO_InitStructure.Pin = GPIOD_PIN_AVAILABLE;
+    HAL_GPIO_Init( GPIOD, &GPIO_InitStructure );
 
-  /* Disable GPIOs clock */
-  __HAL_RCC_GPIOA_CLK_DISABLE();
-  __HAL_RCC_GPIOB_CLK_DISABLE();
-  if (mode != C_MODE_EXTI)
-      __HAL_RCC_GPIOC_CLK_DISABLE();
-  __HAL_RCC_GPIOD_CLK_DISABLE();
-  __HAL_RCC_GPIOE_CLK_DISABLE();
-  __HAL_RCC_GPIOH_CLK_DISABLE();
+    /* GPIO_E */
+    GPIO_InitStructure.Pin = GPIOE_PIN_AVAILABLE;
+    HAL_GPIO_Init( GPIOE, &GPIO_InitStructure );
+
+    /* GPIO_H */
+    GPIO_InitStructure.Pin = GPIOH_PIN_AVAILABLE;
+    HAL_GPIO_Init( GPIOH, &GPIO_InitStructure );
+
+    /* Disable GPIOs clock */
+    __HAL_RCC_GPIOA_CLK_DISABLE();
+    __HAL_RCC_GPIOB_CLK_DISABLE();
+
+    if( mode != C_MODE_EXTI )
+    {
+        __HAL_RCC_GPIOC_CLK_DISABLE();
+    }
+
+    __HAL_RCC_GPIOD_CLK_DISABLE();
+    __HAL_RCC_GPIOE_CLK_DISABLE();
+    __HAL_RCC_GPIOH_CLK_DISABLE();
 
 }
 
@@ -1283,23 +1381,23 @@ static void SaveGpioContextAndDisable(uint32_t mode)
 * @param None
 * @retval None
 */
-static void RestoreGpioContext(void)
+static void RestoreGpioContext( void )
 {
     /* Enable GPIOs clock */
-  __HAL_RCC_GPIOA_CLK_ENABLE();
-  __HAL_RCC_GPIOB_CLK_ENABLE();
-  __HAL_RCC_GPIOC_CLK_ENABLE();
-  __HAL_RCC_GPIOD_CLK_ENABLE();
-  __HAL_RCC_GPIOE_CLK_ENABLE();
-  __HAL_RCC_GPIOH_CLK_ENABLE();
+    __HAL_RCC_GPIOA_CLK_ENABLE();
+    __HAL_RCC_GPIOB_CLK_ENABLE();
+    __HAL_RCC_GPIOC_CLK_ENABLE();
+    __HAL_RCC_GPIOD_CLK_ENABLE();
+    __HAL_RCC_GPIOE_CLK_ENABLE();
+    __HAL_RCC_GPIOH_CLK_ENABLE();
 
-  /* Store the GPIOs..*/
-  RestoreGpioConfiguration(0,GPIOA);
-  RestoreGpioConfiguration(1,GPIOB);
-  RestoreGpioConfiguration(2,GPIOC);
-  RestoreGpioConfiguration(3,GPIOD);
-  RestoreGpioConfiguration(4,GPIOE);
-  RestoreGpioConfiguration(5,GPIOH);
+    /* Store the GPIOs..*/
+    RestoreGpioConfiguration( 0, GPIOA );
+    RestoreGpioConfiguration( 1, GPIOB );
+    RestoreGpioConfiguration( 2, GPIOC );
+    RestoreGpioConfiguration( 3, GPIOD );
+    RestoreGpioConfiguration( 4, GPIOE );
+    RestoreGpioConfiguration( 5, GPIOH );
 }
 
 /**
@@ -1307,77 +1405,85 @@ static void RestoreGpioContext(void)
   * @param  None
   * @retval None
   */
-void ManageStopMode(uint32_t mode)
- {
+void ManageStopMode( uint32_t mode )
+{
 
-  /* Start the measurement */
-  StartIddMeasurement();
+    /* Start the measurement */
+    StartIddMeasurement();
 
-  /* GPIO config */
-  SaveGpioContextAndDisable(C_MODE_FULL_DISABLE);
-  if (mode == C_MODE_EXTI)
-    BSP_PB_Init(BUTTON_TAMPER,BUTTON_MODE_EXTI);
+    /* GPIO config */
+    SaveGpioContextAndDisable( C_MODE_FULL_DISABLE );
 
-  /* Enable Power Control clock and clear wakeup flag*/
-  __HAL_PWR_CLEAR_FLAG(PWR_FLAG_WU);
+    if( mode == C_MODE_EXTI )
+    {
+        BSP_PB_Init( BUTTON_TAMPER, BUTTON_MODE_EXTI );
+    }
 
-  /* Enter Stop Mode                                             */
-  /* The UltraLow power and fast wake up should be put there !!! */
-  HAL_PWREx_EnableUltraLowPower();
-  HAL_PWREx_EnableFastWakeUp();
-  
-  HAL_SuspendTick();
-    
-  HAL_PWR_EnterSTOPMode(PWR_LOWPOWERREGULATOR_ON, PWR_STOPENTRY_WFI);
+    /* Enable Power Control clock and clear wakeup flag*/
+    __HAL_PWR_CLEAR_FLAG( PWR_FLAG_WU );
 
-  HAL_ResumeTick();
-   
-  /* GPIO config */
-  RestoreGpioContext();
+    /* Enter Stop Mode                                             */
+    /* The UltraLow power and fast wake up should be put there !!! */
+    HAL_PWREx_EnableUltraLowPower();
+    HAL_PWREx_EnableFastWakeUp();
 
-  ApplyNewClockConfig(CONFIG_CLOCK_HSE_32M);
+    HAL_SuspendTick();
 
-  if (mode == C_MODE_RTC)
-      DesactivateAlarm();
+    HAL_PWR_EnterSTOPMode( PWR_LOWPOWERREGULATOR_ON, PWR_STOPENTRY_WFI );
+
+    HAL_ResumeTick();
+
+    /* GPIO config */
+    RestoreGpioContext();
+
+    ApplyNewClockConfig( CONFIG_CLOCK_HSE_32M );
+
+    if( mode == C_MODE_RTC )
+    {
+        DesactivateAlarm();
+    }
 
     /* Measure the power */
-  ManageIddMeasurementMenu(IDD_MEASURE_TITLE_STOP,0);
- }
+    ManageIddMeasurementMenu( IDD_MEASURE_TITLE_STOP, 0 );
+}
 
 /**
   * @brief  This function is used to manage Standby mode
   * @param  None
   * @retval None
   */
-static void ManageStandbyMode(uint32_t mode)
- {
-  /* Start the measurement */
-  StartIddMeasurement();
+static void ManageStandbyMode( uint32_t mode )
+{
+    /* Start the measurement */
+    StartIddMeasurement();
 
-  /* Clear all related wakeup flags*/
-  __HAL_PWR_CLEAR_FLAG(PWR_FLAG_WU);
+    /* Clear all related wakeup flags*/
+    __HAL_PWR_CLEAR_FLAG( PWR_FLAG_WU );
 
-  /* Clear GPIO ! */
-  SaveGpioContextAndDisable(C_MODE_FULL_DISABLE);
+    /* Clear GPIO ! */
+    SaveGpioContextAndDisable( C_MODE_FULL_DISABLE );
 
-  /* Enable WakeUp Pin PWR_WAKEUP_PIN2 connected to PC.13 */
-  if (mode == C_MODE_EXTI)
-      HAL_PWR_EnableWakeUpPin(PWR_WAKEUP_PIN2);
+    /* Enable WakeUp Pin PWR_WAKEUP_PIN2 connected to PC.13 */
+    if( mode == C_MODE_EXTI )
+    {
+        HAL_PWR_EnableWakeUpPin( PWR_WAKEUP_PIN2 );
+    }
 
-  /* Enter the Standby mode */
-  HAL_PWREx_EnableUltraLowPower();
-  HAL_PWREx_EnableFastWakeUp();
+    /* Enter the Standby mode */
+    HAL_PWREx_EnableUltraLowPower();
+    HAL_PWREx_EnableFastWakeUp();
 
-  HAL_SuspendTick();
+    HAL_SuspendTick();
 
-  HAL_PWR_EnterSTANDBYMode();
+    HAL_PWR_EnterSTANDBYMode();
 
-  /* This code will never be reached! */
-  HAL_ResumeTick();
-  while (1)
-  {
-  }
- }
+    /* This code will never be reached! */
+    HAL_ResumeTick();
+
+    while( 1 )
+    {
+    }
+}
 
 
 /**
@@ -1386,57 +1492,61 @@ static void ManageStandbyMode(uint32_t mode)
   * @param  None
   * @retval None
   */
-static void ManageSleepLowPowerMode(uint32_t mode,clockConfigTypeEnum clockConfig)
- {
+static void ManageSleepLowPowerMode( uint32_t mode, clockConfigTypeEnum clockConfig )
+{
 
- /* Disable Prefetch Buffer */
-  __HAL_FLASH_PREFETCH_BUFFER_DISABLE();
+    /* Disable Prefetch Buffer */
+    __HAL_FLASH_PREFETCH_BUFFER_DISABLE();
 
-  /* Enable Ultra low power mode */
-   HAL_PWREx_EnableUltraLowPower();
+    /* Enable Ultra low power mode */
+    HAL_PWREx_EnableUltraLowPower();
 
-  /* Enable the fast wake up from Ultra low power mode */
-   HAL_PWREx_EnableFastWakeUp();
+    /* Enable the fast wake up from Ultra low power mode */
+    HAL_PWREx_EnableFastWakeUp();
 
-  /* Enable the power down mode during Sleep mode */
-  __HAL_FLASH_SLEEP_POWERDOWN_ENABLE();
+    /* Enable the power down mode during Sleep mode */
+    __HAL_FLASH_SLEEP_POWERDOWN_ENABLE();
 
-  /* Start the measurement */
-  StartIddMeasurement();
+    /* Start the measurement */
+    StartIddMeasurement();
 
-  /* GPIO config */
-  SaveGpioContextAndDisable(C_MODE_FULL_DISABLE);
+    /* GPIO config */
+    SaveGpioContextAndDisable( C_MODE_FULL_DISABLE );
 
-  if (mode == C_MODE_EXTI)
-    BSP_PB_Init(BUTTON_TAMPER,BUTTON_MODE_EXTI);
+    if( mode == C_MODE_EXTI )
+    {
+        BSP_PB_Init( BUTTON_TAMPER, BUTTON_MODE_EXTI );
+    }
 
-  ApplyNewClockConfig(clockConfig);
+    ApplyNewClockConfig( clockConfig );
 
-  /* Suspend Tick increment to prevent wakeup by Systick interrupt.         */
-  /* Otherwise the Systick interrupt will wake up the device within 1ms     */
-  /* (HAL time base).                                                       */
-  HAL_SuspendTick();
+    /* Suspend Tick increment to prevent wakeup by Systick interrupt.         */
+    /* Otherwise the Systick interrupt will wake up the device within 1ms     */
+    /* (HAL time base).                                                       */
+    HAL_SuspendTick();
 
-  /* Enter Sleep Mode , wake up is done once Wkup/Tamper push-button is pressed */
-  HAL_PWR_EnterSLEEPMode(PWR_LOWPOWERREGULATOR_ON, PWR_SLEEPENTRY_WFI);
+    /* Enter Sleep Mode , wake up is done once Wkup/Tamper push-button is pressed */
+    HAL_PWR_EnterSLEEPMode( PWR_LOWPOWERREGULATOR_ON, PWR_SLEEPENTRY_WFI );
 
-  /* Resume Tick interrupt if disabled prior to sleep mode entry */
-  HAL_ResumeTick();
+    /* Resume Tick interrupt if disabled prior to sleep mode entry */
+    HAL_ResumeTick();
 
-  /* GPIO config */
-  RestoreGpioContext();
+    /* GPIO config */
+    RestoreGpioContext();
 
-  ApplyNewClockConfig(CONFIG_CLOCK_HSE_32M);
+    ApplyNewClockConfig( CONFIG_CLOCK_HSE_32M );
 
-  /* Force the disabling of the MSI */
-  SystemClock_DisableMSI();
+    /* Force the disabling of the MSI */
+    SystemClock_DisableMSI();
 
-  if (mode == C_MODE_RTC)
-      DesactivateAlarm();
+    if( mode == C_MODE_RTC )
+    {
+        DesactivateAlarm();
+    }
 
-  /* Measure the power */
-  ManageIddMeasurementMenu(IDD_MEASURE_TITLE_LP_SLEEP,0);
- }
+    /* Measure the power */
+    ManageIddMeasurementMenu( IDD_MEASURE_TITLE_LP_SLEEP, 0 );
+}
 
 /**
   * @brief  This function is used to manage Sleep mode
@@ -1444,50 +1554,55 @@ static void ManageSleepLowPowerMode(uint32_t mode,clockConfigTypeEnum clockConfi
   * @param  None
   * @retval None
   */
-static void ManageSleepMode(uint32_t mode)
- {
+static void ManageSleepMode( uint32_t mode )
+{
 
-  /* Enable the power down mode during Sleep mode */
-  __HAL_FLASH_SLEEP_POWERDOWN_ENABLE();
+    /* Enable the power down mode during Sleep mode */
+    __HAL_FLASH_SLEEP_POWERDOWN_ENABLE();
 
-  __HAL_RCC_PWR_CLK_ENABLE();
+    __HAL_RCC_PWR_CLK_ENABLE();
 
-  /* Start the measurement */
-  StartIddMeasurement();
+    /* Start the measurement */
+    StartIddMeasurement();
 
-  /* GPIO config */
-  SaveGpioContextAndDisable(C_MODE_FULL_DISABLE);
-  if (mode == C_MODE_EXTI)
-    BSP_PB_Init(BUTTON_TAMPER,BUTTON_MODE_EXTI);
+    /* GPIO config */
+    SaveGpioContextAndDisable( C_MODE_FULL_DISABLE );
 
-  DisplayNewClockConfig(CONFIG_CLOCK_HSI_16M);
-  ApplyNewClockConfig(CONFIG_CLOCK_HSI_16M);
+    if( mode == C_MODE_EXTI )
+    {
+        BSP_PB_Init( BUTTON_TAMPER, BUTTON_MODE_EXTI );
+    }
 
-  /* Suspend Tick increment to prevent wakeup by Systick interrupt.         */
-  /* Otherwise the Systick interrupt will wake up the device within 1ms     */
-  /* (HAL time base).                                                       */
-  HAL_SuspendTick();
+    DisplayNewClockConfig( CONFIG_CLOCK_HSI_16M );
+    ApplyNewClockConfig( CONFIG_CLOCK_HSI_16M );
 
-  /* Enter Sleep Mode , wake up is done once Wkup/Tamper push-button is pressed */
+    /* Suspend Tick increment to prevent wakeup by Systick interrupt.         */
+    /* Otherwise the Systick interrupt will wake up the device within 1ms     */
+    /* (HAL time base).                                                       */
+    HAL_SuspendTick();
+
+    /* Enter Sleep Mode , wake up is done once Wkup/Tamper push-button is pressed */
     /* Enable Ultra low power mode */
-  HAL_PWREx_EnableUltraLowPower();
-  HAL_PWREx_EnableFastWakeUp();
-  HAL_PWR_EnterSLEEPMode(PWR_MAINREGULATOR_ON, PWR_SLEEPENTRY_WFI);
+    HAL_PWREx_EnableUltraLowPower();
+    HAL_PWREx_EnableFastWakeUp();
+    HAL_PWR_EnterSLEEPMode( PWR_MAINREGULATOR_ON, PWR_SLEEPENTRY_WFI );
 
-  /* Resume Tick interrupt if disabled prior to sleep mode entry */
-  HAL_ResumeTick();
+    /* Resume Tick interrupt if disabled prior to sleep mode entry */
+    HAL_ResumeTick();
 
-  /* GPIO config */
-  RestoreGpioContext();
+    /* GPIO config */
+    RestoreGpioContext();
 
-  ApplyNewClockConfig(CONFIG_CLOCK_HSE_32M);
+    ApplyNewClockConfig( CONFIG_CLOCK_HSE_32M );
 
-  if (mode == C_MODE_RTC)
-      DesactivateAlarm();
+    if( mode == C_MODE_RTC )
+    {
+        DesactivateAlarm();
+    }
 
-  /* Measure the power */
-  ManageIddMeasurementMenu(IDD_MEASURE_TITLE_SLEEP,0);
- }
+    /* Measure the power */
+    ManageIddMeasurementMenu( IDD_MEASURE_TITLE_SLEEP, 0 );
+}
 
 /**
   * @brief  This function is used to manage LowPowerRun
@@ -1495,75 +1610,80 @@ static void ManageSleepMode(uint32_t mode)
   * @param  None
   * @retval None
   */
-static void ManageRunMode(uint32_t mode,clockConfigTypeEnum clockConfig)
- {
+static void ManageRunMode( uint32_t mode, clockConfigTypeEnum clockConfig )
+{
 
- /* Disable Prefetch Buffer */
-  __HAL_FLASH_PREFETCH_BUFFER_DISABLE();
+    /* Disable Prefetch Buffer */
+    __HAL_FLASH_PREFETCH_BUFFER_DISABLE();
 
-  /* Enable Ultra low power mode */
-   HAL_PWREx_EnableUltraLowPower();
+    /* Enable Ultra low power mode */
+    HAL_PWREx_EnableUltraLowPower();
 
-  /* Enable the fast wake up from Ultra low power mode */
-   HAL_PWREx_EnableFastWakeUp();
+    /* Enable the fast wake up from Ultra low power mode */
+    HAL_PWREx_EnableFastWakeUp();
 
-  /* Start the measurement */
-  StartIddMeasurement();
+    /* Start the measurement */
+    StartIddMeasurement();
 
-  /* GPIO config */
-  SaveGpioContextAndDisable(C_MODE_FULL_DISABLE);
-  if (mode == C_MODE_EXTI)
-    BSP_PB_Init(BUTTON_TAMPER,BUTTON_MODE_EXTI);
+    /* GPIO config */
+    SaveGpioContextAndDisable( C_MODE_FULL_DISABLE );
 
-  ApplyNewClockConfig(clockConfig);
+    if( mode == C_MODE_EXTI )
+    {
+        BSP_PB_Init( BUTTON_TAMPER, BUTTON_MODE_EXTI );
+    }
 
-  /* Enter LP RUN mode */
- /*********************/
- HAL_PWREx_EnableLowPowerRunMode();
+    ApplyNewClockConfig( clockConfig );
 
- /* Wait until the system enters LP RUN and the Regulator is in LP mode */
- while(__HAL_PWR_GET_FLAG(PWR_FLAG_REGLP) == RESET)
- {
- }
+    /* Enter LP RUN mode */
+    /*********************/
+    HAL_PWREx_EnableLowPowerRunMode();
 
- if (mode == C_MODE_EXTI)
- {
-     /* Wait Until Wkup/Tamper push-button pressed */
-     while(BSP_PB_GetState(BUTTON_TAMPER) != GPIO_PIN_SET)
-     {
-     }
- }
+    /* Wait until the system enters LP RUN and the Regulator is in LP mode */
+    while( __HAL_PWR_GET_FLAG( PWR_FLAG_REGLP ) == RESET )
+    {
+    }
 
- if (mode == C_MODE_RTC)
- {
-     while(FlagRTCAlarmAsExpired == 0);
- }
+    if( mode == C_MODE_EXTI )
+    {
+        /* Wait Until Wkup/Tamper push-button pressed */
+        while( BSP_PB_GetState( BUTTON_TAMPER ) != GPIO_PIN_SET )
+        {
+        }
+    }
 
-  /* Exit LP RUN mode */
-  /********************/
-  HAL_PWREx_DisableLowPowerRunMode();
+    if( mode == C_MODE_RTC )
+    {
+        while( FlagRTCAlarmAsExpired == 0 );
+    }
 
-  /* Wait until the system exits LP RUN and the Regulator is in main mode */
-  while(__HAL_PWR_GET_FLAG(PWR_FLAG_REGLP) != RESET)
-  {
-  }
+    /* Exit LP RUN mode */
+    /********************/
+    HAL_PWREx_DisableLowPowerRunMode();
 
-  /* GPIO config */
-  RestoreGpioContext();
+    /* Wait until the system exits LP RUN and the Regulator is in main mode */
+    while( __HAL_PWR_GET_FLAG( PWR_FLAG_REGLP ) != RESET )
+    {
+    }
 
-  /* Apply standard configuration */
-  ApplyNewClockConfig(CONFIG_CLOCK_HSE_32M);
+    /* GPIO config */
+    RestoreGpioContext();
 
-  /* Disable MSI clock */
-  SystemClock_DisableMSI();
+    /* Apply standard configuration */
+    ApplyNewClockConfig( CONFIG_CLOCK_HSE_32M );
 
-  if (mode == C_MODE_RTC)
-      DesactivateAlarm();
+    /* Disable MSI clock */
+    SystemClock_DisableMSI();
 
-  /* Measure the power */
-  ManageIddMeasurementMenu(IDD_MEASURE_TITLE_LP_RUN,0);
+    if( mode == C_MODE_RTC )
+    {
+        DesactivateAlarm();
+    }
 
- }
+    /* Measure the power */
+    ManageIddMeasurementMenu( IDD_MEASURE_TITLE_LP_RUN, 0 );
+
+}
 
 /**
   * @brief  This function is used by the main.c
@@ -1571,9 +1691,9 @@ static void ManageRunMode(uint32_t mode,clockConfigTypeEnum clockConfig)
   * @param  None
   * @retval None
   */
-void DisplayStandbyIddMeasurement(void)
+void DisplayStandbyIddMeasurement( void )
 {
-  ManageIddMeasurementMenu(IDD_MEASURE_TITLE_STANDBY,0);
+    ManageIddMeasurementMenu( IDD_MEASURE_TITLE_STANDBY, 0 );
 }
 
 /**
@@ -1583,19 +1703,19 @@ void DisplayStandbyIddMeasurement(void)
   * @retval None
   */
 
-static void DisplayActionExti(void)
+static void DisplayActionExti( void )
 {
 
-     BSP_LCD_SetBackColor(LCD_COLOR_BLUE);
-     BSP_LCD_SetTextColor(LCD_COLOR_BLUE);
-     BSP_LCD_FillRect(0, BSP_LCD_GetYSize()-55, BSP_LCD_GetXSize(), 55);
-     BSP_LCD_SetFont(&Font16);
-     BSP_LCD_SetTextColor(LCD_COLOR_WHITE);
-     BSP_LCD_DisplayStringAtLine(12,(uint8_t *)" Please wait 4 seconds and");
-     BSP_LCD_DisplayStringAtLine(13,(uint8_t *)" press Tamper to Exit");
-     BSP_LCD_SetBackColor(LCD_COLOR_WHITE);
-     BSP_LCD_SetTextColor(LCD_COLOR_BLACK);
-     BSP_LCD_SetFont(&Font24);
+    BSP_LCD_SetBackColor( LCD_COLOR_BLUE );
+    BSP_LCD_SetTextColor( LCD_COLOR_BLUE );
+    BSP_LCD_FillRect( 0, BSP_LCD_GetYSize() - 55, BSP_LCD_GetXSize(), 55 );
+    BSP_LCD_SetFont( &Font16 );
+    BSP_LCD_SetTextColor( LCD_COLOR_WHITE );
+    BSP_LCD_DisplayStringAtLine( 12, ( uint8_t * )" Please wait 4 seconds and" );
+    BSP_LCD_DisplayStringAtLine( 13, ( uint8_t * )" press Tamper to Exit" );
+    BSP_LCD_SetBackColor( LCD_COLOR_WHITE );
+    BSP_LCD_SetTextColor( LCD_COLOR_BLACK );
+    BSP_LCD_SetFont( &Font24 );
 }
 
 /**
@@ -1603,37 +1723,37 @@ static void DisplayActionExti(void)
   * @param  message to display
   * @retval None
   */
-static void DisplaySimpleAction(uint8_t * message)
+static void DisplaySimpleAction( uint8_t *message )
 {
 
-     BSP_LCD_SetBackColor(LCD_COLOR_BLUE);
-     BSP_LCD_SetTextColor(LCD_COLOR_BLUE);
-     BSP_LCD_FillRect(0, BSP_LCD_GetYSize()-45, BSP_LCD_GetXSize(), 45);
-     BSP_LCD_SetFont(&Font16);
-     BSP_LCD_SetTextColor(LCD_COLOR_WHITE);
-     BSP_LCD_DisplayStringAtLine(13,message);
-     BSP_LCD_SetBackColor(LCD_COLOR_WHITE);
-     BSP_LCD_SetTextColor(LCD_COLOR_BLACK);
-     BSP_LCD_SetFont(&Font24);
+    BSP_LCD_SetBackColor( LCD_COLOR_BLUE );
+    BSP_LCD_SetTextColor( LCD_COLOR_BLUE );
+    BSP_LCD_FillRect( 0, BSP_LCD_GetYSize() - 45, BSP_LCD_GetXSize(), 45 );
+    BSP_LCD_SetFont( &Font16 );
+    BSP_LCD_SetTextColor( LCD_COLOR_WHITE );
+    BSP_LCD_DisplayStringAtLine( 13, message );
+    BSP_LCD_SetBackColor( LCD_COLOR_WHITE );
+    BSP_LCD_SetTextColor( LCD_COLOR_BLACK );
+    BSP_LCD_SetFont( &Font24 );
 }
 /**
   * @brief  Display specific action
   * @param  message to display
   * @retval None
   */
-static void DisplayDelayAction(void)
+static void DisplayDelayAction( void )
 {
-  BSP_LCD_SetBackColor(LCD_COLOR_BLUE);
-  BSP_LCD_SetTextColor(LCD_COLOR_BLUE);
-  BSP_LCD_SetFont(&Font16);
-  BSP_LCD_FillRect(0, BSP_LCD_GetYSize()-90, BSP_LCD_GetXSize(), 90);
-  BSP_LCD_SetTextColor(LCD_COLOR_WHITE);
-  BSP_LCD_DisplayStringAtLine(10, (uint8_t *)"-Use JOYSTICK up/down/left/");
-  BSP_LCD_DisplayStringAtLine(11, (uint8_t *)" right to set delay");
-  BSP_LCD_DisplayStringAtLine(13, (uint8_t *)"-Use JOYSTICK select to start");
-  BSP_LCD_SetBackColor(LCD_COLOR_WHITE);
-  BSP_LCD_SetTextColor(LCD_COLOR_BLACK);
-  BSP_LCD_SetFont(&Font24);
+    BSP_LCD_SetBackColor( LCD_COLOR_BLUE );
+    BSP_LCD_SetTextColor( LCD_COLOR_BLUE );
+    BSP_LCD_SetFont( &Font16 );
+    BSP_LCD_FillRect( 0, BSP_LCD_GetYSize() - 90, BSP_LCD_GetXSize(), 90 );
+    BSP_LCD_SetTextColor( LCD_COLOR_WHITE );
+    BSP_LCD_DisplayStringAtLine( 10, ( uint8_t * )"-Use JOYSTICK up/down/left/" );
+    BSP_LCD_DisplayStringAtLine( 11, ( uint8_t * )" right to set delay" );
+    BSP_LCD_DisplayStringAtLine( 13, ( uint8_t * )"-Use JOYSTICK select to start" );
+    BSP_LCD_SetBackColor( LCD_COLOR_WHITE );
+    BSP_LCD_SetTextColor( LCD_COLOR_BLACK );
+    BSP_LCD_SetFont( &Font24 );
 }
 
 /**

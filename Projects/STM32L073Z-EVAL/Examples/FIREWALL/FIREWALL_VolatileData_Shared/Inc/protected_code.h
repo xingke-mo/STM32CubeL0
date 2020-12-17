@@ -27,7 +27,7 @@
 /* Exported constants --------------------------------------------------------*/
 /* Exported macro ------------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */
-void protected_function(void);
+void protected_function( void );
 
 #endif /* __PROTECTED_CODE_H */
 

@@ -1,6 +1,6 @@
 /**
   ******************************************************************************
-  * @file    USB_Device/DFU_Standalone/Inc/main.h 
+  * @file    USB_Device/DFU_Standalone/Inc/main.h
   * @author  MCD Application Team
   * @brief   Header for main.c module
   ******************************************************************************
@@ -16,7 +16,7 @@
   *
   ******************************************************************************
   */
-  
+
 /* Define to prevent recursive inclusion -------------------------------------*/
 #ifndef __MAIN_H
 #define __MAIN_H
@@ -39,7 +39,7 @@
 #define USE_USB_CLKSOURCE_PLL        1
 
 #if !defined (USE_USB_CLKSOURCE_PLL) && !defined (USE_USB_CLKSOURCE_CRSHSI48)
- #error "Missing USB clock definition"
+    #error "Missing USB clock definition"
 #endif
 /* Exported functions ------------------------------------------------------- */
 

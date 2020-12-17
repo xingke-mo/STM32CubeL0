@@ -23,9 +23,9 @@
 #include "stm32l0xx_ll_bus.h"
 
 #ifdef  USE_FULL_ASSERT
-#include "stm32_assert.h"
+    #include "stm32_assert.h"
 #else
-#define assert_param(expr) ((void)0U)
+    #define assert_param(expr) ((void)0U)
 #endif
 
 /** @addtogroup STM32L0xx_LL_Driver
@@ -60,16 +60,16 @@
   *          - SUCCESS: RNG registers are de-initialized
   *          - ERROR: not applicable
   */
-ErrorStatus LL_RNG_DeInit(RNG_TypeDef *RNGx)
+ErrorStatus LL_RNG_DeInit( RNG_TypeDef *RNGx )
 {
-  /* Check the parameters */
-  assert_param(IS_RNG_ALL_INSTANCE(RNGx));
-  /* Enable RNG reset state */
-  LL_AHB1_GRP1_ForceReset(LL_AHB1_GRP1_PERIPH_RNG);
+    /* Check the parameters */
+    assert_param( IS_RNG_ALL_INSTANCE( RNGx ) );
+    /* Enable RNG reset state */
+    LL_AHB1_GRP1_ForceReset( LL_AHB1_GRP1_PERIPH_RNG );
 
-  /* Release RNG from reset state */
-  LL_AHB1_GRP1_ReleaseReset(LL_AHB1_GRP1_PERIPH_RNG);
-  return (SUCCESS);
+    /* Release RNG from reset state */
+    LL_AHB1_GRP1_ReleaseReset( LL_AHB1_GRP1_PERIPH_RNG );
+    return ( SUCCESS );
 }
 
 /**

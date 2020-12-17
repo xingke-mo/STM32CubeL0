@@ -1,6 +1,6 @@
 /**
   ******************************************************************************
-  * @file    LCD/LCD_Display_Text/Inc/main.h 
+  * @file    LCD/LCD_Display_Text/Inc/main.h
   * @author  MCD Application Team
   * @brief   Header for main.c module
   ******************************************************************************
@@ -34,8 +34,8 @@
 /* Exported constants --------------------------------------------------------*/
 /* Exported macro ------------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */
-void TSENSOR_demo (void);
-uint8_t CheckForUserInput(void);
+void TSENSOR_demo( void );
+uint8_t CheckForUserInput( void );
 
 #endif /* __MAIN_H */
 

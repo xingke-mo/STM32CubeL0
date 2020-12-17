@@ -22,11 +22,11 @@
 #define __STM32L0xx_HAL_DAC_EX_H
 
 #ifdef __cplusplus
- extern "C" {
+extern "C" {
 #endif
 
 #if !defined(STM32L010xB) && !defined (STM32L010x8) && !defined (STM32L010x6) && !defined (STM32L010x4) && !defined (STM32L011xx) && !defined (STM32L021xx) && !defined (STM32L031xx) && !defined (STM32L041xx) && !defined (STM32L051xx) && !defined (STM32L071xx) && !defined (STM32L081xx)
-   
+
 /* Includes ------------------------------------------------------------------*/
 #include "stm32l0xx_hal_def.h"
 
@@ -39,13 +39,13 @@
   */
 
 /* Exported types ------------------------------------------------------------*/
-   
+
 /* Exported constants --------------------------------------------------------*/
-  
+
 /** @defgroup DACEx_Exported_Constants DACEx Exported Constants
   * @{
-  */ 
-   
+  */
+
 /** @defgroup DACEx_lfsrunmask_triangleamplitude DACEx lfsrunmask triangleamplitude
   * @{
   */
@@ -107,9 +107,9 @@
   * @}
   */
 
-/* Exported macro ------------------------------------------------------------*/  
+/* Exported macro ------------------------------------------------------------*/
 
-/* Exported functions --------------------------------------------------------*/  
+/* Exported functions --------------------------------------------------------*/
 
 /** @defgroup DACEx_Exported_Functions DACEx Exported Functions
   * @{
@@ -119,16 +119,16 @@
   * @{
   */
 /* Extension features functions ***********************************************/
-HAL_StatusTypeDef HAL_DACEx_TriangleWaveGenerate(DAC_HandleTypeDef* hdac, uint32_t Channel, uint32_t Amplitude);
-HAL_StatusTypeDef HAL_DACEx_NoiseWaveGenerate(DAC_HandleTypeDef* hdac, uint32_t Channel, uint32_t Amplitude);
+HAL_StatusTypeDef HAL_DACEx_TriangleWaveGenerate( DAC_HandleTypeDef *hdac, uint32_t Channel, uint32_t Amplitude );
+HAL_StatusTypeDef HAL_DACEx_NoiseWaveGenerate( DAC_HandleTypeDef *hdac, uint32_t Channel, uint32_t Amplitude );
 
 #if defined (STM32L072xx) || defined (STM32L073xx) || defined (STM32L082xx) || defined (STM32L083xx)
-uint32_t HAL_DACEx_DualGetValue(DAC_HandleTypeDef* hdac);
-HAL_StatusTypeDef HAL_DACEx_DualSetValue(DAC_HandleTypeDef* hdac, uint32_t Alignment, uint32_t Data1, uint32_t Data2);
-void HAL_DACEx_ConvCpltCallbackCh2(DAC_HandleTypeDef* hdac);
-void HAL_DACEx_ConvHalfCpltCallbackCh2(DAC_HandleTypeDef* hdac);
-void HAL_DACEx_ErrorCallbackCh2(DAC_HandleTypeDef* hdac);
-void HAL_DACEx_DMAUnderrunCallbackCh2(DAC_HandleTypeDef* hdac);
+uint32_t HAL_DACEx_DualGetValue( DAC_HandleTypeDef *hdac );
+HAL_StatusTypeDef HAL_DACEx_DualSetValue( DAC_HandleTypeDef *hdac, uint32_t Alignment, uint32_t Data1, uint32_t Data2 );
+void HAL_DACEx_ConvCpltCallbackCh2( DAC_HandleTypeDef *hdac );
+void HAL_DACEx_ConvHalfCpltCallbackCh2( DAC_HandleTypeDef *hdac );
+void HAL_DACEx_ErrorCallbackCh2( DAC_HandleTypeDef *hdac );
+void HAL_DACEx_DMAUnderrunCallbackCh2( DAC_HandleTypeDef *hdac );
 #endif
 
 /**
@@ -156,7 +156,7 @@ void HAL_DACEx_DMAUnderrunCallbackCh2(DAC_HandleTypeDef* hdac);
   * @}
   */
 #endif /* !STM32L010xB && !STM32L010x8 && !STM32L010x6 && !STM32L010x4 && !STM32L011xx && !STM32L021xx && !STM32L031xx && !STM32L041xx && !STM32L051xx && !STM32L071xx && !STM32L081xx*/
-  
+
 #ifdef __cplusplus
 }
 #endif

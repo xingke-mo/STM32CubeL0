@@ -36,7 +36,7 @@
 #define USBD_SELF_POWERED                     1
 #define USBD_DEBUG_LEVEL                      0
 #ifndef USBD_LPM_ENABLED
-  #define USBD_LPM_ENABLED                    1
+    #define USBD_LPM_ENABLED                    1
 #endif
 
 /* Exported macro ------------------------------------------------------------*/
@@ -45,8 +45,8 @@
 /* For footprint reasons and since only one allocation is handled in the HID class
    driver, the malloc/free is changed into a static allocation method */
 
-void *USBD_static_malloc(uint32_t size);
-void USBD_static_free(void *p);
+void *USBD_static_malloc( uint32_t size );
+void USBD_static_free( void *p );
 
 #define MAX_STATIC_ALLOC_SIZE     4 /*HID Class Driver Structure size*/
 

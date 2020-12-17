@@ -30,14 +30,14 @@ typedef struct JTEST_FW_struct
     volatile int32_t dump_data;
     volatile int32_t exit_fw;
 
-    JTEST_GROUP_t * current_group_ptr;
+    JTEST_GROUP_t *current_group_ptr;
 
     /* Buffers: The C-code cannot send strings and data directly to the
      * debugging framework. Instead, the debugger can be told to read 128 byte
      * (by default) chunks of memory.  Data received in this manner requires
      * post-processing to be legible.*/
-    char * str_buffer;
-    char * data_buffer;
+    char *str_buffer;
+    char *data_buffer;
 
     /* Pass/Fail Data */
     JTEST_PF_MEMBERS;
@@ -55,7 +55,7 @@ typedef struct JTEST_FW_struct
  *  a different name.
  */
 #ifndef JTEST_FW
-#define JTEST_FW JTEST_FW
+    #define JTEST_FW JTEST_FW
 #endif
 
 /**
@@ -65,7 +65,7 @@ typedef struct JTEST_FW_struct
  *  a different name.
  */
 #ifndef JTEST_FW_STR_BUFFER
-#define JTEST_FW_STR_BUFFER JTEST_FW_STR_BUFFER
+    #define JTEST_FW_STR_BUFFER JTEST_FW_STR_BUFFER
 #endif
 
 /**
@@ -239,15 +239,15 @@ extern volatile JTEST_FW_t JTEST_FW;
 /*--------------------------------------------------------------------------------*/
 /* Function Prototypes */
 /*--------------------------------------------------------------------------------*/
-void jtest_dump_str_segments(void);
+void jtest_dump_str_segments( void );
 
-void test_start  (void);
-void test_end    (void);
-void group_start (void);
-void group_end   (void);
-void dump_str    (void);
-void dump_data   (void);
-void exit_fw     (void);
+void test_start( void );
+void test_end( void );
+void group_start( void );
+void group_end( void );
+void dump_str( void );
+void dump_data( void );
+void exit_fw( void );
 
 
 #endif /* _JTEST_FW_H_ */

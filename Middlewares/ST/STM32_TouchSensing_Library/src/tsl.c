@@ -31,27 +31,27 @@
   * @param  bank  Array holding all the banks
   * @retval Status
   */
-TSL_Status_enum_T TSL_Init(CONST TSL_Bank_T *bank)
+TSL_Status_enum_T TSL_Init( CONST TSL_Bank_T *bank )
 {
-  TSL_Status_enum_T retval;
+    TSL_Status_enum_T retval;
 
-  // Get banks array
-  TSL_Globals.Bank_Array = bank;
+    // Get banks array
+    TSL_Globals.Bank_Array = bank;
 
-  // Initialize the delay that will be used to discharge the capacitors
-  TSL_Globals.DelayDischarge = (uint32_t)((TSLPRM_DELAY_DISCHARGE_ALL * (uint32_t)(SystemCoreClock/1000000)) / 72);
-  
-  // Note: The timing configuration (Systick) must be done in the user code.
+    // Initialize the delay that will be used to discharge the capacitors
+    TSL_Globals.DelayDischarge = ( uint32_t )( ( TSLPRM_DELAY_DISCHARGE_ALL * ( uint32_t )( SystemCoreClock / 1000000 ) ) / 72 );
 
-  // Initialization of the acquisition module
+    // Note: The timing configuration (Systick) must be done in the user code.
+
+    // Initialization of the acquisition module
 #ifdef __TSL_ACQ_TSC_H
-  // Note: The TSC peripheral initialization must be done in the user code.
-  retval = TSL_STATUS_OK;
+    // Note: The TSC peripheral initialization must be done in the user code.
+    retval = TSL_STATUS_OK;
 #else
-  retval = TSL_acq_Init();
+    retval = TSL_acq_Init();
 #endif
 
-  return retval;
+    return retval;
 }
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

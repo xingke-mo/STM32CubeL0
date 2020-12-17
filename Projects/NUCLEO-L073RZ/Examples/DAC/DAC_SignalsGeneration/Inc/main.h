@@ -26,7 +26,7 @@
 #include "stm32l0xx_nucleo.h"
 
 #if defined(TARGET_STM32F756G_EVAL)
-#include "stm32l0xx_nucleo_io.h"
+    #include "stm32l0xx_nucleo_io.h"
 #endif
 
 /* Exported types ------------------------------------------------------------*/

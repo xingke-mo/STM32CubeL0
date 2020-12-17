@@ -1,7 +1,7 @@
 /**
   ******************************************************************************
   * @file    main_app.h
-  * @author  MCD Application Team   
+  * @author  MCD Application Team
   * @brief   System information functions
   ******************************************************************************
   * @attention
@@ -24,7 +24,7 @@
   */
 
 /** @defgroup SYSTEM_INFO
-  * @brief system info routines 
+  * @brief system info routines
   * @{
   */
 

@@ -60,20 +60,20 @@
             return JTEST_TEST_PASSED;                                   \
     }
 
-ARM_PID_TEST(f32,float32_t);
-ARM_PID_TEST(q31,q31_t);
-ARM_PID_TEST(q15,q15_t);
+ARM_PID_TEST( f32, float32_t );
+ARM_PID_TEST( q31, q31_t );
+ARM_PID_TEST( q15, q15_t );
 
 /*--------------------------------------------------------------------------------*/
 /* Collect all tests in a group */
 /*--------------------------------------------------------------------------------*/
 
-JTEST_DEFINE_GROUP(pid_tests)
+JTEST_DEFINE_GROUP( pid_tests )
 {
     /*
       To skip a test, comment it out.
     */
-    JTEST_TEST_CALL(arm_pid_f32_test);
-    JTEST_TEST_CALL(arm_pid_q31_test);
-    JTEST_TEST_CALL(arm_pid_q15_test);
+    JTEST_TEST_CALL( arm_pid_f32_test );
+    JTEST_TEST_CALL( arm_pid_q31_test );
+    JTEST_TEST_CALL( arm_pid_q15_test );
 }

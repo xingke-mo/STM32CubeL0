@@ -1,6 +1,6 @@
 /**
   ******************************************************************************
-  * @file    Demonstrations/Adafruit_LCD_1_8_SD_Joystick/Inc/main.h 
+  * @file    Demonstrations/Adafruit_LCD_1_8_SD_Joystick/Inc/main.h
   * @author  MCD Application Team
   * @brief   Header for main.c module
   ******************************************************************************

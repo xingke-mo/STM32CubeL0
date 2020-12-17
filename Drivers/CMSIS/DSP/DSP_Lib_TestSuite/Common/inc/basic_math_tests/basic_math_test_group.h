@@ -4,6 +4,6 @@
 /*--------------------------------------------------------------------------------*/
 /* Declare Test Groups */
 /*--------------------------------------------------------------------------------*/
-JTEST_DECLARE_GROUP(basic_math_tests);
+JTEST_DECLARE_GROUP( basic_math_tests );
 
 #endif /* _BASIC_MATH_TEST_GROUP_H_ */

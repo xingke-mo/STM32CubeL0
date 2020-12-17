@@ -41,25 +41,25 @@
   */
 
 /**
-  * @brief TIM MSP Initialization 
-  *        This function configures the hardware resources used in this example: 
+  * @brief TIM MSP Initialization
+  *        This function configures the hardware resources used in this example:
   *           - Peripheral's clock enable
-  *           - Peripheral's GPIO Configuration  
+  *           - Peripheral's GPIO Configuration
   * @param htim: TIM handle pointer
   * @retval None
   */
-void HAL_TIM_IC_MspInit(TIM_HandleTypeDef *htim)
+void HAL_TIM_IC_MspInit( TIM_HandleTypeDef *htim )
 {
 
 
-  /* TIMx Peripheral clock enable */
-  __HAL_RCC_TIM21_CLK_ENABLE();
-  
-  /*## Configure the NVIC for TIMx ###########################################*/
-  HAL_NVIC_SetPriority(TIM21_IRQn,0,0);
-  
-  /* Enable the TIM21 global Interrupt */
-  HAL_NVIC_EnableIRQ(TIM21_IRQn);
+    /* TIMx Peripheral clock enable */
+    __HAL_RCC_TIM21_CLK_ENABLE();
+
+    /*## Configure the NVIC for TIMx ###########################################*/
+    HAL_NVIC_SetPriority( TIM21_IRQn, 0, 0 );
+
+    /* Enable the TIM21 global Interrupt */
+    HAL_NVIC_EnableIRQ( TIM21_IRQn );
 }
 
 /**

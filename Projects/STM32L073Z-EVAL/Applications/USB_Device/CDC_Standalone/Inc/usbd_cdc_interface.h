@@ -26,7 +26,7 @@
 
 /* Exported types ------------------------------------------------------------*/
 /* Exported constants --------------------------------------------------------*/
-/* User can use this section to tailor USARTx/UARTx instance used and associated 
+/* User can use this section to tailor USARTx/UARTx instance used and associated
    resources */
 /* Definition for USARTx clock resources */
 #define USARTx                           USART2

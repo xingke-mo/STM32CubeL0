@@ -27,7 +27,7 @@
 /* Exported constants --------------------------------------------------------*/
 /* Exported macro ------------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */
-uint32_t vdata_protected_function(uint32_t * array);
+uint32_t vdata_protected_function( uint32_t *array );
 
 #endif /* __PROTECTED_VDATA_CODE_H */
 

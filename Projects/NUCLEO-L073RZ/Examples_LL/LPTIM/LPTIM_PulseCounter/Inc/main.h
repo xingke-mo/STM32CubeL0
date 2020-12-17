@@ -31,23 +31,23 @@
 #include "stm32l0xx_ll_pwr.h"
 #include "stm32l0xx_ll_cortex.h"
 #if defined(USE_FULL_ASSERT)
-#include "stm32_assert.h"
+    #include "stm32_assert.h"
 #endif /* USE_FULL_ASSERT */
 
 /* Exported types ------------------------------------------------------------*/
 /* Exported constants --------------------------------------------------------*/
 /**
-  * @brief LED2 
+  * @brief LED2
   */
 
 #define LED2_PIN                           LL_GPIO_PIN_5
 #define LED2_GPIO_PORT                     GPIOA
-#define LED2_GPIO_CLK_ENABLE()             LL_IOP_GRP1_EnableClock(LL_IOP_GRP1_PERIPH_GPIOA)  
+#define LED2_GPIO_CLK_ENABLE()             LL_IOP_GRP1_EnableClock(LL_IOP_GRP1_PERIPH_GPIOA)
 
 /* Exported macro ------------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */
 /* LPTIM1 Autotreloead match interrupt processing */
-void LPTimerAutoreloadMatch_Callback(void); 
+void LPTimerAutoreloadMatch_Callback( void );
 
 #endif /* __MAIN_H */
 

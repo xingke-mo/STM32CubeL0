@@ -23,7 +23,7 @@
 #define __HSENSOR_H
 
 #ifdef __cplusplus
- extern "C" {
+extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
@@ -36,24 +36,24 @@
 /** @addtogroup Components
   * @{
   */
-    
+
 /** @addtogroup HSENSOR
   * @{
   */
 
 /** @defgroup HSENSOR_Exported_Types
   * @{
-  */ 
+  */
 
 /** @defgroup HSENSOR_Driver_structure  Humidity Sensor Driver structure
   * @{
   */
 typedef struct
 {
-  void       (*Init)(uint16_t); 
-  uint8_t    (*ReadID)(uint16_t);
-  float      (*ReadHumidity)(uint16_t); 
-}HSENSOR_DrvTypeDef;
+    void ( *Init )( uint16_t );
+    uint8_t ( *ReadID )( uint16_t );
+    float ( *ReadHumidity )( uint16_t );
+} HSENSOR_DrvTypeDef;
 /**
   * @}
   */

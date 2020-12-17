@@ -36,5 +36,5 @@
 extern USBD_DescriptorsTypeDef DFU_Desc;
 
 #endif /* __USBD_DESC_H */
- 
+
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

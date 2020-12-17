@@ -1,6 +1,6 @@
 /**
   ******************************************************************************
-  * @file    IAP_Main/Inc/menu.h 
+  * @file    IAP_Main/Inc/menu.h
   * @author  MCD Application Team
   * @brief   This file provides all the headers of the menu functions.
   ******************************************************************************
@@ -29,13 +29,13 @@
 extern uint8_t aFileName[FILE_NAME_LENGTH];
 
 /* Private variables ---------------------------------------------------------*/
-typedef  void (*pFunction)(void);
+typedef  void ( *pFunction )( void );
 
 /* Exported types ------------------------------------------------------------*/
 /* Exported constants --------------------------------------------------------*/
 /* Exported macro ------------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */
-void Main_Menu(void);
+void Main_Menu( void );
 
 #endif  /* __MENU_H */
 

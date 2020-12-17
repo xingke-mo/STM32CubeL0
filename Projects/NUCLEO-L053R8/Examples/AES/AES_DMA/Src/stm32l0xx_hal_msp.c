@@ -3,7 +3,7 @@
   * @file    AES/AES_DMA/Src/stm32l0xx_hal_msp.c
   * @author  MCD Application Team
   * @brief   HAL MSP module.
-  *         
+  *
   @verbatim
  ===============================================================================
                      ##### How to use this driver #####
@@ -24,7 +24,7 @@
   *                        opensource.org/licenses/BSD-3-Clause
   *
   ******************************************************************************
-  */ 
+  */
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32l0xx_hal.h"
@@ -50,86 +50,86 @@
   */
 
 /**
-  * @brief CRYP MSP Initialization 
-  *        This function configures the hardware resources used in this example: 
-  *           - DMA configuration for transmission request by peripheral 
+  * @brief CRYP MSP Initialization
+  *        This function configures the hardware resources used in this example:
+  *           - DMA configuration for transmission request by peripheral
   *           - NVIC configuration for DMA interrupt request enable
   * @param hcryp: CRYP handle pointer
   * @retval None
   */
 
-void HAL_CRYP_MspInit(CRYP_HandleTypeDef *hcryp)
+void HAL_CRYP_MspInit( CRYP_HandleTypeDef *hcryp )
 {
-  static  DMA_HandleTypeDef   hdmaIn;
-  static  DMA_HandleTypeDef   hdmaOut;
+    static  DMA_HandleTypeDef   hdmaIn;
+    static  DMA_HandleTypeDef   hdmaOut;
 
-  /* Enable CRYP clock */
-  __HAL_RCC_AES_CLK_ENABLE();
-  
-  /* Force the CRYP Periheral Clock Reset */  
-  __HAL_RCC_AES_FORCE_RESET(); 
-  
-  /* Release the CRYP Periheral Clock Reset */  
-  __HAL_RCC_AES_RELEASE_RESET();
-  
-  /* Enable and set CRYP Interrupt to the highest priority */
-  HAL_NVIC_SetPriority(AES_RNG_LPUART1_IRQn, 0, 0);
-  HAL_NVIC_EnableIRQ(AES_RNG_LPUART1_IRQn);
-  
+    /* Enable CRYP clock */
+    __HAL_RCC_AES_CLK_ENABLE();
+
+    /* Force the CRYP Periheral Clock Reset */
+    __HAL_RCC_AES_FORCE_RESET();
+
+    /* Release the CRYP Periheral Clock Reset */
+    __HAL_RCC_AES_RELEASE_RESET();
+
+    /* Enable and set CRYP Interrupt to the highest priority */
+    HAL_NVIC_SetPriority( AES_RNG_LPUART1_IRQn, 0, 0 );
+    HAL_NVIC_EnableIRQ( AES_RNG_LPUART1_IRQn );
+
     /* Enable DMA1 clocks */
-  __HAL_RCC_DMA1_CLK_ENABLE();
-  __HAL_RCC_DMA1_FORCE_RESET();
-  __HAL_RCC_DMA1_RELEASE_RESET();
-  
-  /***************** Configure common DMA In parameters ***********************/
-  hdmaIn.Instance                 = DMA1_Channel1;
-  hdmaIn.Init.Direction           = DMA_MEMORY_TO_PERIPH;
-  hdmaIn.Init.PeriphInc           = DMA_PINC_DISABLE;
-  hdmaIn.Init.MemInc              = DMA_MINC_ENABLE;
-  hdmaIn.Init.PeriphDataAlignment = DMA_PDATAALIGN_WORD;
-  hdmaIn.Init.MemDataAlignment    = DMA_MDATAALIGN_WORD;
-  hdmaIn.Init.Mode                = DMA_NORMAL;
-  hdmaIn.Init.Priority            = DMA_PRIORITY_MEDIUM;
-  hdmaIn.Init.Request             = DMA_REQUEST_11;
-  
-  /* Associate the DMA handle */
-  __HAL_LINKDMA(hcryp, hdmain, hdmaIn);
-  
-  /* Deinitialize the Stream for new transfer */
-  HAL_DMA_DeInit(hcryp->hdmain);
-  
-  /* Configure the DMA Stream */
-  HAL_DMA_Init(hcryp->hdmain);      
-  
-  /* NVIC configuration for DMA Input data interrupt */
-  HAL_NVIC_SetPriority(DMA1_Channel1_IRQn, 1, 0);
-  HAL_NVIC_EnableIRQ(DMA1_Channel1_IRQn);
-  
-  /***************** Configure common DMA Out parameters **********************/
-  hdmaOut.Instance                 = DMA1_Channel3;
-  hdmaOut.Init.Direction           = DMA_PERIPH_TO_MEMORY;
-  hdmaOut.Init.PeriphInc           = DMA_PINC_DISABLE;
-  hdmaOut.Init.MemInc              = DMA_MINC_ENABLE;
-  hdmaOut.Init.PeriphDataAlignment = DMA_PDATAALIGN_WORD;
-  hdmaOut.Init.MemDataAlignment    = DMA_MDATAALIGN_WORD;
-  hdmaOut.Init.Mode                = DMA_NORMAL;
-  hdmaOut.Init.Priority            = DMA_PRIORITY_VERY_HIGH;
-  hdmaOut.Init.Request             = DMA_REQUEST_11;
-  
-  /* Associate the DMA handle */
-  __HAL_LINKDMA(hcryp, hdmaout, hdmaOut);
-  
-  /* Deinitialize the Stream for new processing */
-  HAL_DMA_DeInit(&hdmaOut);
-  
-  /* Configure the DMA Stream */
-  HAL_DMA_Init(&hdmaOut);
-  
-  /* NVIC configuration for DMA output data interrupt */
-  /* Already configured */
-  HAL_NVIC_SetPriority(DMA1_Channel2_3_IRQn, 0, 0);
-  HAL_NVIC_EnableIRQ(DMA1_Channel2_3_IRQn);
-  
+    __HAL_RCC_DMA1_CLK_ENABLE();
+    __HAL_RCC_DMA1_FORCE_RESET();
+    __HAL_RCC_DMA1_RELEASE_RESET();
+
+    /***************** Configure common DMA In parameters ***********************/
+    hdmaIn.Instance                 = DMA1_Channel1;
+    hdmaIn.Init.Direction           = DMA_MEMORY_TO_PERIPH;
+    hdmaIn.Init.PeriphInc           = DMA_PINC_DISABLE;
+    hdmaIn.Init.MemInc              = DMA_MINC_ENABLE;
+    hdmaIn.Init.PeriphDataAlignment = DMA_PDATAALIGN_WORD;
+    hdmaIn.Init.MemDataAlignment    = DMA_MDATAALIGN_WORD;
+    hdmaIn.Init.Mode                = DMA_NORMAL;
+    hdmaIn.Init.Priority            = DMA_PRIORITY_MEDIUM;
+    hdmaIn.Init.Request             = DMA_REQUEST_11;
+
+    /* Associate the DMA handle */
+    __HAL_LINKDMA( hcryp, hdmain, hdmaIn );
+
+    /* Deinitialize the Stream for new transfer */
+    HAL_DMA_DeInit( hcryp->hdmain );
+
+    /* Configure the DMA Stream */
+    HAL_DMA_Init( hcryp->hdmain );
+
+    /* NVIC configuration for DMA Input data interrupt */
+    HAL_NVIC_SetPriority( DMA1_Channel1_IRQn, 1, 0 );
+    HAL_NVIC_EnableIRQ( DMA1_Channel1_IRQn );
+
+    /***************** Configure common DMA Out parameters **********************/
+    hdmaOut.Instance                 = DMA1_Channel3;
+    hdmaOut.Init.Direction           = DMA_PERIPH_TO_MEMORY;
+    hdmaOut.Init.PeriphInc           = DMA_PINC_DISABLE;
+    hdmaOut.Init.MemInc              = DMA_MINC_ENABLE;
+    hdmaOut.Init.PeriphDataAlignment = DMA_PDATAALIGN_WORD;
+    hdmaOut.Init.MemDataAlignment    = DMA_MDATAALIGN_WORD;
+    hdmaOut.Init.Mode                = DMA_NORMAL;
+    hdmaOut.Init.Priority            = DMA_PRIORITY_VERY_HIGH;
+    hdmaOut.Init.Request             = DMA_REQUEST_11;
+
+    /* Associate the DMA handle */
+    __HAL_LINKDMA( hcryp, hdmaout, hdmaOut );
+
+    /* Deinitialize the Stream for new processing */
+    HAL_DMA_DeInit( &hdmaOut );
+
+    /* Configure the DMA Stream */
+    HAL_DMA_Init( &hdmaOut );
+
+    /* NVIC configuration for DMA output data interrupt */
+    /* Already configured */
+    HAL_NVIC_SetPriority( DMA1_Channel2_3_IRQn, 0, 0 );
+    HAL_NVIC_EnableIRQ( DMA1_Channel2_3_IRQn );
+
 }
 
 /**
@@ -137,20 +137,20 @@ void HAL_CRYP_MspInit(CRYP_HandleTypeDef *hcryp)
   * @param  None
   * @retval None
   */
-void HAL_MspInit(void)
+void HAL_MspInit( void )
 {
-  /* NOTE : This function is eventually modified by the user */
+    /* NOTE : This function is eventually modified by the user */
 
 }
 
 /**
   * @brief  DeInitializes the Global MSP.
-  * @param  None  
+  * @param  None
   * @retval None
   */
-void HAL_MspDeInit(void)
+void HAL_MspDeInit( void )
 {
-  /* NOTE : This function is eventually modified by the user */
+    /* NOTE : This function is eventually modified by the user */
 
 }
 

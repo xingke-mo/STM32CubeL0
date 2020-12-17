@@ -57,20 +57,20 @@
             return JTEST_TEST_PASSED;                                                     \
    }
 
-IIR_DEFINE_TEST(f32, float32_t);
-IIR_DEFINE_TEST(q31, q31_t);
-IIR_DEFINE_TEST(q15, q15_t);
+IIR_DEFINE_TEST( f32, float32_t );
+IIR_DEFINE_TEST( q31, q31_t );
+IIR_DEFINE_TEST( q15, q15_t );
 
 /*--------------------------------------------------------------------------------*/
 /* Collect all tests in a group. */
 /*--------------------------------------------------------------------------------*/
 
-JTEST_DEFINE_GROUP(iir_tests)
+JTEST_DEFINE_GROUP( iir_tests )
 {
     /*
       To skip a test, comment it out.
     */
-   JTEST_TEST_CALL(arm_iir_lattice_f32_test);
-   JTEST_TEST_CALL(arm_iir_lattice_q31_test);
-   JTEST_TEST_CALL(arm_iir_lattice_q15_test);
+    JTEST_TEST_CALL( arm_iir_lattice_f32_test );
+    JTEST_TEST_CALL( arm_iir_lattice_q31_test );
+    JTEST_TEST_CALL( arm_iir_lattice_q15_test );
 }

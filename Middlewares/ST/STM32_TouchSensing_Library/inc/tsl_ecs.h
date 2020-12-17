@@ -28,9 +28,9 @@
 
 /* Exported functions --------------------------------------------------------*/
 
-TSL_tKCoeff_T TSL_ecs_CalcK(TSL_ObjectGroup_T *objgrp, TSL_tKCoeff_T k_slow, TSL_tKCoeff_T k_fast);
-void TSL_ecs_ProcessK(TSL_ObjectGroup_T *objgrp, TSL_tKCoeff_T Kcoeff);
-TSL_Status_enum_T TSL_ecs_Process(TSL_ObjectGroup_T *objgrp);
+TSL_tKCoeff_T TSL_ecs_CalcK( TSL_ObjectGroup_T *objgrp, TSL_tKCoeff_T k_slow, TSL_tKCoeff_T k_fast );
+void TSL_ecs_ProcessK( TSL_ObjectGroup_T *objgrp, TSL_tKCoeff_T Kcoeff );
+TSL_Status_enum_T TSL_ecs_Process( TSL_ObjectGroup_T *objgrp );
 
 #endif /* __TSL_ECS_H */
 

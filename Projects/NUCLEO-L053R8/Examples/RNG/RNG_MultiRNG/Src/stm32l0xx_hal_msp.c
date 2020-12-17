@@ -2,7 +2,7 @@
   ******************************************************************************
   * @file    RNG/RNG_MultiRNG/Src/stm32l0xx_hal_msp.c
   * @author  MCD Application Team
-  * @brief   HAL MSP module.    
+  * @brief   HAL MSP module.
   ******************************************************************************
   * @attention
   *
@@ -41,32 +41,32 @@
   */
 
 /**
-  * @brief RNG MSP Initialization 
-  *        This function configures the hardware resources used in this example: 
-  *           - Peripheral's clock enable 
+  * @brief RNG MSP Initialization
+  *        This function configures the hardware resources used in this example:
+  *           - Peripheral's clock enable
   * @param hrng: RNG handle pointer
   * @retval None
   */
-void HAL_RNG_MspInit(RNG_HandleTypeDef *hrng)
+void HAL_RNG_MspInit( RNG_HandleTypeDef *hrng )
 {
-  /* RNG Peripheral clock enable */
-  __HAL_RCC_RNG_CLK_ENABLE();
+    /* RNG Peripheral clock enable */
+    __HAL_RCC_RNG_CLK_ENABLE();
 }
 
 /**
-  * @brief RNG MSP De-Initialization 
+  * @brief RNG MSP De-Initialization
   *        This function freeze the hardware resources used in this example:
   *          - Disable the Peripheral's clock
   * @param hrng: RNG handle pointer
   * @retval None
   */
-void HAL_RNG_MspDeInit(RNG_HandleTypeDef *hrng)
+void HAL_RNG_MspDeInit( RNG_HandleTypeDef *hrng )
 {
-  /* Enable RNG reset state */
-  __HAL_RCC_RNG_FORCE_RESET();
-  
-  /* Release RNG from reset state */
-  __HAL_RCC_RNG_RELEASE_RESET();
+    /* Enable RNG reset state */
+    __HAL_RCC_RNG_FORCE_RESET();
+
+    /* Release RNG from reset state */
+    __HAL_RCC_RNG_RELEASE_RESET();
 }
 
 /**

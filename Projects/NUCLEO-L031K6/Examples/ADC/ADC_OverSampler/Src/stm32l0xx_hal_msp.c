@@ -47,22 +47,22 @@
   * @param hadc: ADC handle pointer
   * @retval None
 */
-void HAL_ADC_MspInit(ADC_HandleTypeDef *hadc)
+void HAL_ADC_MspInit( ADC_HandleTypeDef *hadc )
 {
-  GPIO_InitTypeDef          GPIO_InitStruct;
-  
-  /*##-1- Enable peripherals and GPIO Clocks #################################*/
-  /* Enable GPIO clock ****************************************/
-  __HAL_RCC_GPIOA_CLK_ENABLE();
-  /* ADC1 Periph clock enable */
-  __HAL_RCC_ADC1_CLK_ENABLE();
+    GPIO_InitTypeDef          GPIO_InitStruct;
 
-  /*##-2- Configure peripheral GPIO ##########################################*/
-  /* ADC3 Channel8 GPIO pin configuration */
-  GPIO_InitStruct.Pin = GPIO_PIN_0;
-  GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct); 
+    /*##-1- Enable peripherals and GPIO Clocks #################################*/
+    /* Enable GPIO clock ****************************************/
+    __HAL_RCC_GPIOA_CLK_ENABLE();
+    /* ADC1 Periph clock enable */
+    __HAL_RCC_ADC1_CLK_ENABLE();
+
+    /*##-2- Configure peripheral GPIO ##########################################*/
+    /* ADC3 Channel8 GPIO pin configuration */
+    GPIO_InitStruct.Pin = GPIO_PIN_0;
+    GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    HAL_GPIO_Init( GPIOA, &GPIO_InitStruct );
 }
 
 
@@ -75,18 +75,18 @@ void HAL_ADC_MspInit(ADC_HandleTypeDef *hadc)
   * @param hadc: ADC handle pointer
   * @retval None
   */
-void HAL_MspDeInit(void)
+void HAL_MspDeInit( void )
 {
-  /* NOTE : This function is eventually modified by the user */
+    /* NOTE : This function is eventually modified by the user */
 
 
-  /*##-1- Reset peripherals ##################################################*/
-  __HAL_RCC_ADC1_FORCE_RESET();
-  __HAL_RCC_ADC1_RELEASE_RESET();
+    /*##-1- Reset peripherals ##################################################*/
+    __HAL_RCC_ADC1_FORCE_RESET();
+    __HAL_RCC_ADC1_RELEASE_RESET();
 
-  /*##-2- Disable peripherals and GPIO Clocks ################################*/
-  /* De-initialize the ADC Channel GPIO pin */
-  HAL_GPIO_DeInit(GPIOA, GPIO_PIN_0);   
+    /*##-2- Disable peripherals and GPIO Clocks ################################*/
+    /* De-initialize the ADC Channel GPIO pin */
+    HAL_GPIO_DeInit( GPIOA, GPIO_PIN_0 );
 }
 
 

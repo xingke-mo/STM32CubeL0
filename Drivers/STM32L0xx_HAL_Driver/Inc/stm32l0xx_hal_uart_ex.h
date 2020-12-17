@@ -46,15 +46,15 @@ extern "C" {
   */
 typedef struct
 {
-  uint32_t WakeUpEvent;        /*!< Specifies which event will activate the Wakeup from Stop mode flag (WUF).
+    uint32_t WakeUpEvent;        /*!< Specifies which event will activate the Wakeup from Stop mode flag (WUF).
                                     This parameter can be a value of @ref UART_WakeUp_from_Stop_Selection.
                                     If set to UART_WAKEUP_ON_ADDRESS, the two other fields below must
                                     be filled up. */
 
-  uint16_t AddressLength;      /*!< Specifies whether the address is 4 or 7-bit long.
+    uint16_t AddressLength;      /*!< Specifies whether the address is 4 or 7-bit long.
                                     This parameter can be a value of @ref UARTEx_WakeUp_Address_Length.  */
 
-  uint8_t Address;             /*!< UART/USART node address (7-bit long max). */
+    uint8_t Address;             /*!< UART/USART node address (7-bit long max). */
 } UART_WakeUpTypeDef;
 
 /**
@@ -100,8 +100,8 @@ typedef struct
   */
 
 /* Initialization and de-initialization functions  ****************************/
-HAL_StatusTypeDef HAL_RS485Ex_Init(UART_HandleTypeDef *huart, uint32_t Polarity, uint32_t AssertionTime,
-                                   uint32_t DeassertionTime);
+HAL_StatusTypeDef HAL_RS485Ex_Init( UART_HandleTypeDef *huart, uint32_t Polarity, uint32_t AssertionTime,
+                                    uint32_t DeassertionTime );
 
 /**
   * @}
@@ -111,7 +111,7 @@ HAL_StatusTypeDef HAL_RS485Ex_Init(UART_HandleTypeDef *huart, uint32_t Polarity,
   * @{
   */
 
-void HAL_UARTEx_WakeupCallback(UART_HandleTypeDef *huart);
+void HAL_UARTEx_WakeupCallback( UART_HandleTypeDef *huart );
 
 /**
   * @}
@@ -122,19 +122,19 @@ void HAL_UARTEx_WakeupCallback(UART_HandleTypeDef *huart);
   */
 
 /* Peripheral Control functions  **********************************************/
-HAL_StatusTypeDef HAL_UARTEx_StopModeWakeUpSourceConfig(UART_HandleTypeDef *huart, UART_WakeUpTypeDef WakeUpSelection);
-HAL_StatusTypeDef HAL_UARTEx_EnableStopMode(UART_HandleTypeDef *huart);
-HAL_StatusTypeDef HAL_UARTEx_DisableStopMode(UART_HandleTypeDef *huart);
+HAL_StatusTypeDef HAL_UARTEx_StopModeWakeUpSourceConfig( UART_HandleTypeDef *huart, UART_WakeUpTypeDef WakeUpSelection );
+HAL_StatusTypeDef HAL_UARTEx_EnableStopMode( UART_HandleTypeDef *huart );
+HAL_StatusTypeDef HAL_UARTEx_DisableStopMode( UART_HandleTypeDef *huart );
 
-HAL_StatusTypeDef HAL_UARTEx_EnableClockStopMode(UART_HandleTypeDef *huart);
-HAL_StatusTypeDef HAL_UARTEx_DisableClockStopMode(UART_HandleTypeDef *huart);
+HAL_StatusTypeDef HAL_UARTEx_EnableClockStopMode( UART_HandleTypeDef *huart );
+HAL_StatusTypeDef HAL_UARTEx_DisableClockStopMode( UART_HandleTypeDef *huart );
 
-HAL_StatusTypeDef HAL_MultiProcessorEx_AddressLength_Set(UART_HandleTypeDef *huart, uint32_t AddressLength);
+HAL_StatusTypeDef HAL_MultiProcessorEx_AddressLength_Set( UART_HandleTypeDef *huart, uint32_t AddressLength );
 
 
-HAL_StatusTypeDef HAL_UARTEx_ReceiveToIdle(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint16_t *RxLen, uint32_t Timeout);
-HAL_StatusTypeDef HAL_UARTEx_ReceiveToIdle_IT(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size);
-HAL_StatusTypeDef HAL_UARTEx_ReceiveToIdle_DMA(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size);
+HAL_StatusTypeDef HAL_UARTEx_ReceiveToIdle( UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint16_t *RxLen, uint32_t Timeout );
+HAL_StatusTypeDef HAL_UARTEx_ReceiveToIdle_IT( UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size );
+HAL_StatusTypeDef HAL_UARTEx_ReceiveToIdle_DMA( UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size );
 
 
 /**

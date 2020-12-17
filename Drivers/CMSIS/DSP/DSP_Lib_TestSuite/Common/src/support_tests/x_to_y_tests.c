@@ -37,44 +37,44 @@
             SUPPORT_COMPARE_INTERFACE);                     \
     }
 
-JTEST_ARM_X_TO_Y_TEST(f32, q31);
-JTEST_ARM_X_TO_Y_TEST(f32, q15);
-JTEST_ARM_X_TO_Y_TEST(f32, q7);
+JTEST_ARM_X_TO_Y_TEST( f32, q31 );
+JTEST_ARM_X_TO_Y_TEST( f32, q15 );
+JTEST_ARM_X_TO_Y_TEST( f32, q7 );
 
-JTEST_ARM_X_TO_Y_TEST(q31, f32);
-JTEST_ARM_X_TO_Y_TEST(q31, q15);
-JTEST_ARM_X_TO_Y_TEST(q31, q7);
+JTEST_ARM_X_TO_Y_TEST( q31, f32 );
+JTEST_ARM_X_TO_Y_TEST( q31, q15 );
+JTEST_ARM_X_TO_Y_TEST( q31, q7 );
 
-JTEST_ARM_X_TO_Y_TEST(q15, f32);
-JTEST_ARM_X_TO_Y_TEST(q15, q31);
-JTEST_ARM_X_TO_Y_TEST(q15, q7);
+JTEST_ARM_X_TO_Y_TEST( q15, f32 );
+JTEST_ARM_X_TO_Y_TEST( q15, q31 );
+JTEST_ARM_X_TO_Y_TEST( q15, q7 );
 
-JTEST_ARM_X_TO_Y_TEST(q7, f32);
-JTEST_ARM_X_TO_Y_TEST(q7, q31);
-JTEST_ARM_X_TO_Y_TEST(q7, q15);
+JTEST_ARM_X_TO_Y_TEST( q7, f32 );
+JTEST_ARM_X_TO_Y_TEST( q7, q31 );
+JTEST_ARM_X_TO_Y_TEST( q7, q15 );
 
 /*--------------------------------------------------------------------------------*/
 /* Collect all tests in a group. */
 /*--------------------------------------------------------------------------------*/
 
-JTEST_DEFINE_GROUP(x_to_y_tests)
+JTEST_DEFINE_GROUP( x_to_y_tests )
 {
     /*
       To skip a test, comment it out.
     */
-    JTEST_TEST_CALL(arm_f32_to_q31_test);
-    JTEST_TEST_CALL(arm_f32_to_q15_test);
-    JTEST_TEST_CALL(arm_f32_to_q7_test);
+    JTEST_TEST_CALL( arm_f32_to_q31_test );
+    JTEST_TEST_CALL( arm_f32_to_q15_test );
+    JTEST_TEST_CALL( arm_f32_to_q7_test );
 
-    JTEST_TEST_CALL(arm_q31_to_f32_test);
-    JTEST_TEST_CALL(arm_q31_to_q15_test);
-    JTEST_TEST_CALL(arm_q31_to_q7_test);
+    JTEST_TEST_CALL( arm_q31_to_f32_test );
+    JTEST_TEST_CALL( arm_q31_to_q15_test );
+    JTEST_TEST_CALL( arm_q31_to_q7_test );
 
-    JTEST_TEST_CALL(arm_q15_to_f32_test);
-    JTEST_TEST_CALL(arm_q15_to_q31_test);
-    JTEST_TEST_CALL(arm_q15_to_q7_test);
+    JTEST_TEST_CALL( arm_q15_to_f32_test );
+    JTEST_TEST_CALL( arm_q15_to_q31_test );
+    JTEST_TEST_CALL( arm_q15_to_q7_test );
 
-    JTEST_TEST_CALL(arm_q7_to_f32_test);
-    JTEST_TEST_CALL(arm_q7_to_q31_test);
-    JTEST_TEST_CALL(arm_q7_to_q15_test);
+    JTEST_TEST_CALL( arm_q7_to_f32_test );
+    JTEST_TEST_CALL( arm_q7_to_q31_test );
+    JTEST_TEST_CALL( arm_q7_to_q15_test );
 }

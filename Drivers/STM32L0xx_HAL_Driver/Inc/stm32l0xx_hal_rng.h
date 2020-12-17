@@ -22,7 +22,7 @@
 #define STM32L0xx_HAL_RNG_H
 
 #ifdef __cplusplus
- extern "C" {
+extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
@@ -58,11 +58,11 @@
   */
 typedef enum
 {
-  HAL_RNG_STATE_RESET     = 0x00U,  /*!< RNG not yet initialized or disabled */
-  HAL_RNG_STATE_READY     = 0x01U,  /*!< RNG initialized and ready for use   */
-  HAL_RNG_STATE_BUSY      = 0x02U,  /*!< RNG internal process is ongoing     */
-  HAL_RNG_STATE_TIMEOUT   = 0x03U,  /*!< RNG timeout state                   */
-  HAL_RNG_STATE_ERROR     = 0x04U   /*!< RNG error state                     */
+    HAL_RNG_STATE_RESET     = 0x00U,  /*!< RNG not yet initialized or disabled */
+    HAL_RNG_STATE_READY     = 0x01U,  /*!< RNG initialized and ready for use   */
+    HAL_RNG_STATE_BUSY      = 0x02U,  /*!< RNG internal process is ongoing     */
+    HAL_RNG_STATE_TIMEOUT   = 0x03U,  /*!< RNG timeout state                   */
+    HAL_RNG_STATE_ERROR     = 0x04U   /*!< RNG error state                     */
 
 } HAL_RNG_StateTypeDef;
 
@@ -75,21 +75,21 @@ typedef enum
   */
 typedef struct  __RNG_HandleTypeDef
 {
-  RNG_TypeDef                 *Instance;    /*!< Register base address   */
-  HAL_LockTypeDef             Lock;         /*!< RNG locking object      */
+    RNG_TypeDef                 *Instance;    /*!< Register base address   */
+    HAL_LockTypeDef             Lock;         /*!< RNG locking object      */
 
-  __IO HAL_RNG_StateTypeDef   State;        /*!< RNG communication state */
+    __IO HAL_RNG_StateTypeDef   State;        /*!< RNG communication state */
 
-  __IO  uint32_t              ErrorCode;     /*!< RNG Error code               */
+    __IO  uint32_t              ErrorCode;     /*!< RNG Error code               */
 
-  uint32_t                    RandomNumber; /*!< Last Generated RNG Data */
+    uint32_t                    RandomNumber; /*!< Last Generated RNG Data */
 
 #if (USE_HAL_RNG_REGISTER_CALLBACKS == 1)
-  void (* ReadyDataCallback)(struct __RNG_HandleTypeDef *hrng, uint32_t random32bit);  /*!< RNG Data Ready Callback    */
-  void (* ErrorCallback)(struct __RNG_HandleTypeDef *hrng);                            /*!< RNG Error Callback         */
+    void ( * ReadyDataCallback )( struct __RNG_HandleTypeDef *hrng, uint32_t random32bit ); /*!< RNG Data Ready Callback    */
+    void ( * ErrorCallback )( struct __RNG_HandleTypeDef *hrng );                        /*!< RNG Error Callback         */
 
-  void (* MspInitCallback)(struct __RNG_HandleTypeDef *hrng);                          /*!< RNG Msp Init callback      */
-  void (* MspDeInitCallback)(struct __RNG_HandleTypeDef *hrng);                        /*!< RNG Msp DeInit callback    */
+    void ( * MspInitCallback )( struct __RNG_HandleTypeDef *hrng );                      /*!< RNG Msp Init callback      */
+    void ( * MspDeInitCallback )( struct __RNG_HandleTypeDef *hrng );                    /*!< RNG Msp DeInit callback    */
 #endif  /* USE_HAL_RNG_REGISTER_CALLBACKS */
 
 } RNG_HandleTypeDef;
@@ -100,18 +100,18 @@ typedef struct  __RNG_HandleTypeDef
   */
 typedef enum
 {
-  HAL_RNG_ERROR_CB_ID                   = 0x00U,     /*!< RNG Error Callback ID          */
+    HAL_RNG_ERROR_CB_ID                   = 0x00U,     /*!< RNG Error Callback ID          */
 
-  HAL_RNG_MSPINIT_CB_ID                 = 0x01U,     /*!< RNG MspInit callback ID        */
-  HAL_RNG_MSPDEINIT_CB_ID               = 0x02U      /*!< RNG MspDeInit callback ID      */
+    HAL_RNG_MSPINIT_CB_ID                 = 0x01U,     /*!< RNG MspInit callback ID        */
+    HAL_RNG_MSPDEINIT_CB_ID               = 0x02U      /*!< RNG MspDeInit callback ID      */
 
 } HAL_RNG_CallbackIDTypeDef;
 
 /**
   * @brief  HAL RNG Callback pointer definition
   */
-typedef  void (*pRNG_CallbackTypeDef)(RNG_HandleTypeDef *hrng);                                  /*!< pointer to a common RNG callback function */
-typedef  void (*pRNG_ReadyDataCallbackTypeDef)(RNG_HandleTypeDef *hrng, uint32_t random32bit);   /*!< pointer to an RNG Data Ready specific callback function */
+typedef  void ( *pRNG_CallbackTypeDef )( RNG_HandleTypeDef *hrng );                              /*!< pointer to a common RNG callback function */
+typedef  void ( *pRNG_ReadyDataCallbackTypeDef )( RNG_HandleTypeDef *hrng, uint32_t random32bit ); /*!< pointer to an RNG Data Ready specific callback function */
 
 #endif /* USE_HAL_RNG_REGISTER_CALLBACKS */
 
@@ -271,18 +271,18 @@ typedef  void (*pRNG_ReadyDataCallbackTypeDef)(RNG_HandleTypeDef *hrng, uint32_t
 /** @defgroup RNG_Exported_Functions_Group1 Initialization and configuration functions
   * @{
   */
-HAL_StatusTypeDef HAL_RNG_Init(RNG_HandleTypeDef *hrng);
-HAL_StatusTypeDef HAL_RNG_DeInit(RNG_HandleTypeDef *hrng);
-void HAL_RNG_MspInit(RNG_HandleTypeDef *hrng);
-void HAL_RNG_MspDeInit(RNG_HandleTypeDef *hrng);
+HAL_StatusTypeDef HAL_RNG_Init( RNG_HandleTypeDef *hrng );
+HAL_StatusTypeDef HAL_RNG_DeInit( RNG_HandleTypeDef *hrng );
+void HAL_RNG_MspInit( RNG_HandleTypeDef *hrng );
+void HAL_RNG_MspDeInit( RNG_HandleTypeDef *hrng );
 
 /* Callbacks Register/UnRegister functions  ***********************************/
 #if (USE_HAL_RNG_REGISTER_CALLBACKS == 1)
-HAL_StatusTypeDef HAL_RNG_RegisterCallback(RNG_HandleTypeDef *hrng, HAL_RNG_CallbackIDTypeDef CallbackID, pRNG_CallbackTypeDef pCallback);
-HAL_StatusTypeDef HAL_RNG_UnRegisterCallback(RNG_HandleTypeDef *hrng, HAL_RNG_CallbackIDTypeDef CallbackID);
+HAL_StatusTypeDef HAL_RNG_RegisterCallback( RNG_HandleTypeDef *hrng, HAL_RNG_CallbackIDTypeDef CallbackID, pRNG_CallbackTypeDef pCallback );
+HAL_StatusTypeDef HAL_RNG_UnRegisterCallback( RNG_HandleTypeDef *hrng, HAL_RNG_CallbackIDTypeDef CallbackID );
 
-HAL_StatusTypeDef HAL_RNG_RegisterReadyDataCallback(RNG_HandleTypeDef *hrng, pRNG_ReadyDataCallbackTypeDef pCallback);
-HAL_StatusTypeDef HAL_RNG_UnRegisterReadyDataCallback(RNG_HandleTypeDef *hrng);
+HAL_StatusTypeDef HAL_RNG_RegisterReadyDataCallback( RNG_HandleTypeDef *hrng, pRNG_ReadyDataCallbackTypeDef pCallback );
+HAL_StatusTypeDef HAL_RNG_UnRegisterReadyDataCallback( RNG_HandleTypeDef *hrng );
 #endif /* USE_HAL_RNG_REGISTER_CALLBACKS */
 
 /**
@@ -292,15 +292,15 @@ HAL_StatusTypeDef HAL_RNG_UnRegisterReadyDataCallback(RNG_HandleTypeDef *hrng);
 /** @defgroup RNG_Exported_Functions_Group2 Peripheral Control functions
   * @{
   */
-uint32_t HAL_RNG_GetRandomNumber(RNG_HandleTypeDef *hrng);    /* Obsolete, use HAL_RNG_GenerateRandomNumber() instead    */
-uint32_t HAL_RNG_GetRandomNumber_IT(RNG_HandleTypeDef *hrng); /* Obsolete, use HAL_RNG_GenerateRandomNumber_IT() instead */
-HAL_StatusTypeDef HAL_RNG_GenerateRandomNumber(RNG_HandleTypeDef *hrng, uint32_t *random32bit);
-HAL_StatusTypeDef HAL_RNG_GenerateRandomNumber_IT(RNG_HandleTypeDef *hrng);
-uint32_t HAL_RNG_ReadLastRandomNumber(RNG_HandleTypeDef *hrng);
+uint32_t HAL_RNG_GetRandomNumber( RNG_HandleTypeDef *hrng );  /* Obsolete, use HAL_RNG_GenerateRandomNumber() instead    */
+uint32_t HAL_RNG_GetRandomNumber_IT( RNG_HandleTypeDef *hrng ); /* Obsolete, use HAL_RNG_GenerateRandomNumber_IT() instead */
+HAL_StatusTypeDef HAL_RNG_GenerateRandomNumber( RNG_HandleTypeDef *hrng, uint32_t *random32bit );
+HAL_StatusTypeDef HAL_RNG_GenerateRandomNumber_IT( RNG_HandleTypeDef *hrng );
+uint32_t HAL_RNG_ReadLastRandomNumber( RNG_HandleTypeDef *hrng );
 
-void HAL_RNG_IRQHandler(RNG_HandleTypeDef *hrng);
-void HAL_RNG_ErrorCallback(RNG_HandleTypeDef *hrng);
-void HAL_RNG_ReadyDataCallback(RNG_HandleTypeDef *hrng, uint32_t random32bit);
+void HAL_RNG_IRQHandler( RNG_HandleTypeDef *hrng );
+void HAL_RNG_ErrorCallback( RNG_HandleTypeDef *hrng );
+void HAL_RNG_ReadyDataCallback( RNG_HandleTypeDef *hrng, uint32_t random32bit );
 
 /**
   * @}
@@ -309,8 +309,8 @@ void HAL_RNG_ReadyDataCallback(RNG_HandleTypeDef *hrng, uint32_t random32bit);
 /** @defgroup RNG_Exported_Functions_Group3 Peripheral State functions
   * @{
   */
-HAL_RNG_StateTypeDef HAL_RNG_GetState(RNG_HandleTypeDef *hrng);
-uint32_t             HAL_RNG_GetError(RNG_HandleTypeDef *hrng);
+HAL_RNG_StateTypeDef HAL_RNG_GetState( RNG_HandleTypeDef *hrng );
+uint32_t             HAL_RNG_GetError( RNG_HandleTypeDef *hrng );
 /**
   * @}
   */
@@ -336,7 +336,7 @@ uint32_t             HAL_RNG_GetError(RNG_HandleTypeDef *hrng);
 /**
   * @}
   */
-  
+
 #endif /* RNG */
 
 /**

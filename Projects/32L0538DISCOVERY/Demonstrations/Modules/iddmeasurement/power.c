@@ -1,6 +1,6 @@
 /**
   ******************************************************************************
-  * @file    power.c 
+  * @file    power.c
   * @author  MCD Application Team
   * @brief   Main program body
   *          This example code shows how to use the Nucleo BSP Drivers
@@ -37,8 +37,8 @@ uint8_t aRxBuffer[3];
 __IO uint32_t RunModeMeasure = 0x00;
 
 /* Private function prototypes -----------------------------------------------*/
-static void I2C_Config(void);
-static void Error_Handler(void);
+static void I2C_Config( void );
+static void Error_Handler( void );
 
 /* Private functions ---------------------------------------------------------*/
 
@@ -47,102 +47,112 @@ static void Error_Handler(void);
   * @param  None
   * @retval None
   */
-void Idd_Run_process(void)
+void Idd_Run_process( void )
 {
-  /* Configure the I2C */
-  I2C_Config();
+    /* Configure the I2C */
+    I2C_Config();
 
-  /* ######################### MFX Configuration ############################ */
-  param[0]=0x80;
-  if(HAL_I2C_Mem_Write(&I2CxHandle, 0x84, 0x40, I2C_MEMADD_SIZE_8BIT, param, 0x1, 10000) != HAL_OK)
-  {
-    Error_Handler();
-  }
+    /* ######################### MFX Configuration ############################ */
+    param[0] = 0x80;
 
-  /* Required delay to reset the MFX */
-  HAL_Delay(100);
+    if( HAL_I2C_Mem_Write( &I2CxHandle, 0x84, 0x40, I2C_MEMADD_SIZE_8BIT, param, 0x1, 10000 ) != HAL_OK )
+    {
+        Error_Handler();
+    }
 
-  /* IRQ pin in push-pull, active high */
-  param[0]=0x03;
-  if(HAL_I2C_Mem_Write(&I2CxHandle, 0x84, 0x41, I2C_MEMADD_SIZE_8BIT, param, 0x1, 10000) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* Delay required for MFX to change IRQ_out pin config, before activate it on STM32L0 SW */
-  HAL_Delay(1);
-  
-  /* IRQ_SRC: ERROR and IDD */
-  param[0]=0x06;  
-  if(HAL_I2C_Mem_Write(&I2CxHandle, 0x84, 0x42, I2C_MEMADD_SIZE_8BIT, param, 0x1, 10000) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  
-  /* Enable IDD function */
-  param[0]=0x04;
-  if(HAL_I2C_Mem_Write(&I2CxHandle, 0x84, 0x40, I2C_MEMADD_SIZE_8BIT, param, 0x1, 10000) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  
-  /* SH0 1000 mohm */
-  param[0]=0x03; param[1]=0xE8;
-  /* SH1 24 ohm */
-  param[2]=0x00; param[3]=0x18;
-  /* SH2 620 ohm */
-  param[4]=0x02; param[5]=0x6C; 
-  /* SH3 not exist with STM32L0538 discovery */
-  param[6]=0x00; param[7]=0x00;
-  /* SH4 10000 ohm */
-  param[8]=0x27; param[9]=0x10;
-  /* gain x49.9 (4990)*/
-  param[10]=0x13; param[11]=0x7E;
-  /* VDD_MCU min 3000mV (0xBB8) for undershoot detection */
-  param[12]=0x0B; param[13]=0xB8;
-  /* Send 12 parameters */
-  if(HAL_I2C_Mem_Write(&I2CxHandle, 0x84, 0x82, I2C_MEMADD_SIZE_8BIT, param, 0xE, 10000) != HAL_OK)  
-  {
-    Error_Handler();
-  }
-  
-  RunModeMeasure = 0x01;
-  BSP_LED_Off(LED3);
-  BSP_LED_Off(LED4);
+    /* Required delay to reset the MFX */
+    HAL_Delay( 100 );
 
-  /* Request IDD measurement with 4 shunts */
-  param[0]=0x9;
-  if(HAL_I2C_Mem_Write(&I2CxHandle, 0x84, 0x80, I2C_MEMADD_SIZE_8BIT, param, 0x1, 10000) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* Waiting 100ms delay before sending read request to MFX */
-  HAL_Delay(100);
-  
-  aRxBuffer[0] = 0x00;
-  aRxBuffer[1] = 0x00;
-  aRxBuffer[2] = 0x00;
-  RunModeMeasure = 0x00;
+    /* IRQ pin in push-pull, active high */
+    param[0] = 0x03;
 
-  /* Idd measurement */
-  if(HAL_I2C_Mem_Read(&I2CxHandle, 0x84, 0x14, I2C_MEMADD_SIZE_8BIT, (uint8_t*)aRxBuffer, 3, 10000) != HAL_OK)
-  {
-    Error_Handler();
-  } 
-  
-  /* Acknowledge IDD IRQ from MFX */
-  param[0]=0x2;
-  if(HAL_I2C_Mem_Write(&I2CxHandle, 0x84, 0x44, I2C_MEMADD_SIZE_8BIT, param, 0x1, 10000) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* delay for MFX to remove IRQ signal */
-  HAL_Delay(1);
-  
-  /* Get the IDD measurement value */
-  Idd_measurement = (aRxBuffer[0]<<16) + (aRxBuffer[1]<<8) + aRxBuffer[2] ;
-  Idd_measurement = Idd_measurement * 10;
+    if( HAL_I2C_Mem_Write( &I2CxHandle, 0x84, 0x41, I2C_MEMADD_SIZE_8BIT, param, 0x1, 10000 ) != HAL_OK )
+    {
+        Error_Handler();
+    }
 
-  sprintf((char*)str, "%d,%.3dmA", (int)Idd_measurement/1000000, ((int)Idd_measurement%1000000)/1000);
+    /* Delay required for MFX to change IRQ_out pin config, before activate it on STM32L0 SW */
+    HAL_Delay( 1 );
+
+    /* IRQ_SRC: ERROR and IDD */
+    param[0] = 0x06;
+
+    if( HAL_I2C_Mem_Write( &I2CxHandle, 0x84, 0x42, I2C_MEMADD_SIZE_8BIT, param, 0x1, 10000 ) != HAL_OK )
+    {
+        Error_Handler();
+    }
+
+    /* Enable IDD function */
+    param[0] = 0x04;
+
+    if( HAL_I2C_Mem_Write( &I2CxHandle, 0x84, 0x40, I2C_MEMADD_SIZE_8BIT, param, 0x1, 10000 ) != HAL_OK )
+    {
+        Error_Handler();
+    }
+
+    /* SH0 1000 mohm */
+    param[0] = 0x03; param[1] = 0xE8;
+    /* SH1 24 ohm */
+    param[2] = 0x00; param[3] = 0x18;
+    /* SH2 620 ohm */
+    param[4] = 0x02; param[5] = 0x6C;
+    /* SH3 not exist with STM32L0538 discovery */
+    param[6] = 0x00; param[7] = 0x00;
+    /* SH4 10000 ohm */
+    param[8] = 0x27; param[9] = 0x10;
+    /* gain x49.9 (4990)*/
+    param[10] = 0x13; param[11] = 0x7E;
+    /* VDD_MCU min 3000mV (0xBB8) for undershoot detection */
+    param[12] = 0x0B; param[13] = 0xB8;
+
+    /* Send 12 parameters */
+    if( HAL_I2C_Mem_Write( &I2CxHandle, 0x84, 0x82, I2C_MEMADD_SIZE_8BIT, param, 0xE, 10000 ) != HAL_OK )
+    {
+        Error_Handler();
+    }
+
+    RunModeMeasure = 0x01;
+    BSP_LED_Off( LED3 );
+    BSP_LED_Off( LED4 );
+
+    /* Request IDD measurement with 4 shunts */
+    param[0] = 0x9;
+
+    if( HAL_I2C_Mem_Write( &I2CxHandle, 0x84, 0x80, I2C_MEMADD_SIZE_8BIT, param, 0x1, 10000 ) != HAL_OK )
+    {
+        Error_Handler();
+    }
+
+    /* Waiting 100ms delay before sending read request to MFX */
+    HAL_Delay( 100 );
+
+    aRxBuffer[0] = 0x00;
+    aRxBuffer[1] = 0x00;
+    aRxBuffer[2] = 0x00;
+    RunModeMeasure = 0x00;
+
+    /* Idd measurement */
+    if( HAL_I2C_Mem_Read( &I2CxHandle, 0x84, 0x14, I2C_MEMADD_SIZE_8BIT, ( uint8_t * )aRxBuffer, 3, 10000 ) != HAL_OK )
+    {
+        Error_Handler();
+    }
+
+    /* Acknowledge IDD IRQ from MFX */
+    param[0] = 0x2;
+
+    if( HAL_I2C_Mem_Write( &I2CxHandle, 0x84, 0x44, I2C_MEMADD_SIZE_8BIT, param, 0x1, 10000 ) != HAL_OK )
+    {
+        Error_Handler();
+    }
+
+    /* delay for MFX to remove IRQ signal */
+    HAL_Delay( 1 );
+
+    /* Get the IDD measurement value */
+    Idd_measurement = ( aRxBuffer[0] << 16 ) + ( aRxBuffer[1] << 8 ) + aRxBuffer[2] ;
+    Idd_measurement = Idd_measurement * 10;
+
+    sprintf( ( char * )str, "%d,%.3dmA", ( int )Idd_measurement / 1000000, ( ( int )Idd_measurement % 1000000 ) / 1000 );
 }
 
 /**
@@ -150,138 +160,147 @@ void Idd_Run_process(void)
   * @param  None
   * @retval None
   */
-void Idd_Sleep_process(void)
+void Idd_Sleep_process( void )
 {
-  GPIO_InitTypeDef GPIO_InitStruct;
-  
-  /* Configure the I2C */
-  I2C_Config();
-  
-  /* ######################### MFX Configuration ############################ */
-  param[0]=0x80;
-  if(HAL_I2C_Mem_Write(&I2CxHandle, 0x84, 0x40, I2C_MEMADD_SIZE_8BIT, param, 0x1, 10000) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  
-  /* Required delay to reset MFX */  
-  HAL_Delay(100);
+    GPIO_InitTypeDef GPIO_InitStruct;
 
-  /* IRQ pin in push-pull, active high */
-  param[0]=0x03;
-  if(HAL_I2C_Mem_Write(&I2CxHandle, 0x84, 0x41, I2C_MEMADD_SIZE_8BIT, param, 0x1, 10000) != HAL_OK)
-  {
-    Error_Handler();
-  }
+    /* Configure the I2C */
+    I2C_Config();
 
-  /* Delay required for MFX to change IRQ_out pin config, before activate it on STM32L0 SW */
-  HAL_Delay(1);
-  
-  /* IRQ_SRC: ERROR and IDD */
-  param[0]=0x06;  
-  if(HAL_I2C_Mem_Write(&I2CxHandle, 0x84, 0x42, I2C_MEMADD_SIZE_8BIT, param, 0x1, 10000) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  
-  /* Enable IDD function */
-  param[0]=0x04;
-  if(HAL_I2C_Mem_Write(&I2CxHandle, 0x84, 0x40, I2C_MEMADD_SIZE_8BIT, param, 0x1, 10000) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  
-  /* SH0 1000 mohm */
-  param[0]=0x03; param[1]=0xE8; 
-  /* SH1 24 ohm */
-  param[2]=0x00; param[3]=0x18;
-  /* SH2 620 ohm */
-  param[4]=0x02; param[5]=0x6C; 
-  /* SH3 not exist with STM32L0538 discovery */
-  param[6]=0x00; param[7]=0x00; 
-  /* SH4 10000 ohm */
-  param[8]=0x27; param[9]=0x10; 
-  /* gain x49.9 (4990) */
-  param[10]=0x13; param[11]=0x7E; 
-  /* VDD_MCU min 3000mV (0xBB8) for undershoot detection */
-  param[12]=0x0B; param[13]=0xB8; 
-  /* send 12 parameters */
-  if(HAL_I2C_Mem_Write(&I2CxHandle, 0x84, 0x82, I2C_MEMADD_SIZE_8BIT, param, 0xE, 10000) != HAL_OK)  
-  {
-    Error_Handler();
-  }
-  
-  /* Request IDD measurement with 4 shunts */
-  param[0]=0x9;
-  if(HAL_I2C_Mem_Write(&I2CxHandle, 0x84, 0x80, I2C_MEMADD_SIZE_8BIT, param, 0x1, 10000) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  
-  /* Add a predelay before Idd measurement */
-  param[0]=0xFF;
-  if(HAL_I2C_Mem_Write(&I2CxHandle, 0x84, 0x81, I2C_MEMADD_SIZE_8BIT, param, 0x1, 10000) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  
-  /* Save context */
-  IDD_SaveContext();
-  
-  /* Deinitialize the I2C */
-  HAL_I2C_DeInit(&I2CxHandle);
-   
-   __HAL_RCC_GPIOC_CLK_ENABLE();
-   /* Configure Button pin as input with External interrupt: Enable MFX IT generation on this SW */
-  GPIO_InitStruct.Pin = GPIO_PIN_13;
-  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH  ;
-  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING_FALLING;
-  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
-  
-  /* Enable and set Button EXTI Interrupt to the lowest priority */
-  HAL_NVIC_SetPriority((IRQn_Type)(EXTI4_15_IRQn), 3, 0);
-  HAL_NVIC_EnableIRQ((IRQn_Type)(EXTI4_15_IRQn));
-  
-  /*Suspend Tick increment to prevent wakeup by Systick interrupt. 
-  Otherwise the Systick interrupt will wake up the device within 1ms (HAL time base)*/
-  HAL_SuspendTick();
-  
-  /* Enter Sleep Mode , wake up is done once Key push button is pressed */
-  HAL_PWR_EnterSLEEPMode(PWR_MAINREGULATOR_ON, PWR_SLEEPENTRY_WFI);
-  
-  /* Resume Tick interrupt if disabled prior to sleep mode entry*/
-  HAL_ResumeTick();
-  
-  /* Restore context */
-  IDD_RestoreContext();
-  
-  /* Configure the I2C */
-  I2C_Config();
-  
-  aRxBuffer[0] = 0x00;
-  aRxBuffer[1] = 0x00;
-  aRxBuffer[2] = 0x00;
-  
-  /* Idd measurement */
-  if(HAL_I2C_Mem_Read(&I2CxHandle, 0x84, 0x14, I2C_MEMADD_SIZE_8BIT, (uint8_t*)aRxBuffer, 3, 10000) != HAL_OK)
-  {
-    Error_Handler();
-  } 
-  
-  /* Acknowledge IDD IRQ from MFX */
-  param[0]=0x2;
-  if(HAL_I2C_Mem_Write(&I2CxHandle, 0x84, 0x44, I2C_MEMADD_SIZE_8BIT, param, 0x1, 10000) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* delay for MFX to remove IRQ signal */
-  HAL_Delay(1);  
-  
-  /* Get the IDD measurement value */
-  Idd_measurement = (aRxBuffer[0]<<16) + (aRxBuffer[1]<<8) + aRxBuffer[2] ;
-  Idd_measurement = Idd_measurement * 10;
-  sprintf((char*)str, "%d,%.3dmA", (int)Idd_measurement/1000000, ((int)Idd_measurement%1000000)/1000);
+    /* ######################### MFX Configuration ############################ */
+    param[0] = 0x80;
+
+    if( HAL_I2C_Mem_Write( &I2CxHandle, 0x84, 0x40, I2C_MEMADD_SIZE_8BIT, param, 0x1, 10000 ) != HAL_OK )
+    {
+        Error_Handler();
+    }
+
+    /* Required delay to reset MFX */
+    HAL_Delay( 100 );
+
+    /* IRQ pin in push-pull, active high */
+    param[0] = 0x03;
+
+    if( HAL_I2C_Mem_Write( &I2CxHandle, 0x84, 0x41, I2C_MEMADD_SIZE_8BIT, param, 0x1, 10000 ) != HAL_OK )
+    {
+        Error_Handler();
+    }
+
+    /* Delay required for MFX to change IRQ_out pin config, before activate it on STM32L0 SW */
+    HAL_Delay( 1 );
+
+    /* IRQ_SRC: ERROR and IDD */
+    param[0] = 0x06;
+
+    if( HAL_I2C_Mem_Write( &I2CxHandle, 0x84, 0x42, I2C_MEMADD_SIZE_8BIT, param, 0x1, 10000 ) != HAL_OK )
+    {
+        Error_Handler();
+    }
+
+    /* Enable IDD function */
+    param[0] = 0x04;
+
+    if( HAL_I2C_Mem_Write( &I2CxHandle, 0x84, 0x40, I2C_MEMADD_SIZE_8BIT, param, 0x1, 10000 ) != HAL_OK )
+    {
+        Error_Handler();
+    }
+
+    /* SH0 1000 mohm */
+    param[0] = 0x03; param[1] = 0xE8;
+    /* SH1 24 ohm */
+    param[2] = 0x00; param[3] = 0x18;
+    /* SH2 620 ohm */
+    param[4] = 0x02; param[5] = 0x6C;
+    /* SH3 not exist with STM32L0538 discovery */
+    param[6] = 0x00; param[7] = 0x00;
+    /* SH4 10000 ohm */
+    param[8] = 0x27; param[9] = 0x10;
+    /* gain x49.9 (4990) */
+    param[10] = 0x13; param[11] = 0x7E;
+    /* VDD_MCU min 3000mV (0xBB8) for undershoot detection */
+    param[12] = 0x0B; param[13] = 0xB8;
+
+    /* send 12 parameters */
+    if( HAL_I2C_Mem_Write( &I2CxHandle, 0x84, 0x82, I2C_MEMADD_SIZE_8BIT, param, 0xE, 10000 ) != HAL_OK )
+    {
+        Error_Handler();
+    }
+
+    /* Request IDD measurement with 4 shunts */
+    param[0] = 0x9;
+
+    if( HAL_I2C_Mem_Write( &I2CxHandle, 0x84, 0x80, I2C_MEMADD_SIZE_8BIT, param, 0x1, 10000 ) != HAL_OK )
+    {
+        Error_Handler();
+    }
+
+    /* Add a predelay before Idd measurement */
+    param[0] = 0xFF;
+
+    if( HAL_I2C_Mem_Write( &I2CxHandle, 0x84, 0x81, I2C_MEMADD_SIZE_8BIT, param, 0x1, 10000 ) != HAL_OK )
+    {
+        Error_Handler();
+    }
+
+    /* Save context */
+    IDD_SaveContext();
+
+    /* Deinitialize the I2C */
+    HAL_I2C_DeInit( &I2CxHandle );
+
+    __HAL_RCC_GPIOC_CLK_ENABLE();
+    /* Configure Button pin as input with External interrupt: Enable MFX IT generation on this SW */
+    GPIO_InitStruct.Pin = GPIO_PIN_13;
+    GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH  ;
+    GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING_FALLING;
+    HAL_GPIO_Init( GPIOC, &GPIO_InitStruct );
+
+    /* Enable and set Button EXTI Interrupt to the lowest priority */
+    HAL_NVIC_SetPriority( ( IRQn_Type )( EXTI4_15_IRQn ), 3, 0 );
+    HAL_NVIC_EnableIRQ( ( IRQn_Type )( EXTI4_15_IRQn ) );
+
+    /*Suspend Tick increment to prevent wakeup by Systick interrupt.
+    Otherwise the Systick interrupt will wake up the device within 1ms (HAL time base)*/
+    HAL_SuspendTick();
+
+    /* Enter Sleep Mode , wake up is done once Key push button is pressed */
+    HAL_PWR_EnterSLEEPMode( PWR_MAINREGULATOR_ON, PWR_SLEEPENTRY_WFI );
+
+    /* Resume Tick interrupt if disabled prior to sleep mode entry*/
+    HAL_ResumeTick();
+
+    /* Restore context */
+    IDD_RestoreContext();
+
+    /* Configure the I2C */
+    I2C_Config();
+
+    aRxBuffer[0] = 0x00;
+    aRxBuffer[1] = 0x00;
+    aRxBuffer[2] = 0x00;
+
+    /* Idd measurement */
+    if( HAL_I2C_Mem_Read( &I2CxHandle, 0x84, 0x14, I2C_MEMADD_SIZE_8BIT, ( uint8_t * )aRxBuffer, 3, 10000 ) != HAL_OK )
+    {
+        Error_Handler();
+    }
+
+    /* Acknowledge IDD IRQ from MFX */
+    param[0] = 0x2;
+
+    if( HAL_I2C_Mem_Write( &I2CxHandle, 0x84, 0x44, I2C_MEMADD_SIZE_8BIT, param, 0x1, 10000 ) != HAL_OK )
+    {
+        Error_Handler();
+    }
+
+    /* delay for MFX to remove IRQ signal */
+    HAL_Delay( 1 );
+
+    /* Get the IDD measurement value */
+    Idd_measurement = ( aRxBuffer[0] << 16 ) + ( aRxBuffer[1] << 8 ) + aRxBuffer[2] ;
+    Idd_measurement = Idd_measurement * 10;
+    sprintf( ( char * )str, "%d,%.3dmA", ( int )Idd_measurement / 1000000, ( ( int )Idd_measurement % 1000000 ) / 1000 );
 }
 
 /**
@@ -289,200 +308,214 @@ void Idd_Sleep_process(void)
   * @param  None
   * @retval None
   */
-void Idd_LPSleep_process(void)
+void Idd_LPSleep_process( void )
 {
-  GPIO_InitTypeDef GPIO_InitStruct;
-  RCC_ClkInitTypeDef RCC_ClkInitStruct;
-  RCC_OscInitTypeDef RCC_OscInitStruct;
- 
-  /* Save context */
-  IDD_SaveContext(); 
-  
-  /* Disable Prefetch Buffer */
-  __HAL_FLASH_PREFETCH_BUFFER_DISABLE();
-  
-  /* Configure the I2C */
-  I2C_Config();
+    GPIO_InitTypeDef GPIO_InitStruct;
+    RCC_ClkInitTypeDef RCC_ClkInitStruct;
+    RCC_OscInitTypeDef RCC_OscInitStruct;
 
-  /* ######################### MFX Configuration ############################ */
-  param[0]=0x80;
-  if(HAL_I2C_Mem_Write(&I2CxHandle, 0x84, 0x40, I2C_MEMADD_SIZE_8BIT, param, 0x1, 10000) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* Required delay to reset MFX */  
-  HAL_Delay(100);
+    /* Save context */
+    IDD_SaveContext();
 
-  /* IRQ pin in push-pull, active high */
-  param[0]=0x03;
-  if(HAL_I2C_Mem_Write(&I2CxHandle, 0x84, 0x41, I2C_MEMADD_SIZE_8BIT, param, 0x1, 10000) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* A delay required for MFX to change IRQ_out pin config, before activate it on STM32L0 SW */
-  HAL_Delay(1);
-  
-  /* IRQ_SRC: ERROR and IDD */
-  param[0]=0x06;  
-  if(HAL_I2C_Mem_Write(&I2CxHandle, 0x84, 0x42, I2C_MEMADD_SIZE_8BIT, param, 0x1, 10000) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  
-  /* Enable IDD function */
-  param[0]=0x04;
-  if(HAL_I2C_Mem_Write(&I2CxHandle, 0x84, 0x40, I2C_MEMADD_SIZE_8BIT, param, 0x1, 10000) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  
-  /* SH0 1000 mohm */
-  param[0]=0x03; param[1]=0xE8; 
-  /* SH1 24 ohm */
-  param[2]=0x00; param[3]=0x18; 
-  /* SH2 620 ohm */
-  param[4]=0x02; param[5]=0x6C; 
-  /* SH3 not exist with STM32L0538 discovery */
-  param[6]=0x00; param[7]=0x00; 
-  /* SH4 10000 ohm */
-  param[8]=0x27; param[9]=0x10; 
-  /* gain x49.9 (4990) */
-  param[10]=0x13; param[11]=0x7E; 
-  /* VDD_MCU min 3000mV (0xBB8) for undershoot detection */
-  param[12]=0x0B; param[13]=0xB8; 
-  /* Send 12 parameters */
-  if(HAL_I2C_Mem_Write(&I2CxHandle, 0x84, 0x82, I2C_MEMADD_SIZE_8BIT, param, 0xE, 10000) != HAL_OK)  
-  {
-    Error_Handler();
-  }
+    /* Disable Prefetch Buffer */
+    __HAL_FLASH_PREFETCH_BUFFER_DISABLE();
 
-  /* Add a predelay before Idd measurement */
-  param[0]=0xFF;
-  if(HAL_I2C_Mem_Write(&I2CxHandle, 0x84, 0x81, I2C_MEMADD_SIZE_8BIT, param, 0x1, 10000) != HAL_OK)
-  {
-    Error_Handler();
-  }
+    /* Configure the I2C */
+    I2C_Config();
 
-  /* Request IDD measurement with 4 shunts */
-  param[0]=0x9;
-  if(HAL_I2C_Mem_Write(&I2CxHandle, 0x84, 0x80, I2C_MEMADD_SIZE_8BIT, param, 0x1, 10000) != HAL_OK)
-  {
-    Error_Handler();
-  }
- 
-  /* ############### System clock @ ~32KHz, MSI 65,5 KHz ##################### */
+    /* ######################### MFX Configuration ############################ */
+    param[0] = 0x80;
 
-   /* The voltage scaling allows optimizing the power consumption when the device is 
-     clocked below the maximum system frequency, to update the voltage scaling value 
-     regarding system frequency refer to product datasheet. */
-  __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE2);
+    if( HAL_I2C_Mem_Write( &I2CxHandle, 0x84, 0x40, I2C_MEMADD_SIZE_8BIT, param, 0x1, 10000 ) != HAL_OK )
+    {
+        Error_Handler();
+    }
 
-  /* Enable MSI Oscillator */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_MSI;
-  RCC_OscInitStruct.MSIState = RCC_MSI_ON;
-  RCC_OscInitStruct.MSIClockRange = RCC_MSIRANGE_5;
-  RCC_OscInitStruct.MSICalibrationValue = 0x00;
-  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
-  if(HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
-  {
-    /* Initialization Error */
-    Error_Handler();
-  }
+    /* Required delay to reset MFX */
+    HAL_Delay( 100 );
 
-  /* Select MSI as system clock source and configure the HCLK, PCLK1 and PCLK2 
-     clocks dividers */
-  RCC_ClkInitStruct.ClockType = (RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2);
-  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_MSI;
-  RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV2;
-  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
-  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
-  if(HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_0) != HAL_OK)
-  {
-    /* Initialization Error */
-    Error_Handler();
-  }
-  
-  /* Enable MSI Oscillator */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
-  RCC_OscInitStruct.HSIState = RCC_HSI_OFF;
-  if(HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
-  {
-    /* Initialization Error */
-    Error_Handler();
-  }
+    /* IRQ pin in push-pull, active high */
+    param[0] = 0x03;
 
-  /* Set MSI range to 0 */
-  __HAL_RCC_MSI_RANGE_CONFIG(RCC_MSIRANGE_0);
-  
-  /* Enable Ultra low power mode */
-  HAL_PWREx_EnableUltraLowPower();
+    if( HAL_I2C_Mem_Write( &I2CxHandle, 0x84, 0x41, I2C_MEMADD_SIZE_8BIT, param, 0x1, 10000 ) != HAL_OK )
+    {
+        Error_Handler();
+    }
 
-  /* Enable the fast wake up from Ultra low power mode */
-  HAL_PWREx_EnableFastWakeUp();
+    /* A delay required for MFX to change IRQ_out pin config, before activate it on STM32L0 SW */
+    HAL_Delay( 1 );
 
-  /* Enable the power down mode during Sleep mode */
-  __HAL_FLASH_SLEEP_POWERDOWN_ENABLE();
+    /* IRQ_SRC: ERROR and IDD */
+    param[0] = 0x06;
 
-  /* Deinitialize the I2C */
-  HAL_I2C_DeInit(&I2CxHandle);
+    if( HAL_I2C_Mem_Write( &I2CxHandle, 0x84, 0x42, I2C_MEMADD_SIZE_8BIT, param, 0x1, 10000 ) != HAL_OK )
+    {
+        Error_Handler();
+    }
 
-   __HAL_RCC_GPIOC_CLK_ENABLE();
-   /* Configure Button pin as input with External interrupt: Enable MFX IT generation on this SW */
-  GPIO_InitStruct.Pin = GPIO_PIN_13;
-  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH  ;
-  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING_FALLING;
-  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
-  
-  /* Enable and set Button EXTI Interrupt to the lowest priority */
-  HAL_NVIC_SetPriority((IRQn_Type)(EXTI4_15_IRQn), 3, 0);
-  HAL_NVIC_EnableIRQ((IRQn_Type)(EXTI4_15_IRQn));
-  
-  /*Suspend Tick increment to prevent wakeup by Systick interrupt. 
-  Otherwise the Systick interrupt will wake up the device within 1ms (HAL time base)*/
-  HAL_SuspendTick();
-  
-  /* Clear Wake Up Flag */
-  __HAL_PWR_CLEAR_FLAG(PWR_FLAG_WU);
+    /* Enable IDD function */
+    param[0] = 0x04;
 
-  /* Enter Low Power Sleep Mode */
-  HAL_PWR_EnterSLEEPMode(PWR_LOWPOWERREGULATOR_ON, PWR_SLEEPENTRY_WFI);
+    if( HAL_I2C_Mem_Write( &I2CxHandle, 0x84, 0x40, I2C_MEMADD_SIZE_8BIT, param, 0x1, 10000 ) != HAL_OK )
+    {
+        Error_Handler();
+    }
 
-  /* Resume Tick interrupt if disabled prior to sleep mode entry*/
-  HAL_ResumeTick();
+    /* SH0 1000 mohm */
+    param[0] = 0x03; param[1] = 0xE8;
+    /* SH1 24 ohm */
+    param[2] = 0x00; param[3] = 0x18;
+    /* SH2 620 ohm */
+    param[4] = 0x02; param[5] = 0x6C;
+    /* SH3 not exist with STM32L0538 discovery */
+    param[6] = 0x00; param[7] = 0x00;
+    /* SH4 10000 ohm */
+    param[8] = 0x27; param[9] = 0x10;
+    /* gain x49.9 (4990) */
+    param[10] = 0x13; param[11] = 0x7E;
+    /* VDD_MCU min 3000mV (0xBB8) for undershoot detection */
+    param[12] = 0x0B; param[13] = 0xB8;
 
-  /* Configure the System Clock @ 16 Mhz afetr wakeup from LP Sleep mode */
-  SystemClock_Config();
+    /* Send 12 parameters */
+    if( HAL_I2C_Mem_Write( &I2CxHandle, 0x84, 0x82, I2C_MEMADD_SIZE_8BIT, param, 0xE, 10000 ) != HAL_OK )
+    {
+        Error_Handler();
+    }
 
-  /* Restore context */
-  IDD_RestoreContext();
-  
-  /* Configure the I2C */
-  I2C_Config();
+    /* Add a predelay before Idd measurement */
+    param[0] = 0xFF;
 
-  aRxBuffer[0] = 0x00;
-  aRxBuffer[1] = 0x00;
-  aRxBuffer[2] = 0x00;
+    if( HAL_I2C_Mem_Write( &I2CxHandle, 0x84, 0x81, I2C_MEMADD_SIZE_8BIT, param, 0x1, 10000 ) != HAL_OK )
+    {
+        Error_Handler();
+    }
 
-  /* Idd measurement */
-  if(HAL_I2C_Mem_Read(&I2CxHandle, 0x84, 0x14, I2C_MEMADD_SIZE_8BIT, (uint8_t*)aRxBuffer, 3, 10000) != HAL_OK)
-  {
-    Error_Handler();
-  } 
+    /* Request IDD measurement with 4 shunts */
+    param[0] = 0x9;
 
-  /* Acknowledge IDD IRQ from MFX */
-  param[0]=0x2;
-  if(HAL_I2C_Mem_Write(&I2CxHandle, 0x84, 0x44, I2C_MEMADD_SIZE_8BIT, param, 0x1, 10000) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* delay for MFX to remove IRQ signal */
-  HAL_Delay(1);
-  
-  /* Get the IDD measurement value */
-  Idd_measurement = (aRxBuffer[0]<<16) + (aRxBuffer[1]<<8) + aRxBuffer[2];
-  Idd_measurement = Idd_measurement * 10;
-  sprintf((char*)str, "%d,%.3duA", (int)Idd_measurement/1000, ((int)Idd_measurement%1000));
+    if( HAL_I2C_Mem_Write( &I2CxHandle, 0x84, 0x80, I2C_MEMADD_SIZE_8BIT, param, 0x1, 10000 ) != HAL_OK )
+    {
+        Error_Handler();
+    }
+
+    /* ############### System clock @ ~32KHz, MSI 65,5 KHz ##################### */
+
+    /* The voltage scaling allows optimizing the power consumption when the device is
+      clocked below the maximum system frequency, to update the voltage scaling value
+      regarding system frequency refer to product datasheet. */
+    __HAL_PWR_VOLTAGESCALING_CONFIG( PWR_REGULATOR_VOLTAGE_SCALE2 );
+
+    /* Enable MSI Oscillator */
+    RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_MSI;
+    RCC_OscInitStruct.MSIState = RCC_MSI_ON;
+    RCC_OscInitStruct.MSIClockRange = RCC_MSIRANGE_5;
+    RCC_OscInitStruct.MSICalibrationValue = 0x00;
+    RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
+
+    if( HAL_RCC_OscConfig( &RCC_OscInitStruct ) != HAL_OK )
+    {
+        /* Initialization Error */
+        Error_Handler();
+    }
+
+    /* Select MSI as system clock source and configure the HCLK, PCLK1 and PCLK2
+       clocks dividers */
+    RCC_ClkInitStruct.ClockType = ( RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2 );
+    RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_MSI;
+    RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV2;
+    RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
+    RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
+
+    if( HAL_RCC_ClockConfig( &RCC_ClkInitStruct, FLASH_LATENCY_0 ) != HAL_OK )
+    {
+        /* Initialization Error */
+        Error_Handler();
+    }
+
+    /* Enable MSI Oscillator */
+    RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
+    RCC_OscInitStruct.HSIState = RCC_HSI_OFF;
+
+    if( HAL_RCC_OscConfig( &RCC_OscInitStruct ) != HAL_OK )
+    {
+        /* Initialization Error */
+        Error_Handler();
+    }
+
+    /* Set MSI range to 0 */
+    __HAL_RCC_MSI_RANGE_CONFIG( RCC_MSIRANGE_0 );
+
+    /* Enable Ultra low power mode */
+    HAL_PWREx_EnableUltraLowPower();
+
+    /* Enable the fast wake up from Ultra low power mode */
+    HAL_PWREx_EnableFastWakeUp();
+
+    /* Enable the power down mode during Sleep mode */
+    __HAL_FLASH_SLEEP_POWERDOWN_ENABLE();
+
+    /* Deinitialize the I2C */
+    HAL_I2C_DeInit( &I2CxHandle );
+
+    __HAL_RCC_GPIOC_CLK_ENABLE();
+    /* Configure Button pin as input with External interrupt: Enable MFX IT generation on this SW */
+    GPIO_InitStruct.Pin = GPIO_PIN_13;
+    GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH  ;
+    GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING_FALLING;
+    HAL_GPIO_Init( GPIOC, &GPIO_InitStruct );
+
+    /* Enable and set Button EXTI Interrupt to the lowest priority */
+    HAL_NVIC_SetPriority( ( IRQn_Type )( EXTI4_15_IRQn ), 3, 0 );
+    HAL_NVIC_EnableIRQ( ( IRQn_Type )( EXTI4_15_IRQn ) );
+
+    /*Suspend Tick increment to prevent wakeup by Systick interrupt.
+    Otherwise the Systick interrupt will wake up the device within 1ms (HAL time base)*/
+    HAL_SuspendTick();
+
+    /* Clear Wake Up Flag */
+    __HAL_PWR_CLEAR_FLAG( PWR_FLAG_WU );
+
+    /* Enter Low Power Sleep Mode */
+    HAL_PWR_EnterSLEEPMode( PWR_LOWPOWERREGULATOR_ON, PWR_SLEEPENTRY_WFI );
+
+    /* Resume Tick interrupt if disabled prior to sleep mode entry*/
+    HAL_ResumeTick();
+
+    /* Configure the System Clock @ 16 Mhz afetr wakeup from LP Sleep mode */
+    SystemClock_Config();
+
+    /* Restore context */
+    IDD_RestoreContext();
+
+    /* Configure the I2C */
+    I2C_Config();
+
+    aRxBuffer[0] = 0x00;
+    aRxBuffer[1] = 0x00;
+    aRxBuffer[2] = 0x00;
+
+    /* Idd measurement */
+    if( HAL_I2C_Mem_Read( &I2CxHandle, 0x84, 0x14, I2C_MEMADD_SIZE_8BIT, ( uint8_t * )aRxBuffer, 3, 10000 ) != HAL_OK )
+    {
+        Error_Handler();
+    }
+
+    /* Acknowledge IDD IRQ from MFX */
+    param[0] = 0x2;
+
+    if( HAL_I2C_Mem_Write( &I2CxHandle, 0x84, 0x44, I2C_MEMADD_SIZE_8BIT, param, 0x1, 10000 ) != HAL_OK )
+    {
+        Error_Handler();
+    }
+
+    /* delay for MFX to remove IRQ signal */
+    HAL_Delay( 1 );
+
+    /* Get the IDD measurement value */
+    Idd_measurement = ( aRxBuffer[0] << 16 ) + ( aRxBuffer[1] << 8 ) + aRxBuffer[2];
+    Idd_measurement = Idd_measurement * 10;
+    sprintf( ( char * )str, "%d,%.3duA", ( int )Idd_measurement / 1000, ( ( int )Idd_measurement % 1000 ) );
 }
 
 /**
@@ -490,138 +523,149 @@ void Idd_LPSleep_process(void)
   * @param  None
   * @retval None
   */
-void Idd_Stop_process(void)
+void Idd_Stop_process( void )
 {
-  GPIO_InitTypeDef GPIO_InitStruct;
+    GPIO_InitTypeDef GPIO_InitStruct;
 
-  /* Configure the I2C */
-  I2C_Config();
+    /* Configure the I2C */
+    I2C_Config();
 
-  /* ######################### MFX Configuration ############################ */
-  param[0]=0x80;
-  if(HAL_I2C_Mem_Write(&I2CxHandle, 0x84, 0x40, I2C_MEMADD_SIZE_8BIT, param, 0x1, 10000) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* Required delay to reset MFX */
-  HAL_Delay(100);
+    /* ######################### MFX Configuration ############################ */
+    param[0] = 0x80;
 
-  /* IRQ pin in push-pull, active high */
-  param[0]=0x03;
-  if(HAL_I2C_Mem_Write(&I2CxHandle, 0x84, 0x41, I2C_MEMADD_SIZE_8BIT, param, 0x1, 10000) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* A delay required for MFX to change IRQ_out pin config, before activate it on STM32L0 SW */
-  HAL_Delay(1);
+    if( HAL_I2C_Mem_Write( &I2CxHandle, 0x84, 0x40, I2C_MEMADD_SIZE_8BIT, param, 0x1, 10000 ) != HAL_OK )
+    {
+        Error_Handler();
+    }
 
-  /* IRQ_SRC: ERROR and IDD */
-  param[0]=0x06;  
-  if(HAL_I2C_Mem_Write(&I2CxHandle, 0x84, 0x42, I2C_MEMADD_SIZE_8BIT, param, 0x1, 10000) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  
-  /* Enable IDD function */
-  param[0]=0x04; 
-  if(HAL_I2C_Mem_Write(&I2CxHandle, 0x84, 0x40, I2C_MEMADD_SIZE_8BIT, param, 0x1, 10000) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  
-  /* SH0 1000 mohm */
-  param[0]=0x03; param[1]=0xE8; 
-  /* SH1 24 ohm */
-  param[2]=0x00; param[3]=0x18;
-  /* SH2 620 ohm */
-  param[4]=0x02; param[5]=0x6C; 
-  /* SH3 not exist with STM32L053 discovery */
-  param[6]=0x00; param[7]=0x00;
-  /* SH4 10000 ohm */
-  param[8]=0x27; param[9]=0x10;
-  /* gain x49.9 (4990) */
-  param[10]=0x13; param[11]=0x7E;
-  /* VDD_MCU min 3000mV (0xBB8) for undershoot detection */
-  param[12]=0x0B; param[13]=0xB8; 
-  /* send 12 parameters */
-  if(HAL_I2C_Mem_Write(&I2CxHandle, 0x84, 0x82, I2C_MEMADD_SIZE_8BIT, param, 0xE, 10000) != HAL_OK) 
-  {
-    Error_Handler();
-  }
+    /* Required delay to reset MFX */
+    HAL_Delay( 100 );
 
-  /* Add a predelay before Idd measurement */
-  param[0]=0xFF;
-  if(HAL_I2C_Mem_Write(&I2CxHandle, 0x84, 0x81, I2C_MEMADD_SIZE_8BIT, param, 0x1, 10000) != HAL_OK)
-  {
-    Error_Handler();
-  }
+    /* IRQ pin in push-pull, active high */
+    param[0] = 0x03;
 
-  /* Request IDD measurement with 4 shunts */
-  param[0]=0x9;
-  if(HAL_I2C_Mem_Write(&I2CxHandle, 0x84, 0x80, I2C_MEMADD_SIZE_8BIT, param, 0x1, 10000) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  
-  /* Save context */
-  IDD_SaveContext();
-  
-  /* Deinitialize the I2C */
-  HAL_I2C_DeInit(&I2CxHandle);
-   
-   __HAL_RCC_GPIOC_CLK_ENABLE();
-   /* Configure Button pin as input with External interrupt: Enable MFX IT generation on this SW */
-  GPIO_InitStruct.Pin = GPIO_PIN_13;
-  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH  ;
-  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING_FALLING;
-  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
-  
-  /* Enable and set Button EXTI Interrupt to the lowest priority */
-  HAL_NVIC_SetPriority((IRQn_Type)(EXTI4_15_IRQn), 3, 0);
-  HAL_NVIC_EnableIRQ((IRQn_Type)(EXTI4_15_IRQn));
-  
-  /* Enable Ultra low power mode */
-  HAL_PWREx_EnableUltraLowPower();
-  
-  /* Enable the fast wake up from Ultra low power mode */
-  HAL_PWREx_EnableFastWakeUp();
-  
-  /* Clear Wake Up Flag */
-  __HAL_PWR_CLEAR_FLAG(PWR_FLAG_WU);
-    
-  /* Enter Stop Mode */
-  HAL_PWR_EnterSTOPMode(PWR_LOWPOWERREGULATOR_ON, PWR_SLEEPENTRY_WFI);
-  
-  /* Restore context */
-  IDD_RestoreContext();
-  
-  /* Configure the I2C */
-  I2C_Config();
+    if( HAL_I2C_Mem_Write( &I2CxHandle, 0x84, 0x41, I2C_MEMADD_SIZE_8BIT, param, 0x1, 10000 ) != HAL_OK )
+    {
+        Error_Handler();
+    }
 
-  aRxBuffer[0] = 0x00;
-  aRxBuffer[1] = 0x00;
-  aRxBuffer[2] = 0x00;
+    /* A delay required for MFX to change IRQ_out pin config, before activate it on STM32L0 SW */
+    HAL_Delay( 1 );
 
-  /* Idd measurement */
-  if(HAL_I2C_Mem_Read(&I2CxHandle, 0x84, 0x14, I2C_MEMADD_SIZE_8BIT, (uint8_t*)aRxBuffer, 3, 10000) != HAL_OK)
-  {
-    Error_Handler();
-  }
+    /* IRQ_SRC: ERROR and IDD */
+    param[0] = 0x06;
 
-  /* Acknowledge IDD IRQ from MFX */
-  param[0]=0x2;
-  if(HAL_I2C_Mem_Write(&I2CxHandle, 0x84, 0x44, I2C_MEMADD_SIZE_8BIT, param, 0x1, 10000) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* delay for MFX to remove IRQ signal */
-  HAL_Delay(1);
-  
-  /* Get the IDD measurement value */
-  Idd_measurement = (aRxBuffer[0]<<16) + (aRxBuffer[1]<<8) + aRxBuffer[2] ;
-  Idd_measurement = Idd_measurement * 10;
-  sprintf((char*)str, "%dnA", (int)Idd_measurement);
+    if( HAL_I2C_Mem_Write( &I2CxHandle, 0x84, 0x42, I2C_MEMADD_SIZE_8BIT, param, 0x1, 10000 ) != HAL_OK )
+    {
+        Error_Handler();
+    }
+
+    /* Enable IDD function */
+    param[0] = 0x04;
+
+    if( HAL_I2C_Mem_Write( &I2CxHandle, 0x84, 0x40, I2C_MEMADD_SIZE_8BIT, param, 0x1, 10000 ) != HAL_OK )
+    {
+        Error_Handler();
+    }
+
+    /* SH0 1000 mohm */
+    param[0] = 0x03; param[1] = 0xE8;
+    /* SH1 24 ohm */
+    param[2] = 0x00; param[3] = 0x18;
+    /* SH2 620 ohm */
+    param[4] = 0x02; param[5] = 0x6C;
+    /* SH3 not exist with STM32L053 discovery */
+    param[6] = 0x00; param[7] = 0x00;
+    /* SH4 10000 ohm */
+    param[8] = 0x27; param[9] = 0x10;
+    /* gain x49.9 (4990) */
+    param[10] = 0x13; param[11] = 0x7E;
+    /* VDD_MCU min 3000mV (0xBB8) for undershoot detection */
+    param[12] = 0x0B; param[13] = 0xB8;
+
+    /* send 12 parameters */
+    if( HAL_I2C_Mem_Write( &I2CxHandle, 0x84, 0x82, I2C_MEMADD_SIZE_8BIT, param, 0xE, 10000 ) != HAL_OK )
+    {
+        Error_Handler();
+    }
+
+    /* Add a predelay before Idd measurement */
+    param[0] = 0xFF;
+
+    if( HAL_I2C_Mem_Write( &I2CxHandle, 0x84, 0x81, I2C_MEMADD_SIZE_8BIT, param, 0x1, 10000 ) != HAL_OK )
+    {
+        Error_Handler();
+    }
+
+    /* Request IDD measurement with 4 shunts */
+    param[0] = 0x9;
+
+    if( HAL_I2C_Mem_Write( &I2CxHandle, 0x84, 0x80, I2C_MEMADD_SIZE_8BIT, param, 0x1, 10000 ) != HAL_OK )
+    {
+        Error_Handler();
+    }
+
+    /* Save context */
+    IDD_SaveContext();
+
+    /* Deinitialize the I2C */
+    HAL_I2C_DeInit( &I2CxHandle );
+
+    __HAL_RCC_GPIOC_CLK_ENABLE();
+    /* Configure Button pin as input with External interrupt: Enable MFX IT generation on this SW */
+    GPIO_InitStruct.Pin = GPIO_PIN_13;
+    GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH  ;
+    GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING_FALLING;
+    HAL_GPIO_Init( GPIOC, &GPIO_InitStruct );
+
+    /* Enable and set Button EXTI Interrupt to the lowest priority */
+    HAL_NVIC_SetPriority( ( IRQn_Type )( EXTI4_15_IRQn ), 3, 0 );
+    HAL_NVIC_EnableIRQ( ( IRQn_Type )( EXTI4_15_IRQn ) );
+
+    /* Enable Ultra low power mode */
+    HAL_PWREx_EnableUltraLowPower();
+
+    /* Enable the fast wake up from Ultra low power mode */
+    HAL_PWREx_EnableFastWakeUp();
+
+    /* Clear Wake Up Flag */
+    __HAL_PWR_CLEAR_FLAG( PWR_FLAG_WU );
+
+    /* Enter Stop Mode */
+    HAL_PWR_EnterSTOPMode( PWR_LOWPOWERREGULATOR_ON, PWR_SLEEPENTRY_WFI );
+
+    /* Restore context */
+    IDD_RestoreContext();
+
+    /* Configure the I2C */
+    I2C_Config();
+
+    aRxBuffer[0] = 0x00;
+    aRxBuffer[1] = 0x00;
+    aRxBuffer[2] = 0x00;
+
+    /* Idd measurement */
+    if( HAL_I2C_Mem_Read( &I2CxHandle, 0x84, 0x14, I2C_MEMADD_SIZE_8BIT, ( uint8_t * )aRxBuffer, 3, 10000 ) != HAL_OK )
+    {
+        Error_Handler();
+    }
+
+    /* Acknowledge IDD IRQ from MFX */
+    param[0] = 0x2;
+
+    if( HAL_I2C_Mem_Write( &I2CxHandle, 0x84, 0x44, I2C_MEMADD_SIZE_8BIT, param, 0x1, 10000 ) != HAL_OK )
+    {
+        Error_Handler();
+    }
+
+    /* delay for MFX to remove IRQ signal */
+    HAL_Delay( 1 );
+
+    /* Get the IDD measurement value */
+    Idd_measurement = ( aRxBuffer[0] << 16 ) + ( aRxBuffer[1] << 8 ) + aRxBuffer[2] ;
+    Idd_measurement = Idd_measurement * 10;
+    sprintf( ( char * )str, "%dnA", ( int )Idd_measurement );
 }
 
 /**
@@ -629,24 +673,25 @@ void Idd_Stop_process(void)
   * @param  None
   * @retval None
   */
-static void I2C_Config(void)
+static void I2C_Config( void )
 {
-  HAL_I2C_DeInit(&I2CxHandle);
-  /*##-1- Configure the I2C peripheral #######################################*/
-  I2CxHandle.Instance              = I2C1;
-  I2CxHandle.Init.AddressingMode   = I2C_ADDRESSINGMODE_7BIT;
-  I2CxHandle.Init.Timing           = 0x00B1112E;
-  I2CxHandle.Init.DualAddressMode  = I2C_DUALADDRESS_DISABLE;
-  I2CxHandle.Init.OwnAddress2Masks = I2C_OA2_NOMASK;
-  I2CxHandle.Init.GeneralCallMode  = I2C_GENERALCALL_DISABLE;
-  I2CxHandle.Init.NoStretchMode    = I2C_NOSTRETCH_DISABLE;
-  I2CxHandle.Init.OwnAddress1      = 0x0;
-  I2CxHandle.Init.OwnAddress2      = 0x0;
-  if(HAL_I2C_Init(&I2CxHandle) != HAL_OK)
-  {
-    /* Initialization Error */
-    Error_Handler();    
-  }
+    HAL_I2C_DeInit( &I2CxHandle );
+    /*##-1- Configure the I2C peripheral #######################################*/
+    I2CxHandle.Instance              = I2C1;
+    I2CxHandle.Init.AddressingMode   = I2C_ADDRESSINGMODE_7BIT;
+    I2CxHandle.Init.Timing           = 0x00B1112E;
+    I2CxHandle.Init.DualAddressMode  = I2C_DUALADDRESS_DISABLE;
+    I2CxHandle.Init.OwnAddress2Masks = I2C_OA2_NOMASK;
+    I2CxHandle.Init.GeneralCallMode  = I2C_GENERALCALL_DISABLE;
+    I2CxHandle.Init.NoStretchMode    = I2C_NOSTRETCH_DISABLE;
+    I2CxHandle.Init.OwnAddress1      = 0x0;
+    I2CxHandle.Init.OwnAddress2      = 0x0;
+
+    if( HAL_I2C_Init( &I2CxHandle ) != HAL_OK )
+    {
+        /* Initialization Error */
+        Error_Handler();
+    }
 }
 
 /**
@@ -654,11 +699,11 @@ static void I2C_Config(void)
   * @param  None
   * @retval None
   */
-static void Error_Handler(void)
+static void Error_Handler( void )
 {
-  while(1)
-  {
-  }
+    while( 1 )
+    {
+    }
 }
 
 

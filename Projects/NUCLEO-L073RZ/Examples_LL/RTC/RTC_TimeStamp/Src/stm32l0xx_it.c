@@ -1,4 +1,4 @@
-/** 
+/**
   ******************************************************************************
   * @file    Examples_LL/RTC/RTC_TimeStamp/Src/stm32l0xx_it.c
   * @author  MCD Application Team
@@ -47,7 +47,7 @@
   * @param  None
   * @retval None
   */
-void NMI_Handler(void)
+void NMI_Handler( void )
 {
 }
 
@@ -56,12 +56,12 @@ void NMI_Handler(void)
   * @param  None
   * @retval None
   */
-void HardFault_Handler(void)
+void HardFault_Handler( void )
 {
-  /* Go to infinite loop when Hard Fault exception occurs */
-  while (1)
-  {
-  }
+    /* Go to infinite loop when Hard Fault exception occurs */
+    while( 1 )
+    {
+    }
 }
 
 /**
@@ -69,7 +69,7 @@ void HardFault_Handler(void)
   * @param  None
   * @retval None
   */
-void SVC_Handler(void)
+void SVC_Handler( void )
 {
 }
 
@@ -78,7 +78,7 @@ void SVC_Handler(void)
   * @param  None
   * @retval None
   */
-void PendSV_Handler(void)
+void PendSV_Handler( void )
 {
 }
 
@@ -87,7 +87,7 @@ void PendSV_Handler(void)
   * @param  None
   * @retval None
   */
-void SysTick_Handler(void)
+void SysTick_Handler( void )
 {
 }
 
@@ -103,23 +103,24 @@ void SysTick_Handler(void)
   * @param  None
   * @retval None
   */
-void RTC_IRQHandler(void)
+void RTC_IRQHandler( void )
 {
-  /* Get the TimeStamp interrupt source enable status */
-  if(LL_RTC_IsEnabledIT_TS(RTC) != 0)
-  {
-    /* Get the pending status of the TIMESTAMP Interrupt */
-    if(LL_RTC_IsActiveFlag_TS(RTC) != 0)
+    /* Get the TimeStamp interrupt source enable status */
+    if( LL_RTC_IsEnabledIT_TS( RTC ) != 0 )
     {
-      /* TIMESTAMP callback */ 
-      TimeStampEvent_Callback();
-      
-      /* Clear the TIMESTAMP interrupt pending bit */
-      LL_RTC_ClearFlag_TS(RTC);
+        /* Get the pending status of the TIMESTAMP Interrupt */
+        if( LL_RTC_IsActiveFlag_TS( RTC ) != 0 )
+        {
+            /* TIMESTAMP callback */
+            TimeStampEvent_Callback();
+
+            /* Clear the TIMESTAMP interrupt pending bit */
+            LL_RTC_ClearFlag_TS( RTC );
+        }
     }
-  }
-  /* Clear the EXTI's Flag for RTC TimeStamp and Tamper */
-  LL_EXTI_ClearFlag_0_31(LL_EXTI_LINE_19);
+
+    /* Clear the EXTI's Flag for RTC TimeStamp and Tamper */
+    LL_EXTI_ClearFlag_0_31( LL_EXTI_LINE_19 );
 }
 
 /**

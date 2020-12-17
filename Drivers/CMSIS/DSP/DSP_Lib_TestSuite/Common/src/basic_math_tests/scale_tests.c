@@ -18,8 +18,8 @@
         TYPE_FROM_ABBREV(suffix))
 
 /* float32_t defined separately because it has less arguments */
-JTEST_DEFINE_TEST(arm_scale_f32_test,
-                  arm_scale_f32)
+JTEST_DEFINE_TEST( arm_scale_f32_test,
+                   arm_scale_f32 )
 {
     TEST_TEMPLATE_BUF1_ELT1_BLK(
         basic_math_f_all,
@@ -32,21 +32,21 @@ JTEST_DEFINE_TEST(arm_scale_f32_test,
         ARM_scale_float_INPUT_INTERFACE,
         ref_scale_f32,
         REF_scale_float_INPUT_INTERFACE,
-        BASIC_MATH_COMPARE_INTERFACE);
+        BASIC_MATH_COMPARE_INTERFACE );
 }
 
-JTEST_ARM_SCALE_TEST(q31);
-JTEST_ARM_SCALE_TEST(q15);
-JTEST_ARM_SCALE_TEST(q7);
+JTEST_ARM_SCALE_TEST( q31 );
+JTEST_ARM_SCALE_TEST( q15 );
+JTEST_ARM_SCALE_TEST( q7 );
 
 /*--------------------------------------------------------------------------------*/
 /* Collect all tests in a group. */
 /*--------------------------------------------------------------------------------*/
 
-JTEST_DEFINE_GROUP(scale_tests)
+JTEST_DEFINE_GROUP( scale_tests )
 {
-    JTEST_TEST_CALL(arm_scale_f32_test);
-    JTEST_TEST_CALL(arm_scale_q31_test);
-    JTEST_TEST_CALL(arm_scale_q15_test);
-    JTEST_TEST_CALL(arm_scale_q7_test);
+    JTEST_TEST_CALL( arm_scale_f32_test );
+    JTEST_TEST_CALL( arm_scale_q31_test );
+    JTEST_TEST_CALL( arm_scale_q15_test );
+    JTEST_TEST_CALL( arm_scale_q7_test );
 }

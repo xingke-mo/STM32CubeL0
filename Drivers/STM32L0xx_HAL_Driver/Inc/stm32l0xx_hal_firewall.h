@@ -22,7 +22,7 @@
 #define __STM32L0xx_HAL_FIREWALL_H
 
 #ifdef __cplusplus
- extern "C" {
+extern "C" {
 #endif
 
 #if !defined (STM32L010xB) && !defined (STM32L010x8) && !defined (STM32L010x6) && !defined (STM32L010x4) && !defined (STM32L011xx) && !defined (STM32L021xx) && !defined (STM32L031xx) && !defined (STM32L041xx)
@@ -48,33 +48,33 @@
   */
 typedef struct
 {
-  uint32_t CodeSegmentStartAddress;        /*!< Protected code segment start address. This value is 24-bit long, the 8 LSB bits are
+    uint32_t CodeSegmentStartAddress;        /*!< Protected code segment start address. This value is 24-bit long, the 8 LSB bits are
                                                 reserved and forced to 0 in order to allow a 256-byte granularity. */
 
-  uint32_t CodeSegmentLength;              /*!< Protected code segment length in bytes. This value is 22-bit long, the 8 LSB bits are
+    uint32_t CodeSegmentLength;              /*!< Protected code segment length in bytes. This value is 22-bit long, the 8 LSB bits are
                                                 reserved and forced to 0 for the length to be a multiple of 256 bytes. */
 
-  uint32_t NonVDataSegmentStartAddress;    /*!< Protected non-volatile data segment start address. This value is 24-bit long, the 8 LSB
+    uint32_t NonVDataSegmentStartAddress;    /*!< Protected non-volatile data segment start address. This value is 24-bit long, the 8 LSB
                                                 bits are reserved and forced to 0 in order to allow a 256-byte granularity. */
 
-  uint32_t NonVDataSegmentLength;          /*!< Protected non-volatile data segment length in bytes. This value is 22-bit long, the 8 LSB
+    uint32_t NonVDataSegmentLength;          /*!< Protected non-volatile data segment length in bytes. This value is 22-bit long, the 8 LSB
                                                 bits are reserved and forced to 0 for the length to be a multiple of 256 bytes. */
 
-  uint32_t VDataSegmentStartAddress;       /*!< Protected volatile data segment start address. This value is 17-bit long, the 6 LSB bits
+    uint32_t VDataSegmentStartAddress;       /*!< Protected volatile data segment start address. This value is 17-bit long, the 6 LSB bits
                                                 are reserved and forced to 0 in order to allow a 64-byte granularity. */
 
-  uint32_t VDataSegmentLength;             /*!< Protected volatile data segment length in bytes. This value is 17-bit long, the 6 LSB
+    uint32_t VDataSegmentLength;             /*!< Protected volatile data segment length in bytes. This value is 17-bit long, the 6 LSB
                                                 bits are reserved and forced to 0 for the length to be a multiple of 64 bytes. */
 
-  uint32_t VolatileDataExecution;          /*!< Set VDE bit specifying whether or not the volatile data segment can be executed.
+    uint32_t VolatileDataExecution;          /*!< Set VDE bit specifying whether or not the volatile data segment can be executed.
                                                  When VDS = 1 (set by parameter VolatileDataShared), VDE bit has no meaning.
                                                 This parameter can be a value of @ref FIREWALL_VolatileData_Executable */
 
-  uint32_t VolatileDataShared;             /*!< Set VDS bit in specifying whether or not the volatile data segment can be shared with a
+    uint32_t VolatileDataShared;             /*!< Set VDS bit in specifying whether or not the volatile data segment can be shared with a
                                                 non-protected application code.
                                                 This parameter can be a value of @ref FIREWALL_VolatileData_Shared */
 
-}FIREWALL_InitTypeDef;
+} FIREWALL_InitTypeDef;
 
 
 /**
@@ -325,11 +325,11 @@ typedef struct
   */
 
 /* Initialization functions  ********************************/
-HAL_StatusTypeDef HAL_FIREWALL_Config(FIREWALL_InitTypeDef * fw_init);
-void HAL_FIREWALL_GetConfig(FIREWALL_InitTypeDef * fw_config);
-void HAL_FIREWALL_EnableFirewall(void);
-void HAL_FIREWALL_EnablePreArmFlag(void);
-void HAL_FIREWALL_DisablePreArmFlag(void);
+HAL_StatusTypeDef HAL_FIREWALL_Config( FIREWALL_InitTypeDef *fw_init );
+void HAL_FIREWALL_GetConfig( FIREWALL_InitTypeDef *fw_config );
+void HAL_FIREWALL_EnableFirewall( void );
+void HAL_FIREWALL_EnablePreArmFlag( void );
+void HAL_FIREWALL_DisablePreArmFlag( void );
 
 /**
   * @}

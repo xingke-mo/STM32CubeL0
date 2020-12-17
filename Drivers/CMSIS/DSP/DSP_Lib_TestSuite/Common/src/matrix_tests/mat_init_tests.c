@@ -39,20 +39,20 @@
                                                             \
     }
 
-JTEST_ARM_MAT_INIT_TEST(f32);
-JTEST_ARM_MAT_INIT_TEST(q31);
-JTEST_ARM_MAT_INIT_TEST(q15);
+JTEST_ARM_MAT_INIT_TEST( f32 );
+JTEST_ARM_MAT_INIT_TEST( q31 );
+JTEST_ARM_MAT_INIT_TEST( q15 );
 
 /*--------------------------------------------------------------------------------*/
 /* Collect all tests in a group. */
 /*--------------------------------------------------------------------------------*/
 
-JTEST_DEFINE_GROUP(mat_init_tests)
+JTEST_DEFINE_GROUP( mat_init_tests )
 {
     /*
       To skip a test, comment it out.
     */
-    JTEST_TEST_CALL(arm_mat_init_f32_test);
-    JTEST_TEST_CALL(arm_mat_init_q31_test);
-    JTEST_TEST_CALL(arm_mat_init_q15_test);
+    JTEST_TEST_CALL( arm_mat_init_f32_test );
+    JTEST_TEST_CALL( arm_mat_init_q31_test );
+    JTEST_TEST_CALL( arm_mat_init_q15_test );
 }

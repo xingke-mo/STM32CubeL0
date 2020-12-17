@@ -1,6 +1,6 @@
 /**
   ******************************************************************************
-  * @file    TouchSensing/TouchSensing_Linear/Inc/main.h 
+  * @file    TouchSensing/TouchSensing_Linear/Inc/main.h
   * @author  MCD Application Team
   * @brief   Header for main.c module
   ******************************************************************************
@@ -16,7 +16,7 @@
   *
   ******************************************************************************
   */
-  
+
 /* Define to prevent recursive inclusion -------------------------------------*/
 #ifndef __MAIN_H
 #define __MAIN_H
@@ -29,7 +29,7 @@
 /* Exported constants --------------------------------------------------------*/
 /* Exported macro ------------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */
-void User_Tick_Management(void);
+void User_Tick_Management( void );
 
 #endif /* __MAIN_H */
 

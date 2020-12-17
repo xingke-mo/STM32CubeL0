@@ -23,8 +23,8 @@
 
 /** @addtogroup stm32l0xx_system
   * @{
-  */  
-  
+  */
+
 /**
   * @brief Define to prevent recursive inclusion
   */
@@ -32,8 +32,8 @@
 #define __SYSTEM_STM32L0XX_H
 
 #ifdef __cplusplus
- extern "C" {
-#endif 
+extern "C" {
+#endif
 
 /** @addtogroup STM32L0xx_System_Includes
   * @{
@@ -47,14 +47,14 @@
 /** @addtogroup STM32L0xx_System_Exported_types
   * @{
   */
-  /* This variable is updated in three ways:
-      1) by calling CMSIS function SystemCoreClockUpdate()
-      2) by calling HAL API function HAL_RCC_GetSysClockFreq()
-      3) each time HAL_RCC_ClockConfig() is called to configure the system clock frequency 
-         Note: If you use this function to configure the system clock; then there
-               is no need to call the 2 first functions listed above, since SystemCoreClock
-               variable is updated automatically.
-  */
+/* This variable is updated in three ways:
+    1) by calling CMSIS function SystemCoreClockUpdate()
+    2) by calling HAL API function HAL_RCC_GetSysClockFreq()
+    3) each time HAL_RCC_ClockConfig() is called to configure the system clock frequency
+       Note: If you use this function to configure the system clock; then there
+             is no need to call the 2 first functions listed above, since SystemCoreClock
+             variable is updated automatically.
+*/
 extern uint32_t SystemCoreClock;          /*!< System Clock Frequency (Core Clock) */
 /*
 */
@@ -86,9 +86,9 @@ extern const uint8_t PLLMulTable[9];      /*!< PLL multipiers table values */
 /** @addtogroup STM32L0xx_System_Exported_Functions
   * @{
   */
-  
-extern void SystemInit(void);
-extern void SystemCoreClockUpdate(void);
+
+extern void SystemInit( void );
+extern void SystemCoreClockUpdate( void );
 /**
   * @}
   */
@@ -102,8 +102,8 @@ extern void SystemCoreClockUpdate(void);
 /**
   * @}
   */
-  
+
 /**
   * @}
-  */  
+  */
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

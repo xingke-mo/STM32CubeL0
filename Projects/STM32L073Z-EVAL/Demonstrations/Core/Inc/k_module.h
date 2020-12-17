@@ -22,7 +22,7 @@
 #define __K_MODULE_H
 
 #ifdef __cplusplus
- extern "C" {
+extern "C" {
 #endif
 
 #undef GLOBAL
@@ -30,37 +30,38 @@
 #define GLOBAL extern
 #else
 #define GLOBAL
-#endif   
-   
+#endif
+
 /* Includes ------------------------------------------------------------------*/
 /* Exported constants --------------------------------------------------------*/
-typedef enum {
-  KMODULE_OK, 
-  /* Module exec */
-  KMODULE_ERROR_PRE,
-  KMODULE_ERROR_EXEC,
-  KMODULE_ERROR_POST,
-  KMODULE_ERROR_ICON,
-  KMODULE_RESMISSIG
+typedef enum
+{
+    KMODULE_OK,
+    /* Module exec */
+    KMODULE_ERROR_PRE,
+    KMODULE_ERROR_EXEC,
+    KMODULE_ERROR_POST,
+    KMODULE_ERROR_ICON,
+    KMODULE_RESMISSIG
 } KMODULE_RETURN;
 
 /* Exported types ------------------------------------------------------------*/
 typedef struct
 {
- uint8_t     kModuleId;
- KMODULE_RETURN (*kModulePreExec)(void);  
- KMODULE_RETURN (*kModuleExec)(void);
- KMODULE_RETURN (*kModulePostExec)(void);
- KMODULE_RETURN (*kModuleRessouceCheck)(void);
+    uint8_t     kModuleId;
+    KMODULE_RETURN( *kModulePreExec )( void );
+    KMODULE_RETURN( *kModuleExec )( void );
+    KMODULE_RETURN( *kModulePostExec )( void );
+    KMODULE_RETURN( *kModuleRessouceCheck )( void );
 } K_ModuleItem_Typedef;
 
 /* Exported macros -----------------------------------------------------------*/
 /* Exported variable ---------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */
-GLOBAL void kModule_Init(void);
-GLOBAL void kModule_Add(uint8_t kModuleId, K_ModuleItem_Typedef kModuleInfo);
-GLOBAL KMODULE_RETURN kModule_CheckRessource(void);
-GLOBAL KMODULE_RETURN kModule_Execute(uint8_t kModuleId);
+GLOBAL void kModule_Init( void );
+GLOBAL void kModule_Add( uint8_t kModuleId, K_ModuleItem_Typedef kModuleInfo );
+GLOBAL KMODULE_RETURN kModule_CheckRessource( void );
+GLOBAL KMODULE_RETURN kModule_Execute( uint8_t kModuleId );
 
 #ifdef __cplusplus
 }

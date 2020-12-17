@@ -29,7 +29,7 @@
 /* Exported constants --------------------------------------------------------*/
 /* User can use this section to tailor ADCx instance used and associated
    resources */
-   
+
 /* Definition for ADCx clock resources */
 #define ADCx                            ADC1
 #define ADCx_CLK_ENABLE()               __HAL_RCC_ADC1_CLK_ENABLE()

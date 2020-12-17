@@ -22,7 +22,7 @@
 #define __K_DEMO_H
 
 #ifdef __cplusplus
- extern "C" {
+extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
@@ -30,9 +30,9 @@
 /* Exported types ------------------------------------------------------------*/
 /* Exported macros -----------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */
-void kDemo_Start(void);
-void kDemo_Initialization(void);
-void kDemo_UnInitialization(void);
+void kDemo_Start( void );
+void kDemo_Initialization( void );
+void kDemo_UnInitialization( void );
 
 #ifdef __cplusplus
 }

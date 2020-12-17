@@ -61,15 +61,15 @@ FFT fast function test template. Arguments are: function configuration suffix
         return JTEST_TEST_PASSED;                                       \
     }
 
-RFFT_FAST_DEFINE_TEST(forward, 0U);
-RFFT_FAST_DEFINE_TEST(inverse, 1U);
+RFFT_FAST_DEFINE_TEST( forward, 0U );
+RFFT_FAST_DEFINE_TEST( inverse, 1U );
 
 /*--------------------------------------------------------------------------------*/
 /* Collect all tests in a group */
 /*--------------------------------------------------------------------------------*/
 
-JTEST_DEFINE_GROUP(rfft_fast_tests)
+JTEST_DEFINE_GROUP( rfft_fast_tests )
 {
-    JTEST_TEST_CALL(arm_rfft_fast_f32_forward_test);
-    JTEST_TEST_CALL(arm_rfft_fast_f32_inverse_test);
+    JTEST_TEST_CALL( arm_rfft_fast_f32_forward_test );
+    JTEST_TEST_CALL( arm_rfft_fast_f32_inverse_test );
 }

@@ -44,7 +44,8 @@
 #define TARGET_LOCK_ID 0 // Do not modify - shared with STMStudio host software
 #define HOST_LOCK_ID   1 // Do not modify - shared with STMStudio host software
 
-typedef struct petersons_t {
+typedef struct petersons_t
+{
     volatile unsigned char flag[2]; // Do not modify - shared with STMStudio host software
     volatile unsigned char turn;    // Do not modify - shared with STMStudio host software
 } petersons_t;
@@ -52,13 +53,16 @@ typedef struct petersons_t {
 // stm_studio_lock symbol used by the STMStudio host software for synchronization
 petersons_t stm_studio_lock = { { 0, 0 }, TARGET_LOCK_ID }; // Do not modify - shared with STMStudio host software
 
-void enterLock (void) {
+void enterLock( void )
+{
     stm_studio_lock.flag[TARGET_LOCK_ID] = 1;
     stm_studio_lock.turn = HOST_LOCK_ID;
-    while (stm_studio_lock.flag[HOST_LOCK_ID] && (stm_studio_lock.turn == HOST_LOCK_ID)) {}
+
+    while( stm_studio_lock.flag[HOST_LOCK_ID] && ( stm_studio_lock.turn == HOST_LOCK_ID ) ) {}
 }
 
-void exitLock (void) {
+void exitLock( void )
+{
     stm_studio_lock.flag[TARGET_LOCK_ID] = 0;
 }
 

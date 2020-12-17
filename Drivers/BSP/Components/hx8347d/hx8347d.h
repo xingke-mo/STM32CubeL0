@@ -22,7 +22,7 @@
 #define HX8347D_H
 
 #ifdef __cplusplus
- extern "C" {
+extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
@@ -204,36 +204,36 @@
 /** @defgroup HX8347D_Exported_Functions
   * @{
   */
-void     hx8347d_Init(void);
-uint16_t hx8347d_ReadID(void);
-void     hx8347d_WriteReg(uint8_t LCDReg, uint16_t LCDRegValue);
-uint16_t hx8347d_ReadReg(uint8_t LCDReg);
+void     hx8347d_Init( void );
+uint16_t hx8347d_ReadID( void );
+void     hx8347d_WriteReg( uint8_t LCDReg, uint16_t LCDRegValue );
+uint16_t hx8347d_ReadReg( uint8_t LCDReg );
 
-void     hx8347d_DisplayOn(void);
-void     hx8347d_DisplayOff(void);
-void     hx8347d_SetCursor(uint16_t Xpos, uint16_t Ypos);
-void     hx8347d_WritePixel(uint16_t Xpos, uint16_t Ypos, uint16_t RGBCode);
-uint16_t hx8347d_ReadPixel(uint16_t Xpos, uint16_t Ypos);
+void     hx8347d_DisplayOn( void );
+void     hx8347d_DisplayOff( void );
+void     hx8347d_SetCursor( uint16_t Xpos, uint16_t Ypos );
+void     hx8347d_WritePixel( uint16_t Xpos, uint16_t Ypos, uint16_t RGBCode );
+uint16_t hx8347d_ReadPixel( uint16_t Xpos, uint16_t Ypos );
 
-void     hx8347d_DrawHLine(uint16_t RGBCode, uint16_t Xpos, uint16_t Ypos, uint16_t Length);
-void     hx8347d_DrawVLine(uint16_t RGBCode, uint16_t Xpos, uint16_t Ypos, uint16_t Length);
-void     hx8347d_DrawBitmap(uint16_t Xpos, uint16_t Ypos, uint8_t *pbmp);
+void     hx8347d_DrawHLine( uint16_t RGBCode, uint16_t Xpos, uint16_t Ypos, uint16_t Length );
+void     hx8347d_DrawVLine( uint16_t RGBCode, uint16_t Xpos, uint16_t Ypos, uint16_t Length );
+void     hx8347d_DrawBitmap( uint16_t Xpos, uint16_t Ypos, uint8_t *pbmp );
 
-void     hx8347d_SetDisplayWindow(uint16_t Xpos, uint16_t Ypos, uint16_t Width, uint16_t Height);
+void     hx8347d_SetDisplayWindow( uint16_t Xpos, uint16_t Ypos, uint16_t Width, uint16_t Height );
 
 
-uint16_t hx8347d_GetLcdPixelWidth(void);
-uint16_t hx8347d_GetLcdPixelHeight(void);
+uint16_t hx8347d_GetLcdPixelWidth( void );
+uint16_t hx8347d_GetLcdPixelHeight( void );
 
 /* LCD driver structure */
 extern LCD_DrvTypeDef   hx8347d_drv;
 
 /* LCD IO functions */
-void     LCD_IO_Init(void);
-void     LCD_IO_WriteMultipleData(uint8_t *pData, uint32_t Size);
-void     LCD_IO_WriteReg(uint8_t Reg);
-uint16_t LCD_IO_ReadData(uint16_t Reg);
-void     LCD_Delay (uint32_t delay);
+void     LCD_IO_Init( void );
+void     LCD_IO_WriteMultipleData( uint8_t *pData, uint32_t Size );
+void     LCD_IO_WriteReg( uint8_t Reg );
+uint16_t LCD_IO_ReadData( uint16_t Reg );
+void     LCD_Delay( uint32_t delay );
 /**
   * @}
   */

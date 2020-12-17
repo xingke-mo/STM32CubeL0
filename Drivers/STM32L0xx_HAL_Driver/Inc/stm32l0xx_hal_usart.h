@@ -46,7 +46,7 @@ extern "C" {
   */
 typedef struct
 {
-  uint32_t BaudRate;                  /*!< This member configures the Usart communication baud rate.
+    uint32_t BaudRate;                  /*!< This member configures the Usart communication baud rate.
                                            The baud rate is computed using the following formula:
                                               Baud Rate Register[15:4] = ((2 * fclk_pres) /
                                               ((huart->Init.BaudRate)))[15:4]
@@ -57,29 +57,29 @@ typedef struct
                                            @note  Oversampling by 8 is systematically applied to
                                                   achieve high baud rates. */
 
-  uint32_t WordLength;                /*!< Specifies the number of data bits transmitted or received in a frame.
+    uint32_t WordLength;                /*!< Specifies the number of data bits transmitted or received in a frame.
                                            This parameter can be a value of @ref USARTEx_Word_Length. */
 
-  uint32_t StopBits;                  /*!< Specifies the number of stop bits transmitted.
+    uint32_t StopBits;                  /*!< Specifies the number of stop bits transmitted.
                                            This parameter can be a value of @ref USART_Stop_Bits. */
 
-  uint32_t Parity;                   /*!< Specifies the parity mode.
+    uint32_t Parity;                   /*!< Specifies the parity mode.
                                            This parameter can be a value of @ref USART_Parity
                                            @note When parity is enabled, the computed parity is inserted
                                                  at the MSB position of the transmitted data (9th bit when
                                                  the word length is set to 9 data bits; 8th bit when the
                                                  word length is set to 8 data bits). */
 
-  uint32_t Mode;                      /*!< Specifies whether the Receive or Transmit mode is enabled or disabled.
+    uint32_t Mode;                      /*!< Specifies whether the Receive or Transmit mode is enabled or disabled.
                                            This parameter can be a value of @ref USART_Mode. */
 
-  uint32_t CLKPolarity;               /*!< Specifies the steady state of the serial clock.
+    uint32_t CLKPolarity;               /*!< Specifies the steady state of the serial clock.
                                            This parameter can be a value of @ref USART_Clock_Polarity. */
 
-  uint32_t CLKPhase;                  /*!< Specifies the clock transition on which the bit capture is made.
+    uint32_t CLKPhase;                  /*!< Specifies the clock transition on which the bit capture is made.
                                            This parameter can be a value of @ref USART_Clock_Phase. */
 
-  uint32_t CLKLastBit;                /*!< Specifies whether the clock pulse corresponding to the last transmitted
+    uint32_t CLKLastBit;                /*!< Specifies whether the clock pulse corresponding to the last transmitted
                                            data bit (MSB) has to be output on the SCLK pin in synchronous mode.
                                            This parameter can be a value of @ref USART_Last_Bit. */
 
@@ -90,14 +90,14 @@ typedef struct
   */
 typedef enum
 {
-  HAL_USART_STATE_RESET             = 0x00U,    /*!< Peripheral is not initialized                  */
-  HAL_USART_STATE_READY             = 0x01U,    /*!< Peripheral Initialized and ready for use       */
-  HAL_USART_STATE_BUSY              = 0x02U,    /*!< an internal process is ongoing                 */
-  HAL_USART_STATE_BUSY_TX           = 0x12U,    /*!< Data Transmission process is ongoing           */
-  HAL_USART_STATE_BUSY_RX           = 0x22U,    /*!< Data Reception process is ongoing              */
-  HAL_USART_STATE_BUSY_TX_RX        = 0x32U,    /*!< Data Transmission Reception process is ongoing */
-  HAL_USART_STATE_TIMEOUT           = 0x03U,    /*!< Timeout state                                  */
-  HAL_USART_STATE_ERROR             = 0x04U     /*!< Error                                          */
+    HAL_USART_STATE_RESET             = 0x00U,    /*!< Peripheral is not initialized                  */
+    HAL_USART_STATE_READY             = 0x01U,    /*!< Peripheral Initialized and ready for use       */
+    HAL_USART_STATE_BUSY              = 0x02U,    /*!< an internal process is ongoing                 */
+    HAL_USART_STATE_BUSY_TX           = 0x12U,    /*!< Data Transmission process is ongoing           */
+    HAL_USART_STATE_BUSY_RX           = 0x22U,    /*!< Data Reception process is ongoing              */
+    HAL_USART_STATE_BUSY_TX_RX        = 0x32U,    /*!< Data Transmission Reception process is ongoing */
+    HAL_USART_STATE_TIMEOUT           = 0x03U,    /*!< Timeout state                                  */
+    HAL_USART_STATE_ERROR             = 0x04U     /*!< Error                                          */
 } HAL_USART_StateTypeDef;
 
 /**
@@ -105,12 +105,12 @@ typedef enum
   */
 typedef enum
 {
-  USART_CLOCKSOURCE_PCLK1      = 0x00U,    /*!< PCLK1 clock source     */
-  USART_CLOCKSOURCE_PCLK2      = 0x01U,    /*!< PCLK2 clock source     */
-  USART_CLOCKSOURCE_HSI        = 0x02U,    /*!< HSI clock source       */
-  USART_CLOCKSOURCE_SYSCLK     = 0x04U,    /*!< SYSCLK clock source    */
-  USART_CLOCKSOURCE_LSE        = 0x08U,    /*!< LSE clock source       */
-  USART_CLOCKSOURCE_UNDEFINED  = 0x10U     /*!< Undefined clock source */
+    USART_CLOCKSOURCE_PCLK1      = 0x00U,    /*!< PCLK1 clock source     */
+    USART_CLOCKSOURCE_PCLK2      = 0x01U,    /*!< PCLK2 clock source     */
+    USART_CLOCKSOURCE_HSI        = 0x02U,    /*!< HSI clock source       */
+    USART_CLOCKSOURCE_SYSCLK     = 0x04U,    /*!< SYSCLK clock source    */
+    USART_CLOCKSOURCE_LSE        = 0x08U,    /*!< LSE clock source       */
+    USART_CLOCKSOURCE_UNDEFINED  = 0x10U     /*!< Undefined clock source */
 } USART_ClockSourceTypeDef;
 
 /**
@@ -118,49 +118,49 @@ typedef enum
   */
 typedef struct __USART_HandleTypeDef
 {
-  USART_TypeDef                 *Instance;               /*!< USART registers base address        */
+    USART_TypeDef                 *Instance;               /*!< USART registers base address        */
 
-  USART_InitTypeDef             Init;                    /*!< USART communication parameters      */
+    USART_InitTypeDef             Init;                    /*!< USART communication parameters      */
 
-  uint8_t                       *pTxBuffPtr;             /*!< Pointer to USART Tx transfer Buffer */
+    uint8_t                       *pTxBuffPtr;             /*!< Pointer to USART Tx transfer Buffer */
 
-  uint16_t                      TxXferSize;              /*!< USART Tx Transfer size              */
+    uint16_t                      TxXferSize;              /*!< USART Tx Transfer size              */
 
-  __IO uint16_t                 TxXferCount;             /*!< USART Tx Transfer Counter           */
+    __IO uint16_t                 TxXferCount;             /*!< USART Tx Transfer Counter           */
 
-  uint8_t                       *pRxBuffPtr;             /*!< Pointer to USART Rx transfer Buffer */
+    uint8_t                       *pRxBuffPtr;             /*!< Pointer to USART Rx transfer Buffer */
 
-  uint16_t                      RxXferSize;              /*!< USART Rx Transfer size              */
+    uint16_t                      RxXferSize;              /*!< USART Rx Transfer size              */
 
-  __IO uint16_t                 RxXferCount;             /*!< USART Rx Transfer Counter           */
+    __IO uint16_t                 RxXferCount;             /*!< USART Rx Transfer Counter           */
 
-  uint16_t                      Mask;                    /*!< USART Rx RDR register mask          */
+    uint16_t                      Mask;                    /*!< USART Rx RDR register mask          */
 
-  void (*RxISR)(struct __USART_HandleTypeDef *husart);   /*!< Function pointer on Rx IRQ handler  */
+    void ( *RxISR )( struct __USART_HandleTypeDef *husart ); /*!< Function pointer on Rx IRQ handler  */
 
-  void (*TxISR)(struct __USART_HandleTypeDef *husart);   /*!< Function pointer on Tx IRQ handler  */
+    void ( *TxISR )( struct __USART_HandleTypeDef *husart ); /*!< Function pointer on Tx IRQ handler  */
 
-  DMA_HandleTypeDef             *hdmatx;                 /*!< USART Tx DMA Handle parameters      */
+    DMA_HandleTypeDef             *hdmatx;                 /*!< USART Tx DMA Handle parameters      */
 
-  DMA_HandleTypeDef             *hdmarx;                 /*!< USART Rx DMA Handle parameters      */
+    DMA_HandleTypeDef             *hdmarx;                 /*!< USART Rx DMA Handle parameters      */
 
-  HAL_LockTypeDef               Lock;                    /*!< Locking object                      */
+    HAL_LockTypeDef               Lock;                    /*!< Locking object                      */
 
-  __IO HAL_USART_StateTypeDef   State;                   /*!< USART communication state           */
+    __IO HAL_USART_StateTypeDef   State;                   /*!< USART communication state           */
 
-  __IO uint32_t                 ErrorCode;               /*!< USART Error code                    */
+    __IO uint32_t                 ErrorCode;               /*!< USART Error code                    */
 
 #if (USE_HAL_USART_REGISTER_CALLBACKS == 1)
-  void (* TxHalfCpltCallback)(struct __USART_HandleTypeDef *husart);        /*!< USART Tx Half Complete Callback        */
-  void (* TxCpltCallback)(struct __USART_HandleTypeDef *husart);            /*!< USART Tx Complete Callback             */
-  void (* RxHalfCpltCallback)(struct __USART_HandleTypeDef *husart);        /*!< USART Rx Half Complete Callback        */
-  void (* RxCpltCallback)(struct __USART_HandleTypeDef *husart);            /*!< USART Rx Complete Callback             */
-  void (* TxRxCpltCallback)(struct __USART_HandleTypeDef *husart);          /*!< USART Tx Rx Complete Callback          */
-  void (* ErrorCallback)(struct __USART_HandleTypeDef *husart);             /*!< USART Error Callback                   */
-  void (* AbortCpltCallback)(struct __USART_HandleTypeDef *husart);         /*!< USART Abort Complete Callback          */
+    void ( * TxHalfCpltCallback )( struct __USART_HandleTypeDef *husart );    /*!< USART Tx Half Complete Callback        */
+    void ( * TxCpltCallback )( struct __USART_HandleTypeDef *husart );        /*!< USART Tx Complete Callback             */
+    void ( * RxHalfCpltCallback )( struct __USART_HandleTypeDef *husart );    /*!< USART Rx Half Complete Callback        */
+    void ( * RxCpltCallback )( struct __USART_HandleTypeDef *husart );        /*!< USART Rx Complete Callback             */
+    void ( * TxRxCpltCallback )( struct __USART_HandleTypeDef *husart );      /*!< USART Tx Rx Complete Callback          */
+    void ( * ErrorCallback )( struct __USART_HandleTypeDef *husart );         /*!< USART Error Callback                   */
+    void ( * AbortCpltCallback )( struct __USART_HandleTypeDef *husart );     /*!< USART Abort Complete Callback          */
 
-  void (* MspInitCallback)(struct __USART_HandleTypeDef *husart);           /*!< USART Msp Init callback                */
-  void (* MspDeInitCallback)(struct __USART_HandleTypeDef *husart);         /*!< USART Msp DeInit callback              */
+    void ( * MspInitCallback )( struct __USART_HandleTypeDef *husart );       /*!< USART Msp Init callback                */
+    void ( * MspDeInitCallback )( struct __USART_HandleTypeDef *husart );     /*!< USART Msp DeInit callback              */
 #endif  /* USE_HAL_USART_REGISTER_CALLBACKS */
 
 } USART_HandleTypeDef;
@@ -171,23 +171,23 @@ typedef struct __USART_HandleTypeDef
   */
 typedef enum
 {
-  HAL_USART_TX_HALFCOMPLETE_CB_ID         = 0x00U,    /*!< USART Tx Half Complete Callback ID        */
-  HAL_USART_TX_COMPLETE_CB_ID             = 0x01U,    /*!< USART Tx Complete Callback ID             */
-  HAL_USART_RX_HALFCOMPLETE_CB_ID         = 0x02U,    /*!< USART Rx Half Complete Callback ID        */
-  HAL_USART_RX_COMPLETE_CB_ID             = 0x03U,    /*!< USART Rx Complete Callback ID             */
-  HAL_USART_TX_RX_COMPLETE_CB_ID          = 0x04U,    /*!< USART Tx Rx Complete Callback ID          */
-  HAL_USART_ERROR_CB_ID                   = 0x05U,    /*!< USART Error Callback ID                   */
-  HAL_USART_ABORT_COMPLETE_CB_ID          = 0x06U,    /*!< USART Abort Complete Callback ID          */
+    HAL_USART_TX_HALFCOMPLETE_CB_ID         = 0x00U,    /*!< USART Tx Half Complete Callback ID        */
+    HAL_USART_TX_COMPLETE_CB_ID             = 0x01U,    /*!< USART Tx Complete Callback ID             */
+    HAL_USART_RX_HALFCOMPLETE_CB_ID         = 0x02U,    /*!< USART Rx Half Complete Callback ID        */
+    HAL_USART_RX_COMPLETE_CB_ID             = 0x03U,    /*!< USART Rx Complete Callback ID             */
+    HAL_USART_TX_RX_COMPLETE_CB_ID          = 0x04U,    /*!< USART Tx Rx Complete Callback ID          */
+    HAL_USART_ERROR_CB_ID                   = 0x05U,    /*!< USART Error Callback ID                   */
+    HAL_USART_ABORT_COMPLETE_CB_ID          = 0x06U,    /*!< USART Abort Complete Callback ID          */
 
-  HAL_USART_MSPINIT_CB_ID                 = 0x09U,    /*!< USART MspInit callback ID                 */
-  HAL_USART_MSPDEINIT_CB_ID               = 0x0AU     /*!< USART MspDeInit callback ID               */
+    HAL_USART_MSPINIT_CB_ID                 = 0x09U,    /*!< USART MspInit callback ID                 */
+    HAL_USART_MSPDEINIT_CB_ID               = 0x0AU     /*!< USART MspDeInit callback ID               */
 
 } HAL_USART_CallbackIDTypeDef;
 
 /**
   * @brief  HAL USART Callback pointer definition
   */
-typedef  void (*pUSART_CallbackTypeDef)(USART_HandleTypeDef *husart);  /*!< pointer to an USART callback function */
+typedef  void ( *pUSART_CallbackTypeDef )( USART_HandleTypeDef *husart ); /*!< pointer to an USART callback function */
 
 #endif /* USE_HAL_USART_REGISTER_CALLBACKS */
 
@@ -698,16 +698,16 @@ typedef  void (*pUSART_CallbackTypeDef)(USART_HandleTypeDef *husart);  /*!< poin
   */
 
 /* Initialization and de-initialization functions  ****************************/
-HAL_StatusTypeDef HAL_USART_Init(USART_HandleTypeDef *husart);
-HAL_StatusTypeDef HAL_USART_DeInit(USART_HandleTypeDef *husart);
-void HAL_USART_MspInit(USART_HandleTypeDef *husart);
-void HAL_USART_MspDeInit(USART_HandleTypeDef *husart);
+HAL_StatusTypeDef HAL_USART_Init( USART_HandleTypeDef *husart );
+HAL_StatusTypeDef HAL_USART_DeInit( USART_HandleTypeDef *husart );
+void HAL_USART_MspInit( USART_HandleTypeDef *husart );
+void HAL_USART_MspDeInit( USART_HandleTypeDef *husart );
 
 /* Callbacks Register/UnRegister functions  ***********************************/
 #if (USE_HAL_USART_REGISTER_CALLBACKS == 1)
-HAL_StatusTypeDef HAL_USART_RegisterCallback(USART_HandleTypeDef *husart, HAL_USART_CallbackIDTypeDef CallbackID,
-                                             pUSART_CallbackTypeDef pCallback);
-HAL_StatusTypeDef HAL_USART_UnRegisterCallback(USART_HandleTypeDef *husart, HAL_USART_CallbackIDTypeDef CallbackID);
+HAL_StatusTypeDef HAL_USART_RegisterCallback( USART_HandleTypeDef *husart, HAL_USART_CallbackIDTypeDef CallbackID,
+        pUSART_CallbackTypeDef pCallback );
+HAL_StatusTypeDef HAL_USART_UnRegisterCallback( USART_HandleTypeDef *husart, HAL_USART_CallbackIDTypeDef CallbackID );
 #endif /* USE_HAL_USART_REGISTER_CALLBACKS */
 
 /**
@@ -719,33 +719,33 @@ HAL_StatusTypeDef HAL_USART_UnRegisterCallback(USART_HandleTypeDef *husart, HAL_
   */
 
 /* IO operation functions *****************************************************/
-HAL_StatusTypeDef HAL_USART_Transmit(USART_HandleTypeDef *husart, uint8_t *pTxData, uint16_t Size, uint32_t Timeout);
-HAL_StatusTypeDef HAL_USART_Receive(USART_HandleTypeDef *husart, uint8_t *pRxData, uint16_t Size, uint32_t Timeout);
-HAL_StatusTypeDef HAL_USART_TransmitReceive(USART_HandleTypeDef *husart, uint8_t *pTxData, uint8_t *pRxData,
-                                            uint16_t Size, uint32_t Timeout);
-HAL_StatusTypeDef HAL_USART_Transmit_IT(USART_HandleTypeDef *husart, uint8_t *pTxData, uint16_t Size);
-HAL_StatusTypeDef HAL_USART_Receive_IT(USART_HandleTypeDef *husart, uint8_t *pRxData, uint16_t Size);
-HAL_StatusTypeDef HAL_USART_TransmitReceive_IT(USART_HandleTypeDef *husart, uint8_t *pTxData, uint8_t *pRxData,
-                                               uint16_t Size);
-HAL_StatusTypeDef HAL_USART_Transmit_DMA(USART_HandleTypeDef *husart, uint8_t *pTxData, uint16_t Size);
-HAL_StatusTypeDef HAL_USART_Receive_DMA(USART_HandleTypeDef *husart, uint8_t *pRxData, uint16_t Size);
-HAL_StatusTypeDef HAL_USART_TransmitReceive_DMA(USART_HandleTypeDef *husart, uint8_t *pTxData, uint8_t *pRxData,
-                                                uint16_t Size);
-HAL_StatusTypeDef HAL_USART_DMAPause(USART_HandleTypeDef *husart);
-HAL_StatusTypeDef HAL_USART_DMAResume(USART_HandleTypeDef *husart);
-HAL_StatusTypeDef HAL_USART_DMAStop(USART_HandleTypeDef *husart);
+HAL_StatusTypeDef HAL_USART_Transmit( USART_HandleTypeDef *husart, uint8_t *pTxData, uint16_t Size, uint32_t Timeout );
+HAL_StatusTypeDef HAL_USART_Receive( USART_HandleTypeDef *husart, uint8_t *pRxData, uint16_t Size, uint32_t Timeout );
+HAL_StatusTypeDef HAL_USART_TransmitReceive( USART_HandleTypeDef *husart, uint8_t *pTxData, uint8_t *pRxData,
+        uint16_t Size, uint32_t Timeout );
+HAL_StatusTypeDef HAL_USART_Transmit_IT( USART_HandleTypeDef *husart, uint8_t *pTxData, uint16_t Size );
+HAL_StatusTypeDef HAL_USART_Receive_IT( USART_HandleTypeDef *husart, uint8_t *pRxData, uint16_t Size );
+HAL_StatusTypeDef HAL_USART_TransmitReceive_IT( USART_HandleTypeDef *husart, uint8_t *pTxData, uint8_t *pRxData,
+        uint16_t Size );
+HAL_StatusTypeDef HAL_USART_Transmit_DMA( USART_HandleTypeDef *husart, uint8_t *pTxData, uint16_t Size );
+HAL_StatusTypeDef HAL_USART_Receive_DMA( USART_HandleTypeDef *husart, uint8_t *pRxData, uint16_t Size );
+HAL_StatusTypeDef HAL_USART_TransmitReceive_DMA( USART_HandleTypeDef *husart, uint8_t *pTxData, uint8_t *pRxData,
+        uint16_t Size );
+HAL_StatusTypeDef HAL_USART_DMAPause( USART_HandleTypeDef *husart );
+HAL_StatusTypeDef HAL_USART_DMAResume( USART_HandleTypeDef *husart );
+HAL_StatusTypeDef HAL_USART_DMAStop( USART_HandleTypeDef *husart );
 /* Transfer Abort functions */
-HAL_StatusTypeDef HAL_USART_Abort(USART_HandleTypeDef *husart);
-HAL_StatusTypeDef HAL_USART_Abort_IT(USART_HandleTypeDef *husart);
+HAL_StatusTypeDef HAL_USART_Abort( USART_HandleTypeDef *husart );
+HAL_StatusTypeDef HAL_USART_Abort_IT( USART_HandleTypeDef *husart );
 
-void HAL_USART_IRQHandler(USART_HandleTypeDef *husart);
-void HAL_USART_TxHalfCpltCallback(USART_HandleTypeDef *husart);
-void HAL_USART_TxCpltCallback(USART_HandleTypeDef *husart);
-void HAL_USART_RxCpltCallback(USART_HandleTypeDef *husart);
-void HAL_USART_RxHalfCpltCallback(USART_HandleTypeDef *husart);
-void HAL_USART_TxRxCpltCallback(USART_HandleTypeDef *husart);
-void HAL_USART_ErrorCallback(USART_HandleTypeDef *husart);
-void HAL_USART_AbortCpltCallback(USART_HandleTypeDef *husart);
+void HAL_USART_IRQHandler( USART_HandleTypeDef *husart );
+void HAL_USART_TxHalfCpltCallback( USART_HandleTypeDef *husart );
+void HAL_USART_TxCpltCallback( USART_HandleTypeDef *husart );
+void HAL_USART_RxCpltCallback( USART_HandleTypeDef *husart );
+void HAL_USART_RxHalfCpltCallback( USART_HandleTypeDef *husart );
+void HAL_USART_TxRxCpltCallback( USART_HandleTypeDef *husart );
+void HAL_USART_ErrorCallback( USART_HandleTypeDef *husart );
+void HAL_USART_AbortCpltCallback( USART_HandleTypeDef *husart );
 
 /**
   * @}
@@ -756,8 +756,8 @@ void HAL_USART_AbortCpltCallback(USART_HandleTypeDef *husart);
   */
 
 /* Peripheral State and Error functions ***************************************/
-HAL_USART_StateTypeDef HAL_USART_GetState(USART_HandleTypeDef *husart);
-uint32_t               HAL_USART_GetError(USART_HandleTypeDef *husart);
+HAL_USART_StateTypeDef HAL_USART_GetState( USART_HandleTypeDef *husart );
+uint32_t               HAL_USART_GetError( USART_HandleTypeDef *husart );
 
 /**
   * @}

@@ -81,7 +81,7 @@
   * @{
   */
 __IO uint32_t uwTick;
-uint32_t uwTickPrio   = (1UL << __NVIC_PRIO_BITS); /* Invalid PRIO */
+uint32_t uwTickPrio   = ( 1UL << __NVIC_PRIO_BITS ); /* Invalid PRIO */
 HAL_TickFreqTypeDef uwTickFreq = HAL_TICK_FREQ_DEFAULT;  /* 1KHz */
 /**
   * @}
@@ -137,36 +137,36 @@ HAL_TickFreqTypeDef uwTickFreq = HAL_TICK_FREQ_DEFAULT;  /* 1KHz */
   *        the tick variable is incremented each 1ms in its ISR.
   * @retval HAL status
   */
-HAL_StatusTypeDef HAL_Init(void)
+HAL_StatusTypeDef HAL_Init( void )
 {
-  HAL_StatusTypeDef  status = HAL_OK;
+    HAL_StatusTypeDef  status = HAL_OK;
 
-  /* Configure Buffer cache, Flash prefetch,  Flash preread */
+    /* Configure Buffer cache, Flash prefetch,  Flash preread */
 #if (BUFFER_CACHE_DISABLE != 0)
-  __HAL_FLASH_BUFFER_CACHE_DISABLE();
+    __HAL_FLASH_BUFFER_CACHE_DISABLE();
 #endif /* BUFFER_CACHE_DISABLE */
 
 #if (PREREAD_ENABLE != 0)
-  __HAL_FLASH_PREREAD_BUFFER_ENABLE();
+    __HAL_FLASH_PREREAD_BUFFER_ENABLE();
 #endif /* PREREAD_ENABLE */
 
 #if (PREFETCH_ENABLE != 0)
-  __HAL_FLASH_PREFETCH_BUFFER_ENABLE();
+    __HAL_FLASH_PREFETCH_BUFFER_ENABLE();
 #endif /* PREFETCH_ENABLE */
 
-  /* Use SysTick as time base source and configure 1ms tick (default clock after Reset is MSI) */
-  if (HAL_InitTick(TICK_INT_PRIORITY) != HAL_OK)
-  {
-    status = HAL_ERROR;
-  }
-  else
-  {
-    /* Init the low level hardware */
-    HAL_MspInit();
-  }
+    /* Use SysTick as time base source and configure 1ms tick (default clock after Reset is MSI) */
+    if( HAL_InitTick( TICK_INT_PRIORITY ) != HAL_OK )
+    {
+        status = HAL_ERROR;
+    }
+    else
+    {
+        /* Init the low level hardware */
+        HAL_MspInit();
+    }
 
-  /* Return function status */
-  return status;
+    /* Return function status */
+    return status;
 }
 
 /**
@@ -175,59 +175,59 @@ HAL_StatusTypeDef HAL_Init(void)
   * @note This function is optional.
   * @retval HAL status
   */
-HAL_StatusTypeDef HAL_DeInit(void)
+HAL_StatusTypeDef HAL_DeInit( void )
 {
-  /* Reset of all peripherals */
-  __HAL_RCC_APB1_FORCE_RESET();
-  __HAL_RCC_APB1_RELEASE_RESET();
+    /* Reset of all peripherals */
+    __HAL_RCC_APB1_FORCE_RESET();
+    __HAL_RCC_APB1_RELEASE_RESET();
 
-  __HAL_RCC_APB2_FORCE_RESET();
-  __HAL_RCC_APB2_RELEASE_RESET();
+    __HAL_RCC_APB2_FORCE_RESET();
+    __HAL_RCC_APB2_RELEASE_RESET();
 
-  __HAL_RCC_AHB_FORCE_RESET();
-  __HAL_RCC_AHB_RELEASE_RESET();
+    __HAL_RCC_AHB_FORCE_RESET();
+    __HAL_RCC_AHB_RELEASE_RESET();
 
-  __HAL_RCC_IOP_FORCE_RESET();
-  __HAL_RCC_IOP_RELEASE_RESET();
+    __HAL_RCC_IOP_FORCE_RESET();
+    __HAL_RCC_IOP_RELEASE_RESET();
 
-  /* De-Init the low level hardware */
-  HAL_MspDeInit();
+    /* De-Init the low level hardware */
+    HAL_MspDeInit();
 
-  /* Return function status */
-  return HAL_OK;
+    /* Return function status */
+    return HAL_OK;
 }
 
 /**
   * @brief  Initializes the MSP.
   * @retval None
   */
-__weak void HAL_MspInit(void)
+__weak void HAL_MspInit( void )
 {
-  /* NOTE : This function should not be modified, when the callback is needed,
-            the HAL_MspInit could be implemented in the user file
-   */
+    /* NOTE : This function should not be modified, when the callback is needed,
+              the HAL_MspInit could be implemented in the user file
+     */
 }
 
 /**
   * @brief  DeInitializes the MSP.
   * @retval None
   */
-__weak void HAL_MspDeInit(void)
+__weak void HAL_MspDeInit( void )
 {
-  /* NOTE : This function should not be modified, when the callback is needed,
-            the HAL_MspDeInit could be implemented in the user file
-   */
+    /* NOTE : This function should not be modified, when the callback is needed,
+              the HAL_MspDeInit could be implemented in the user file
+     */
 }
 
 /**
   * @brief This function configures the source of the time base:
-  *        The time source is configured  to have 1ms time base with a dedicated 
+  *        The time source is configured  to have 1ms time base with a dedicated
   *        Tick interrupt priority.
   * @note This function is called  automatically at the beginning of program after
   *       reset by HAL_Init() or at any time when clock is reconfigured  by HAL_RCC_ClockConfig().
-  * @note In the default implementation, SysTick timer is the source of time base. 
-  *       It is used to generate interrupts at regular time intervals. 
-  *       Care must be taken if HAL_Delay() is called from a peripheral ISR process, 
+  * @note In the default implementation, SysTick timer is the source of time base.
+  *       It is used to generate interrupts at regular time intervals.
+  *       Care must be taken if HAL_Delay() is called from a peripheral ISR process,
   *       The SysTick interrupt must have higher priority (numerically lower)
   *       than the peripheral interrupt. Otherwise the caller ISR process will be blocked.
   *       The function is declared as __weak  to be overwritten  in case of other
@@ -235,27 +235,27 @@ __weak void HAL_MspDeInit(void)
   * @param TickPriority Tick interrupt priority.
   * @retval HAL status
   */
-__weak HAL_StatusTypeDef HAL_InitTick(uint32_t TickPriority)
+__weak HAL_StatusTypeDef HAL_InitTick( uint32_t TickPriority )
 {
-  /* Configure the SysTick to have interrupt in 1ms time basis*/
-  if (HAL_SYSTICK_Config(SystemCoreClock / (1000U / uwTickFreq)) > 0U)
-  {
-    return HAL_ERROR;
-  }
+    /* Configure the SysTick to have interrupt in 1ms time basis*/
+    if( HAL_SYSTICK_Config( SystemCoreClock / ( 1000U / uwTickFreq ) ) > 0U )
+    {
+        return HAL_ERROR;
+    }
 
-  /* Configure the SysTick IRQ priority */
-  if (TickPriority < (1UL << __NVIC_PRIO_BITS))
-  {
-    HAL_NVIC_SetPriority(SysTick_IRQn, TickPriority, 0U);
-    uwTickPrio = TickPriority;
-  }
-  else
-  {
-    return HAL_ERROR;
-  }
+    /* Configure the SysTick IRQ priority */
+    if( TickPriority < ( 1UL << __NVIC_PRIO_BITS ) )
+    {
+        HAL_NVIC_SetPriority( SysTick_IRQn, TickPriority, 0U );
+        uwTickPrio = TickPriority;
+    }
+    else
+    {
+        return HAL_ERROR;
+    }
 
-  /* Return function status */
-  return HAL_OK;
+    /* Return function status */
+    return HAL_OK;
 }
 
 /**
@@ -291,9 +291,9 @@ __weak HAL_StatusTypeDef HAL_InitTick(uint32_t TickPriority)
   *      implementations in user file.
   * @retval None
   */
-__weak void HAL_IncTick(void)
+__weak void HAL_IncTick( void )
 {
-  uwTick += uwTickFreq;
+    uwTick += uwTickFreq;
 }
 
 /**
@@ -302,59 +302,59 @@ __weak void HAL_IncTick(void)
   *       implementations in user file.
   * @retval tick value
   */
-__weak uint32_t HAL_GetTick(void)
+__weak uint32_t HAL_GetTick( void )
 {
-  return uwTick;
+    return uwTick;
 }
 
 /**
   * @brief This function returns a tick priority.
   * @retval tick priority
   */
-uint32_t HAL_GetTickPrio(void)
+uint32_t HAL_GetTickPrio( void )
 {
-  return uwTickPrio;
+    return uwTickPrio;
 }
 
 /**
   * @brief Set new tick Freq.
   * @retval Status
   */
-HAL_StatusTypeDef HAL_SetTickFreq(HAL_TickFreqTypeDef Freq)
+HAL_StatusTypeDef HAL_SetTickFreq( HAL_TickFreqTypeDef Freq )
 {
-  HAL_StatusTypeDef status  = HAL_OK;
-  HAL_TickFreqTypeDef prevTickFreq;
+    HAL_StatusTypeDef status  = HAL_OK;
+    HAL_TickFreqTypeDef prevTickFreq;
 
-  assert_param(IS_TICKFREQ(Freq));
+    assert_param( IS_TICKFREQ( Freq ) );
 
-  if (uwTickFreq != Freq)
-  {
-    /* Back up uwTickFreq frequency */
-    prevTickFreq = uwTickFreq;
-
-    /* Update uwTickFreq global variable used by HAL_InitTick() */
-    uwTickFreq = Freq;
-
-    /* Apply the new tick Freq  */
-    status = HAL_InitTick(uwTickPrio);
-
-    if (status != HAL_OK)
+    if( uwTickFreq != Freq )
     {
-      /* Restore previous tick frequency */
-      uwTickFreq = prevTickFreq;
-    }
-  }
+        /* Back up uwTickFreq frequency */
+        prevTickFreq = uwTickFreq;
 
-  return status;
+        /* Update uwTickFreq global variable used by HAL_InitTick() */
+        uwTickFreq = Freq;
+
+        /* Apply the new tick Freq  */
+        status = HAL_InitTick( uwTickPrio );
+
+        if( status != HAL_OK )
+        {
+            /* Restore previous tick frequency */
+            uwTickFreq = prevTickFreq;
+        }
+    }
+
+    return status;
 }
 
 /**
   * @brief Return tick frequency.
   * @retval tick period in Hz
   */
-HAL_TickFreqTypeDef HAL_GetTickFreq(void)
+HAL_TickFreqTypeDef HAL_GetTickFreq( void )
 {
-  return uwTickFreq;
+    return uwTickFreq;
 }
 
 /**
@@ -368,20 +368,20 @@ HAL_TickFreqTypeDef HAL_GetTickFreq(void)
   * @param Delay specifies the delay time length, in milliseconds.
   * @retval None
   */
-__weak void HAL_Delay(uint32_t Delay)
+__weak void HAL_Delay( uint32_t Delay )
 {
-  uint32_t tickstart = HAL_GetTick();
-  uint32_t wait = Delay;
+    uint32_t tickstart = HAL_GetTick();
+    uint32_t wait = Delay;
 
-  /* Add a freq to guarantee minimum wait */
-  if (wait < HAL_MAX_DELAY)
-  {
-    wait += (uint32_t)(uwTickFreq);
-  }
+    /* Add a freq to guarantee minimum wait */
+    if( wait < HAL_MAX_DELAY )
+    {
+        wait += ( uint32_t )( uwTickFreq );
+    }
 
-  while((HAL_GetTick() - tickstart) < wait)
-  {
-  }
+    while( ( HAL_GetTick() - tickstart ) < wait )
+    {
+    }
 }
 
 /**
@@ -394,10 +394,10 @@ __weak void HAL_Delay(uint32_t Delay)
   *       implementations in user file.
   * @retval None
   */
-__weak void HAL_SuspendTick(void)
+__weak void HAL_SuspendTick( void )
 {
-  /* Disable SysTick Interrupt */
-  SysTick->CTRL &= ~SysTick_CTRL_TICKINT_Msk;
+    /* Disable SysTick Interrupt */
+    SysTick->CTRL &= ~SysTick_CTRL_TICKINT_Msk;
 }
 
 /**
@@ -410,64 +410,64 @@ __weak void HAL_SuspendTick(void)
   *       implementations in user file.
   * @retval None
   */
-__weak void HAL_ResumeTick(void)
+__weak void HAL_ResumeTick( void )
 {
-  /* Enable SysTick Interrupt */
-  SysTick->CTRL  |= SysTick_CTRL_TICKINT_Msk;
+    /* Enable SysTick Interrupt */
+    SysTick->CTRL  |= SysTick_CTRL_TICKINT_Msk;
 }
 
 /**
   * @brief Returns the HAL revision
   * @retval version: 0xXYZR (8bits for each decimal, R for RC)
   */
-uint32_t HAL_GetHalVersion(void)
+uint32_t HAL_GetHalVersion( void )
 {
-  return __STM32L0xx_HAL_VERSION;
+    return __STM32L0xx_HAL_VERSION;
 }
 
 /**
   * @brief Returns the device revision identifier.
   * @retval Device revision identifier
   */
-uint32_t HAL_GetREVID(void)
+uint32_t HAL_GetREVID( void )
 {
-  return((DBGMCU->IDCODE) >> 16U);
+    return( ( DBGMCU->IDCODE ) >> 16U );
 }
 
 /**
   * @brief  Returns the device identifier.
   * @retval Device identifier
   */
-uint32_t HAL_GetDEVID(void)
+uint32_t HAL_GetDEVID( void )
 {
-   return((DBGMCU->IDCODE) & IDCODE_DEVID_MASK);
+    return( ( DBGMCU->IDCODE ) & IDCODE_DEVID_MASK );
 }
 
 /**
   * @brief  Returns the first word of the unique device identifier (UID based on 96 bits)
   * @retval Device identifier
   */
-uint32_t HAL_GetUIDw0(void)
+uint32_t HAL_GetUIDw0( void )
 {
-  return(READ_REG(*((uint32_t *)UID_BASE)));
+    return( READ_REG( *( ( uint32_t * )UID_BASE ) ) );
 }
 
 /**
   * @brief  Returns the second word of the unique device identifier (UID based on 96 bits)
   * @retval Device identifier
   */
-uint32_t HAL_GetUIDw1(void)
+uint32_t HAL_GetUIDw1( void )
 {
-  return(READ_REG(*((uint32_t *)(UID_BASE + 0x04U))));
+    return( READ_REG( *( ( uint32_t * )( UID_BASE + 0x04U ) ) ) );
 }
 
 /**
   * @brief  Returns the third word of the unique device identifier (UID based on 96 bits)
   * @retval Device identifier
   */
-uint32_t HAL_GetUIDw2(void)
+uint32_t HAL_GetUIDw2( void )
 {
-  return(READ_REG(*((uint32_t *)(UID_BASE + 0x14U))));
+    return( READ_REG( *( ( uint32_t * )( UID_BASE + 0x14U ) ) ) );
 }
 
 /**
@@ -494,54 +494,54 @@ uint32_t HAL_GetUIDw2(void)
   * @brief  Enables the Debug Module during SLEEP mode
   * @retval None
   */
-void HAL_DBGMCU_EnableDBGSleepMode(void)
+void HAL_DBGMCU_EnableDBGSleepMode( void )
 {
-  SET_BIT(DBGMCU->CR, DBGMCU_CR_DBG_SLEEP);
+    SET_BIT( DBGMCU->CR, DBGMCU_CR_DBG_SLEEP );
 }
 
 /**
   * @brief  Disables the Debug Module during SLEEP mode
   * @retval None
   */
-void HAL_DBGMCU_DisableDBGSleepMode(void)
+void HAL_DBGMCU_DisableDBGSleepMode( void )
 {
-  CLEAR_BIT(DBGMCU->CR, DBGMCU_CR_DBG_SLEEP);
+    CLEAR_BIT( DBGMCU->CR, DBGMCU_CR_DBG_SLEEP );
 }
 
 /**
   * @brief  Enables the Debug Module during STOP mode
   * @retval None
   */
-void HAL_DBGMCU_EnableDBGStopMode(void)
+void HAL_DBGMCU_EnableDBGStopMode( void )
 {
-  SET_BIT(DBGMCU->CR, DBGMCU_CR_DBG_STOP);
+    SET_BIT( DBGMCU->CR, DBGMCU_CR_DBG_STOP );
 }
 
 /**
   * @brief  Disables the Debug Module during STOP mode
   * @retval None
   */
-void HAL_DBGMCU_DisableDBGStopMode(void)
+void HAL_DBGMCU_DisableDBGStopMode( void )
 {
-  CLEAR_BIT(DBGMCU->CR, DBGMCU_CR_DBG_STOP);
+    CLEAR_BIT( DBGMCU->CR, DBGMCU_CR_DBG_STOP );
 }
 
 /**
   * @brief  Enables the Debug Module during STANDBY mode
   * @retval None
   */
-void HAL_DBGMCU_EnableDBGStandbyMode(void)
+void HAL_DBGMCU_EnableDBGStandbyMode( void )
 {
-  SET_BIT(DBGMCU->CR, DBGMCU_CR_DBG_STANDBY);
+    SET_BIT( DBGMCU->CR, DBGMCU_CR_DBG_STANDBY );
 }
 
 /**
   * @brief  Disables the Debug Module during STANDBY mode
   * @retval None
   */
-void HAL_DBGMCU_DisableDBGStandbyMode(void)
+void HAL_DBGMCU_DisableDBGStandbyMode( void )
 {
-  CLEAR_BIT(DBGMCU->CR, DBGMCU_CR_DBG_STANDBY);
+    CLEAR_BIT( DBGMCU->CR, DBGMCU_CR_DBG_STANDBY );
 }
 
 /**
@@ -553,12 +553,12 @@ void HAL_DBGMCU_DisableDBGStandbyMode(void)
   *     @arg DBGMCU_STANDBY: Keep debugger connection during STANDBY mode
   * @retval None
   */
-void HAL_DBGMCU_DBG_EnableLowPowerConfig(uint32_t Periph)
+void HAL_DBGMCU_DBG_EnableLowPowerConfig( uint32_t Periph )
 {
-  /* Check the parameters */
-  assert_param(IS_DBGMCU_PERIPH(Periph));
+    /* Check the parameters */
+    assert_param( IS_DBGMCU_PERIPH( Periph ) );
 
-  DBGMCU->CR |= Periph;
+    DBGMCU->CR |= Periph;
 
 }
 /**
@@ -570,13 +570,13 @@ void HAL_DBGMCU_DBG_EnableLowPowerConfig(uint32_t Periph)
   *     @arg DBGMCU_STANDBY: Keep debugger connection during STANDBY mode
   * @retval None
   */
-void HAL_DBGMCU_DBG_DisableLowPowerConfig(uint32_t Periph)
+void HAL_DBGMCU_DBG_DisableLowPowerConfig( uint32_t Periph )
 {
-  /* Check the parameters */
-  assert_param(IS_DBGMCU_PERIPH(Periph));
-  {
-    DBGMCU->CR &= ~Periph;
-  }
+    /* Check the parameters */
+    assert_param( IS_DBGMCU_PERIPH( Periph ) );
+    {
+        DBGMCU->CR &= ~Periph;
+    }
 }
 
 /**
@@ -607,9 +607,9 @@ void HAL_DBGMCU_DBG_DisableLowPowerConfig(uint32_t Periph)
   *              - 0x00000100 : Boot is configured in System Flash memory
   *              - 0x00000300 : Boot is configured in Embedded SRAM memory
   */
-uint32_t  HAL_SYSCFG_GetBootMode(void)
+uint32_t  HAL_SYSCFG_GetBootMode( void )
 {
-  return (SYSCFG->CFGR1 & SYSCFG_CFGR1_BOOT_MODE);
+    return ( SYSCFG->CFGR1 & SYSCFG_CFGR1_BOOT_MODE );
 }
 
 /**
@@ -624,34 +624,34 @@ uint32_t  HAL_SYSCFG_GetBootMode(void)
   *     @arg SYSCFG_VREFINT_OUT_PB0_PB1
   * @retval None
   */
-void HAL_SYSCFG_VREFINT_OutputSelect(uint32_t SYSCFG_Vrefint_OUTPUT)
+void HAL_SYSCFG_VREFINT_OutputSelect( uint32_t SYSCFG_Vrefint_OUTPUT )
 {
-  /* Check the parameters */
-  assert_param(IS_SYSCFG_VREFINT_OUT_SELECT(SYSCFG_Vrefint_OUTPUT));
+    /* Check the parameters */
+    assert_param( IS_SYSCFG_VREFINT_OUT_SELECT( SYSCFG_Vrefint_OUTPUT ) );
 
-  /* Set the output Vrefint pin */
-  SYSCFG->CFGR3 &= ~(SYSCFG_CFGR3_VREF_OUT);
-  SYSCFG->CFGR3 |= (uint32_t)(SYSCFG_Vrefint_OUTPUT);
+    /* Set the output Vrefint pin */
+    SYSCFG->CFGR3 &= ~( SYSCFG_CFGR3_VREF_OUT );
+    SYSCFG->CFGR3 |= ( uint32_t )( SYSCFG_Vrefint_OUTPUT );
 }
 
 /**
   * @brief  Lock the SYSCFG VREF register values
   * @retval None
   */
-void HAL_SYSCFG_Enable_Lock_VREFINT(void)
+void HAL_SYSCFG_Enable_Lock_VREFINT( void )
 {
     /* Enable the LOCK by setting REF_LOCK bit in the CFGR3 register */
-    SET_BIT(SYSCFG->CFGR3, SYSCFG_CFGR3_REF_LOCK);
+    SET_BIT( SYSCFG->CFGR3, SYSCFG_CFGR3_REF_LOCK );
 }
 
 /**
   * @brief  Unlock the overall SYSCFG VREF register values
   * @retval None
   */
-void HAL_SYSCFG_Disable_Lock_VREFINT(void)
+void HAL_SYSCFG_Disable_Lock_VREFINT( void )
 {
     /* Disable the LOCK by setting REF_LOCK bit in the CFGR3 register */
-    CLEAR_BIT(SYSCFG->CFGR3, SYSCFG_CFGR3_REF_LOCK);
+    CLEAR_BIT( SYSCFG->CFGR3, SYSCFG_CFGR3_REF_LOCK );
 }
 
 /**

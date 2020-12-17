@@ -49,7 +49,7 @@ extern TIM_HandleTypeDef    htim3;
   * @param  None
   * @retval None
   */
-void NMI_Handler(void)
+void NMI_Handler( void )
 {
 }
 
@@ -58,12 +58,12 @@ void NMI_Handler(void)
   * @param  None
   * @retval None
   */
-void HardFault_Handler(void)
+void HardFault_Handler( void )
 {
-  /* Go to infinite loop when Hard Fault exception occurs */
-  while (1)
-  {
-  }
+    /* Go to infinite loop when Hard Fault exception occurs */
+    while( 1 )
+    {
+    }
 }
 
 /**
@@ -71,7 +71,7 @@ void HardFault_Handler(void)
   * @param  None
   * @retval None
   */
-void SVC_Handler(void)
+void SVC_Handler( void )
 {
 }
 
@@ -80,7 +80,7 @@ void SVC_Handler(void)
   * @param  None
   * @retval None
   */
-void PendSV_Handler(void)
+void PendSV_Handler( void )
 {
 }
 
@@ -89,9 +89,9 @@ void PendSV_Handler(void)
   * @param  None
   * @retval None
   */
-void SysTick_Handler(void)
+void SysTick_Handler( void )
 {
-  HAL_IncTick();
+    HAL_IncTick();
 }
 
 /******************************************************************************/
@@ -105,18 +105,18 @@ void SysTick_Handler(void)
 * @param  None
 * @retval None
 */
-void TIMx_IRQHandler(void)  
+void TIMx_IRQHandler( void )
 {
-  /* Check whether CC2 interrupt is pending */
-  /* It is sufficient to callback just on one front (either rising or falling) */
-  if(LL_TIM_IsActiveFlag_CC2(TIMx) == 1)
-  {
-    /* Clear the update interrupt flag*/
-    LL_TIM_ClearFlag_CC2(TIMx);
+    /* Check whether CC2 interrupt is pending */
+    /* It is sufficient to callback just on one front (either rising or falling) */
+    if( LL_TIM_IsActiveFlag_CC2( TIMx ) == 1 )
+    {
+        /* Clear the update interrupt flag*/
+        LL_TIM_ClearFlag_CC2( TIMx );
 
-    /* TIM3 capture/compare interrupt processing(function defined in main.c) */
-    TimerCaptureCompare_Ch2_Callback();
-  }
+        /* TIM3 capture/compare interrupt processing(function defined in main.c) */
+        TimerCaptureCompare_Ch2_Callback();
+    }
 }
 
 
@@ -125,16 +125,16 @@ void TIMx_IRQHandler(void)
   * @param  None
   * @retval None
   */
-void EXTI4_15_IRQHandler(void)
+void EXTI4_15_IRQHandler( void )
 {
-  /* Manage Flags */
-  if(LL_EXTI_IsActiveFlag_0_31(LL_EXTI_LINE_13) != RESET)
-  {
-    LL_EXTI_ClearFlag_0_31(LL_EXTI_LINE_13);
+    /* Manage Flags */
+    if( LL_EXTI_IsActiveFlag_0_31( LL_EXTI_LINE_13 ) != RESET )
+    {
+        LL_EXTI_ClearFlag_0_31( LL_EXTI_LINE_13 );
 
-    /* User button interrupt processing(function defined in main.c) */
-    UserButton_Callback(); 
-  }
+        /* User button interrupt processing(function defined in main.c) */
+        UserButton_Callback();
+    }
 }
 
 

@@ -41,32 +41,32 @@
   */
 
 /**
-  * @brief CRC MSP Initialization 
-  *        This function configures the hardware resources used in this example: 
-  *           - Peripheral's clock enable 
+  * @brief CRC MSP Initialization
+  *        This function configures the hardware resources used in this example:
+  *           - Peripheral's clock enable
   * @param hcrc: CRC handle pointer
   * @retval None
   */
-void HAL_CRC_MspInit(CRC_HandleTypeDef *hcrc)
+void HAL_CRC_MspInit( CRC_HandleTypeDef *hcrc )
 {
-   /* CRC Peripheral clock enable */
-  __HAL_RCC_CRC_CLK_ENABLE();
+    /* CRC Peripheral clock enable */
+    __HAL_RCC_CRC_CLK_ENABLE();
 }
 
 /**
-  * @brief CRC MSP De-Initialization 
+  * @brief CRC MSP De-Initialization
   *        This function freeze the hardware resources used in this example:
   *          - Disable the Peripheral's clock
   * @param hcrc: CRC handle pointer
   * @retval None
   */
-void HAL_CRC_MspDeInit(CRC_HandleTypeDef *hcrc)
+void HAL_CRC_MspDeInit( CRC_HandleTypeDef *hcrc )
 {
-  /* Enable CRC reset state */
-  __HAL_RCC_CRC_FORCE_RESET();
-  
-  /* Release CRC from reset state */
-  __HAL_RCC_CRC_RELEASE_RESET();
+    /* Enable CRC reset state */
+    __HAL_RCC_CRC_FORCE_RESET();
+
+    /* Release CRC from reset state */
+    __HAL_RCC_CRC_RELEASE_RESET();
 }
 
 /**

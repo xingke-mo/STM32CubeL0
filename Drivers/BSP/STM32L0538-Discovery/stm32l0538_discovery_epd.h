@@ -2,7 +2,7 @@
   ******************************************************************************
   * @file    stm32l0538_discovery_epd.h
   * @author  MCD Application Team
-  * @brief   This file contains all the functions prototypes for the 
+  * @brief   This file contains all the functions prototypes for the
   *          stm32l0538_discovery_epd.c driver.
   ******************************************************************************
   * @attention
@@ -17,13 +17,13 @@
   *
   ******************************************************************************
   */
-  
+
 /* Define to prevent recursive inclusion -------------------------------------*/
 #ifndef __STM32L0538_DISCOVERY_EPD_H
 #define __STM32L0538_DISCOVERY_EPD_H
 
 #ifdef __cplusplus
- extern "C" {
+extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
@@ -48,9 +48,9 @@
   */
 typedef enum
 {
-  EPD_OK = 0,
-  EPD_ERROR = 1,
-  EPD_TIMEOUT = 2
+    EPD_OK = 0,
+    EPD_ERROR = 1,
+    EPD_TIMEOUT = 2
 } EPD_StatusTypeDef;
 
 /**
@@ -58,9 +58,9 @@ typedef enum
   */
 typedef enum
 {
-  CENTER_MODE             = 0x01,    /*!< Center mode */
-  RIGHT_MODE              = 0x02,    /*!< Right mode  */
-  LEFT_MODE               = 0x03     /*!< Left mode   */
+    CENTER_MODE             = 0x01,    /*!< Center mode */
+    RIGHT_MODE              = 0x02,    /*!< Right mode  */
+    LEFT_MODE               = 0x03     /*!< Left mode   */
 } Text_AlignModeTypdef;
 
 /**
@@ -91,29 +91,29 @@ typedef enum
 /** @defgroup STM32L0538_DISCOVERY_EPD_Exported_Functions
   * @{
   */
-uint8_t  BSP_EPD_Init(void);
-uint32_t BSP_EPD_GetXSize(void);
-uint32_t BSP_EPD_GetYSize(void);
+uint8_t  BSP_EPD_Init( void );
+uint32_t BSP_EPD_GetXSize( void );
+uint32_t BSP_EPD_GetYSize( void );
 
-void     BSP_EPD_SetFont(sFONT *pFonts);
-sFONT    *BSP_EPD_GetFont(void);
+void     BSP_EPD_SetFont( sFONT *pFonts );
+sFONT    *BSP_EPD_GetFont( void );
 
-void     BSP_EPD_Clear(uint16_t Color);
+void     BSP_EPD_Clear( uint16_t Color );
 
-void     BSP_EPD_DisplayStringAtLine(uint16_t Line, uint8_t *ptr);
-void     BSP_EPD_DisplayStringAt(uint16_t Xpos, uint16_t Ypos, uint8_t *pText, Text_AlignModeTypdef mode);
-void     BSP_EPD_DisplayChar(uint16_t Xpos, uint16_t Ypos, uint8_t Ascii);
+void     BSP_EPD_DisplayStringAtLine( uint16_t Line, uint8_t *ptr );
+void     BSP_EPD_DisplayStringAt( uint16_t Xpos, uint16_t Ypos, uint8_t *pText, Text_AlignModeTypdef mode );
+void     BSP_EPD_DisplayChar( uint16_t Xpos, uint16_t Ypos, uint8_t Ascii );
 
-void     BSP_EPD_DrawHLine(uint16_t Xpos, uint16_t Ypos, uint16_t Length);
-void     BSP_EPD_DrawVLine(uint16_t Xpos, uint16_t Ypos, uint16_t Length);
-void     BSP_EPD_DrawRect(uint16_t Xpos, uint16_t Ypos, uint16_t Width, uint16_t Height);
-void     BSP_EPD_FillRect(uint16_t Xpos, uint16_t Ypos, uint16_t Width, uint16_t Height);
+void     BSP_EPD_DrawHLine( uint16_t Xpos, uint16_t Ypos, uint16_t Length );
+void     BSP_EPD_DrawVLine( uint16_t Xpos, uint16_t Ypos, uint16_t Length );
+void     BSP_EPD_DrawRect( uint16_t Xpos, uint16_t Ypos, uint16_t Width, uint16_t Height );
+void     BSP_EPD_FillRect( uint16_t Xpos, uint16_t Ypos, uint16_t Width, uint16_t Height );
 
-void     BSP_EPD_RefreshDisplay(void);
+void     BSP_EPD_RefreshDisplay( void );
 
-void     BSP_EPD_CloseChargePump(void);
+void     BSP_EPD_CloseChargePump( void );
 
-void     BSP_EPD_DrawImage(uint16_t Xpos, uint16_t Ypos, uint16_t Xsize, uint16_t Ysize, uint8_t *pdata);
+void     BSP_EPD_DrawImage( uint16_t Xpos, uint16_t Ypos, uint16_t Xsize, uint16_t Ysize, uint8_t *pdata );
 
 #ifdef __cplusplus
 }

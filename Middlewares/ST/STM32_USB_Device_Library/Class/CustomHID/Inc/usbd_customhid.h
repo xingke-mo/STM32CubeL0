@@ -86,28 +86,28 @@ extern "C" {
   */
 typedef enum
 {
-  CUSTOM_HID_IDLE = 0U,
-  CUSTOM_HID_BUSY,
+    CUSTOM_HID_IDLE = 0U,
+    CUSTOM_HID_BUSY,
 }
 CUSTOM_HID_StateTypeDef;
 
 typedef struct _USBD_CUSTOM_HID_Itf
 {
-  uint8_t                  *pReport;
-  int8_t (* Init)(void);
-  int8_t (* DeInit)(void);
-  int8_t (* OutEvent)(uint8_t event_idx, uint8_t state);
+    uint8_t                  *pReport;
+    int8_t ( * Init )( void );
+    int8_t ( * DeInit )( void );
+    int8_t ( * OutEvent )( uint8_t event_idx, uint8_t state );
 
 } USBD_CUSTOM_HID_ItfTypeDef;
 
 typedef struct
 {
-  uint8_t              Report_buf[USBD_CUSTOMHID_OUTREPORT_BUF_SIZE];
-  uint32_t             Protocol;
-  uint32_t             IdleState;
-  uint32_t             AltSetting;
-  uint32_t             IsReportAvailable;
-  CUSTOM_HID_StateTypeDef     state;
+    uint8_t              Report_buf[USBD_CUSTOMHID_OUTREPORT_BUF_SIZE];
+    uint32_t             Protocol;
+    uint32_t             IdleState;
+    uint32_t             AltSetting;
+    uint32_t             IsReportAvailable;
+    CUSTOM_HID_StateTypeDef     state;
 }
 USBD_CUSTOM_HID_HandleTypeDef;
 /**
@@ -137,14 +137,14 @@ extern USBD_ClassTypeDef  USBD_CUSTOM_HID;
 /** @defgroup USB_CORE_Exported_Functions
   * @{
   */
-uint8_t USBD_CUSTOM_HID_SendReport(USBD_HandleTypeDef *pdev,
-                                   uint8_t *report,
-                                   uint16_t len);
+uint8_t USBD_CUSTOM_HID_SendReport( USBD_HandleTypeDef *pdev,
+                                    uint8_t *report,
+                                    uint16_t len );
 
 
 
-uint8_t  USBD_CUSTOM_HID_RegisterInterface(USBD_HandleTypeDef   *pdev,
-                                           USBD_CUSTOM_HID_ItfTypeDef *fops);
+uint8_t  USBD_CUSTOM_HID_RegisterInterface( USBD_HandleTypeDef   *pdev,
+        USBD_CUSTOM_HID_ItfTypeDef *fops );
 
 /**
   * @}

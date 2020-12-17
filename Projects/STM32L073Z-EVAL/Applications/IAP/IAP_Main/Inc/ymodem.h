@@ -1,8 +1,8 @@
 /**
   ******************************************************************************
-  * @file    IAP_Main/Inc/ymodem.h 
+  * @file    IAP_Main/Inc/ymodem.h
   * @author  MCD Application Team
-  * @brief   This file provides all the software function headers of the ymodem.c 
+  * @brief   This file provides all the software function headers of the ymodem.c
   *          file.
   ******************************************************************************
   * @attention
@@ -16,7 +16,7 @@
   *                             www.st.com/SLA0044
   *
   ******************************************************************************
-  */ 
+  */
 
 /* Define to prevent recursive inclusion -------------------------------------*/
 #ifndef __YMODEM_H_
@@ -30,12 +30,12 @@
   */
 typedef enum
 {
-  COM_OK       = 0x00,
-  COM_ERROR    = 0x01,
-  COM_ABORT    = 0x02,
-  COM_TIMEOUT  = 0x03,
-  COM_DATA     = 0x04,
-  COM_LIMIT    = 0x05
+    COM_OK       = 0x00,
+    COM_ERROR    = 0x01,
+    COM_ABORT    = 0x02,
+    COM_TIMEOUT  = 0x03,
+    COM_DATA     = 0x04,
+    COM_LIMIT    = 0x05
 } COM_StatusTypeDef;
 /**
   * @}
@@ -54,7 +54,7 @@ typedef enum
 #define PACKET_1K_SIZE          ((uint32_t)1024)
 
 /* /-------- Packet in IAP memory ------------------------------------------\
- * | 0      |  1    |  2     |  3   |  4      | ... | n+4     | n+5  | n+6  | 
+ * | 0      |  1    |  2     |  3   |  4      | ... | n+4     | n+5  | n+6  |
  * |------------------------------------------------------------------------|
  * | unused | start | number | !num | data[0] | ... | data[n] | crc0 | crc1 |
  * \------------------------------------------------------------------------/
@@ -80,8 +80,8 @@ typedef enum
 #define MAX_ERRORS              ((uint32_t)5)
 
 /* Exported functions ------------------------------------------------------- */
-COM_StatusTypeDef Ymodem_Receive(uint32_t *p_size);
-COM_StatusTypeDef Ymodem_Transmit(uint8_t *p_buf, const uint8_t *p_file_name, uint32_t file_size);
+COM_StatusTypeDef Ymodem_Receive( uint32_t *p_size );
+COM_StatusTypeDef Ymodem_Transmit( uint8_t *p_buf, const uint8_t *p_file_name, uint32_t file_size );
 
 #endif  /* __YMODEM_H_ */
 

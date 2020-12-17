@@ -30,14 +30,14 @@
 
 /* Exported types ------------------------------------------------------------*/
 /* COM Types Definition */
-typedef enum { COM1 = 0}COM_TypeDef;
+typedef enum { COM1 = 0} COM_TypeDef;
 
 /* Exported constants --------------------------------------------------------*/
 #define  TIMEOUT_VALUE 0xFFFF
 
 
 
-/* Definition for COM port1, connected to USART2 */ 
+/* Definition for COM port1, connected to USART2 */
 #define COMn                            1
 
 #define BSP_COM1                       USART2
@@ -46,7 +46,7 @@ typedef enum { COM1 = 0}COM_TypeDef;
 
 #define BSP_COM1_FORCE_RESET()         __HAL_RCC_USART2_FORCE_RESET()
 #define BSP_COM1_RELEASE_RESET()       __HAL_RCC_USART2_RELEASE_RESET()
-  
+
 #define BSP_COM1_TX_PIN                GPIO_PIN_9
 #define BSP_COM1_TX_GPIO_PORT          GPIOA
 #define BSP_COM1_TX_GPIO_CLK_ENABLE()  __HAL_RCC_GPIOA_CLK_ENABLE()
@@ -74,7 +74,7 @@ typedef enum { COM1 = 0}COM_TypeDef;
 
 /* Exported macro ------------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */
-void              BSP_COM_Init(COM_TypeDef COM, UART_HandleTypeDef* huart);
+void              BSP_COM_Init( COM_TypeDef COM, UART_HandleTypeDef *huart );
 
 #endif /* __MAIN_H */
 

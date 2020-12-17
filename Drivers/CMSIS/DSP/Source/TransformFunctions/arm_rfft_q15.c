@@ -33,20 +33,20 @@
  * -------------------------------------------------------------------- */
 
 void arm_split_rfft_q15(
-    q15_t * pSrc,
+    q15_t *pSrc,
     uint32_t fftLen,
-    q15_t * pATable,
-    q15_t * pBTable,
-    q15_t * pDst,
-    uint32_t modifier);
+    q15_t *pATable,
+    q15_t *pBTable,
+    q15_t *pDst,
+    uint32_t modifier );
 
 void arm_split_rifft_q15(
-    q15_t * pSrc,
+    q15_t *pSrc,
     uint32_t fftLen,
-    q15_t * pATable,
-    q15_t * pBTable,
-    q15_t * pDst,
-    uint32_t modifier);
+    q15_t *pATable,
+    q15_t *pBTable,
+    q15_t *pDst,
+    uint32_t modifier );
 
 /**
 * @addtogroup RealFFT
@@ -72,25 +72,25 @@ void arm_split_rifft_q15(
 */
 
 void arm_rfft_q15(
-    const arm_rfft_instance_q15 * S,
-    q15_t * pSrc,
-    q15_t * pDst)
+    const arm_rfft_instance_q15 *S,
+    q15_t *pSrc,
+    q15_t *pDst )
 {
     const arm_cfft_instance_q15 *S_CFFT = S->pCfft;
     uint32_t i;
     uint32_t L2 = S->fftLenReal >> 1;
 
     /* Calculation of RIFFT of input */
-    if (S->ifftFlagR == 1U)
+    if( S->ifftFlagR == 1U )
     {
         /*  Real IFFT core process */
-        arm_split_rifft_q15(pSrc, L2, S->pTwiddleAReal,
-                            S->pTwiddleBReal, pDst, S->twidCoefRModifier);
+        arm_split_rifft_q15( pSrc, L2, S->pTwiddleAReal,
+                             S->pTwiddleBReal, pDst, S->twidCoefRModifier );
 
         /* Complex IFFT process */
-        arm_cfft_q15(S_CFFT, pDst, S->ifftFlagR, S->bitReverseFlagR);
+        arm_cfft_q15( S_CFFT, pDst, S->ifftFlagR, S->bitReverseFlagR );
 
-        for(i=0;i<S->fftLenReal;i++)
+        for( i = 0; i < S->fftLenReal; i++ )
         {
             pDst[i] = pDst[i] << 1;
         }
@@ -100,11 +100,11 @@ void arm_rfft_q15(
         /* Calculation of RFFT of input */
 
         /* Complex FFT process */
-        arm_cfft_q15(S_CFFT, pSrc, S->ifftFlagR, S->bitReverseFlagR);
+        arm_cfft_q15( S_CFFT, pSrc, S->ifftFlagR, S->bitReverseFlagR );
 
         /*  Real FFT core process */
-        arm_split_rfft_q15(pSrc, L2, S->pTwiddleAReal,
-                            S->pTwiddleBReal, pDst, S->twidCoefRModifier);
+        arm_split_rfft_q15( pSrc, L2, S->pTwiddleAReal,
+                            S->pTwiddleBReal, pDst, S->twidCoefRModifier );
     }
 }
 
@@ -114,23 +114,23 @@ void arm_rfft_q15(
 
 /**
 * @brief  Core Real FFT process
-* @param  *pSrc 				points to the input buffer.
-* @param  fftLen  				length of FFT.
-* @param  *pATable 			points to the A twiddle Coef buffer.
-* @param  *pBTable 			points to the B twiddle Coef buffer.
-* @param  *pDst 				points to the output buffer.
-* @param  modifier 	        twiddle coefficient modifier that supports different size FFTs with the same twiddle factor table.
+* @param  *pSrc                 points to the input buffer.
+* @param  fftLen                length of FFT.
+* @param  *pATable          points to the A twiddle Coef buffer.
+* @param  *pBTable          points to the B twiddle Coef buffer.
+* @param  *pDst                 points to the output buffer.
+* @param  modifier          twiddle coefficient modifier that supports different size FFTs with the same twiddle factor table.
 * @return none.
 * The function implements a Real FFT
 */
 
 void arm_split_rfft_q15(
-    q15_t * pSrc,
+    q15_t *pSrc,
     uint32_t fftLen,
-    q15_t * pATable,
-    q15_t * pBTable,
-    q15_t * pDst,
-    uint32_t modifier)
+    q15_t *pATable,
+    q15_t *pBTable,
+    q15_t *pDst,
+    uint32_t modifier )
 {
     uint32_t i;                                    /* Loop Counter */
     q31_t outR, outI;                              /* Temporary variables for output */
@@ -147,16 +147,16 @@ void arm_split_rfft_q15(
     pCoefB = &pBTable[modifier * 2U];
 
     pSrc1 = &pSrc[2];
-    pSrc2 = &pSrc[(2U * fftLen) - 2U];
+    pSrc2 = &pSrc[( 2U * fftLen ) - 2U];
 
 #if defined (ARM_MATH_DSP)
 
     /* Run the below code for Cortex-M4 and Cortex-M3 */
     i = 1U;
     pD1 = pDst + 2;
-    pD2 = pDst + (4U * fftLen) - 2;
+    pD2 = pDst + ( 4U * fftLen ) - 2;
 
-    for(i = fftLen - 1; i > 0; i--)
+    for( i = fftLen - 1; i > 0; i-- )
     {
         /*
         outR = (pSrc[2 * i] * pATable[2 * i] - pSrc[2 * i + 1] * pATable[2 * i + 1]
@@ -172,53 +172,53 @@ void arm_split_rfft_q15(
 #ifndef ARM_MATH_BIG_ENDIAN
 
         /* pSrc[2 * i] * pATable[2 * i] - pSrc[2 * i + 1] * pATable[2 * i + 1] */
-        outR = __SMUSD(*__SIMD32(pSrc1), *__SIMD32(pCoefA));
+        outR = __SMUSD( *__SIMD32( pSrc1 ), *__SIMD32( pCoefA ) );
 
 #else
 
         /* -(pSrc[2 * i + 1] * pATable[2 * i + 1] - pSrc[2 * i] * pATable[2 * i]) */
-        outR = -(__SMUSD(*__SIMD32(pSrc1), *__SIMD32(pCoefA)));
+        outR = -( __SMUSD( *__SIMD32( pSrc1 ), *__SIMD32( pCoefA ) ) );
 
 #endif /*      #ifndef ARM_MATH_BIG_ENDIAN     */
 
         /* pSrc[2 * n - 2 * i] * pBTable[2 * i] +
         pSrc[2 * n - 2 * i + 1] * pBTable[2 * i + 1]) */
-        outR = __SMLAD(*__SIMD32(pSrc2), *__SIMD32(pCoefB), outR) >> 16U;
+        outR = __SMLAD( *__SIMD32( pSrc2 ), *__SIMD32( pCoefB ), outR ) >> 16U;
 
         /* pIn[2 * n - 2 * i] * pBTable[2 * i + 1] -
         pIn[2 * n - 2 * i + 1] * pBTable[2 * i] */
 
 #ifndef ARM_MATH_BIG_ENDIAN
 
-        outI = __SMUSDX(*__SIMD32(pSrc2)--, *__SIMD32(pCoefB));
+        outI = __SMUSDX( *__SIMD32( pSrc2 )--, *__SIMD32( pCoefB ) );
 
 #else
 
-        outI = __SMUSDX(*__SIMD32(pCoefB), *__SIMD32(pSrc2)--);
+        outI = __SMUSDX( *__SIMD32( pCoefB ), *__SIMD32( pSrc2 )-- );
 
 #endif /*      #ifndef ARM_MATH_BIG_ENDIAN     */
 
         /* (pIn[2 * i + 1] * pATable[2 * i] + pIn[2 * i] * pATable[2 * i + 1] */
-        outI = __SMLADX(*__SIMD32(pSrc1)++, *__SIMD32(pCoefA), outI);
+        outI = __SMLADX( *__SIMD32( pSrc1 )++, *__SIMD32( pCoefA ), outI );
 
         /* write output */
-        *pD1++ = (q15_t) outR;
+        *pD1++ = ( q15_t ) outR;
         *pD1++ = outI >> 16U;
 
         /* write complex conjugate output */
-        pD2[0] = (q15_t) outR;
-        pD2[1] = -(outI >> 16U);
+        pD2[0] = ( q15_t ) outR;
+        pD2[1] = -( outI >> 16U );
         pD2 -= 2;
 
         /* update coefficient pointer */
-        pCoefB = pCoefB + (2U * modifier);
-        pCoefA = pCoefA + (2U * modifier);
+        pCoefB = pCoefB + ( 2U * modifier );
+        pCoefA = pCoefA + ( 2U * modifier );
     }
 
-    pDst[2U * fftLen] = (pSrc[0] - pSrc[1]) >> 1;
-    pDst[(2U * fftLen) + 1U] = 0;
+    pDst[2U * fftLen] = ( pSrc[0] - pSrc[1] ) >> 1;
+    pDst[( 2U * fftLen ) + 1U] = 0;
 
-    pDst[0] = (pSrc[0] + pSrc[1]) >> 1;
+    pDst[0] = ( pSrc[0] + pSrc[1] ) >> 1;
     pDst[1] = 0;
 
 #else
@@ -226,7 +226,7 @@ void arm_split_rfft_q15(
     /* Run the below code for Cortex-M0 */
     i = 1U;
 
-    while (i < fftLen)
+    while( i < fftLen )
     {
         /*
         outR = (pSrc[2 * i] * pATable[2 * i] - pSrc[2 * i + 1] * pATable[2 * i + 1]
@@ -235,9 +235,9 @@ void arm_split_rfft_q15(
         */
 
         outR = *pSrc1 * *pCoefA;
-        outR = outR - (*(pSrc1 + 1) * *(pCoefA + 1));
-        outR = outR + (*pSrc2 * *pCoefB);
-        outR = (outR + (*(pSrc2 + 1) * *(pCoefB + 1))) >> 16;
+        outR = outR - ( *( pSrc1 + 1 ) * *( pCoefA + 1 ) );
+        outR = outR + ( *pSrc2 * *pCoefB );
+        outR = ( outR + ( *( pSrc2 + 1 ) * *( pCoefB + 1 ) ) ) >> 16;
 
 
         /* outI = (pIn[2 * i + 1] * pATable[2 * i] + pIn[2 * i] * pATable[2 * i + 1] +
@@ -245,34 +245,34 @@ void arm_split_rfft_q15(
         pIn[2 * n - 2 * i + 1] * pBTable[2 * i]);
         */
 
-        outI = *pSrc2 * *(pCoefB + 1);
-        outI = outI - (*(pSrc2 + 1) * *pCoefB);
-        outI = outI + (*(pSrc1 + 1) * *pCoefA);
-        outI = outI + (*pSrc1 * *(pCoefA + 1));
+        outI = *pSrc2 * *( pCoefB + 1 );
+        outI = outI - ( *( pSrc2 + 1 ) * *pCoefB );
+        outI = outI + ( *( pSrc1 + 1 ) * *pCoefA );
+        outI = outI + ( *pSrc1 * *( pCoefA + 1 ) );
 
         /* update input pointers */
         pSrc1 += 2U;
         pSrc2 -= 2U;
 
         /* write output */
-        pDst[2U * i] = (q15_t) outR;
-        pDst[(2U * i) + 1U] = outI >> 16U;
+        pDst[2U * i] = ( q15_t ) outR;
+        pDst[( 2U * i ) + 1U] = outI >> 16U;
 
         /* write complex conjugate output */
-        pDst[(4U * fftLen) - (2U * i)] = (q15_t) outR;
-        pDst[((4U * fftLen) - (2U * i)) + 1U] = -(outI >> 16U);
+        pDst[( 4U * fftLen ) - ( 2U * i )] = ( q15_t ) outR;
+        pDst[( ( 4U * fftLen ) - ( 2U * i ) ) + 1U] = -( outI >> 16U );
 
         /* update coefficient pointer */
-        pCoefB = pCoefB + (2U * modifier);
-        pCoefA = pCoefA + (2U * modifier);
+        pCoefB = pCoefB + ( 2U * modifier );
+        pCoefA = pCoefA + ( 2U * modifier );
 
         i++;
     }
 
-    pDst[2U * fftLen] = (pSrc[0] - pSrc[1]) >> 1;
-    pDst[(2U * fftLen) + 1U] = 0;
+    pDst[2U * fftLen] = ( pSrc[0] - pSrc[1] ) >> 1;
+    pDst[( 2U * fftLen ) + 1U] = 0;
 
-    pDst[0] = (pSrc[0] + pSrc[1]) >> 1;
+    pDst[0] = ( pSrc[0] + pSrc[1] ) >> 1;
     pDst[1] = 0;
 
 #endif /* #if defined (ARM_MATH_DSP) */
@@ -281,22 +281,22 @@ void arm_split_rfft_q15(
 
 /**
 * @brief  Core Real IFFT process
-* @param[in]   *pSrc 				points to the input buffer.
-* @param[in]   fftLen  		    length of FFT.
-* @param[in]   *pATable 			points to the twiddle Coef A buffer.
-* @param[in]   *pBTable 			points to the twiddle Coef B buffer.
-* @param[out]  *pDst 				points to the output buffer.
-* @param[in]   modifier 	        twiddle coefficient modifier that supports different size FFTs with the same twiddle factor table.
+* @param[in]   *pSrc                points to the input buffer.
+* @param[in]   fftLen           length of FFT.
+* @param[in]   *pATable             points to the twiddle Coef A buffer.
+* @param[in]   *pBTable             points to the twiddle Coef B buffer.
+* @param[out]  *pDst                points to the output buffer.
+* @param[in]   modifier             twiddle coefficient modifier that supports different size FFTs with the same twiddle factor table.
 * @return none.
 * The function implements a Real IFFT
 */
 void arm_split_rifft_q15(
-    q15_t * pSrc,
+    q15_t *pSrc,
     uint32_t fftLen,
-    q15_t * pATable,
-    q15_t * pBTable,
-    q15_t * pDst,
-    uint32_t modifier)
+    q15_t *pATable,
+    q15_t *pBTable,
+    q15_t *pDst,
+    uint32_t modifier )
 {
     uint32_t i;                                    /* Loop Counter */
     q31_t outR, outI;                              /* Temporary variables for output */
@@ -315,7 +315,7 @@ void arm_split_rifft_q15(
     /* Run the below code for Cortex-M4 and Cortex-M3 */
     i = fftLen;
 
-    while (i > 0U)
+    while( i > 0U )
     {
         /*
         outR = (pIn[2 * i] * pATable[2 * i] + pIn[2 * i + 1] * pATable[2 * i + 1] +
@@ -332,59 +332,60 @@ void arm_split_rifft_q15(
 
         /* pIn[2 * n - 2 * i] * pBTable[2 * i] -
         pIn[2 * n - 2 * i + 1] * pBTable[2 * i + 1]) */
-        outR = __SMUSD(*__SIMD32(pSrc2), *__SIMD32(pCoefB));
+        outR = __SMUSD( *__SIMD32( pSrc2 ), *__SIMD32( pCoefB ) );
 
 #else
 
         /* -(-pIn[2 * n - 2 * i] * pBTable[2 * i] +
         pIn[2 * n - 2 * i + 1] * pBTable[2 * i + 1])) */
-        outR = -(__SMUSD(*__SIMD32(pSrc2), *__SIMD32(pCoefB)));
+        outR = -( __SMUSD( *__SIMD32( pSrc2 ), *__SIMD32( pCoefB ) ) );
 
 #endif /*      #ifndef ARM_MATH_BIG_ENDIAN     */
 
         /* pIn[2 * i] * pATable[2 * i] + pIn[2 * i + 1] * pATable[2 * i + 1] +
         pIn[2 * n - 2 * i] * pBTable[2 * i] */
-        outR = __SMLAD(*__SIMD32(pSrc1), *__SIMD32(pCoefA), outR) >> 16U;
+        outR = __SMLAD( *__SIMD32( pSrc1 ), *__SIMD32( pCoefA ), outR ) >> 16U;
 
         /*
         -pIn[2 * n - 2 * i] * pBTable[2 * i + 1] +
         pIn[2 * n - 2 * i + 1] * pBTable[2 * i] */
-        outI = __SMUADX(*__SIMD32(pSrc2)--, *__SIMD32(pCoefB));
+        outI = __SMUADX( *__SIMD32( pSrc2 )--, *__SIMD32( pCoefB ) );
 
         /* pIn[2 * i + 1] * pATable[2 * i] - pIn[2 * i] * pATable[2 * i + 1] */
 
 #ifndef ARM_MATH_BIG_ENDIAN
 
-        outI = __SMLSDX(*__SIMD32(pCoefA), *__SIMD32(pSrc1)++, -outI);
+        outI = __SMLSDX( *__SIMD32( pCoefA ), *__SIMD32( pSrc1 )++, -outI );
 
 #else
 
-        outI = __SMLSDX(*__SIMD32(pSrc1)++, *__SIMD32(pCoefA), -outI);
+        outI = __SMLSDX( *__SIMD32( pSrc1 )++, *__SIMD32( pCoefA ), -outI );
 
 #endif /*      #ifndef ARM_MATH_BIG_ENDIAN     */
         /* write output */
 
 #ifndef ARM_MATH_BIG_ENDIAN
 
-        *__SIMD32(pDst1)++ = __PKHBT(outR, (outI >> 16U), 16);
+        *__SIMD32( pDst1 )++ = __PKHBT( outR, ( outI >> 16U ), 16 );
 
 #else
 
-        *__SIMD32(pDst1)++ = __PKHBT((outI >> 16U), outR, 16);
+        *__SIMD32( pDst1 )++ = __PKHBT( ( outI >> 16U ), outR, 16 );
 
 #endif /*      #ifndef ARM_MATH_BIG_ENDIAN     */
 
         /* update coefficient pointer */
-        pCoefB = pCoefB + (2U * modifier);
-        pCoefA = pCoefA + (2U * modifier);
+        pCoefB = pCoefB + ( 2U * modifier );
+        pCoefA = pCoefA + ( 2U * modifier );
 
         i--;
     }
+
 #else
     /* Run the below code for Cortex-M0 */
     i = fftLen;
 
-    while (i > 0U)
+    while( i > 0U )
     {
         /*
         outR = (pIn[2 * i] * pATable[2 * i] + pIn[2 * i + 1] * pATable[2 * i + 1] +
@@ -393,9 +394,9 @@ void arm_split_rifft_q15(
         */
 
         outR = *pSrc2 * *pCoefB;
-        outR = outR - (*(pSrc2 + 1) * *(pCoefB + 1));
-        outR = outR + (*pSrc1 * *pCoefA);
-        outR = (outR + (*(pSrc1 + 1) * *(pCoefA + 1))) >> 16;
+        outR = outR - ( *( pSrc2 + 1 ) * *( pCoefB + 1 ) );
+        outR = outR + ( *pSrc1 * *pCoefA );
+        outR = ( outR + ( *( pSrc1 + 1 ) * *( pCoefA + 1 ) ) ) >> 16;
 
         /*
         outI = (pIn[2 * i + 1] * pATable[2 * i] - pIn[2 * i] * pATable[2 * i + 1] -
@@ -403,24 +404,25 @@ void arm_split_rifft_q15(
         pIn[2 * n - 2 * i + 1] * pBTable[2 * i]);
         */
 
-        outI = *(pSrc1 + 1) * *pCoefA;
-        outI = outI - (*pSrc1 * *(pCoefA + 1));
-        outI = outI - (*pSrc2 * *(pCoefB + 1));
-        outI = outI - (*(pSrc2 + 1) * *(pCoefB));
+        outI = *( pSrc1 + 1 ) * *pCoefA;
+        outI = outI - ( *pSrc1 * *( pCoefA + 1 ) );
+        outI = outI - ( *pSrc2 * *( pCoefB + 1 ) );
+        outI = outI - ( *( pSrc2 + 1 ) * *( pCoefB ) );
 
         /* update input pointers */
         pSrc1 += 2U;
         pSrc2 -= 2U;
 
         /* write output */
-        *pDst1++ = (q15_t) outR;
-        *pDst1++ = (q15_t) (outI >> 16);
+        *pDst1++ = ( q15_t ) outR;
+        *pDst1++ = ( q15_t )( outI >> 16 );
 
         /* update coefficient pointer */
-        pCoefB = pCoefB + (2U * modifier);
-        pCoefA = pCoefA + (2U * modifier);
+        pCoefB = pCoefB + ( 2U * modifier );
+        pCoefA = pCoefA + ( 2U * modifier );
 
         i--;
     }
+
 #endif /* #if defined (ARM_MATH_DSP) */
 }

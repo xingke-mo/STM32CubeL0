@@ -1,7 +1,7 @@
 /**
   ******************************************************************************
   * @file    main_app.c
-  * @author  MCD Application Team   
+  * @author  MCD Application Team
   * @brief   System information functions
   ******************************************************************************
   * @attention
@@ -24,8 +24,8 @@
 #include "k_storage.h"
 
 /* Private function prototypes -----------------------------------------------*/
-KMODULE_RETURN AppMainExec(void);
-KMODULE_RETURN AppMainExecCheckRessource(void);
+KMODULE_RETURN AppMainExec( void );
+KMODULE_RETURN AppMainExecCheckRessource( void );
 
 
 /* Defines  ----------------------------------------------------------*/
@@ -42,63 +42,65 @@ __IO uint8_t exit_func;
 
 const tMenuItem MainMenuItems[] =
 {
-    {"LPUART Wakeup"        ,32,60,  SEL_MODULE,MODULE_LPUART_WAKEUP, NULL, NULL, NULL,C_PATH_LOGO_UART },
-    {"Low Power"            ,128,60, SEL_MODULE,MODULE_LOW_POWER, NULL, NULL, NULL,C_PATH_LOGO_POWER },
-    {"Thermometer"          ,224,60, SEL_MODULE,MODULE_TSENSOR, NULL, NULL, NULL,C_PATH_LOGO_THERMOMETER },
-    {"LC sensor metering"   ,32,144, SEL_MODULE,MODULE_LC_SENSOR_METERING, NULL, NULL, NULL,C_PATH_LOGO_LC_SENSOR },
-    {"Pressure"             ,128,144,SEL_MODULE,MODULE_PRESSURE_MEASUREMENT, NULL, NULL, NULL,C_PATH_LOGO_PRESSURE },
-    {"Help"                ,224,144,SEL_MODULE,MODULE_SYSTEM_INFO, NULL, NULL, NULL,C_PATH_LOGO_HELP}
+    {"LPUART Wakeup", 32, 60,  SEL_MODULE, MODULE_LPUART_WAKEUP, NULL, NULL, NULL, C_PATH_LOGO_UART },
+    {"Low Power", 128, 60, SEL_MODULE, MODULE_LOW_POWER, NULL, NULL, NULL, C_PATH_LOGO_POWER },
+    {"Thermometer", 224, 60, SEL_MODULE, MODULE_TSENSOR, NULL, NULL, NULL, C_PATH_LOGO_THERMOMETER },
+    {"LC sensor metering", 32, 144, SEL_MODULE, MODULE_LC_SENSOR_METERING, NULL, NULL, NULL, C_PATH_LOGO_LC_SENSOR },
+    {"Pressure", 128, 144, SEL_MODULE, MODULE_PRESSURE_MEASUREMENT, NULL, NULL, NULL, C_PATH_LOGO_PRESSURE },
+    {"Help", 224, 144, SEL_MODULE, MODULE_SYSTEM_INFO, NULL, NULL, NULL, C_PATH_LOGO_HELP}
 };
 
-const tMenu MainMenu = {
-  "Main menu", MainMenuItems, countof(MainMenuItems), TYPE_ICON, 2, 3
-  };
+const tMenu MainMenu =
+{
+    "Main menu", MainMenuItems, countof( MainMenuItems ), TYPE_ICON, 2, 3
+};
 
 
-    
+
 
 /* Private typedef -----------------------------------------------------------*/
 /* External variables --------------------------------------------------------*/
 const K_ModuleItem_Typedef ModuleAppMain =
 {
-  MODULE_MAIN_APP,
-  NULL,
-  AppMainExec,
-  NULL,
-  AppMainExecCheckRessource
-};  
+    MODULE_MAIN_APP,
+    NULL,
+    AppMainExec,
+    NULL,
+    AppMainExecCheckRessource
+};
 
 /**
-  * @brief  Run the main application 
+  * @brief  Run the main application
   * @param  None.
-  * @note   run and display main menu.  
+  * @note   run and display main menu.
   * @retval None.
   */
-KMODULE_RETURN AppMainExec(void)
+KMODULE_RETURN AppMainExec( void )
 {
-  kMenu_Execute(MainMenu);
-  return KMODULE_OK;
+    kMenu_Execute( MainMenu );
+    return KMODULE_OK;
 }
 
 /**
-  * @brief  check the main application ressources 
+  * @brief  check the main application ressources
   * @param  None.
-  * @note   None.  
+  * @note   None.
   * @retval None.
   */
-KMODULE_RETURN AppMainExecCheckRessource(void)
+KMODULE_RETURN AppMainExecCheckRessource( void )
 {
- uint8_t index; 
- 
-  /* check icon menu */
-  for(index = 0; index <  countof(MainMenuItems); index++)
-  {
-    if(kStorage_FileExist((uint8_t *)MainMenuItems[index].pIconPath) != KSTORAGE_NOERROR)
+    uint8_t index;
+
+    /* check icon menu */
+    for( index = 0; index <  countof( MainMenuItems ); index++ )
     {
-      return KMODULE_ERROR_ICON;
+        if( kStorage_FileExist( ( uint8_t * )MainMenuItems[index].pIconPath ) != KSTORAGE_NOERROR )
+        {
+            return KMODULE_ERROR_ICON;
+        }
     }
-  }
-  return KMODULE_OK;
+
+    return KMODULE_OK;
 }
 
 /**

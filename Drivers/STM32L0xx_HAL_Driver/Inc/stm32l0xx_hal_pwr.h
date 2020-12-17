@@ -22,7 +22,7 @@
 #define __STM32L0xx_HAL_PWR_H
 
 #ifdef __cplusplus
- extern "C" {
+extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
@@ -38,7 +38,7 @@
 
 /** @defgroup PWR_Exported_Types PWR Exported Types
   * @{
-  */ 
+  */
 
 #if defined(PWR_PVD_SUPPORT)
 /**
@@ -46,12 +46,12 @@
   */
 typedef struct
 {
-  uint32_t PVDLevel;   /*!< PVDLevel: Specifies the PVD detection level.
+    uint32_t PVDLevel;   /*!< PVDLevel: Specifies the PVD detection level.
                             This parameter can be a value of @ref PWR_PVD_detection_level */
 
-  uint32_t Mode;       /*!< Mode: Specifies the operating mode for the selected pins.
+    uint32_t Mode;       /*!< Mode: Specifies the operating mode for the selected pins.
                             This parameter can be a value of @ref PWR_PVD_Mode */
-}PWR_PVDTypeDef;
+} PWR_PVDTypeDef;
 #endif
 
 /**
@@ -60,7 +60,7 @@ typedef struct
 
 /** @addtogroup PWR_Private
   * @{
-  */ 
+  */
 
 #if defined(PWR_PVD_SUPPORT)
 #define PWR_EXTI_LINE_PVD      EXTI_FTSR_TR16  /*!< External interrupt line 16 Connected to the PVD EXTI Line */
@@ -192,8 +192,8 @@ typedef struct
   */
 /** @brief  macros configure the main internal regulator output voltage.
   *         When exiting Low Power Run Mode or during dynamic voltage scaling configuration,
-  *         the reference manual recommends to poll PWR_FLAG_REGLP bit to wait for the regulator 
-  *         to reach main mode (resp. to get stabilized) for a transition from 0 to 1. 
+  *         the reference manual recommends to poll PWR_FLAG_REGLP bit to wait for the regulator
+  *         to reach main mode (resp. to get stabilized) for a transition from 0 to 1.
   *         Only then the clock can be increased.
   *
   * @param  __REGULATOR__ specifies the regulator output voltage to achieve
@@ -220,7 +220,7 @@ typedef struct
   *                  (by setting the EWUP bit) when the WKUP pin level is already high.
   *            @arg PWR_FLAG_SB: StandBy flag. This flag indicates that the system was
   *                  resumed from StandBy mode.
-  *            @arg PWR_FLAG_PVDO: PVD Output. This flag is valid only if PVD is enabled 
+  *            @arg PWR_FLAG_PVDO: PVD Output. This flag is valid only if PVD is enabled
   *                  by the HAL_PWR_EnablePVD() function. The PVD is stopped by Standby mode.
   *                  For this reason, this bit is equal to 0 after Standby or reset
   *                  until the PVDE bit is set. Not available on L0 Value line.
@@ -254,7 +254,7 @@ typedef struct
 #define __HAL_PWR_PVD_EXTI_ENABLE_IT()      SET_BIT(EXTI->IMR, PWR_EXTI_LINE_PVD)
 
 /**
-  * @brief Disable interrupt on PVD Exti Line 16. 
+  * @brief Disable interrupt on PVD Exti Line 16.
   * @retval None.
   */
 #define __HAL_PWR_PVD_EXTI_DISABLE_IT()     CLEAR_BIT(EXTI->IMR, PWR_EXTI_LINE_PVD)
@@ -272,7 +272,7 @@ typedef struct
 #define __HAL_PWR_PVD_EXTI_DISABLE_EVENT()  CLEAR_BIT(EXTI->EMR, PWR_EXTI_LINE_PVD)
 
 /**
-  * @brief  PVD EXTI line configuration: set falling edge trigger.  
+  * @brief  PVD EXTI line configuration: set falling edge trigger.
   * @retval None.
   */
 #define __HAL_PWR_PVD_EXTI_ENABLE_FALLING_EDGE()  SET_BIT(EXTI->FTSR, PWR_EXTI_LINE_PVD)
@@ -351,7 +351,7 @@ typedef struct
 #define IS_PWR_PVD_MODE(MODE) (((MODE) == PWR_PVD_MODE_IT_RISING)|| ((MODE) == PWR_PVD_MODE_IT_FALLING) || \
                                ((MODE) == PWR_PVD_MODE_IT_RISING_FALLING) || ((MODE) == PWR_PVD_MODE_EVENT_RISING) || \
                                ((MODE) == PWR_PVD_MODE_EVENT_FALLING) || ((MODE) == PWR_PVD_MODE_EVENT_RISING_FALLING) || \
-                               ((MODE) == PWR_PVD_MODE_NORMAL)) 
+                               ((MODE) == PWR_PVD_MODE_NORMAL))
 #endif /* PWR_PVD_SUPPORT */
 
 #if defined (STM32L010x6) || defined (STM32L071xx) || defined (STM32L072xx) || defined (STM32L073xx) || defined (STM32L081xx) || defined (STM32L082xx) || defined (STM32L083xx)
@@ -385,13 +385,13 @@ typedef struct
 /** @defgroup PWR_Exported_Functions PWR Exported Functions
   * @{
   */
-  
-/** @defgroup PWR_Exported_Functions_Group1 Initialization and de-initialization functions 
+
+/** @defgroup PWR_Exported_Functions_Group1 Initialization and de-initialization functions
   * @{
   */
-void HAL_PWR_DeInit(void);
-void HAL_PWR_EnableBkUpAccess(void);
-void HAL_PWR_DisableBkUpAccess(void);
+void HAL_PWR_DeInit( void );
+void HAL_PWR_EnableBkUpAccess( void );
+void HAL_PWR_DisableBkUpAccess( void );
 /**
   * @}
   */
@@ -402,26 +402,26 @@ void HAL_PWR_DisableBkUpAccess(void);
 
 #if defined(PWR_PVD_SUPPORT)
 /* PVD control functions  ************************************************/
-void HAL_PWR_ConfigPVD(PWR_PVDTypeDef *sConfigPVD);
-void HAL_PWR_EnablePVD(void);
-void HAL_PWR_DisablePVD(void);
-void HAL_PWR_PVD_IRQHandler(void);
-void HAL_PWR_PVDCallback(void);
+void HAL_PWR_ConfigPVD( PWR_PVDTypeDef *sConfigPVD );
+void HAL_PWR_EnablePVD( void );
+void HAL_PWR_DisablePVD( void );
+void HAL_PWR_PVD_IRQHandler( void );
+void HAL_PWR_PVDCallback( void );
 #endif
 
 /* WakeUp pins configuration functions ****************************************/
-void HAL_PWR_EnableWakeUpPin(uint32_t WakeUpPinx);
-void HAL_PWR_DisableWakeUpPin(uint32_t WakeUpPinx);
+void HAL_PWR_EnableWakeUpPin( uint32_t WakeUpPinx );
+void HAL_PWR_DisableWakeUpPin( uint32_t WakeUpPinx );
 
 /* Low Power modes configuration functions ************************************/
-void HAL_PWR_EnterSTOPMode(uint32_t Regulator, uint8_t STOPEntry);
-void HAL_PWR_EnterSLEEPMode(uint32_t Regulator, uint8_t SLEEPEntry);
-void HAL_PWR_EnterSTANDBYMode(void);
+void HAL_PWR_EnterSTOPMode( uint32_t Regulator, uint8_t STOPEntry );
+void HAL_PWR_EnterSLEEPMode( uint32_t Regulator, uint8_t SLEEPEntry );
+void HAL_PWR_EnterSTANDBYMode( void );
 
-void HAL_PWR_EnableSleepOnExit(void);
-void HAL_PWR_DisableSleepOnExit(void);
-void HAL_PWR_EnableSEVOnPend(void);
-void HAL_PWR_DisableSEVOnPend(void);
+void HAL_PWR_EnableSleepOnExit( void );
+void HAL_PWR_DisableSleepOnExit( void );
+void HAL_PWR_EnableSEVOnPend( void );
+void HAL_PWR_DisableSEVOnPend( void );
 
 /**
   * @}
@@ -448,7 +448,7 @@ void HAL_PWR_DisableSEVOnPend(void);
 /**
   * @}
   */
-  
+
 #ifdef __cplusplus
 }
 #endif

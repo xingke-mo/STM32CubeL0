@@ -15,17 +15,17 @@
         int8_t, /*elt_type*/                        \
         TYPE_FROM_ABBREV(suffix))
 
-JTEST_ARM_SHIFT_TEST(q31);
-JTEST_ARM_SHIFT_TEST(q15);
-JTEST_ARM_SHIFT_TEST(q7);
+JTEST_ARM_SHIFT_TEST( q31 );
+JTEST_ARM_SHIFT_TEST( q15 );
+JTEST_ARM_SHIFT_TEST( q7 );
 
 /*--------------------------------------------------------------------------------*/
 /* Collect all tests in a group. */
 /*--------------------------------------------------------------------------------*/
 
-JTEST_DEFINE_GROUP(shift_tests)
+JTEST_DEFINE_GROUP( shift_tests )
 {
-    JTEST_TEST_CALL(arm_shift_q31_test);
-    JTEST_TEST_CALL(arm_shift_q15_test);
-    JTEST_TEST_CALL(arm_shift_q7_test);
+    JTEST_TEST_CALL( arm_shift_q31_test );
+    JTEST_TEST_CALL( arm_shift_q15_test );
+    JTEST_TEST_CALL( arm_shift_q7_test );
 }

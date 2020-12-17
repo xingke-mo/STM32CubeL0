@@ -15,22 +15,22 @@
         TYPE_FROM_ABBREV(suffix),               \
         STATISTICS_COMPARE_INTERFACE)
 
-JTEST_ARM_MEAN_TEST(f32);
-JTEST_ARM_MEAN_TEST(q31);
-JTEST_ARM_MEAN_TEST(q15);
-JTEST_ARM_MEAN_TEST(q7);
+JTEST_ARM_MEAN_TEST( f32 );
+JTEST_ARM_MEAN_TEST( q31 );
+JTEST_ARM_MEAN_TEST( q15 );
+JTEST_ARM_MEAN_TEST( q7 );
 
 /*--------------------------------------------------------------------------------*/
 /* Collect all tests in a group. */
 /*--------------------------------------------------------------------------------*/
 
-JTEST_DEFINE_GROUP(mean_tests)
+JTEST_DEFINE_GROUP( mean_tests )
 {
     /*
       To skip a test, comment it out.
     */
-    JTEST_TEST_CALL(arm_mean_f32_test);
-    JTEST_TEST_CALL(arm_mean_q31_test);
-    JTEST_TEST_CALL(arm_mean_q15_test);
-    JTEST_TEST_CALL(arm_mean_q7_test);
+    JTEST_TEST_CALL( arm_mean_f32_test );
+    JTEST_TEST_CALL( arm_mean_q31_test );
+    JTEST_TEST_CALL( arm_mean_q15_test );
+    JTEST_TEST_CALL( arm_mean_q7_test );
 }

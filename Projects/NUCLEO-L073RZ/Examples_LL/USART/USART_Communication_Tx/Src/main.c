@@ -33,15 +33,15 @@
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
 #if (USE_TIMEOUT == 1)
-#define USART_SEND_TIMEOUT_TXE_MS 10
-#define USART_SEND_TIMEOUT_TC_MS  20
+    #define USART_SEND_TIMEOUT_TXE_MS 10
+    #define USART_SEND_TIMEOUT_TC_MS  20
 #endif /* USE_TIMEOUT */
 
 /* Private macro -------------------------------------------------------------*/
 
 /* Private variables ---------------------------------------------------------*/
 #if (USE_TIMEOUT == 1)
-uint32_t Timeout = 0; /* Variable used for Timeout management */
+    uint32_t Timeout = 0; /* Variable used for Timeout management */
 #endif /* USE_TIMEOUT */
 __IO uint8_t ubButtonPress = 0;
 uint8_t ubSend = 0;
@@ -49,17 +49,17 @@ const uint8_t aStringToSend[] = "STM32L0xx USART LL API Example : TX in Polling 
 
 
 /* Private function prototypes -----------------------------------------------*/
-void     SystemClock_Config(void);
-void     Configure_USART(void);
-void     LED_Init(void);
-void     LED_On(void);
-void     LED_Off(void);
+void     SystemClock_Config( void );
+void     Configure_USART( void );
+void     LED_Init( void );
+void     LED_On( void );
+void     LED_Off( void );
 #if (USE_TIMEOUT == 1)
-void     LED_Blinking(uint32_t Period);
+    void     LED_Blinking( uint32_t Period );
 #endif /* USE_TIMEOUT */
-void     UserButton_Init(void);
-void     WaitForUserButtonPress(void);
-void     BufferTransfer(void);
+void     UserButton_Init( void );
+void     WaitForUserButtonPress( void );
+void     BufferTransfer( void );
 
 /* Private functions ---------------------------------------------------------*/
 
@@ -68,32 +68,32 @@ void     BufferTransfer(void);
   * @param  None
   * @retval None
   */
-int main(void)
+int main( void )
 {
-  /* Configure the system clock to 16 MHz */
-  SystemClock_Config();
+    /* Configure the system clock to 16 MHz */
+    SystemClock_Config();
 
-  /* Initialize LED2 */
-  LED_Init();
+    /* Initialize LED2 */
+    LED_Init();
 
-  /* Set LED2 Off */
-  LED_Off();
+    /* Set LED2 Off */
+    LED_Off();
 
-  /* Initialize button in EXTI mode */
-  UserButton_Init();
+    /* Initialize button in EXTI mode */
+    UserButton_Init();
 
-  /* Configure USARTx (USART IP configuration and related GPIO initialization) */
-  Configure_USART();
+    /* Configure USARTx (USART IP configuration and related GPIO initialization) */
+    Configure_USART();
 
-  /* Infinite loop */
-  while (1)
-  {
-    /* Wait for user push button press to start transfer */
-    WaitForUserButtonPress();
-    
-    /* transfer Tx buffer to PC application */
-    BufferTransfer();
-  }
+    /* Infinite loop */
+    while( 1 )
+    {
+        /* Wait for user push button press to start transfer */
+        WaitForUserButtonPress();
+
+        /* transfer Tx buffer to PC application */
+        BufferTransfer();
+    }
 }
 
 /**
@@ -109,70 +109,70 @@ int main(void)
   * @param  None
   * @retval None
   */
-void Configure_USART(void)
+void Configure_USART( void )
 {
 
-  /* (1) Enable GPIO clock and configures the USART pins *********************/
+    /* (1) Enable GPIO clock and configures the USART pins *********************/
 
-  /* Enable the peripheral clock of GPIO Port */
-  USARTx_GPIO_CLK_ENABLE();
+    /* Enable the peripheral clock of GPIO Port */
+    USARTx_GPIO_CLK_ENABLE();
 
-  /* Configure Tx Pin as : Alternate function, High Speed, Push pull, Pull up */
-  LL_GPIO_SetPinMode(USARTx_TX_GPIO_PORT, USARTx_TX_PIN, LL_GPIO_MODE_ALTERNATE);
-  USARTx_SET_TX_GPIO_AF();
-  LL_GPIO_SetPinSpeed(USARTx_TX_GPIO_PORT, USARTx_TX_PIN, LL_GPIO_SPEED_FREQ_HIGH);
-  LL_GPIO_SetPinOutputType(USARTx_TX_GPIO_PORT, USARTx_TX_PIN, LL_GPIO_OUTPUT_PUSHPULL);
-  LL_GPIO_SetPinPull(USARTx_TX_GPIO_PORT, USARTx_TX_PIN, LL_GPIO_PULL_UP);
+    /* Configure Tx Pin as : Alternate function, High Speed, Push pull, Pull up */
+    LL_GPIO_SetPinMode( USARTx_TX_GPIO_PORT, USARTx_TX_PIN, LL_GPIO_MODE_ALTERNATE );
+    USARTx_SET_TX_GPIO_AF();
+    LL_GPIO_SetPinSpeed( USARTx_TX_GPIO_PORT, USARTx_TX_PIN, LL_GPIO_SPEED_FREQ_HIGH );
+    LL_GPIO_SetPinOutputType( USARTx_TX_GPIO_PORT, USARTx_TX_PIN, LL_GPIO_OUTPUT_PUSHPULL );
+    LL_GPIO_SetPinPull( USARTx_TX_GPIO_PORT, USARTx_TX_PIN, LL_GPIO_PULL_UP );
 
-  /* Configure Rx Pin as : Alternate function, High Speed, Push pull, Pull up */
-  LL_GPIO_SetPinMode(USARTx_RX_GPIO_PORT, USARTx_RX_PIN, LL_GPIO_MODE_ALTERNATE);
-  USARTx_SET_RX_GPIO_AF();
-  LL_GPIO_SetPinSpeed(USARTx_RX_GPIO_PORT, USARTx_RX_PIN, LL_GPIO_SPEED_FREQ_HIGH);
-  LL_GPIO_SetPinOutputType(USARTx_RX_GPIO_PORT, USARTx_RX_PIN, LL_GPIO_OUTPUT_PUSHPULL);
-  LL_GPIO_SetPinPull(USARTx_RX_GPIO_PORT, USARTx_RX_PIN, LL_GPIO_PULL_UP);
+    /* Configure Rx Pin as : Alternate function, High Speed, Push pull, Pull up */
+    LL_GPIO_SetPinMode( USARTx_RX_GPIO_PORT, USARTx_RX_PIN, LL_GPIO_MODE_ALTERNATE );
+    USARTx_SET_RX_GPIO_AF();
+    LL_GPIO_SetPinSpeed( USARTx_RX_GPIO_PORT, USARTx_RX_PIN, LL_GPIO_SPEED_FREQ_HIGH );
+    LL_GPIO_SetPinOutputType( USARTx_RX_GPIO_PORT, USARTx_RX_PIN, LL_GPIO_OUTPUT_PUSHPULL );
+    LL_GPIO_SetPinPull( USARTx_RX_GPIO_PORT, USARTx_RX_PIN, LL_GPIO_PULL_UP );
 
-  /* (2) Enable USART peripheral clock and clock source ***********************/
-  USARTx_CLK_ENABLE();
+    /* (2) Enable USART peripheral clock and clock source ***********************/
+    USARTx_CLK_ENABLE();
 
-  /* Set clock source */
-  USARTx_CLK_SOURCE();
+    /* Set clock source */
+    USARTx_CLK_SOURCE();
 
-  /* (3) Configure USART functional parameters ********************************/
-  
-  /* Disable USART prior modifying configuration registers */
-  /* Note: Commented as corresponding to Reset value */
-  // LL_USART_Disable(USARTx_INSTANCE);
+    /* (3) Configure USART functional parameters ********************************/
 
-  /* TX/RX direction */
-  LL_USART_SetTransferDirection(USARTx_INSTANCE, LL_USART_DIRECTION_TX_RX);
+    /* Disable USART prior modifying configuration registers */
+    /* Note: Commented as corresponding to Reset value */
+    // LL_USART_Disable(USARTx_INSTANCE);
 
-  /* 8 data bit, 1 start bit, 1 stop bit, no parity */
-  LL_USART_ConfigCharacter(USARTx_INSTANCE, LL_USART_DATAWIDTH_8B, LL_USART_PARITY_NONE, LL_USART_STOPBITS_1);
+    /* TX/RX direction */
+    LL_USART_SetTransferDirection( USARTx_INSTANCE, LL_USART_DIRECTION_TX_RX );
 
-  /* No Hardware Flow control */
-  /* Reset value is LL_USART_HWCONTROL_NONE */
-  // LL_USART_SetHWFlowCtrl(USARTx_INSTANCE, LL_USART_HWCONTROL_NONE);
+    /* 8 data bit, 1 start bit, 1 stop bit, no parity */
+    LL_USART_ConfigCharacter( USARTx_INSTANCE, LL_USART_DATAWIDTH_8B, LL_USART_PARITY_NONE, LL_USART_STOPBITS_1 );
 
-  /* Oversampling by 16 */
-  /* Reset value is LL_USART_OVERSAMPLING_16 */
-  // LL_USART_SetOverSampling(USARTx_INSTANCE, LL_USART_OVERSAMPLING_16);
+    /* No Hardware Flow control */
+    /* Reset value is LL_USART_HWCONTROL_NONE */
+    // LL_USART_SetHWFlowCtrl(USARTx_INSTANCE, LL_USART_HWCONTROL_NONE);
 
-  /* Set Baudrate to 115200 using APB frequency set to 16000000 Hz */
-  /* Frequency available for USART peripheral can also be calculated through LL RCC macro */
-  /* Ex :
-      Periphclk = LL_RCC_GetUSARTClockFreq(Instance); or LL_RCC_GetUARTClockFreq(Instance); depending on USART/UART instance
-  
-      In this example, Peripheral Clock is expected to be equal to 16000000 Hz => equal to SystemCoreClock
-  */
-  LL_USART_SetBaudRate(USARTx_INSTANCE, SystemCoreClock, LL_USART_OVERSAMPLING_16, 115200); 
+    /* Oversampling by 16 */
+    /* Reset value is LL_USART_OVERSAMPLING_16 */
+    // LL_USART_SetOverSampling(USARTx_INSTANCE, LL_USART_OVERSAMPLING_16);
 
-  /* (4) Enable USART *********************************************************/
-  LL_USART_Enable(USARTx_INSTANCE);
+    /* Set Baudrate to 115200 using APB frequency set to 16000000 Hz */
+    /* Frequency available for USART peripheral can also be calculated through LL RCC macro */
+    /* Ex :
+        Periphclk = LL_RCC_GetUSARTClockFreq(Instance); or LL_RCC_GetUARTClockFreq(Instance); depending on USART/UART instance
 
-  /* Polling USART initialisation */
-  while((!(LL_USART_IsActiveFlag_TEACK(USARTx_INSTANCE))) || (!(LL_USART_IsActiveFlag_REACK(USARTx_INSTANCE))))
-  { 
-  }
+        In this example, Peripheral Clock is expected to be equal to 16000000 Hz => equal to SystemCoreClock
+    */
+    LL_USART_SetBaudRate( USARTx_INSTANCE, SystemCoreClock, LL_USART_OVERSAMPLING_16, 115200 );
+
+    /* (4) Enable USART *********************************************************/
+    LL_USART_Enable( USARTx_INSTANCE );
+
+    /* Polling USART initialisation */
+    while( ( !( LL_USART_IsActiveFlag_TEACK( USARTx_INSTANCE ) ) ) || ( !( LL_USART_IsActiveFlag_REACK( USARTx_INSTANCE ) ) ) )
+    {
+    }
 }
 
 /**
@@ -180,19 +180,19 @@ void Configure_USART(void)
   * @param  None
   * @retval None
   */
-void LED_Init(void)
+void LED_Init( void )
 {
-  /* Enable the LED2 Clock */
-  LED2_GPIO_CLK_ENABLE();
+    /* Enable the LED2 Clock */
+    LED2_GPIO_CLK_ENABLE();
 
-  /* Configure IO in output push-pull mode to drive external LED2 */
-  LL_GPIO_SetPinMode(LED2_GPIO_PORT, LED2_PIN, LL_GPIO_MODE_OUTPUT);
-  /* Reset value is LL_GPIO_OUTPUT_PUSHPULL */
-  //LL_GPIO_SetPinOutputType(LED2_GPIO_PORT, LED2_PIN, LL_GPIO_OUTPUT_PUSHPULL);
-  /* Reset value is LL_GPIO_SPEED_FREQ_LOW */
-  //LL_GPIO_SetPinSpeed(LED2_GPIO_PORT, LED2_PIN, LL_GPIO_SPEED_FREQ_LOW);
-  /* Reset value is LL_GPIO_PULL_NO */
-  //LL_GPIO_SetPinPull(LED2_GPIO_PORT, LED2_PIN, LL_GPIO_PULL_NO);
+    /* Configure IO in output push-pull mode to drive external LED2 */
+    LL_GPIO_SetPinMode( LED2_GPIO_PORT, LED2_PIN, LL_GPIO_MODE_OUTPUT );
+    /* Reset value is LL_GPIO_OUTPUT_PUSHPULL */
+    //LL_GPIO_SetPinOutputType(LED2_GPIO_PORT, LED2_PIN, LL_GPIO_OUTPUT_PUSHPULL);
+    /* Reset value is LL_GPIO_SPEED_FREQ_LOW */
+    //LL_GPIO_SetPinSpeed(LED2_GPIO_PORT, LED2_PIN, LL_GPIO_SPEED_FREQ_LOW);
+    /* Reset value is LL_GPIO_PULL_NO */
+    //LL_GPIO_SetPinPull(LED2_GPIO_PORT, LED2_PIN, LL_GPIO_PULL_NO);
 }
 
 /**
@@ -200,10 +200,10 @@ void LED_Init(void)
   * @param  None
   * @retval None
   */
-void LED_On(void)
+void LED_On( void )
 {
-  /* Turn LED2 on */
-  LL_GPIO_SetOutputPin(LED2_GPIO_PORT, LED2_PIN);
+    /* Turn LED2 on */
+    LL_GPIO_SetOutputPin( LED2_GPIO_PORT, LED2_PIN );
 }
 
 /**
@@ -211,10 +211,10 @@ void LED_On(void)
   * @param  None
   * @retval None
   */
-void LED_Off(void)
+void LED_Off( void )
 {
-  /* Turn LED2 off */
-  LL_GPIO_ResetOutputPin(LED2_GPIO_PORT, LED2_PIN);
+    /* Turn LED2 off */
+    LL_GPIO_ResetOutputPin( LED2_GPIO_PORT, LED2_PIN );
 }
 
 #if (USE_TIMEOUT == 1)
@@ -227,54 +227,55 @@ void LED_Off(void)
   *     @arg LED_BLINK_ERROR : Error specific Blinking
   * @retval None
   */
-void LED_Blinking(uint32_t Period)
+void LED_Blinking( uint32_t Period )
 {
-  /* Toggle IO in an infinite loop */
-  while (1)
-  {
-    LL_GPIO_TogglePin(LED2_GPIO_PORT, LED2_PIN);  
-    LL_mDelay(Period);
-  }
+    /* Toggle IO in an infinite loop */
+    while( 1 )
+    {
+        LL_GPIO_TogglePin( LED2_GPIO_PORT, LED2_PIN );
+        LL_mDelay( Period );
+    }
 }
 #endif /* USE_TIMEOUT */
 
 /**
   * @brief  Configures User push-button in GPIO or EXTI Line Mode.
-  * @param  None 
+  * @param  None
   * @retval None
   */
-void UserButton_Init(void)
+void UserButton_Init( void )
 {
-  /* Enable the BUTTON Clock */
-  USER_BUTTON_GPIO_CLK_ENABLE();
-  
-  /* Configure GPIO for BUTTON */
-  LL_GPIO_SetPinMode(USER_BUTTON_GPIO_PORT, USER_BUTTON_PIN, LL_GPIO_MODE_INPUT);
-  LL_GPIO_SetPinPull(USER_BUTTON_GPIO_PORT, USER_BUTTON_PIN, LL_GPIO_PULL_NO);
+    /* Enable the BUTTON Clock */
+    USER_BUTTON_GPIO_CLK_ENABLE();
 
-  /* Connect External Line to the GPIO*/
-  USER_BUTTON_SYSCFG_SET_EXTI();
+    /* Configure GPIO for BUTTON */
+    LL_GPIO_SetPinMode( USER_BUTTON_GPIO_PORT, USER_BUTTON_PIN, LL_GPIO_MODE_INPUT );
+    LL_GPIO_SetPinPull( USER_BUTTON_GPIO_PORT, USER_BUTTON_PIN, LL_GPIO_PULL_NO );
 
-  /* Enable a rising trigger External lines 4 to 15 Interrupt */
-  USER_BUTTON_EXTI_LINE_ENABLE();
-  USER_BUTTON_EXTI_FALLING_TRIG_ENABLE();
+    /* Connect External Line to the GPIO*/
+    USER_BUTTON_SYSCFG_SET_EXTI();
 
-  /* Configure NVIC for USER_BUTTON_EXTI_IRQn */
-  NVIC_SetPriority(USER_BUTTON_EXTI_IRQn, 3);  
-  NVIC_EnableIRQ(USER_BUTTON_EXTI_IRQn); 
+    /* Enable a rising trigger External lines 4 to 15 Interrupt */
+    USER_BUTTON_EXTI_LINE_ENABLE();
+    USER_BUTTON_EXTI_FALLING_TRIG_ENABLE();
+
+    /* Configure NVIC for USER_BUTTON_EXTI_IRQn */
+    NVIC_SetPriority( USER_BUTTON_EXTI_IRQn, 3 );
+    NVIC_EnableIRQ( USER_BUTTON_EXTI_IRQn );
 }
 
 /**
   * @brief  Wait for user push button press to start transfer.
-  * @param  None 
+  * @param  None
   * @retval None
   */
-void WaitForUserButtonPress(void)
+void WaitForUserButtonPress( void )
 {
-  while (ubButtonPress == 0)
-  {
-  }
-  ubSend = 0;
+    while( ubButtonPress == 0 )
+    {
+    }
+
+    ubSend = 0;
 }
 
 /**
@@ -282,67 +283,71 @@ void WaitForUserButtonPress(void)
   * @param  None
   * @retval None
   */
-void BufferTransfer(void)
+void BufferTransfer( void )
 {
 
-  /* Send characters one per one, until last char to be sent */
-  while (ubSend < sizeof(aStringToSend))
-  {
-#if (USE_TIMEOUT == 1)
-    Timeout = USART_SEND_TIMEOUT_TXE_MS;
-#endif /* USE_TIMEOUT */
-
-    /* Wait for TXE flag to be raised */
-    while (!LL_USART_IsActiveFlag_TXE(USARTx_INSTANCE))
+    /* Send characters one per one, until last char to be sent */
+    while( ubSend < sizeof( aStringToSend ) )
     {
 #if (USE_TIMEOUT == 1)
-      /* Check Systick counter flag to decrement the time-out value */
-      if (LL_SYSTICK_IsActiveCounterFlag()) 
-      { 
-        if(Timeout-- == 0)
+        Timeout = USART_SEND_TIMEOUT_TXE_MS;
+#endif /* USE_TIMEOUT */
+
+        /* Wait for TXE flag to be raised */
+        while( !LL_USART_IsActiveFlag_TXE( USARTx_INSTANCE ) )
         {
-          /* Time-out occurred. Set LED to blinking mode */
-          LED_Blinking(LED_BLINK_SLOW);
+#if (USE_TIMEOUT == 1)
+
+            /* Check Systick counter flag to decrement the time-out value */
+            if( LL_SYSTICK_IsActiveCounterFlag() )
+            {
+                if( Timeout-- == 0 )
+                {
+                    /* Time-out occurred. Set LED to blinking mode */
+                    LED_Blinking( LED_BLINK_SLOW );
+                }
+            }
+
+#endif /* USE_TIMEOUT */
         }
-      } 
-#endif /* USE_TIMEOUT */
+
+        /* If last char to be sent, clear TC flag */
+        if( ubSend == ( sizeof( aStringToSend ) - 1 ) )
+        {
+            LL_USART_ClearFlag_TC( USARTx_INSTANCE );
+        }
+
+        /* Write character in Transmit Data register.
+           TXE flag is cleared by writing data in TDR register */
+        LL_USART_TransmitData8( USARTx_INSTANCE, aStringToSend[ubSend++] );
     }
 
-    /* If last char to be sent, clear TC flag */
-    if (ubSend == (sizeof(aStringToSend) - 1))
+#if (USE_TIMEOUT == 1)
+    Timeout = USART_SEND_TIMEOUT_TC_MS;
+#endif /* USE_TIMEOUT */
+
+    /* Wait for TC flag to be raised for last char */
+    while( !LL_USART_IsActiveFlag_TC( USARTx_INSTANCE ) )
     {
-      LL_USART_ClearFlag_TC(USARTx_INSTANCE); 
+#if (USE_TIMEOUT == 1)
+
+        /* Check Systick counter flag to decrement the time-out value */
+        if( LL_SYSTICK_IsActiveCounterFlag() )
+        {
+            if( Timeout-- == 0 )
+            {
+                /* Time-out occurred. Set LED to blinking mode */
+                LED_Blinking( LED_BLINK_SLOW );
+            }
+        }
+
+#endif /* USE_TIMEOUT */
     }
 
-    /* Write character in Transmit Data register.
-       TXE flag is cleared by writing data in TDR register */
-    LL_USART_TransmitData8(USARTx_INSTANCE, aStringToSend[ubSend++]);
-  }
+    ubButtonPress = 0;
 
-#if (USE_TIMEOUT == 1)
-  Timeout = USART_SEND_TIMEOUT_TC_MS;
-#endif /* USE_TIMEOUT */
-
-  /* Wait for TC flag to be raised for last char */
-  while (!LL_USART_IsActiveFlag_TC(USARTx_INSTANCE))
-  {
-#if (USE_TIMEOUT == 1)
-    /* Check Systick counter flag to decrement the time-out value */
-    if (LL_SYSTICK_IsActiveCounterFlag()) 
-    { 
-      if(Timeout-- == 0)
-      {
-        /* Time-out occurred. Set LED to blinking mode */
-        LED_Blinking(LED_BLINK_SLOW);
-      }
-    } 
-#endif /* USE_TIMEOUT */
-  }
-
-  ubButtonPress =0;
-    
-  /* Turn LED2 On at end of transfer : Tx sequence completed successfully */
-  LED_On();
+    /* Turn LED2 On at end of transfer : Tx sequence completed successfully */
+    LED_On();
 }
 
 /**
@@ -359,41 +364,46 @@ void BufferTransfer(void)
   * @param  None
   * @retval None
   */
-void SystemClock_Config(void)
+void SystemClock_Config( void )
 {
     LL_RCC_PLL_Disable();
     /* Set new latency */
-    LL_FLASH_SetLatency(LL_FLASH_LATENCY_0);
- 
+    LL_FLASH_SetLatency( LL_FLASH_LATENCY_0 );
+
     /* HSI configuration and activation */
     LL_RCC_HSI_Enable();
     LL_RCC_HSI_DisableDivider();
-    while(LL_RCC_HSI_IsReady() != 1) 
+
+    while( LL_RCC_HSI_IsReady() != 1 )
     {
     };
-    
-  /* Sysclk activation on the HSI */
-  LL_RCC_SetSysClkSource(LL_RCC_SYS_CLKSOURCE_HSI);
-  while(LL_RCC_GetSysClkSource() != LL_RCC_SYS_CLKSOURCE_STATUS_HSI) 
-  {
-  };
-  
-  /* Set AHB & APB1 & APB2 prescaler*/
-  LL_RCC_SetAHBPrescaler(LL_RCC_SYSCLK_DIV_1);
-  LL_RCC_SetAPB1Prescaler(LL_RCC_APB1_DIV_1);
-  LL_RCC_SetAPB2Prescaler(LL_RCC_APB2_DIV_1);
 
-  /* Disable MSI */
-  LL_RCC_MSI_Disable();
-  while(LL_RCC_MSI_IsReady() != 0) 
-  {
-  };
+    /* Sysclk activation on the HSI */
+    LL_RCC_SetSysClkSource( LL_RCC_SYS_CLKSOURCE_HSI );
 
-  /* Set systick to 1ms in using frequency set to 16MHz */
-  LL_Init1msTick(16000000);
-  
-  /* Update CMSIS variable (which can be updated also through SystemCoreClockUpdate function) */
-  LL_SetSystemCoreClock(16000000);
+    while( LL_RCC_GetSysClkSource() != LL_RCC_SYS_CLKSOURCE_STATUS_HSI )
+    {
+    };
+
+    /* Set AHB & APB1 & APB2 prescaler*/
+    LL_RCC_SetAHBPrescaler( LL_RCC_SYSCLK_DIV_1 );
+
+    LL_RCC_SetAPB1Prescaler( LL_RCC_APB1_DIV_1 );
+
+    LL_RCC_SetAPB2Prescaler( LL_RCC_APB2_DIV_1 );
+
+    /* Disable MSI */
+    LL_RCC_MSI_Disable();
+
+    while( LL_RCC_MSI_IsReady() != 0 )
+    {
+    };
+
+    /* Set systick to 1ms in using frequency set to 16MHz */
+    LL_Init1msTick( 16000000 );
+
+    /* Update CMSIS variable (which can be updated also through SystemCoreClockUpdate function) */
+    LL_SetSystemCoreClock( 16000000 );
 }
 
 
@@ -405,10 +415,10 @@ void SystemClock_Config(void)
   * @param  None
   * @retval None
   */
-void UserButton_Callback(void)
+void UserButton_Callback( void )
 {
-  /* Update button press variable : to be checked in waiting loop in main program */
-  ubButtonPress = 1;
+    /* Update button press variable : to be checked in waiting loop in main program */
+    ubButtonPress = 1;
 }
 
 #ifdef  USE_FULL_ASSERT
@@ -420,15 +430,15 @@ void UserButton_Callback(void)
   * @param  line: assert_param error line source number
   * @retval None
   */
-void assert_failed(uint8_t *file, uint32_t line)
+void assert_failed( uint8_t *file, uint32_t line )
 {
-  /* User can add his own implementation to report the file name and line number,
-     ex: printf("Wrong parameters value: file %s on line %d", file, line) */
+    /* User can add his own implementation to report the file name and line number,
+       ex: printf("Wrong parameters value: file %s on line %d", file, line) */
 
-  /* Infinite loop */
-  while (1)
-  {
-  }
+    /* Infinite loop */
+    while( 1 )
+    {
+    }
 }
 #endif
 

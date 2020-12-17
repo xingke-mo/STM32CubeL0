@@ -34,15 +34,15 @@
   * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   *
   ******************************************************************************
-  */ 
+  */
 
 /* Define to prevent recursive inclusion -------------------------------------*/
 #ifndef __STM32_GRAVITECH_4DIGITS_H
 #define __STM32_GRAVITECH_4DIGITS_H
 
 #ifdef __cplusplus
- extern "C" {
-#endif 
+extern "C" {
+#endif
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32l0xx_nucleo_32.h"
@@ -53,20 +53,20 @@
 /** @addtogroup STM32_ADAFRUIT
   * @{
   */
- 
+
 /** @addtogroup STM32_GRAVITECH_4DIGITS
   * @{
-  */ 
+  */
 
 /** @defgroup STM32_GRAVITECH_4DIGITS_Exported_Functions
   * @{
-  */   
-HAL_StatusTypeDef BSP_DIGIT4_SEG7_Init(void);
-HAL_StatusTypeDef BSP_DIGIT4_SEG7_Display(uint32_t Value);
+  */
+HAL_StatusTypeDef BSP_DIGIT4_SEG7_Init( void );
+HAL_StatusTypeDef BSP_DIGIT4_SEG7_Display( uint32_t Value );
 /**
   * @}
   */
-  
+
 #ifdef __cplusplus
 }
 #endif
@@ -74,14 +74,14 @@ HAL_StatusTypeDef BSP_DIGIT4_SEG7_Display(uint32_t Value);
 #endif /* __STM32_GRAVITECH_4DIGITS_H */
 /**
   * @}
-  */ 
+  */
 
 /**
   * @}
-  */ 
+  */
 
 /**
   * @}
-  */ 
+  */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

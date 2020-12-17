@@ -94,25 +94,25 @@ In this case the static error is reduced to 1/(k.2^P)
   * @param[in] measn  Current measure value
   * @retval Filtered measure
   */
-TSL_tMeas_T TSL_filt_MeasFilter(TSL_tMeas_T measn1, TSL_tMeas_T measn)
+TSL_tMeas_T TSL_filt_MeasFilter( TSL_tMeas_T measn1, TSL_tMeas_T measn )
 {
-  TSL_tMeas_T val;
+    TSL_tMeas_T val;
 
-  val = (TSL_tMeas_T)(measn << ACQ_FILTER_RANGE);
+    val = ( TSL_tMeas_T )( measn << ACQ_FILTER_RANGE );
 
-  if (measn1 != 0)
-  {
-    if (val > measn1)
+    if( measn1 != 0 )
     {
-      val = measn1 + ((ACQ_FILTER_COEFF * (val - measn1)) >> 8);
+        if( val > measn1 )
+        {
+            val = measn1 + ( ( ACQ_FILTER_COEFF * ( val - measn1 ) ) >> 8 );
+        }
+        else
+        {
+            val = measn1 - ( ( ACQ_FILTER_COEFF * ( measn1 - val ) ) >> 8 );
+        }
     }
-    else
-    {
-      val = measn1 - ((ACQ_FILTER_COEFF * (measn1 - val)) >> 8);
-    }
-  }
 
-  return(val);
+    return( val );
 }
 
 
@@ -121,9 +121,9 @@ TSL_tMeas_T TSL_filt_MeasFilter(TSL_tMeas_T measn1, TSL_tMeas_T measn)
   * @param[in] delta  Delta value to modify
   * @retval Filtered delta
   */
-TSL_tDelta_T TSL_filt_DeltaFilter(TSL_tDelta_T delta)
+TSL_tDelta_T TSL_filt_DeltaFilter( TSL_tDelta_T delta )
 {
-  return(delta);
+    return( delta );
 }
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

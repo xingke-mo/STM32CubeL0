@@ -3,7 +3,7 @@
   * @file    audio.h
   * @author  MCD Application Team
   * @brief   This header file contains the common defines and functions prototypes
-  *          for the Audio driver.  
+  *          for the Audio driver.
   ******************************************************************************
   * @attention
   *
@@ -23,7 +23,7 @@
 #define __AUDIO_H
 
 #ifdef __cplusplus
- extern "C" {
+extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
@@ -36,7 +36,7 @@
 /** @addtogroup Components
   * @{
   */
-    
+
 /** @addtogroup AUDIO
   * @{
   */
@@ -62,19 +62,19 @@
   */
 typedef struct
 {
-  uint32_t  (*Init)(uint16_t, uint16_t, uint8_t, uint32_t);
-  void      (*DeInit)(void);
-  uint32_t  (*ReadID)(uint16_t);
-  uint32_t  (*Play)(uint16_t, uint16_t*, uint16_t);
-  uint32_t  (*Pause)(uint16_t);
-  uint32_t  (*Resume)(uint16_t);
-  uint32_t  (*Stop)(uint16_t, uint32_t);
-  uint32_t  (*SetFrequency)(uint16_t, uint32_t);
-  uint32_t  (*SetVolume)(uint16_t, uint8_t);
-  uint32_t  (*SetMute)(uint16_t, uint32_t);
-  uint32_t  (*SetOutputMode)(uint16_t, uint8_t);
-  uint32_t  (*Reset)(uint16_t);
-}AUDIO_DrvTypeDef;
+    uint32_t ( *Init )( uint16_t, uint16_t, uint8_t, uint32_t );
+    void ( *DeInit )( void );
+    uint32_t ( *ReadID )( uint16_t );
+    uint32_t ( *Play )( uint16_t, uint16_t *, uint16_t );
+    uint32_t ( *Pause )( uint16_t );
+    uint32_t ( *Resume )( uint16_t );
+    uint32_t ( *Stop )( uint16_t, uint32_t );
+    uint32_t ( *SetFrequency )( uint16_t, uint32_t );
+    uint32_t ( *SetVolume )( uint16_t, uint8_t );
+    uint32_t ( *SetMute )( uint16_t, uint32_t );
+    uint32_t ( *SetOutputMode )( uint16_t, uint8_t );
+    uint32_t ( *Reset )( uint16_t );
+} AUDIO_DrvTypeDef;
 /**
   * @}
   */

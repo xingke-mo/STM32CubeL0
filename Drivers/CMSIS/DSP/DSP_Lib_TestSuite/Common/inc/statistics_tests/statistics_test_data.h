@@ -19,8 +19,8 @@
 /*--------------------------------------------------------------------------------*/
 
 /* Input/Output Buffers */
-ARR_DESC_DECLARE(statistics_output_fut);
-ARR_DESC_DECLARE(statistics_output_ref);
+ARR_DESC_DECLARE( statistics_output_fut );
+ARR_DESC_DECLARE( statistics_output_ref );
 extern uint32_t statistics_idx_fut;
 extern uint32_t statistics_idx_ref;
 
@@ -32,13 +32,13 @@ statistics_output_f32_fut[STATISTICS_MAX_INPUT_ELEMENTS];
 
 
 /* Block Sizes */
-ARR_DESC_DECLARE(statistics_block_sizes);
+ARR_DESC_DECLARE( statistics_block_sizes );
 
 /* Float Inputs */
-ARR_DESC_DECLARE(statistics_zeros);
-ARR_DESC_DECLARE(statistics_f_2);
-ARR_DESC_DECLARE(statistics_f_15);
-ARR_DESC_DECLARE(statistics_f_32);
-ARR_DESC_DECLARE(statistics_f_all);
+ARR_DESC_DECLARE( statistics_zeros );
+ARR_DESC_DECLARE( statistics_f_2 );
+ARR_DESC_DECLARE( statistics_f_15 );
+ARR_DESC_DECLARE( statistics_f_32 );
+ARR_DESC_DECLARE( statistics_f_all );
 
 #endif /* _STATISTICS_TEST_DATA_H_ */

@@ -47,16 +47,16 @@
   * @param  None
   * @retval None
   */
-void NMI_Handler(void)
+void NMI_Handler( void )
 {
-  if (LL_RCC_IsActiveFlag_HSECSS() != 0)
-  {
-    /* Clear the flag */
-    LL_RCC_ClearFlag_HSECSS();
-    
-    /* Handle the HSE failure directly in main.c */
-    HSEFailureDetection_Callback(); 
-  }
+    if( LL_RCC_IsActiveFlag_HSECSS() != 0 )
+    {
+        /* Clear the flag */
+        LL_RCC_ClearFlag_HSECSS();
+
+        /* Handle the HSE failure directly in main.c */
+        HSEFailureDetection_Callback();
+    }
 }
 
 /**
@@ -64,12 +64,12 @@ void NMI_Handler(void)
   * @param  None
   * @retval None
   */
-void HardFault_Handler(void)
+void HardFault_Handler( void )
 {
-  /* Go to infinite loop when Hard Fault exception occurs */
-  while (1)
-  {
-  }
+    /* Go to infinite loop when Hard Fault exception occurs */
+    while( 1 )
+    {
+    }
 }
 
 /**
@@ -77,7 +77,7 @@ void HardFault_Handler(void)
   * @param  None
   * @retval None
   */
-void SVC_Handler(void)
+void SVC_Handler( void )
 {
 }
 
@@ -86,7 +86,7 @@ void SVC_Handler(void)
   * @param  None
   * @retval None
   */
-void PendSV_Handler(void)
+void PendSV_Handler( void )
 {
 }
 
@@ -95,7 +95,7 @@ void PendSV_Handler(void)
   * @param  None
   * @retval None
   */
-void SysTick_Handler(void)
+void SysTick_Handler( void )
 {
 }
 
@@ -107,21 +107,21 @@ void SysTick_Handler(void)
 /******************************************************************************/
 
 /**
-  * Brief   This function handles RCC interrupt request 
+  * Brief   This function handles RCC interrupt request
   *         and switch the system clock to HSE.
   * Retval  None
   */
-void RCC_IRQHandler(void)
+void RCC_IRQHandler( void )
 {
-  /* Check the flag HSE ready */
-  if (LL_RCC_IsActiveFlag_HSERDY() != 0)
-  {
-    /* Clear the flag HSE ready */
-    LL_RCC_ClearFlag_HSERDY();
-    
-    /* Switch the system clock to HSE */
-    HSEReady_Callback();
-  }
+    /* Check the flag HSE ready */
+    if( LL_RCC_IsActiveFlag_HSERDY() != 0 )
+    {
+        /* Clear the flag HSE ready */
+        LL_RCC_ClearFlag_HSERDY();
+
+        /* Switch the system clock to HSE */
+        HSEReady_Callback();
+    }
 }
 
 

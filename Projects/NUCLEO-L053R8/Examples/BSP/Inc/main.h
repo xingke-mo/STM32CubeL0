@@ -1,6 +1,6 @@
 /**
   ******************************************************************************
-  * @file    BSP/Inc/main.h 
+  * @file    BSP/Inc/main.h
   * @author  MCD Application Team
   * @brief   Header for main.c module
   ******************************************************************************
@@ -30,20 +30,20 @@
 /* Exported types ------------------------------------------------------------*/
 typedef struct
 {
-  void   (*DemoFunc)(void);
-  uint8_t DemoName[50]; 
-  uint32_t DemoIndex;
-}BSP_DemoTypedef;
+    void ( *DemoFunc )( void );
+    uint8_t DemoName[50];
+    uint32_t DemoIndex;
+} BSP_DemoTypedef;
 
 /* Exported constants --------------------------------------------------------*/
 /* Exported macro ------------------------------------------------------------*/
 #define COUNT_OF_EXAMPLE(x)    (sizeof(x)/sizeof(BSP_DemoTypedef))
 
 /* Exported functions ------------------------------------------------------- */
-void Joystick_demo (void);
-void LCD_demo(void);
-void SD_demo(void);
-uint8_t CheckForUserInput(void);
+void Joystick_demo( void );
+void LCD_demo( void );
+void SD_demo( void );
+uint8_t CheckForUserInput( void );
 
 #endif /* __MAIN_H */
 

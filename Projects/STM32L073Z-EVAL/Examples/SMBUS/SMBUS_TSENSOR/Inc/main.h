@@ -1,6 +1,6 @@
 /**
   ******************************************************************************
-  * @file    SMBUS/SMBUS_TSENSOR/Inc/main.h 
+  * @file    SMBUS/SMBUS_TSENSOR/Inc/main.h
   * @author  MCD Application Team
   * @brief   Header for main.c module
   ******************************************************************************
@@ -16,7 +16,7 @@
   *
   ******************************************************************************
   */
-  
+
 /* Define to prevent recursive inclusion -------------------------------------*/
 #ifndef __MAIN_H
 #define __MAIN_H
@@ -36,7 +36,7 @@
 #define SMBUSx_CLKSOURCE_SYSCLK           RCC_I2C1CLKSOURCE_SYSCLK
 #define SMBUSx_CLK_ENABLE()               __HAL_RCC_I2C1_CLK_ENABLE()
 #define SMBUSx_SDA_GPIO_CLK_ENABLE()      __HAL_RCC_GPIOB_CLK_ENABLE()
-#define SMBUSx_SCL_GPIO_CLK_ENABLE()      __HAL_RCC_GPIOB_CLK_ENABLE() 
+#define SMBUSx_SCL_GPIO_CLK_ENABLE()      __HAL_RCC_GPIOB_CLK_ENABLE()
 
 #define SMBUSx_FORCE_RESET()              __HAL_RCC_I2C1_FORCE_RESET()
 #define SMBUSx_RELEASE_RESET()            __HAL_RCC_I2C1_RELEASE_RESET()

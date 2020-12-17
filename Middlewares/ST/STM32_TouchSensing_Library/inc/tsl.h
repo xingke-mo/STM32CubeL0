@@ -37,7 +37,7 @@
 /* Exported macros -----------------------------------------------------------*/
 
 /* Exported functions ------------------------------------------------------- */
-TSL_Status_enum_T TSL_Init(CONST TSL_Bank_T *bank);
+TSL_Status_enum_T TSL_Init( CONST TSL_Bank_T *bank );
 
 #endif /* __TSL_H */
 

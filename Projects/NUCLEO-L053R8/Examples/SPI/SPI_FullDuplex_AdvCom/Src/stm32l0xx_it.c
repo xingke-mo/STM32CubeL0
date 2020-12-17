@@ -3,7 +3,7 @@
   * @file    SPI/SPI_FullDuplex_AdvCom/Src/stm32l0xx_it.c
   * @author  MCD Application Team
   * @brief   Main Interrupt Service Routines.
-  *          This file provides template for all exceptions handler and 
+  *          This file provides template for all exceptions handler and
   *          peripherals interrupt service routine.
   ******************************************************************************
   * @attention
@@ -20,7 +20,7 @@
   */
 
 /* Includes ------------------------------------------------------------------*/
-#include "stm32l0xx_it.h" 
+#include "stm32l0xx_it.h"
 
 /** @addtogroup STM32L0xx_HAL_Examples
   * @{
@@ -35,8 +35,8 @@
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
 #if defined(SPI_MODE_IT)
-/* SPI handler declared in "main.c" file */
-extern SPI_HandleTypeDef SpiHandle;
+    /* SPI handler declared in "main.c" file */
+    extern SPI_HandleTypeDef SpiHandle;
 #endif
 /* Private function prototypes -----------------------------------------------*/
 /* Private functions ---------------------------------------------------------*/
@@ -50,7 +50,7 @@ extern SPI_HandleTypeDef SpiHandle;
   * @param  None
   * @retval None
   */
-void NMI_Handler(void)
+void NMI_Handler( void )
 {
 }
 
@@ -59,12 +59,12 @@ void NMI_Handler(void)
   * @param  None
   * @retval None
   */
-void HardFault_Handler(void)
+void HardFault_Handler( void )
 {
-  /* Go to infinite loop when Hard Fault exception occurs */
-  while (1)
-  {
-  }
+    /* Go to infinite loop when Hard Fault exception occurs */
+    while( 1 )
+    {
+    }
 }
 
 /**
@@ -72,7 +72,7 @@ void HardFault_Handler(void)
   * @param  None
   * @retval None
   */
-void SVC_Handler(void)
+void SVC_Handler( void )
 {
 }
 
@@ -81,7 +81,7 @@ void SVC_Handler(void)
   * @param  None
   * @retval None
   */
-void PendSV_Handler(void)
+void PendSV_Handler( void )
 {
 }
 
@@ -90,9 +90,9 @@ void PendSV_Handler(void)
   * @param  None
   * @retval None
   */
-void SysTick_Handler(void)
+void SysTick_Handler( void )
 {
-  HAL_IncTick();
+    HAL_IncTick();
 }
 
 /******************************************************************************/
@@ -108,26 +108,26 @@ void SysTick_Handler(void)
   * @retval None
   */
 #if defined(MASTER_BOARD)
-void EXTI4_15_IRQHandler(void)
+void EXTI4_15_IRQHandler( void )
 {
-  HAL_GPIO_EXTI_IRQHandler(KEY_BUTTON_PIN);
+    HAL_GPIO_EXTI_IRQHandler( KEY_BUTTON_PIN );
 }
 #else
-void EXTI4_15_IRQHandler(void)
+void EXTI4_15_IRQHandler( void )
 {
-  HAL_GPIO_EXTI_IRQHandler(SPIx_NSS_PIN);
+    HAL_GPIO_EXTI_IRQHandler( SPIx_NSS_PIN );
 }
 #endif
 
 #if defined(SPI_MODE_IT)
 /**
-  * @brief  This function handles SPI interrupt request.  
+  * @brief  This function handles SPI interrupt request.
   * @param  None
-  * @retval None  
+  * @retval None
   */
-void SPIx_IRQHandler(void)
+void SPIx_IRQHandler( void )
 {
-  HAL_SPI_IRQHandler(&SpiHandle);
+    HAL_SPI_IRQHandler( &SpiHandle );
 }
 #endif
 
@@ -143,7 +143,7 @@ void SPIx_IRQHandler(void)
 
 /**
   * @}
-  */ 
+  */
 
 /**
   * @}

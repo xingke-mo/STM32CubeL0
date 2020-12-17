@@ -1,6 +1,6 @@
 /**
 ******************************************************************************
-* @file    stm32l0xx_dualbankboot.c 
+* @file    stm32l0xx_dualbankboot.c
 * @author  MCD Application Team
 * @brief   Dual bank selection patch
 ******************************************************************************
@@ -37,7 +37,7 @@
 #include "stm32l0xx_dualbankboot.h"
 
 /* Private typedef -----------------------------------------------------------*/
-typedef  void (*pFunction)(void);
+typedef  void ( *pFunction )( void );
 
 /* Private define ------------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
@@ -61,151 +61,154 @@ uint32_t JumpAddress;
 *                  to select if Boot shall be done from Bank1 or Bank2.
 *                  User has to write this value into Data memory at specified address
 *                  in order to trigger the dual boot mechanism in this function.
-*                  This function may be called at startup of the user code. 
+*                  This function may be called at startup of the user code.
 * Input          : None
 * Output         : None
 * Return         : None
 *******************************************************************************/
-__RAM_FUNCTION DualBankBoot(void)
-{  
-  /* Check what is the device salestype (192KB, 128KB or 64KB) */
-  if  (((*(__IO uint32_t *) (ENGI_SALESTYPE_ADDRESS)) &  ENGI_SALESTYPE_MASK) == ENGI_SALESTYPE_192KB)
-  {
-    /* If 192KB salestype */
-    SalesType = SALESTYPE_192KB_DB;
-  }
-  else if (( (*(__IO uint32_t *) (ENGI_SALESTYPE_ADDRESS)) &  ENGI_SALESTYPE_MASK) == ENGI_SALESTYPE_128K)
-  {
-    /* If 128KB salestype */
-    SalesType = SALESTYPE_128K_DB;
-  }
-  else
-  {
-    /* If 64KB salestype */
-    SalesType = SALESTYPE_64K_SB;
-  }
-  
-  /* Enable the SYSCFG APB Clock */
-  *(__IO uint32_t *) 0x40021034 |= ((uint32_t)0x00000001); 
-  
-  /************************ Get salestype  ***********************/
-  
-  /* Manage case when single bank salestypes are used */
-  if (SalesType !=  SALESTYPE_64K_SB)
-  {
-    /* Get bank2 start address depending on the package */
-    Bank2Addr = (SalesType ==  SALESTYPE_192KB_DB)? BANK2_START_ADDRESS_192KB : BANK2_START_ADDRESS_128KB;
-    
-    /************************ Check Data value  ************************/
-    /* If data value selected to remap Bank2  */
-    if (*(__IO uint8_t *)DATA_VALUE_SELECT == DATA_BANK2_SELECTED)
-    { /* If already on Bank2 */
-     if ( (*(__IO uint32_t *)SYSCFG_MEMRMP_ADDRESS) &= SYSCFG_FBMODE_MASK )
-     {
-       CurrAddr = 0;
-     }
-     else
-     {
-      /* Remap Bank2 at 0x0800 0000 */
-      (*(__IO uint32_t *)SYSCFG_MEMRMP_ADDRESS) |= SYSCFG_FBMODE_MASK;
-      CurrAddr = FLASH_START_ADDRESS; 
-      
-      /* Call function that will reset the DATA_VALUE_SELECT value to 0 to prevent infinitely looping into this function */
-      DualBank_ResetFlag_Cbk();
-     }
-    }
-    
-    /* If data value selected to remap Bank1  */
-    else if (*(__IO uint8_t *)DATA_VALUE_SELECT == DATA_BANK1_SELECTED)
-    { /* If already on Bank1 */
-      if ( ((*(__IO uint32_t *)SYSCFG_MEMRMP_ADDRESS) & SYSCFG_FBMODE_MASK) == 0x0 )
-     {
-       CurrAddr = 0;
-     }
-     else
-     {
-      /* remap Bank1 at 0x0800 0000 */
-      (*(__IO uint32_t *)SYSCFG_MEMRMP_ADDRESS) &= (~SYSCFG_FBMODE_MASK);
-      CurrAddr = FLASH_START_ADDRESS;
-	        
-      /* Call function that will reset the DATA_VALUE_SELECT value to 0 to prevent infinitely looping into this function */
-      DualBank_ResetFlag_Cbk();
-     }
-    }
-    
-    else 
+__RAM_FUNCTION DualBankBoot( void )
+{
+    /* Check what is the device salestype (192KB, 128KB or 64KB) */
+    if( ( ( *( __IO uint32_t * )( ENGI_SALESTYPE_ADDRESS ) ) &  ENGI_SALESTYPE_MASK ) == ENGI_SALESTYPE_192KB )
     {
-      /* If data value seleted is different from both data banks   */
-      CurrAddr = 0;
+        /* If 192KB salestype */
+        SalesType = SALESTYPE_192KB_DB;
     }
-    
-    if (CurrAddr != 0)
+    else if( ( ( *( __IO uint32_t * )( ENGI_SALESTYPE_ADDRESS ) ) &  ENGI_SALESTYPE_MASK ) == ENGI_SALESTYPE_128K )
     {
-      /* Introduce a delay of few cycles to make sure that FB_MODE bit has been written  */
-      DelayIdx = 100;
-      while ((DelayIdx--) != 0)
-      {}
-      
-      /* Jump to the application code in Valid Bank */
-      /* Reinitialize the Stack pointer and jump to application address */
-      JumpAddress = *(__IO uint32_t *) (CurrAddr + 4);
-      Jump_To_Application = (pFunction) JumpAddress;
-      /* Initialize user application's Stack Pointer */
-      __set_MSP(*(__IO uint32_t*) CurrAddr);
-      Jump_To_Application();
-      
-      /* This instruction is added to prevent compiler from generating a POP instruction
-      before the jump which means the Stack Pointer altered */
-      while (1)
-      {}
+        /* If 128KB salestype */
+        SalesType = SALESTYPE_128K_DB;
     }
-  }
-  
-  /* No Dual Bank is requested or possible */
-  return RAM_FUNCTION_StatusTypeDef_OK;
+    else
+    {
+        /* If 64KB salestype */
+        SalesType = SALESTYPE_64K_SB;
+    }
+
+    /* Enable the SYSCFG APB Clock */
+    *( __IO uint32_t * ) 0x40021034 |= ( ( uint32_t )0x00000001 );
+
+    /************************ Get salestype  ***********************/
+
+    /* Manage case when single bank salestypes are used */
+    if( SalesType !=  SALESTYPE_64K_SB )
+    {
+        /* Get bank2 start address depending on the package */
+        Bank2Addr = ( SalesType ==  SALESTYPE_192KB_DB ) ? BANK2_START_ADDRESS_192KB : BANK2_START_ADDRESS_128KB;
+
+        /************************ Check Data value  ************************/
+        /* If data value selected to remap Bank2  */
+        if( *( __IO uint8_t * )DATA_VALUE_SELECT == DATA_BANK2_SELECTED )
+        {
+            /* If already on Bank2 */
+            if( ( *( __IO uint32_t * )SYSCFG_MEMRMP_ADDRESS ) &= SYSCFG_FBMODE_MASK )
+            {
+                CurrAddr = 0;
+            }
+            else
+            {
+                /* Remap Bank2 at 0x0800 0000 */
+                ( *( __IO uint32_t * )SYSCFG_MEMRMP_ADDRESS ) |= SYSCFG_FBMODE_MASK;
+                CurrAddr = FLASH_START_ADDRESS;
+
+                /* Call function that will reset the DATA_VALUE_SELECT value to 0 to prevent infinitely looping into this function */
+                DualBank_ResetFlag_Cbk();
+            }
+        }
+
+        /* If data value selected to remap Bank1  */
+        else if( *( __IO uint8_t * )DATA_VALUE_SELECT == DATA_BANK1_SELECTED )
+        {
+            /* If already on Bank1 */
+            if( ( ( *( __IO uint32_t * )SYSCFG_MEMRMP_ADDRESS ) & SYSCFG_FBMODE_MASK ) == 0x0 )
+            {
+                CurrAddr = 0;
+            }
+            else
+            {
+                /* remap Bank1 at 0x0800 0000 */
+                ( *( __IO uint32_t * )SYSCFG_MEMRMP_ADDRESS ) &= ( ~SYSCFG_FBMODE_MASK );
+                CurrAddr = FLASH_START_ADDRESS;
+
+                /* Call function that will reset the DATA_VALUE_SELECT value to 0 to prevent infinitely looping into this function */
+                DualBank_ResetFlag_Cbk();
+            }
+        }
+
+        else
+        {
+            /* If data value seleted is different from both data banks   */
+            CurrAddr = 0;
+        }
+
+        if( CurrAddr != 0 )
+        {
+            /* Introduce a delay of few cycles to make sure that FB_MODE bit has been written  */
+            DelayIdx = 100;
+
+            while( ( DelayIdx-- ) != 0 )
+            {}
+
+            /* Jump to the application code in Valid Bank */
+            /* Reinitialize the Stack pointer and jump to application address */
+            JumpAddress = *( __IO uint32_t * )( CurrAddr + 4 );
+            Jump_To_Application = ( pFunction ) JumpAddress;
+            /* Initialize user application's Stack Pointer */
+            __set_MSP( *( __IO uint32_t * ) CurrAddr );
+            Jump_To_Application();
+
+            /* This instruction is added to prevent compiler from generating a POP instruction
+            before the jump which means the Stack Pointer altered */
+            while( 1 )
+            {}
+        }
+    }
+
+    /* No Dual Bank is requested or possible */
+    return RAM_FUNCTION_StatusTypeDef_OK;
 }
 
 /*******************************************************************************
 * Function Name  : DualBank_ResetFlag_Cbk
 * Description    : This function is called by DualBankBoot() function, its prototype
 *                  is declared in stm32l0xx_dualbankboot.h and it should be implemented
-*                  by user in his application code. 
+*                  by user in his application code.
 *                  This function should write zero to the DATA_VALUE_SELECT (ie. 0x08080000).
 *                  An implementation example is provide below just for guidance.
-*                  
+*
 *  -- IMPORTANT --
-*   Please make sure that this function and all functions called by this function 
+*   Please make sure that this function and all functions called by this function
 *   are located in SRAM.
-*   
+*
 *
 * Input          : None
 * Output         : None
 * Return         : None
 *******************************************************************************/
- 
-__RAM_FUNCTION DualBank_ResetFlag_Cbk(void)
+
+__RAM_FUNCTION DualBank_ResetFlag_Cbk( void )
 {
-  
-  if((FLASH->PECR & FLASH_PECR_PRGLOCK) != RESET)
-  {
-    /* Unlocking FLASH_PECR register access */
-    if((FLASH->PECR & FLASH_PECR_PELOCK) != RESET)
-     {  
-         FLASH->PEKEYR = FLASH_PEKEY1;
-         FLASH->PEKEYR = FLASH_PEKEY2;
-     }
- 
-    /* Unlocking the program memory access */
-    FLASH->PRGKEYR = FLASH_PRGKEY1;
-    FLASH->PRGKEYR = FLASH_PRGKEY2;  
-  }  
-  
-  /* Write data */
-  *(__IO uint8_t *)DATA_VALUE_SELECT = 0x00;
-  
-  return RAM_FUNCTION_StatusTypeDef_OK;
-    
-}   
+
+    if( ( FLASH->PECR & FLASH_PECR_PRGLOCK ) != RESET )
+    {
+        /* Unlocking FLASH_PECR register access */
+        if( ( FLASH->PECR & FLASH_PECR_PELOCK ) != RESET )
+        {
+            FLASH->PEKEYR = FLASH_PEKEY1;
+            FLASH->PEKEYR = FLASH_PEKEY2;
+        }
+
+        /* Unlocking the program memory access */
+        FLASH->PRGKEYR = FLASH_PRGKEY1;
+        FLASH->PRGKEYR = FLASH_PRGKEY2;
+    }
+
+    /* Write data */
+    *( __IO uint8_t * )DATA_VALUE_SELECT = 0x00;
+
+    return RAM_FUNCTION_StatusTypeDef_OK;
+
+}
 
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

@@ -31,10 +31,10 @@ extern "C" {
 /* Exported macro ------------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */
 
-void NMI_Handler(void);
-void HardFault_Handler(void);
-void SysTick_Handler(void);
-void Toggle_Leds(void);
+void NMI_Handler( void );
+void HardFault_Handler( void );
+void SysTick_Handler( void );
+void Toggle_Leds( void );
 
 #ifdef __cplusplus
 }

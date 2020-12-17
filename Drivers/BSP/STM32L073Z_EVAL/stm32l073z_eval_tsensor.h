@@ -23,7 +23,7 @@
 #define __STM32L073Z_EVAL_TSENSOR_H
 
 #ifdef __cplusplus
- extern "C" {
+extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
@@ -51,9 +51,9 @@
   */
 typedef enum
 {
-  TSENSOR_OK = 0,
-  TSENSOR_ERROR
-}TSENSOR_Status_TypDef;
+    TSENSOR_OK = 0,
+    TSENSOR_ERROR
+} TSENSOR_Status_TypDef;
 
 /**
   * @}
@@ -76,9 +76,9 @@ typedef enum
 /** @defgroup STM32L073Z_EVAL_I2C_TSENSOR_Exported_Functions
   * @{
   */
-uint32_t BSP_TSENSOR_Init(void);
-uint8_t  BSP_TSENSOR_ReadStatus(void);
-float    BSP_TSENSOR_ReadTemp(void);
+uint32_t BSP_TSENSOR_Init( void );
+uint8_t  BSP_TSENSOR_ReadStatus( void );
+float    BSP_TSENSOR_ReadTemp( void );
 
 /**
   * @}

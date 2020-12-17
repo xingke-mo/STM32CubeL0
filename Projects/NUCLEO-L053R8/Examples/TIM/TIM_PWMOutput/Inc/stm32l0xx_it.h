@@ -1,6 +1,6 @@
 /**
   ******************************************************************************
-  * @file    TIM/TIM_PWMOutput/Inc/stm32l0xx_it.h 
+  * @file    TIM/TIM_PWMOutput/Inc/stm32l0xx_it.h
   * @author  MCD Application Team
   * @brief   This file contains the headers of the interrupt handlers.
   ******************************************************************************
@@ -22,22 +22,22 @@
 #define __STM32L0xx_IT_H
 
 #ifdef __cplusplus
- extern "C" {
-#endif 
+extern "C" {
+#endif
 
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-   
+
 /* Exported types ------------------------------------------------------------*/
 /* Exported constants --------------------------------------------------------*/
 /* Exported macro ------------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */
 
-void NMI_Handler(void);
-void HardFault_Handler(void);
-void SVC_Handler(void);
-void PendSV_Handler(void);
-void SysTick_Handler(void);
+void NMI_Handler( void );
+void HardFault_Handler( void );
+void SVC_Handler( void );
+void PendSV_Handler( void );
+void SysTick_Handler( void );
 #ifdef __cplusplus
 }
 #endif

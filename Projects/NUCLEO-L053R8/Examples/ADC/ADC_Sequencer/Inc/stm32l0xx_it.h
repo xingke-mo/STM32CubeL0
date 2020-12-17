@@ -31,18 +31,18 @@ extern "C" {
 /* Exported macro ------------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */
 
-void NMI_Handler(void);
-void HardFault_Handler(void);
-void SVC_Handler(void);
-void PendSV_Handler(void);
-void SysTick_Handler(void);
-void EXTI4_15_IRQHandler(void);
+void NMI_Handler( void );
+void HardFault_Handler( void );
+void SVC_Handler( void );
+void PendSV_Handler( void );
+void SysTick_Handler( void );
+void EXTI4_15_IRQHandler( void );
 
-void ADCx_IRQHandler(void);
-void ADCx_DMA_IRQHandler(void);
+void ADCx_IRQHandler( void );
+void ADCx_DMA_IRQHandler( void );
 
 #if defined(WAVEFORM_VOLTAGE_GENERATION_FOR_TEST)
-void TIM6_DAC_IRQHandler(void);
+void TIM6_DAC_IRQHandler( void );
 #endif /* WAVEFORM_VOLTAGE_GENERATION_FOR_TEST */
 
 #ifdef __cplusplus

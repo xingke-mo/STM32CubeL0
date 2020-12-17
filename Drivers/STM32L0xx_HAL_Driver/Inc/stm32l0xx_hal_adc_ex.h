@@ -22,7 +22,7 @@
 #define __STM32L0xx_HAL_ADC_EX_H
 
 #ifdef __cplusplus
- extern "C" {
+extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
@@ -34,7 +34,7 @@
 
 /** @addtogroup ADCEx
   * @{
-  */ 
+  */
 
 /* Exported types ------------------------------------------------------------*/
 /* Exported constants --------------------------------------------------------*/
@@ -96,7 +96,7 @@
 /**
   * @}
   */
-   
+
 /**
   * @}
   */
@@ -111,7 +111,7 @@
 
 /** @defgroup ADCEx_calibration_factor_length_verification ADC Calibration Factor Length Verification
   * @{
-  */ 
+  */
 /**
   * @brief Calibration factor length verification (7 bits maximum)
   * @param _Calibration_Factor_: Calibration factor value
@@ -120,7 +120,7 @@
 #define IS_ADC_CALFACT(_Calibration_Factor_) ((_Calibration_Factor_) <= (0x7FU))
 /**
   * @}
-  */ 
+  */
 
 /** @defgroup ADC_External_trigger_Source ADC External Trigger Source
   * @{
@@ -180,15 +180,15 @@
 /* IO operation functions *****************************************************/
 
 /* ADC calibration */
-HAL_StatusTypeDef   HAL_ADCEx_Calibration_Start(ADC_HandleTypeDef* hadc, uint32_t SingleDiff);
-uint32_t            HAL_ADCEx_Calibration_GetValue(ADC_HandleTypeDef* hadc, uint32_t SingleDiff);
-HAL_StatusTypeDef   HAL_ADCEx_Calibration_SetValue(ADC_HandleTypeDef* hadc, uint32_t SingleDiff, uint32_t CalibrationFactor);
+HAL_StatusTypeDef   HAL_ADCEx_Calibration_Start( ADC_HandleTypeDef *hadc, uint32_t SingleDiff );
+uint32_t            HAL_ADCEx_Calibration_GetValue( ADC_HandleTypeDef *hadc, uint32_t SingleDiff );
+HAL_StatusTypeDef   HAL_ADCEx_Calibration_SetValue( ADC_HandleTypeDef *hadc, uint32_t SingleDiff, uint32_t CalibrationFactor );
 
 /* ADC VrefInt and Temperature sensor functions specific to this STM32 serie */
-HAL_StatusTypeDef   HAL_ADCEx_EnableVREFINT(void);
-void                HAL_ADCEx_DisableVREFINT(void);
-HAL_StatusTypeDef   HAL_ADCEx_EnableVREFINTTempSensor(void);
-void                HAL_ADCEx_DisableVREFINTTempSensor(void);
+HAL_StatusTypeDef   HAL_ADCEx_EnableVREFINT( void );
+void                HAL_ADCEx_DisableVREFINT( void );
+HAL_StatusTypeDef   HAL_ADCEx_EnableVREFINTTempSensor( void );
+void                HAL_ADCEx_DisableVREFINTTempSensor( void );
 /**
   * @}
   */

@@ -23,11 +23,11 @@
 /* To call before modifying any critical data. In case the host is inside or
 asked for enterring the critical section, this routine will wait for the host to
 leave the critical section. */
-void enterLock(void);
+void enterLock( void );
 
 /* Leave the critical section. If the host is waiting, access will be granted
 to him. Otherwise the first next one asking will own the turn. */
-void exitLock(void);
+void exitLock( void );
 
 #endif /* STM_CRITICAL_SECTION_H */
 

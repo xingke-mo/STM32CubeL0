@@ -48,70 +48,70 @@
   * @param htsc: TSC handle pointer
   * @retval None
   */
-void HAL_TSC_MspInit(TSC_HandleTypeDef *htsc)
+void HAL_TSC_MspInit( TSC_HandleTypeDef *htsc )
 {
-  GPIO_InitTypeDef GPIO_InitStruct;
+    GPIO_InitTypeDef GPIO_InitStruct;
 
-  /*##-1- Enable TSC and GPIO clocks #########################################*/
-  TSCx_CLK_ENABLE();
-  TSCx_TS1_IO_GPIO_CLK_ENABLE();
-  TSCx_TS2_IO_GPIO_CLK_ENABLE();
-  TSCx_TS3_IO_GPIO_CLK_ENABLE();
-  TSCx_SHIELD_GPIO_CLK_ENABLE();
+    /*##-1- Enable TSC and GPIO clocks #########################################*/
+    TSCx_CLK_ENABLE();
+    TSCx_TS1_IO_GPIO_CLK_ENABLE();
+    TSCx_TS2_IO_GPIO_CLK_ENABLE();
+    TSCx_TS3_IO_GPIO_CLK_ENABLE();
+    TSCx_SHIELD_GPIO_CLK_ENABLE();
 
-  /*##-2- Configure Sampling Capacitor IOs (Alternate-Function Open-Drain) ###*/
-  GPIO_InitStruct.Mode      = GPIO_MODE_AF_OD;
-  GPIO_InitStruct.Pull      = GPIO_NOPULL;
-  GPIO_InitStruct.Speed     = GPIO_SPEED_FREQ_MEDIUM;
+    /*##-2- Configure Sampling Capacitor IOs (Alternate-Function Open-Drain) ###*/
+    GPIO_InitStruct.Mode      = GPIO_MODE_AF_OD;
+    GPIO_InitStruct.Pull      = GPIO_NOPULL;
+    GPIO_InitStruct.Speed     = GPIO_SPEED_FREQ_MEDIUM;
 
-  /* Shield Sampling Capacitor IO = TSC_GROUP8_IO2 */
-  GPIO_InitStruct.Pin       = TSCx_SHIELD_SAMPLING_PIN;
-  GPIO_InitStruct.Alternate = TSCx_SHIELD_SAMPLING_AF;
-  HAL_GPIO_Init(TSCx_SHIELD_SAMPLING_GPIO_PORT, &GPIO_InitStruct);
+    /* Shield Sampling Capacitor IO = TSC_GROUP8_IO2 */
+    GPIO_InitStruct.Pin       = TSCx_SHIELD_SAMPLING_PIN;
+    GPIO_InitStruct.Alternate = TSCx_SHIELD_SAMPLING_AF;
+    HAL_GPIO_Init( TSCx_SHIELD_SAMPLING_GPIO_PORT, &GPIO_InitStruct );
 
-  /* Channel TS1 Sampling Capacitor IO = TSC_GROUP6_IO3 */
-  GPIO_InitStruct.Pin       = TSCx_TS1_SAMPLING_PIN;
-  GPIO_InitStruct.Alternate = TSCx_TS1_SAMPLING_AF;
-  HAL_GPIO_Init(TSCx_TS1_SAMPLING_GPIO_PORT, &GPIO_InitStruct);
-  
-  /* Channel TS2 Sampling Capacitor IO = TSC_GROUP3_IO3 */
-  GPIO_InitStruct.Pin       = TSCx_TS2_SAMPLING_PIN;
-  GPIO_InitStruct.Alternate = TSCx_TS2_SAMPLING_AF;
-  HAL_GPIO_Init(TSCx_TS2_SAMPLING_GPIO_PORT, &GPIO_InitStruct);
+    /* Channel TS1 Sampling Capacitor IO = TSC_GROUP6_IO3 */
+    GPIO_InitStruct.Pin       = TSCx_TS1_SAMPLING_PIN;
+    GPIO_InitStruct.Alternate = TSCx_TS1_SAMPLING_AF;
+    HAL_GPIO_Init( TSCx_TS1_SAMPLING_GPIO_PORT, &GPIO_InitStruct );
 
-  /* Channel TS3 Sampling Capacitor IO = TSC_GROUP1_IO3 */
-  GPIO_InitStruct.Pin       = TSCx_TS3_SAMPLING_PIN;
-  GPIO_InitStruct.Alternate = TSCx_TS3_SAMPLING_AF;
-  HAL_GPIO_Init(TSCx_TS3_SAMPLING_GPIO_PORT, &GPIO_InitStruct);
+    /* Channel TS2 Sampling Capacitor IO = TSC_GROUP3_IO3 */
+    GPIO_InitStruct.Pin       = TSCx_TS2_SAMPLING_PIN;
+    GPIO_InitStruct.Alternate = TSCx_TS2_SAMPLING_AF;
+    HAL_GPIO_Init( TSCx_TS2_SAMPLING_GPIO_PORT, &GPIO_InitStruct );
 
-  /*##-3- Configure Channel & Shield IOs (Alternate-Function Output PP) ######*/
-  GPIO_InitStruct.Mode      = GPIO_MODE_AF_PP;
-  GPIO_InitStruct.Pull      = GPIO_NOPULL;
-  GPIO_InitStruct.Speed     = GPIO_SPEED_FREQ_MEDIUM;
+    /* Channel TS3 Sampling Capacitor IO = TSC_GROUP1_IO3 */
+    GPIO_InitStruct.Pin       = TSCx_TS3_SAMPLING_PIN;
+    GPIO_InitStruct.Alternate = TSCx_TS3_SAMPLING_AF;
+    HAL_GPIO_Init( TSCx_TS3_SAMPLING_GPIO_PORT, &GPIO_InitStruct );
 
-  /* Shield IO = TSC_GROUP8_IO1 */
-  GPIO_InitStruct.Pin       = TSCx_SHIELD_IO_PIN;
-  GPIO_InitStruct.Alternate = TSCx_SHIELD_IO_AF;
-  HAL_GPIO_Init(TSCx_SHIELD_IO_GPIO_PORT, &GPIO_InitStruct);
+    /*##-3- Configure Channel & Shield IOs (Alternate-Function Output PP) ######*/
+    GPIO_InitStruct.Mode      = GPIO_MODE_AF_PP;
+    GPIO_InitStruct.Pull      = GPIO_NOPULL;
+    GPIO_InitStruct.Speed     = GPIO_SPEED_FREQ_MEDIUM;
 
-  /* Channel IO (TS1) = TSC_GROUP6_IO2 */
-  GPIO_InitStruct.Pin       = TSCx_TS1_IO_PIN;
-  GPIO_InitStruct.Alternate = TSCx_TS1_IO_AF;
-  HAL_GPIO_Init(TSCx_TS1_IO_GPIO_PORT, &GPIO_InitStruct);
+    /* Shield IO = TSC_GROUP8_IO1 */
+    GPIO_InitStruct.Pin       = TSCx_SHIELD_IO_PIN;
+    GPIO_InitStruct.Alternate = TSCx_SHIELD_IO_AF;
+    HAL_GPIO_Init( TSCx_SHIELD_IO_GPIO_PORT, &GPIO_InitStruct );
 
-  /* Channel IO (TS2) = TSC_GROUP3_IO2 */
-  GPIO_InitStruct.Pin       = TSCx_TS2_IO_PIN;
-  GPIO_InitStruct.Alternate = TSCx_TS2_IO_AF;
-  HAL_GPIO_Init(TSCx_TS2_IO_GPIO_PORT, &GPIO_InitStruct);
+    /* Channel IO (TS1) = TSC_GROUP6_IO2 */
+    GPIO_InitStruct.Pin       = TSCx_TS1_IO_PIN;
+    GPIO_InitStruct.Alternate = TSCx_TS1_IO_AF;
+    HAL_GPIO_Init( TSCx_TS1_IO_GPIO_PORT, &GPIO_InitStruct );
 
-  /* Channel IO (TS3) = TSC_GROUP1_IO2 */
-  GPIO_InitStruct.Pin       = TSCx_TS3_IO_PIN;
-  GPIO_InitStruct.Alternate = TSCx_TS3_IO_AF;
-  HAL_GPIO_Init(TSCx_TS3_IO_GPIO_PORT, &GPIO_InitStruct);
- 
-  /*##-4- Configure the NVIC for TSC #########################################*/
-  HAL_NVIC_SetPriority(TSCx_EXTI_IRQn, 1, 0);
-  HAL_NVIC_EnableIRQ(TSCx_EXTI_IRQn);
+    /* Channel IO (TS2) = TSC_GROUP3_IO2 */
+    GPIO_InitStruct.Pin       = TSCx_TS2_IO_PIN;
+    GPIO_InitStruct.Alternate = TSCx_TS2_IO_AF;
+    HAL_GPIO_Init( TSCx_TS2_IO_GPIO_PORT, &GPIO_InitStruct );
+
+    /* Channel IO (TS3) = TSC_GROUP1_IO2 */
+    GPIO_InitStruct.Pin       = TSCx_TS3_IO_PIN;
+    GPIO_InitStruct.Alternate = TSCx_TS3_IO_AF;
+    HAL_GPIO_Init( TSCx_TS3_IO_GPIO_PORT, &GPIO_InitStruct );
+
+    /*##-4- Configure the NVIC for TSC #########################################*/
+    HAL_NVIC_SetPriority( TSCx_EXTI_IRQn, 1, 0 );
+    HAL_NVIC_EnableIRQ( TSCx_EXTI_IRQn );
 }
 
 /**
@@ -122,25 +122,25 @@ void HAL_TSC_MspInit(TSC_HandleTypeDef *htsc)
   * @param htsc: TSC handle pointer
   * @retval None
   */
-void HAL_TSC_MspDeInit(TSC_HandleTypeDef *htsc)
+void HAL_TSC_MspDeInit( TSC_HandleTypeDef *htsc )
 {
-  /*##-1- Reset peripherals ##################################################*/
-  TSCx_FORCE_RESET();
-  TSCx_RELEASE_RESET();
+    /*##-1- Reset peripherals ##################################################*/
+    TSCx_FORCE_RESET();
+    TSCx_RELEASE_RESET();
 
-  /*##-2- Disable peripherals and GPIO Clocks ################################*/
-  /* De-initialize the TSC GPIO pins */
-  HAL_GPIO_DeInit(TSCx_TS1_IO_GPIO_PORT, TSCx_TS1_IO_PIN);
-  HAL_GPIO_DeInit(TSCx_TS2_IO_GPIO_PORT, TSCx_TS2_IO_PIN);
-  HAL_GPIO_DeInit(TSCx_TS3_IO_GPIO_PORT, TSCx_TS3_IO_PIN);
-  HAL_GPIO_DeInit(TSCx_SHIELD_IO_GPIO_PORT, TSCx_SHIELD_IO_PIN);
-  HAL_GPIO_DeInit(TSCx_TS1_SAMPLING_GPIO_PORT, TSCx_TS1_SAMPLING_PIN);
-  HAL_GPIO_DeInit(TSCx_TS2_SAMPLING_GPIO_PORT, TSCx_TS2_SAMPLING_PIN);
-  HAL_GPIO_DeInit(TSCx_TS3_SAMPLING_GPIO_PORT, TSCx_TS3_SAMPLING_PIN);
-  HAL_GPIO_DeInit(TSCx_SHIELD_SAMPLING_GPIO_PORT, TSCx_SHIELD_SAMPLING_PIN);
-  
-  /*##-3- Disable the NVIC for TSC ###########################################*/
-  HAL_NVIC_DisableIRQ(TSCx_EXTI_IRQn);
+    /*##-2- Disable peripherals and GPIO Clocks ################################*/
+    /* De-initialize the TSC GPIO pins */
+    HAL_GPIO_DeInit( TSCx_TS1_IO_GPIO_PORT, TSCx_TS1_IO_PIN );
+    HAL_GPIO_DeInit( TSCx_TS2_IO_GPIO_PORT, TSCx_TS2_IO_PIN );
+    HAL_GPIO_DeInit( TSCx_TS3_IO_GPIO_PORT, TSCx_TS3_IO_PIN );
+    HAL_GPIO_DeInit( TSCx_SHIELD_IO_GPIO_PORT, TSCx_SHIELD_IO_PIN );
+    HAL_GPIO_DeInit( TSCx_TS1_SAMPLING_GPIO_PORT, TSCx_TS1_SAMPLING_PIN );
+    HAL_GPIO_DeInit( TSCx_TS2_SAMPLING_GPIO_PORT, TSCx_TS2_SAMPLING_PIN );
+    HAL_GPIO_DeInit( TSCx_TS3_SAMPLING_GPIO_PORT, TSCx_TS3_SAMPLING_PIN );
+    HAL_GPIO_DeInit( TSCx_SHIELD_SAMPLING_GPIO_PORT, TSCx_SHIELD_SAMPLING_PIN );
+
+    /*##-3- Disable the NVIC for TSC ###########################################*/
+    HAL_NVIC_DisableIRQ( TSCx_EXTI_IRQn );
 }
 
 /**

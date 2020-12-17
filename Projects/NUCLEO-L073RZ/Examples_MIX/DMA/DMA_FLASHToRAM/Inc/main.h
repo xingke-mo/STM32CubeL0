@@ -44,8 +44,8 @@
 
 /* Exported functions ------------------------------------------------------- */
 /* IRQ Handler treatment. */
-void TransferComplete(DMA_HandleTypeDef *DmaHandle);
-void TransferError(DMA_HandleTypeDef *DmaHandle);
+void TransferComplete( DMA_HandleTypeDef *DmaHandle );
+void TransferError( DMA_HandleTypeDef *DmaHandle );
 
 
 #endif /* __MAIN_H */

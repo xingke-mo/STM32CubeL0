@@ -46,44 +46,44 @@
 * @param  hlptim : LPTIM handle
 * @retval None
 */
-void HAL_LPTIM_MspInit(LPTIM_HandleTypeDef *hlptim)
+void HAL_LPTIM_MspInit( LPTIM_HandleTypeDef *hlptim )
 {
-  GPIO_InitTypeDef     GPIO_InitStruct;
-    
-  /* ## - 1 - Enable LPTIM clock ############################################ */
-  __HAL_RCC_LPTIM1_CLK_ENABLE();
-  
-  /* ## - 2 - Force & Release the LPTIM Periheral Clock Reset ############### */  
-  /* Force the LPTIM Periheral Clock Reset */
-  __HAL_RCC_LPTIM1_FORCE_RESET();
-  
-  /* Release the LPTIM Periheral Clock Reset */  
-  __HAL_RCC_LPTIM1_RELEASE_RESET();
-  
-  /* ## - 3 - Enable & Configure LPTIM Ultra Low Power Input ################# */
-  /* Configure PB.02 (LPTIM1_OUT) and PB.05 (LPTIM1_IN1) in alternate function,
-  Low speed push-pull mode and pull-up enabled.
-  Note: In order to reduce power consumption: GPIO Speed is configured in
-  LowSpeed */
-  
-  /* Enable GPIO PORT(s)*/
-  LPTIMx_GPIO_PORT_ENABLE
-  
-  /* Configure PB.02 */
-  GPIO_InitStruct.Pin = GPIO_PIN_OUT;
-  GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-  GPIO_InitStruct.Pull = GPIO_PUPD_OUT;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW     ;
-  GPIO_InitStruct.Alternate = GPIO_AF_LPTIMx_OUT;  
-  HAL_GPIO_Init(LPTIMx_OUT_GPIO_PORT, &GPIO_InitStruct);
-  
-  /* Configure PB.05 */
-  GPIO_InitStruct.Pin = GPIO_PIN_IN1;
-  GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-  GPIO_InitStruct.Pull = GPIO_PUPD_IN1;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW     ;
-  GPIO_InitStruct.Alternate = GPIO_AF_LPTIMx_IN1;  
-  HAL_GPIO_Init(LPTIMx_IN1_GPIO_PORT, &GPIO_InitStruct);  
+    GPIO_InitTypeDef     GPIO_InitStruct;
+
+    /* ## - 1 - Enable LPTIM clock ############################################ */
+    __HAL_RCC_LPTIM1_CLK_ENABLE();
+
+    /* ## - 2 - Force & Release the LPTIM Periheral Clock Reset ############### */
+    /* Force the LPTIM Periheral Clock Reset */
+    __HAL_RCC_LPTIM1_FORCE_RESET();
+
+    /* Release the LPTIM Periheral Clock Reset */
+    __HAL_RCC_LPTIM1_RELEASE_RESET();
+
+    /* ## - 3 - Enable & Configure LPTIM Ultra Low Power Input ################# */
+    /* Configure PB.02 (LPTIM1_OUT) and PB.05 (LPTIM1_IN1) in alternate function,
+    Low speed push-pull mode and pull-up enabled.
+    Note: In order to reduce power consumption: GPIO Speed is configured in
+    LowSpeed */
+
+    /* Enable GPIO PORT(s)*/
+    LPTIMx_GPIO_PORT_ENABLE
+
+    /* Configure PB.02 */
+    GPIO_InitStruct.Pin = GPIO_PIN_OUT;
+    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+    GPIO_InitStruct.Pull = GPIO_PUPD_OUT;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW     ;
+    GPIO_InitStruct.Alternate = GPIO_AF_LPTIMx_OUT;
+    HAL_GPIO_Init( LPTIMx_OUT_GPIO_PORT, &GPIO_InitStruct );
+
+    /* Configure PB.05 */
+    GPIO_InitStruct.Pin = GPIO_PIN_IN1;
+    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+    GPIO_InitStruct.Pull = GPIO_PUPD_IN1;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW     ;
+    GPIO_InitStruct.Alternate = GPIO_AF_LPTIMx_IN1;
+    HAL_GPIO_Init( LPTIMx_IN1_GPIO_PORT, &GPIO_InitStruct );
 }
 
 

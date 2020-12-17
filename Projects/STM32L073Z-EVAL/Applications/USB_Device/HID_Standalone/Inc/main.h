@@ -38,11 +38,11 @@
 #define USE_USB_CLKSOURCE_PLL        1
 
 #if !defined (USE_USB_CLKSOURCE_PLL) && !defined (USE_USB_CLKSOURCE_CRSHSI48)
- #error "Missing USB clock definition"
+    #error "Missing USB clock definition"
 #endif
 /* Exported functions ------------------------------------------------------- */
-void Error_Handler(void);
-void usbd_hid_Process (void);
+void Error_Handler( void );
+void usbd_hid_Process( void );
 #endif /* __MAIN_H */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

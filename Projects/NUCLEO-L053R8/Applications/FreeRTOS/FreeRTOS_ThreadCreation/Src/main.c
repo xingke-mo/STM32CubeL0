@@ -25,16 +25,16 @@
 /* Private define ------------------------------------------------------------*/
 typedef enum
 {
-  THREAD_1 = 0,
-  THREAD_2
+    THREAD_1 = 0,
+    THREAD_2
 } Thread_TypeDef;
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
 osThreadId LEDThread1Handle, LEDThread2Handle;
 /* Private function prototypes -----------------------------------------------*/
-static void LED_Thread1(void const *argument);
-static void LED_Thread2(void const *argument);
-void SystemClock_Config(void);
+static void LED_Thread1( void const *argument );
+static void LED_Thread2( void const *argument );
+void SystemClock_Config( void );
 
 /* Private functions ---------------------------------------------------------*/
 
@@ -43,42 +43,42 @@ void SystemClock_Config(void);
   * @param  None
   * @retval None
   */
-int main(void)
+int main( void )
 {
-  /* STM32L0xx HAL library initialization:
-       - Configure the Flash prefetch, Flash preread and Buffer caches
-       - Systick timer is configured by default as source of time base, but user 
-             can eventually implement his proper time base source (a general purpose 
-             timer for example or other time source), keeping in mind that Time base 
-             duration should be kept 1ms since PPP_TIMEOUT_VALUEs are defined and 
-             handled in milliseconds basis.
-       - Low Level Initialization
-     */
-  HAL_Init();
+    /* STM32L0xx HAL library initialization:
+         - Configure the Flash prefetch, Flash preread and Buffer caches
+         - Systick timer is configured by default as source of time base, but user
+               can eventually implement his proper time base source (a general purpose
+               timer for example or other time source), keeping in mind that Time base
+               duration should be kept 1ms since PPP_TIMEOUT_VALUEs are defined and
+               handled in milliseconds basis.
+         - Low Level Initialization
+       */
+    HAL_Init();
 
-  /* Configure the System clock to 2 MHz */
-  SystemClock_Config();
+    /* Configure the System clock to 2 MHz */
+    SystemClock_Config();
 
-  /* Initialize LED */
-  BSP_LED_Init(LED2);
- 
-  /* Thread 1 definition */
-  osThreadDef(THREAD_1, LED_Thread1, osPriorityNormal, 0, configMINIMAL_STACK_SIZE);
-  
-  /*  Thread 2 definition */
-  osThreadDef(THREAD_2, LED_Thread2, osPriorityNormal, 0, configMINIMAL_STACK_SIZE);
-  
-  /* Start thread 1 */
-  LEDThread1Handle = osThreadCreate(osThread(THREAD_1), NULL);
+    /* Initialize LED */
+    BSP_LED_Init( LED2 );
 
-  /* Start thread 2 */
-  LEDThread2Handle = osThreadCreate(osThread(THREAD_2), NULL);  
+    /* Thread 1 definition */
+    osThreadDef( THREAD_1, LED_Thread1, osPriorityNormal, 0, configMINIMAL_STACK_SIZE );
 
-  /* Start scheduler */
-  osKernelStart();
+    /*  Thread 2 definition */
+    osThreadDef( THREAD_2, LED_Thread2, osPriorityNormal, 0, configMINIMAL_STACK_SIZE );
 
-  /* We should never get here as control is now taken by the scheduler */
-  for (;;);
+    /* Start thread 1 */
+    LEDThread1Handle = osThreadCreate( osThread( THREAD_1 ), NULL );
+
+    /* Start thread 2 */
+    LEDThread2Handle = osThreadCreate( osThread( THREAD_2 ), NULL );
+
+    /* Start scheduler */
+    osKernelStart();
+
+    /* We should never get here as control is now taken by the scheduler */
+    for( ;; );
 
 }
 
@@ -87,51 +87,51 @@ int main(void)
   * @param  thread not used
   * @retval None
   */
-static void LED_Thread1(void const *argument)
+static void LED_Thread1( void const *argument )
 {
-  uint32_t count = 0;
-  (void) argument;
+    uint32_t count = 0;
+    ( void ) argument;
 
-  for (;;)
-  {
-    count = osKernelSysTick() + 5000;
-
-    while (count >= osKernelSysTick())
+    for( ;; )
     {
-      BSP_LED_On(LED2);
-      osDelay(80);
-      BSP_LED_Off(LED2);
-      osDelay(80);
-      BSP_LED_On(LED2);
-      osDelay(80);
-      BSP_LED_Off(LED2);
-      osDelay(80);
-      BSP_LED_On(LED2);
-      osDelay(80);
-      BSP_LED_Off(LED2);
-      HAL_Delay(1500);
+        count = osKernelSysTick() + 5000;
+
+        while( count >= osKernelSysTick() )
+        {
+            BSP_LED_On( LED2 );
+            osDelay( 80 );
+            BSP_LED_Off( LED2 );
+            osDelay( 80 );
+            BSP_LED_On( LED2 );
+            osDelay( 80 );
+            BSP_LED_Off( LED2 );
+            osDelay( 80 );
+            BSP_LED_On( LED2 );
+            osDelay( 80 );
+            BSP_LED_Off( LED2 );
+            HAL_Delay( 1500 );
+        }
+
+        /* Turn off LED2 */
+        BSP_LED_Off( LED2 );
+
+        /* Suspend Thread 2 */
+        osThreadSuspend( NULL );
+
+        count = osKernelSysTick() + 5000;
+
+        while( count >= osKernelSysTick() )
+        {
+            BSP_LED_On( LED2 );
+            osDelay( 1000 );
+            BSP_LED_Off( LED2 );
+            HAL_Delay( 500 );
+        }
+
+        /* Resume Thread 2*/
+        osThreadResume( LEDThread2Handle );
+
     }
-
-    /* Turn off LED2 */
-    BSP_LED_Off(LED2);
-
-    /* Suspend Thread 2 */
-    osThreadSuspend(NULL);
-
-    count = osKernelSysTick() + 5000;
-
-    while (count >= osKernelSysTick())
-    {
-      BSP_LED_On(LED2);
-      osDelay(1000);
-      BSP_LED_Off(LED2);
-      HAL_Delay(500);
-    }
-
-    /* Resume Thread 2*/
-    osThreadResume(LEDThread2Handle);
-  
-  }
 }
 
 /**
@@ -139,41 +139,41 @@ static void LED_Thread1(void const *argument)
   * @param  argument not used
   * @retval None
   */
-static void LED_Thread2(void const *argument)
+static void LED_Thread2( void const *argument )
 {
-  uint32_t count;
-  (void) argument;
+    uint32_t count;
+    ( void ) argument;
 
-  for (;;)
-  {
-    count = osKernelSysTick() + 10000;
-
-    while (count >= osKernelSysTick())
+    for( ;; )
     {
-      BSP_LED_On(LED2);
-      osDelay(100);
-      BSP_LED_Off(LED2);
-      osDelay(100);
-      BSP_LED_On(LED2);
-      osDelay(100);
-      BSP_LED_Off(LED2);
-      HAL_Delay(1000); 
+        count = osKernelSysTick() + 10000;
+
+        while( count >= osKernelSysTick() )
+        {
+            BSP_LED_On( LED2 );
+            osDelay( 100 );
+            BSP_LED_Off( LED2 );
+            osDelay( 100 );
+            BSP_LED_On( LED2 );
+            osDelay( 100 );
+            BSP_LED_Off( LED2 );
+            HAL_Delay( 1000 );
+        }
+
+        /* Turn off LED2 */
+        BSP_LED_Off( LED2 );
+
+        /* Resume Thread 1 */
+        osThreadResume( LEDThread1Handle );
+
+        /* Suspend Thread 2 */
+        osThreadSuspend( NULL );
     }
-
-    /* Turn off LED2 */
-    BSP_LED_Off(LED2);
-
-    /* Resume Thread 1 */
-    osThreadResume(LEDThread1Handle);
-
-    /* Suspend Thread 2 */
-    osThreadSuspend(NULL);
-  }
 }
 
 /**
   * @brief  System Clock Configuration
-  *         The system Clock is configured as follow : 
+  *         The system Clock is configured as follow :
   *            System Clock source            = MSI
   *            SYSCLK(Hz)                     = 2000000
   *            HCLK(Hz)                       = 2000000
@@ -184,43 +184,46 @@ static void LED_Thread2(void const *argument)
   *            Main regulator output voltage  = Scale3 mode
   * @retval None
   */
-void SystemClock_Config(void)
+void SystemClock_Config( void )
 {
-  RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
-  RCC_OscInitTypeDef RCC_OscInitStruct = {0};
-  
-  /* Enable MSI Oscillator */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_MSI;
-  RCC_OscInitStruct.MSIState = RCC_MSI_ON;
-  RCC_OscInitStruct.MSIClockRange = RCC_MSIRANGE_5;
-  RCC_OscInitStruct.MSICalibrationValue=0x00;
-  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
-  if (HAL_RCC_OscConfig(&RCC_OscInitStruct)!= HAL_OK)
-  {
-    /* Initialization Error */
-    while(1); 
-  }
-  
-  /* Select MSI as system clock source and configure the HCLK, PCLK1 and PCLK2 
-     clocks dividers */
-  RCC_ClkInitStruct.ClockType = (RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2);
-  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_MSI;
-  RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
-  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;  
-  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;  
-  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_0)!= HAL_OK)
-  {
-    /* Initialization Error */
-    while(1); 
-  }
-  /* Enable Power Control clock */
-  __HAL_RCC_PWR_CLK_ENABLE();
-  
-  /* The voltage scaling allows optimizing the power consumption when the device is 
-     clocked below the maximum system frequency, to update the voltage scaling value 
-     regarding system frequency refer to product datasheet.  */
-  __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE3);
-  
+    RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
+    RCC_OscInitTypeDef RCC_OscInitStruct = {0};
+
+    /* Enable MSI Oscillator */
+    RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_MSI;
+    RCC_OscInitStruct.MSIState = RCC_MSI_ON;
+    RCC_OscInitStruct.MSIClockRange = RCC_MSIRANGE_5;
+    RCC_OscInitStruct.MSICalibrationValue = 0x00;
+    RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
+
+    if( HAL_RCC_OscConfig( &RCC_OscInitStruct ) != HAL_OK )
+    {
+        /* Initialization Error */
+        while( 1 );
+    }
+
+    /* Select MSI as system clock source and configure the HCLK, PCLK1 and PCLK2
+       clocks dividers */
+    RCC_ClkInitStruct.ClockType = ( RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2 );
+    RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_MSI;
+    RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+    RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
+    RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
+
+    if( HAL_RCC_ClockConfig( &RCC_ClkInitStruct, FLASH_LATENCY_0 ) != HAL_OK )
+    {
+        /* Initialization Error */
+        while( 1 );
+    }
+
+    /* Enable Power Control clock */
+    __HAL_RCC_PWR_CLK_ENABLE();
+
+    /* The voltage scaling allows optimizing the power consumption when the device is
+       clocked below the maximum system frequency, to update the voltage scaling value
+       regarding system frequency refer to product datasheet.  */
+    __HAL_PWR_VOLTAGESCALING_CONFIG( PWR_REGULATOR_VOLTAGE_SCALE3 );
+
 }
 
 
@@ -233,14 +236,14 @@ void SystemClock_Config(void)
   * @param  line: assert_param error line source number
   * @retval None
   */
-void assert_failed(uint8_t *file, uint32_t line)
+void assert_failed( uint8_t *file, uint32_t line )
 {
-  /* User can add his own implementation to report the file name and line number,
-     ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
+    /* User can add his own implementation to report the file name and line number,
+       ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
 
-  /* Infinite loop */
-  while (1)
-  {}
+    /* Infinite loop */
+    while( 1 )
+    {}
 }
 #endif
 

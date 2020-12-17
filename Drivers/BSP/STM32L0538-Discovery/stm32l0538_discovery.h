@@ -23,9 +23,9 @@
 #define __STM32L0538_DISCOVERY_H
 
 #ifdef __cplusplus
- extern "C" {
+extern "C" {
 #endif
-                     
+
 /* Includes ------------------------------------------------------------------*/
 #include "stm32l0xx_hal.h"
 
@@ -46,19 +46,19 @@
   */
 typedef enum
 {
-  LED3 = 0,
-  LED4 = 1
+    LED3 = 0,
+    LED4 = 1
 } Led_TypeDef;
 
 typedef enum
 {
-  BUTTON_KEY = 0
+    BUTTON_KEY = 0
 } Button_TypeDef;
 
 typedef enum
 {
-  BUTTON_MODE_GPIO = 0,
-  BUTTON_MODE_EXTI = 1
+    BUTTON_MODE_GPIO = 0,
+    BUTTON_MODE_EXTI = 1
 } ButtonMode_TypeDef;
 
 /**
@@ -73,7 +73,7 @@ typedef enum
   * @brief  Define for STM32L0538_DISCO board
   */
 #if !defined (USE_STM32L0538_DISCO)
- #define USE_STM32L0538_DISCO
+#define USE_STM32L0538_DISCO
 #endif
 
 /** @addtogroup STM32L0538_DISCOVERY_LOW_LEVEL_LED
@@ -91,7 +91,7 @@ typedef enum
 #define LED4_GPIO_CLK_ENABLE()                  __HAL_RCC_GPIOA_CLK_ENABLE()
 #define LED4_GPIO_CLK_DISABLE()                 __HAL_RCC_GPIOA_CLK_DISABLE()
 
-#define LEDx_GPIO_CLK_ENABLE(__INDEX__)         do {if(__INDEX__ == 0) LED3_GPIO_CLK_ENABLE(); else LED4_GPIO_CLK_ENABLE();} while (0)   
+#define LEDx_GPIO_CLK_ENABLE(__INDEX__)         do {if(__INDEX__ == 0) LED3_GPIO_CLK_ENABLE(); else LED4_GPIO_CLK_ENABLE();} while (0)
 #define LEDx_GPIO_CLK_DISABLE(__INDEX__)        (((__INDEX__) == 0) ? LED3_GPIO_CLK_DISABLE() : LED4_GPIO_CLK_DISABLE())
 
 /**
@@ -119,18 +119,18 @@ typedef enum
   * @}
   */
 
-/*############################### SPI1 #######################################*/   
+/*############################### SPI1 #######################################*/
 #define DISCOVERY_SPIx                          SPI1
 #define DISCOVERY_SPIx_CLK_ENABLE()             __HAL_RCC_SPI1_CLK_ENABLE()
 #define DISCOVERY_SPIx_GPIO_PORT                GPIOB                      /* GPIOB */
 #define DISCOVERY_SPIx_AF                       GPIO_AF0_SPI1
-    
+
 #define DISCOVERY_SPIx_GPIO_CLK_ENABLE()        __HAL_RCC_GPIOB_CLK_ENABLE()
 #define DISCOVERY_SPIx_GPIO_CLK_DISABLE()       __HAL_RCC_GPIOB_CLK_DISABLE()
-    
+
 #define DISCOVERY_SPIx_SCK_PIN                  GPIO_PIN_3                 /* PB.03 */
 #define DISCOVERY_SPIx_MISO_PIN                 GPIO_PIN_4                 /* PB.04 */
-#define DISCOVERY_SPIx_MOSI_PIN                 GPIO_PIN_5                 /* PB.05 */    
+#define DISCOVERY_SPIx_MOSI_PIN                 GPIO_PIN_5                 /* PB.05 */
 
 /* Maximum Timeout values for flags waiting loops. These timeouts are not based
    on accurate values, they just guarantee that the application will not remain
@@ -139,7 +139,7 @@ typedef enum
    conditions (interrupts routines ...). */
 #define SPIx_TIMEOUT_MAX              ((uint32_t)0x1000)
 
-/*################################ EPD #######################################*/ 
+/*################################ EPD #######################################*/
 /* Chip Select macro definition */
 #define EPD_CS_LOW()            HAL_GPIO_WritePin(EPD_CS_GPIO_PORT, EPD_CS_PIN, GPIO_PIN_RESET)
 #define EPD_CS_HIGH()           HAL_GPIO_WritePin(EPD_CS_GPIO_PORT, EPD_CS_PIN, GPIO_PIN_SET)
@@ -195,7 +195,7 @@ typedef enum
 #define EPD_PWR_GPIO_PORT                       GPIOB
 #define EPD_PWR_GPIO_CLK_ENABLE()               __HAL_RCC_GPIOB_CLK_ENABLE()
 #define EPD_PWR_GPIO_CLK_DISABLE()              __HAL_RCC_GPIOB_CLK_DISABLE()
-/**             
+/**
   * @}
   */
 
@@ -209,13 +209,13 @@ typedef enum
 /** @defgroup STM32L0538_DISCOVERY LOW_LEVEL_Exported_Functions
   * @{
   */
-uint32_t  BSP_GetVersion(void);
-void      BSP_LED_Init(Led_TypeDef Led);
-void      BSP_LED_On(Led_TypeDef Led);
-void      BSP_LED_Off(Led_TypeDef Led);
-void      BSP_LED_Toggle(Led_TypeDef Led);
-void      BSP_PB_Init(Button_TypeDef Button, ButtonMode_TypeDef ButtonMode);
-uint32_t  BSP_PB_GetState(Button_TypeDef Button);
+uint32_t  BSP_GetVersion( void );
+void      BSP_LED_Init( Led_TypeDef Led );
+void      BSP_LED_On( Led_TypeDef Led );
+void      BSP_LED_Off( Led_TypeDef Led );
+void      BSP_LED_Toggle( Led_TypeDef Led );
+void      BSP_PB_Init( Button_TypeDef Button, ButtonMode_TypeDef ButtonMode );
+uint32_t  BSP_PB_GetState( Button_TypeDef Button );
 
 #ifdef __cplusplus
 }

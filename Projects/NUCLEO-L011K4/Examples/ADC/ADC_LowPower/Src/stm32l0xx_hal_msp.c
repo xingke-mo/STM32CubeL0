@@ -49,48 +49,48 @@
   * @param hadc: ADC handle pointer
   * @retval None
   */
-void HAL_ADC_MspInit(ADC_HandleTypeDef *hadc)
+void HAL_ADC_MspInit( ADC_HandleTypeDef *hadc )
 {
-  GPIO_InitTypeDef          GPIO_InitStruct;
-  RCC_OscInitTypeDef        RCC_OscInitStructure;
+    GPIO_InitTypeDef          GPIO_InitStruct;
+    RCC_OscInitTypeDef        RCC_OscInitStructure;
 
-  /*##-1- Enable peripherals and GPIO Clocks #################################*/
-  /* Enable clock of GPIO associated to the peripheral channels */
-  ADCx_CHANNELa_GPIO_CLK_ENABLE();
-  
-  /* Enable clock of ADCx peripheral */
-  ADCx_CLK_ENABLE();
-  
-  /* Note: STM32L0 ADC is using a dedicated asynchronous clock derived        */
-  /*       from HSI RC oscillator 16MHz.                                      */
-  /*       The clock source has to be enabled at RCC top level using function */
-  /*       "HAL_RCC_OscConfig()" (see comments in stm32l0_hal_adc.c header)   */
+    /*##-1- Enable peripherals and GPIO Clocks #################################*/
+    /* Enable clock of GPIO associated to the peripheral channels */
+    ADCx_CHANNELa_GPIO_CLK_ENABLE();
 
-  /* Enable asynchronous clock source of ADCx */
+    /* Enable clock of ADCx peripheral */
+    ADCx_CLK_ENABLE();
 
-  HAL_RCC_GetOscConfig(&RCC_OscInitStructure);
-  RCC_OscInitStructure.OscillatorType = RCC_OSCILLATORTYPE_HSI;
-  RCC_OscInitStructure.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
-  RCC_OscInitStructure.HSIState = RCC_HSI_ON;
-  HAL_RCC_OscConfig(&RCC_OscInitStructure);
+    /* Note: STM32L0 ADC is using a dedicated asynchronous clock derived        */
+    /*       from HSI RC oscillator 16MHz.                                      */
+    /*       The clock source has to be enabled at RCC top level using function */
+    /*       "HAL_RCC_OscConfig()" (see comments in stm32l0_hal_adc.c header)   */
 
-  /*##-2- Configure peripheral GPIO ##########################################*/
-  /* ADCx Channel GPIO pin configuration */
-  GPIO_InitStruct.Pin = ADCx_CHANNELa_PIN;
-  GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(ADCx_CHANNELa_GPIO_PORT, &GPIO_InitStruct);
-  
-  /*##-3- Configure the DMA ##################################################*/
+    /* Enable asynchronous clock source of ADCx */
 
-  /* ADC does not use DMA in this ADC example */
+    HAL_RCC_GetOscConfig( &RCC_OscInitStructure );
+    RCC_OscInitStructure.OscillatorType = RCC_OSCILLATORTYPE_HSI;
+    RCC_OscInitStructure.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
+    RCC_OscInitStructure.HSIState = RCC_HSI_ON;
+    HAL_RCC_OscConfig( &RCC_OscInitStructure );
 
-  /*##-4- Configure the NVIC #################################################*/
+    /*##-2- Configure peripheral GPIO ##########################################*/
+    /* ADCx Channel GPIO pin configuration */
+    GPIO_InitStruct.Pin = ADCx_CHANNELa_PIN;
+    GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    HAL_GPIO_Init( ADCx_CHANNELa_GPIO_PORT, &GPIO_InitStruct );
 
-  /* NVIC configuration for ADC interrupt */
-  /* Priority: high-priority */
-  HAL_NVIC_SetPriority(ADCx_IRQn, 0, 0);
-  HAL_NVIC_EnableIRQ(ADCx_IRQn);
+    /*##-3- Configure the DMA ##################################################*/
+
+    /* ADC does not use DMA in this ADC example */
+
+    /*##-4- Configure the NVIC #################################################*/
+
+    /* NVIC configuration for ADC interrupt */
+    /* Priority: high-priority */
+    HAL_NVIC_SetPriority( ADCx_IRQn, 0, 0 );
+    HAL_NVIC_EnableIRQ( ADCx_IRQn );
 }
 
 /**
@@ -103,23 +103,23 @@ void HAL_ADC_MspInit(ADC_HandleTypeDef *hadc)
   * @param hadc: ADC handle pointer
   * @retval None
   */
-void HAL_ADC_MspDeInit(ADC_HandleTypeDef *hadc)
+void HAL_ADC_MspDeInit( ADC_HandleTypeDef *hadc )
 {
-  /*##-1- Reset peripherals ##################################################*/
-  ADCx_FORCE_RESET();
-  ADCx_RELEASE_RESET();
+    /*##-1- Reset peripherals ##################################################*/
+    ADCx_FORCE_RESET();
+    ADCx_RELEASE_RESET();
 
-  /*##-2- Disable peripherals and GPIO Clocks ################################*/
-  /* De-initialize the ADC Channel GPIO pin */
-  HAL_GPIO_DeInit(ADCx_CHANNELa_GPIO_PORT, ADCx_CHANNELa_PIN);
+    /*##-2- Disable peripherals and GPIO Clocks ################################*/
+    /* De-initialize the ADC Channel GPIO pin */
+    HAL_GPIO_DeInit( ADCx_CHANNELa_GPIO_PORT, ADCx_CHANNELa_PIN );
 
-  /*##-3- Disable the DMA ####################################################*/
+    /*##-3- Disable the DMA ####################################################*/
 
-  /* ADC does not use DMA in this ADC example */
+    /* ADC does not use DMA in this ADC example */
 
-  /*##-4- Disable the NVIC ###################################################*/  
-  /* Disable the NVIC configuration for ADC interrupt */
-  HAL_NVIC_DisableIRQ(ADCx_IRQn);
+    /*##-4- Disable the NVIC ###################################################*/
+    /* Disable the NVIC configuration for ADC interrupt */
+    HAL_NVIC_DisableIRQ( ADCx_IRQn );
 }
 
 /**
@@ -129,10 +129,10 @@ void HAL_ADC_MspDeInit(ADC_HandleTypeDef *hadc)
   * @param htim: TIM handle pointer
   * @retval None
   */
-void HAL_TIM_Base_MspInit(TIM_HandleTypeDef *htim)
+void HAL_TIM_Base_MspInit( TIM_HandleTypeDef *htim )
 {
-  /* TIM peripheral clock enable */
-  TIMx_CLK_ENABLE();
+    /* TIM peripheral clock enable */
+    TIMx_CLK_ENABLE();
 }
 
 /**
@@ -142,11 +142,11 @@ void HAL_TIM_Base_MspInit(TIM_HandleTypeDef *htim)
   * @param htim: TIM handle pointer
   * @retval None
   */
-void HAL_TIM_Base_MspDeInit(TIM_HandleTypeDef *htim)
+void HAL_TIM_Base_MspDeInit( TIM_HandleTypeDef *htim )
 {
-  /*##-1- Reset peripherals ##################################################*/
-  TIMx_FORCE_RESET();
-  TIMx_RELEASE_RESET();
+    /*##-1- Reset peripherals ##################################################*/
+    TIMx_FORCE_RESET();
+    TIMx_RELEASE_RESET();
 }
 
 /**

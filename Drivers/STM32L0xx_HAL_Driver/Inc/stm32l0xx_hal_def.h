@@ -23,7 +23,7 @@
 #define __STM32L0xx_HAL_DEF
 
 #ifdef __cplusplus
- extern "C" {
+extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
@@ -38,10 +38,10 @@
   */
 typedef enum
 {
-  HAL_OK       = 0x00U,
-  HAL_ERROR    = 0x01U,
-  HAL_BUSY     = 0x02U,
-  HAL_TIMEOUT  = 0x03U
+    HAL_OK       = 0x00U,
+    HAL_ERROR    = 0x01U,
+    HAL_BUSY     = 0x02U,
+    HAL_TIMEOUT  = 0x03U
 } HAL_StatusTypeDef;
 
 /**
@@ -49,8 +49,8 @@ typedef enum
   */
 typedef enum
 {
-  HAL_UNLOCKED = 0x00U,
-  HAL_LOCKED   = 0x01U
+    HAL_UNLOCKED = 0x00U,
+    HAL_LOCKED   = 0x01U
 } HAL_LockTypeDef;
 
 /* Exported macro ------------------------------------------------------------*/
@@ -87,11 +87,11 @@ typedef enum
 
 #if (USE_RTOS == 1)
 
-  /* Reserved for future use */
-  #error "USE_RTOS should be 0 in the current HAL release"
+/* Reserved for future use */
+#error "USE_RTOS should be 0 in the current HAL release"
 
 #else
-  #define __HAL_LOCK(__HANDLE__)                                               \
+#define __HAL_LOCK(__HANDLE__)                                               \
                                 do{                                            \
                                     if((__HANDLE__)->Lock == HAL_LOCKED)       \
                                     {                                          \
@@ -103,58 +103,58 @@ typedef enum
                                     }                                          \
                                   }while (0)
 
-  #define __HAL_UNLOCK(__HANDLE__)                                             \
+#define __HAL_UNLOCK(__HANDLE__)                                             \
                                   do{                                          \
                                       (__HANDLE__)->Lock = HAL_UNLOCKED;       \
                                     }while (0)
 #endif /* USE_RTOS */
 
 #if defined (__ARMCC_VERSION) && (__ARMCC_VERSION >= 6010050) /* ARM Compiler V6 */
-  #ifndef __weak
-    #define __weak  __attribute__((weak))
-  #endif
-  #ifndef __packed
-    #define __packed  __attribute__((packed))
-  #endif
+#ifndef __weak
+#define __weak  __attribute__((weak))
+#endif
+#ifndef __packed
+#define __packed  __attribute__((packed))
+#endif
 #elif defined ( __GNUC__ ) && !defined (__CC_ARM) /* GNU Compiler */
-  #ifndef __weak
-    #define __weak   __attribute__((weak))
-  #endif /* __weak */
-  #ifndef __packed
-    #define __packed __attribute__((__packed__))
-  #endif /* __packed */
+#ifndef __weak
+#define __weak   __attribute__((weak))
+#endif /* __weak */
+#ifndef __packed
+#define __packed __attribute__((__packed__))
+#endif /* __packed */
 
-  #define __NOINLINE __attribute__ ( (noinline) )
+#define __NOINLINE __attribute__ ( (noinline) )
 
 #endif /* __GNUC__ */
 
 
 /* Macro to get variable aligned on 4-bytes, for __ICCARM__ the directive "#pragma data_alignment=4" must be used instead */
 #if defined (__ARMCC_VERSION) && (__ARMCC_VERSION >= 6010050) /* ARM Compiler V6 */
-  #ifndef __ALIGN_BEGIN
-    #define __ALIGN_BEGIN
-  #endif
-  #ifndef __ALIGN_END
-    #define __ALIGN_END      __attribute__ ((aligned (4)))
-  #endif
+#ifndef __ALIGN_BEGIN
+#define __ALIGN_BEGIN
+#endif
+#ifndef __ALIGN_END
+#define __ALIGN_END      __attribute__ ((aligned (4)))
+#endif
 #elif defined ( __GNUC__ ) && !defined (__CC_ARM) /* GNU Compiler */
-  #ifndef __ALIGN_END
-    #define __ALIGN_END    __attribute__ ((aligned (4)))
-  #endif /* __ALIGN_END */
-  #ifndef __ALIGN_BEGIN
-    #define __ALIGN_BEGIN
-  #endif /* __ALIGN_BEGIN */
+#ifndef __ALIGN_END
+#define __ALIGN_END    __attribute__ ((aligned (4)))
+#endif /* __ALIGN_END */
+#ifndef __ALIGN_BEGIN
+#define __ALIGN_BEGIN
+#endif /* __ALIGN_BEGIN */
 #else
-  #ifndef __ALIGN_END
-    #define __ALIGN_END
-  #endif /* __ALIGN_END */
-  #ifndef __ALIGN_BEGIN
-    #if defined   (__CC_ARM)      /* ARM Compiler V5*/
-      #define __ALIGN_BEGIN    __align(4)
-    #elif defined (__ICCARM__)    /* IAR Compiler */
-      #define __ALIGN_BEGIN
-    #endif /* __CC_ARM */
-  #endif /* __ALIGN_BEGIN */
+#ifndef __ALIGN_END
+#define __ALIGN_END
+#endif /* __ALIGN_END */
+#ifndef __ALIGN_BEGIN
+#if defined   (__CC_ARM)      /* ARM Compiler V5*/
+#define __ALIGN_BEGIN    __align(4)
+#elif defined (__ICCARM__)    /* IAR Compiler */
+#define __ALIGN_BEGIN
+#endif /* __CC_ARM */
+#endif /* __ALIGN_BEGIN */
 #endif /* __GNUC__ */
 
 /**

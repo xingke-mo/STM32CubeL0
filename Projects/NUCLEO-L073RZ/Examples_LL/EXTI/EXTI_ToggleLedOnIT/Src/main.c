@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    Examples_LL/EXTI/EXTI_ToggleLedOnIT/Src/main.c
   * @author  MCD Application Team
-  * @brief   This example describes how to configure the EXTI and use 
-  *          GPIOs using the STM32L0xx LL API to toggles the available 
+  * @brief   This example describes how to configure the EXTI and use
+  *          GPIOs using the STM32L0xx LL API to toggles the available
   *          users Leds on the board when User button is pressed.
   *          Peripheral initialization done using LL unitary services functions.
   ******************************************************************************
@@ -36,9 +36,9 @@
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
 /* Private function prototypes -----------------------------------------------*/
-void SystemClock_Config(void);
-void Configure_EXTI(void);
-void LED_Init(void);
+void SystemClock_Config( void );
+void Configure_EXTI( void );
+void LED_Init( void );
 
 /* Private functions ---------------------------------------------------------*/
 
@@ -47,48 +47,48 @@ void LED_Init(void);
   * @param  None
   * @retval None
   */
-int main(void)
+int main( void )
 {
-  /* Configure the system clock to 2.097 MHz */
-  SystemClock_Config();
+    /* Configure the system clock to 2.097 MHz */
+    SystemClock_Config();
 
-  /* Initialize LED2 */
-  LED_Init();
-  
-  /* Configure the EXTI Line on User Button */
-  Configure_EXTI();
+    /* Initialize LED2 */
+    LED_Init();
 
-  /* Infinite loop */
-  while (1)
-  {
-  }
+    /* Configure the EXTI Line on User Button */
+    Configure_EXTI();
+
+    /* Infinite loop */
+    while( 1 )
+    {
+    }
 }
 
 /**
   * @brief  This function configures EXTI Line as Push-Button
-  * @note   Peripheral configuration is minimal configuration from reset values.  
+  * @note   Peripheral configuration is minimal configuration from reset values.
   * @param  None
   * @retval None
   */
 void Configure_EXTI()
 {
-  /* -1- GPIO Config */
-  /* Enable GPIO Clock (to be able to program the configuration registers) */
-  USER_BUTTON_GPIO_CLK_ENABLE();
-  /* Configure IO */
-  LL_GPIO_SetPinMode(USER_BUTTON_GPIO_PORT, USER_BUTTON_PIN, LL_GPIO_MODE_INPUT);
-  LL_GPIO_SetPinPull(USER_BUTTON_GPIO_PORT, USER_BUTTON_PIN, LL_GPIO_PULL_NO); 
+    /* -1- GPIO Config */
+    /* Enable GPIO Clock (to be able to program the configuration registers) */
+    USER_BUTTON_GPIO_CLK_ENABLE();
+    /* Configure IO */
+    LL_GPIO_SetPinMode( USER_BUTTON_GPIO_PORT, USER_BUTTON_PIN, LL_GPIO_MODE_INPUT );
+    LL_GPIO_SetPinPull( USER_BUTTON_GPIO_PORT, USER_BUTTON_PIN, LL_GPIO_PULL_NO );
 
-  /* -2- Connect External Line to the GPIO*/
-  USER_BUTTON_SYSCFG_SET_EXTI();
+    /* -2- Connect External Line to the GPIO*/
+    USER_BUTTON_SYSCFG_SET_EXTI();
 
-  /*-3- Enable a falling trigger EXTI line 13 Interrupt */
-  USER_BUTTON_EXTI_LINE_ENABLE();
-  USER_BUTTON_EXTI_FALLING_TRIG_ENABLE();
-  
-  /*-4- Configure NVIC for EXTI4_15_IRQn */
-  NVIC_EnableIRQ(USER_BUTTON_EXTI_IRQn); 
-  NVIC_SetPriority(USER_BUTTON_EXTI_IRQn,0);
+    /*-3- Enable a falling trigger EXTI line 13 Interrupt */
+    USER_BUTTON_EXTI_LINE_ENABLE();
+    USER_BUTTON_EXTI_FALLING_TRIG_ENABLE();
+
+    /*-4- Configure NVIC for EXTI4_15_IRQn */
+    NVIC_EnableIRQ( USER_BUTTON_EXTI_IRQn );
+    NVIC_SetPriority( USER_BUTTON_EXTI_IRQn, 0 );
 }
 
 /**
@@ -96,24 +96,24 @@ void Configure_EXTI()
   * @param  None
   * @retval None
   */
-void LED_Init(void)
+void LED_Init( void )
 {
-  /* Enable the LED2 Clock */
-  LED2_GPIO_CLK_ENABLE();
+    /* Enable the LED2 Clock */
+    LED2_GPIO_CLK_ENABLE();
 
-  /* Configure IO in output push-pull mode to drive external LED2 */
-  LL_GPIO_SetPinMode(LED2_GPIO_PORT, LED2_PIN, LL_GPIO_MODE_OUTPUT);
-  /* Reset value is LL_GPIO_OUTPUT_PUSHPULL */
-  //LL_GPIO_SetPinOutputType(LED2_GPIO_PORT, LED2_PIN, LL_GPIO_OUTPUT_PUSHPULL);
-  /* Reset value is LL_GPIO_SPEED_FREQ_LOW */
-  //LL_GPIO_SetPinSpeed(LED2_GPIO_PORT, LED2_PIN, LL_GPIO_SPEED_FREQ_LOW);
-  /* Reset value is LL_GPIO_PULL_NO */
-  //LL_GPIO_SetPinPull(LED2_GPIO_PORT, LED2_PIN, LL_GPIO_PULL_NO);
+    /* Configure IO in output push-pull mode to drive external LED2 */
+    LL_GPIO_SetPinMode( LED2_GPIO_PORT, LED2_PIN, LL_GPIO_MODE_OUTPUT );
+    /* Reset value is LL_GPIO_OUTPUT_PUSHPULL */
+    //LL_GPIO_SetPinOutputType(LED2_GPIO_PORT, LED2_PIN, LL_GPIO_OUTPUT_PUSHPULL);
+    /* Reset value is LL_GPIO_SPEED_FREQ_LOW */
+    //LL_GPIO_SetPinSpeed(LED2_GPIO_PORT, LED2_PIN, LL_GPIO_SPEED_FREQ_LOW);
+    /* Reset value is LL_GPIO_PULL_NO */
+    //LL_GPIO_SetPinPull(LED2_GPIO_PORT, LED2_PIN, LL_GPIO_PULL_NO);
 }
 
 /**
   * @brief  System Clock Configuration
-  *         The system Clock is configured as follow : 
+  *         The system Clock is configured as follow :
   *            System Clock source            = MSI
   *            SYSCLK(Hz)                     = 2097000
   *            HCLK(Hz)                       = 2097000
@@ -124,43 +124,50 @@ void LED_Init(void)
   *            Main regulator output voltage  = Scale3 mode
   * @retval None
   */
-void SystemClock_Config(void)
+void SystemClock_Config( void )
 {
-  /* MSI configuration and activation */
-  LL_RCC_PLL_Disable();
-  /* Set new latency */
-  LL_FLASH_SetLatency(LL_FLASH_LATENCY_1);
+    /* MSI configuration and activation */
+    LL_RCC_PLL_Disable();
+    /* Set new latency */
+    LL_FLASH_SetLatency( LL_FLASH_LATENCY_1 );
 
-  LL_RCC_MSI_Enable();
-  while(LL_RCC_MSI_IsReady() != 1) 
-  {
-  };
-  LL_RCC_MSI_SetRange(LL_RCC_MSIRANGE_5);  
-  LL_RCC_MSI_SetCalibTrimming(0x0);
+    LL_RCC_MSI_Enable();
 
-  /* Sysclk activation  */
-  LL_RCC_SetAHBPrescaler(LL_RCC_SYSCLK_DIV_1);
-  LL_RCC_SetSysClkSource(LL_RCC_SYS_CLKSOURCE_MSI);
-  while(LL_RCC_GetSysClkSource() != LL_RCC_SYS_CLKSOURCE_STATUS_MSI) 
-  {
-  };
-  
-  /* Set APB1 & APB2 prescaler*/
-  LL_RCC_SetAPB1Prescaler(LL_RCC_APB1_DIV_1);
-  LL_RCC_SetAPB2Prescaler(LL_RCC_APB2_DIV_1);
+    while( LL_RCC_MSI_IsReady() != 1 )
+    {
+    };
 
-  /* Set systick to 1ms in using frequency set to 2MHz */
-  LL_Init1msTick(2097000);
+    LL_RCC_MSI_SetRange( LL_RCC_MSIRANGE_5 );
 
-  /* Update CMSIS variable (which can be updated also through SystemCoreClockUpdate function) */
-  LL_SetSystemCoreClock(2097000);  
+    LL_RCC_MSI_SetCalibTrimming( 0x0 );
 
-  /* Enable Power Control clock */
-  LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_PWR);
-  /* The voltage scaling allows optimizing the power consumption when the device is 
-     clocked below the maximum system frequency, to update the voltage scaling value 
-     regarding system frequency refer to product datasheet.  */
-  LL_PWR_SetRegulVoltageScaling(LL_PWR_REGU_VOLTAGE_SCALE3);
+    /* Sysclk activation  */
+    LL_RCC_SetAHBPrescaler( LL_RCC_SYSCLK_DIV_1 );
+
+    LL_RCC_SetSysClkSource( LL_RCC_SYS_CLKSOURCE_MSI );
+
+    while( LL_RCC_GetSysClkSource() != LL_RCC_SYS_CLKSOURCE_STATUS_MSI )
+    {
+    };
+
+    /* Set APB1 & APB2 prescaler*/
+    LL_RCC_SetAPB1Prescaler( LL_RCC_APB1_DIV_1 );
+
+    LL_RCC_SetAPB2Prescaler( LL_RCC_APB2_DIV_1 );
+
+    /* Set systick to 1ms in using frequency set to 2MHz */
+    LL_Init1msTick( 2097000 );
+
+    /* Update CMSIS variable (which can be updated also through SystemCoreClockUpdate function) */
+    LL_SetSystemCoreClock( 2097000 );
+
+    /* Enable Power Control clock */
+    LL_APB1_GRP1_EnableClock( LL_APB1_GRP1_PERIPH_PWR );
+
+    /* The voltage scaling allows optimizing the power consumption when the device is
+       clocked below the maximum system frequency, to update the voltage scaling value
+       regarding system frequency refer to product datasheet.  */
+    LL_PWR_SetRegulVoltageScaling( LL_PWR_REGU_VOLTAGE_SCALE3 );
 }
 
 
@@ -172,9 +179,9 @@ void SystemClock_Config(void)
   * @param  None
   * @retval None
   */
-void UserButton_Callback(void)
+void UserButton_Callback( void )
 {
-  LL_GPIO_TogglePin(LED2_GPIO_PORT, LED2_PIN);  
+    LL_GPIO_TogglePin( LED2_GPIO_PORT, LED2_PIN );
 }
 
 #ifdef  USE_FULL_ASSERT
@@ -186,15 +193,15 @@ void UserButton_Callback(void)
   * @param  line: assert_param error line source number
   * @retval None
   */
-void assert_failed(uint8_t *file, uint32_t line)
+void assert_failed( uint8_t *file, uint32_t line )
 {
-  /* User can add his own implementation to report the file name and line number,
-     ex: printf("Wrong parameters value: file %s on line %d", file, line) */
+    /* User can add his own implementation to report the file name and line number,
+       ex: printf("Wrong parameters value: file %s on line %d", file, line) */
 
-  /* Infinite loop */
-  while (1)
-  {
-  }
+    /* Infinite loop */
+    while( 1 )
+    {
+    }
 }
 #endif
 

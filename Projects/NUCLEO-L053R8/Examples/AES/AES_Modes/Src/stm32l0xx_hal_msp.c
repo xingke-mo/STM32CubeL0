@@ -3,7 +3,7 @@
   * @file    AES/AES_Modes/Src/stm32l0xx_hal_msp.c
   * @author  MCD Application Team
   * @brief   HAL MSP module.
-  *         
+  *
   @verbatim
  ===============================================================================
                      ##### How to use this driver #####
@@ -24,7 +24,7 @@
   *                        opensource.org/licenses/BSD-3-Clause
   *
   ******************************************************************************
-  */ 
+  */
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32l0xx_hal.h"
@@ -50,18 +50,18 @@
   */
 
 /**
-  * @brief CRYP MSP Initialization 
-  *        This function configures the hardware resources used in this example: 
-  *           - DMA configuration for transmission request by peripheral 
+  * @brief CRYP MSP Initialization
+  *        This function configures the hardware resources used in this example:
+  *           - DMA configuration for transmission request by peripheral
   *           - NVIC configuration for DMA interrupt request enable
   * @param hcryp: CRYP handle pointer
   * @retval None
   */
 
-void HAL_CRYP_MspInit(CRYP_HandleTypeDef *hcryp)
+void HAL_CRYP_MspInit( CRYP_HandleTypeDef *hcryp )
 {
-  /* Enable CRYP clock */
-  __HAL_RCC_AES_CLK_ENABLE();
+    /* Enable CRYP clock */
+    __HAL_RCC_AES_CLK_ENABLE();
 }
 
 /**
@@ -69,20 +69,20 @@ void HAL_CRYP_MspInit(CRYP_HandleTypeDef *hcryp)
   * @param  None
   * @retval None
   */
-void HAL_MspInit(void)
+void HAL_MspInit( void )
 {
-  /* NOTE : This function is eventually modified by the user */
+    /* NOTE : This function is eventually modified by the user */
 
 }
 
 /**
   * @brief  DeInitializes the Global MSP.
-  * @param  None  
+  * @param  None
   * @retval None
   */
-void HAL_MspDeInit(void)
+void HAL_MspDeInit( void )
 {
-  /* NOTE : This function is eventually modified by the user */
+    /* NOTE : This function is eventually modified by the user */
 
 }
 

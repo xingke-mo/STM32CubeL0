@@ -47,21 +47,21 @@
   * @param  hcryp: CRYP handle pointer
   * @retval None
   */
-void HAL_CRYP_MspInit(CRYP_HandleTypeDef *hcryp)
+void HAL_CRYP_MspInit( CRYP_HandleTypeDef *hcryp )
 {
-  /* Enable CRYP clock */
-  __HAL_RCC_AES_CLK_ENABLE();
-  
-    /* Force the CRYP Periheral Clock Reset */  
-  __HAL_RCC_AES_FORCE_RESET(); 
-  
-  /* Release the CRYP Periheral Clock Reset */  
-  __HAL_RCC_AES_RELEASE_RESET();
+    /* Enable CRYP clock */
+    __HAL_RCC_AES_CLK_ENABLE();
+
+    /* Force the CRYP Periheral Clock Reset */
+    __HAL_RCC_AES_FORCE_RESET();
+
+    /* Release the CRYP Periheral Clock Reset */
+    __HAL_RCC_AES_RELEASE_RESET();
 
     /* Enable and set CRYP Interrupt to the highest priority */
-    HAL_NVIC_SetPriority(AES_RNG_LPUART1_IRQn, 0, 0);
-    HAL_NVIC_EnableIRQ(AES_RNG_LPUART1_IRQn);
- 
+    HAL_NVIC_SetPriority( AES_RNG_LPUART1_IRQn, 0, 0 );
+    HAL_NVIC_EnableIRQ( AES_RNG_LPUART1_IRQn );
+
 
 }
 
@@ -70,13 +70,13 @@ void HAL_CRYP_MspInit(CRYP_HandleTypeDef *hcryp)
   * @param  hcryp: CRYP handle pointer
   * @retval None
   */
-void HAL_CRYP_MspDeInit(CRYP_HandleTypeDef *hcryp)
+void HAL_CRYP_MspDeInit( CRYP_HandleTypeDef *hcryp )
 {
-  /* Disable CRYP clock */
-  __HAL_RCC_AES_CLK_DISABLE();
+    /* Disable CRYP clock */
+    __HAL_RCC_AES_CLK_DISABLE();
 
     /* Disable CRYP Interrupt */
-    HAL_NVIC_DisableIRQ(AES_RNG_LPUART1_IRQn); 	
+    HAL_NVIC_DisableIRQ( AES_RNG_LPUART1_IRQn );
 
 }
 

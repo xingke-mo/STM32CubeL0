@@ -40,7 +40,7 @@
 #define USE_USB_CLKSOURCE_PLL        1
 
 #if !defined (USE_USB_CLKSOURCE_PLL) && !defined (USE_USB_CLKSOURCE_CRSHSI48)
- #error "Missing USB clock definition"
+    #error "Missing USB clock definition"
 #endif
 /* Exported functions ------------------------------------------------------- */
 

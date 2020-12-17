@@ -15,19 +15,19 @@
         TYPE_FROM_ABBREV(suffix),               \
         compare_interface)
 
-JTEST_ARM_MULT_TEST(f32, BASIC_MATH_COMPARE_INTERFACE);
-JTEST_ARM_MULT_TEST(q31, BASIC_MATH_SNR_COMPARE_INTERFACE);
-JTEST_ARM_MULT_TEST(q15, BASIC_MATH_COMPARE_INTERFACE);
-JTEST_ARM_MULT_TEST(q7 , BASIC_MATH_COMPARE_INTERFACE);
+JTEST_ARM_MULT_TEST( f32, BASIC_MATH_COMPARE_INTERFACE );
+JTEST_ARM_MULT_TEST( q31, BASIC_MATH_SNR_COMPARE_INTERFACE );
+JTEST_ARM_MULT_TEST( q15, BASIC_MATH_COMPARE_INTERFACE );
+JTEST_ARM_MULT_TEST( q7, BASIC_MATH_COMPARE_INTERFACE );
 
 /*--------------------------------------------------------------------------------*/
 /* Collect all tests in a group. */
 /*--------------------------------------------------------------------------------*/
 
-JTEST_DEFINE_GROUP(mult_tests)
+JTEST_DEFINE_GROUP( mult_tests )
 {
-    JTEST_TEST_CALL(arm_mult_f32_test);
-    JTEST_TEST_CALL(arm_mult_q31_test);
-    JTEST_TEST_CALL(arm_mult_q15_test);
-    JTEST_TEST_CALL(arm_mult_q7_test);
+    JTEST_TEST_CALL( arm_mult_f32_test );
+    JTEST_TEST_CALL( arm_mult_q31_test );
+    JTEST_TEST_CALL( arm_mult_q15_test );
+    JTEST_TEST_CALL( arm_mult_q7_test );
 }

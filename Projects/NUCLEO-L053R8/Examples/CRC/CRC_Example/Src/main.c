@@ -1,9 +1,9 @@
 /**
   ******************************************************************************
-  * @file    CRC/CRC_Example/Src/main.c  
+  * @file    CRC/CRC_Example/Src/main.c
   * @author  MCD Application Team
-  * @brief   This sample code shows how to use the CRC HAL API 
-  *          to get a CRC code of a given buffer of data word(32-bit), 
+  * @brief   This sample code shows how to use the CRC HAL API
+  *          to get a CRC code of a given buffer of data word(32-bit),
   *          based on a fixed generator polynomial(0x4C11DB7).
   ******************************************************************************
   * @attention
@@ -28,7 +28,7 @@
 
 /** @addtogroup CRC_Example
   * @{
-  */ 
+  */
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
@@ -43,7 +43,7 @@ CRC_HandleTypeDef   CrcHandle;
 __IO uint32_t uwCRCValue = 0;
 
 static const uint32_t aDataBuffer[BUFFER_SIZE] =
-  {
+{
     0x00001021, 0x20423063, 0x408450a5, 0x60c670e7, 0x9129a14a, 0xb16bc18c,
     0xd1ade1ce, 0xf1ef1231, 0x32732252, 0x52b54294, 0x72f762d6, 0x93398318,
     0xa35ad3bd, 0xc39cf3ff, 0xe3de2462, 0x34430420, 0x64e674c7, 0x44a45485,
@@ -63,14 +63,14 @@ static const uint32_t aDataBuffer[BUFFER_SIZE] =
     0x4a755a54, 0x6a377a16, 0x0af11ad0, 0x2ab33a92, 0xed0fdd6c, 0xcd4dbdaa,
     0xad8b9de8, 0x8dc97c26, 0x5c644c45, 0x3ca22c83, 0x1ce00cc1, 0xef1fff3e,
     0xdf7caf9b, 0xbfba8fd9, 0x9ff86e17, 0x7e364e55, 0x2e933eb2, 0x0ed11ef0
-  };
+};
 
 /* Expected CRC Value */
 uint32_t uwExpectedCRCValue = 0x379E9F06;
 
 /* Private function prototypes -----------------------------------------------*/
-static void SystemClock_Config(void);
-static void Error_Handler(void);
+static void SystemClock_Config( void );
+static void Error_Handler( void );
 
 /* Private functions ---------------------------------------------------------*/
 
@@ -79,69 +79,69 @@ static void Error_Handler(void);
   * @param  None
   * @retval None
   */
-int main(void)
+int main( void )
 {
-  /* STM32L0xx HAL library initialization:
-       - Configure the Flash prefetch, Flash preread and Buffer caches
-       - Systick timer is configured by default as source of time base, but user 
-             can eventually implement his proper time base source (a general purpose 
-             timer for example or other time source), keeping in mind that Time base 
-             duration should be kept 1ms since PPP_TIMEOUT_VALUEs are defined and 
-             handled in milliseconds basis.
-       - Low Level Initialization
-     */
-  HAL_Init();
-  
-  /* Configure LED2 */
-  BSP_LED_Init(LED2);
-  /* Configure the system clock to 2 Mhz */
-  SystemClock_Config();
+    /* STM32L0xx HAL library initialization:
+         - Configure the Flash prefetch, Flash preread and Buffer caches
+         - Systick timer is configured by default as source of time base, but user
+               can eventually implement his proper time base source (a general purpose
+               timer for example or other time source), keeping in mind that Time base
+               duration should be kept 1ms since PPP_TIMEOUT_VALUEs are defined and
+               handled in milliseconds basis.
+         - Low Level Initialization
+       */
+    HAL_Init();
 
-  /*##-1- Configure the CRC peripheral #######################################*/
-  CrcHandle.Instance = CRC; 
-  
-  CrcHandle.Init.DefaultPolynomialUse    = DEFAULT_POLYNOMIAL_ENABLE;
-  CrcHandle.Init.DefaultInitValueUse     = DEFAULT_INIT_VALUE_ENABLE;
-  CrcHandle.Init.InputDataInversionMode  = CRC_INPUTDATA_INVERSION_NONE;
-  CrcHandle.Init.OutputDataInversionMode = CRC_OUTPUTDATA_INVERSION_DISABLE;
-  CrcHandle.InputDataFormat              = CRC_INPUTDATA_FORMAT_WORDS;
-  
-  /* DeInitializes the CRC peripheral */
-  HAL_CRC_DeInit(&CrcHandle);
-  
-  /* Initialise CRC */
-  HAL_CRC_Init(&CrcHandle);
+    /* Configure LED2 */
+    BSP_LED_Init( LED2 );
+    /* Configure the system clock to 2 Mhz */
+    SystemClock_Config();
 
-  if(HAL_CRC_Init(&CrcHandle) != HAL_OK)
-  {
-    /* Initialization Error */
-    Error_Handler();
-  }
+    /*##-1- Configure the CRC peripheral #######################################*/
+    CrcHandle.Instance = CRC;
 
-  /*##-2- Compute the CRC of "aDataBuffer" ###################################*/
-  uwCRCValue = HAL_CRC_Accumulate(&CrcHandle, (uint32_t *)aDataBuffer, BUFFER_SIZE);
- 
-  /*##-3- Compare the CRC value to the Expected one ##########################*/
-  if(uwCRCValue != uwExpectedCRCValue)
-  {
-    /* Wrong CRC value: Turn LED2 off */
-    Error_Handler();
-  }
-  else
-  {
-    /* Right CRC value: Turn LED2 on */
-    BSP_LED_On(LED2);
-  }  
-  
-  /* Infinite loop */
-  while (1)
-  {
-  }
+    CrcHandle.Init.DefaultPolynomialUse    = DEFAULT_POLYNOMIAL_ENABLE;
+    CrcHandle.Init.DefaultInitValueUse     = DEFAULT_INIT_VALUE_ENABLE;
+    CrcHandle.Init.InputDataInversionMode  = CRC_INPUTDATA_INVERSION_NONE;
+    CrcHandle.Init.OutputDataInversionMode = CRC_OUTPUTDATA_INVERSION_DISABLE;
+    CrcHandle.InputDataFormat              = CRC_INPUTDATA_FORMAT_WORDS;
+
+    /* DeInitializes the CRC peripheral */
+    HAL_CRC_DeInit( &CrcHandle );
+
+    /* Initialise CRC */
+    HAL_CRC_Init( &CrcHandle );
+
+    if( HAL_CRC_Init( &CrcHandle ) != HAL_OK )
+    {
+        /* Initialization Error */
+        Error_Handler();
+    }
+
+    /*##-2- Compute the CRC of "aDataBuffer" ###################################*/
+    uwCRCValue = HAL_CRC_Accumulate( &CrcHandle, ( uint32_t * )aDataBuffer, BUFFER_SIZE );
+
+    /*##-3- Compare the CRC value to the Expected one ##########################*/
+    if( uwCRCValue != uwExpectedCRCValue )
+    {
+        /* Wrong CRC value: Turn LED2 off */
+        Error_Handler();
+    }
+    else
+    {
+        /* Right CRC value: Turn LED2 on */
+        BSP_LED_On( LED2 );
+    }
+
+    /* Infinite loop */
+    while( 1 )
+    {
+    }
 }
 
 /**
   * @brief  System Clock Configuration
-  *         The system Clock is configured as follow : 
+  *         The system Clock is configured as follow :
   *            System Clock source            = MSI
   *            SYSCLK(Hz)                     = 2000000
   *            HCLK(Hz)                       = 2000000
@@ -153,44 +153,46 @@ int main(void)
   * @param  None
   * @retval None
   */
-static void SystemClock_Config(void)
+static void SystemClock_Config( void )
 {
-  RCC_ClkInitTypeDef RCC_ClkInitStruct;
-  RCC_OscInitTypeDef RCC_OscInitStruct;
-  
-  /* Enable Power Control clock */
-  __HAL_RCC_PWR_CLK_ENABLE();
-  
-  /* The voltage scaling allows optimizing the power consumption when the device is 
-     clocked below the maximum system frequency, to update the voltage scaling value 
-     regarding system frequency refer to product datasheet.  */
-  __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE3);
-  
-  /* Enable MSI Oscillator */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_MSI;
-  RCC_OscInitStruct.MSIState = RCC_MSI_ON;
-  RCC_OscInitStruct.MSIClockRange = RCC_MSIRANGE_5;
-  RCC_OscInitStruct.MSICalibrationValue=0x00;
-  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
-  if(HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
-  {
-    /* Initialization Error */
-    Error_Handler();
-  }
-  
-  
-  /* Select MSI as system clock source and configure the HCLK, PCLK1 and PCLK2 
-     clocks dividers */
-  RCC_ClkInitStruct.ClockType = (RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2);
-  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_MSI;
-  RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
-  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;  
-  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;  
-  if(HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_0) != HAL_OK)
-  {
-    /* Initialization Error */
-    Error_Handler();
-  }
+    RCC_ClkInitTypeDef RCC_ClkInitStruct;
+    RCC_OscInitTypeDef RCC_OscInitStruct;
+
+    /* Enable Power Control clock */
+    __HAL_RCC_PWR_CLK_ENABLE();
+
+    /* The voltage scaling allows optimizing the power consumption when the device is
+       clocked below the maximum system frequency, to update the voltage scaling value
+       regarding system frequency refer to product datasheet.  */
+    __HAL_PWR_VOLTAGESCALING_CONFIG( PWR_REGULATOR_VOLTAGE_SCALE3 );
+
+    /* Enable MSI Oscillator */
+    RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_MSI;
+    RCC_OscInitStruct.MSIState = RCC_MSI_ON;
+    RCC_OscInitStruct.MSIClockRange = RCC_MSIRANGE_5;
+    RCC_OscInitStruct.MSICalibrationValue = 0x00;
+    RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
+
+    if( HAL_RCC_OscConfig( &RCC_OscInitStruct ) != HAL_OK )
+    {
+        /* Initialization Error */
+        Error_Handler();
+    }
+
+
+    /* Select MSI as system clock source and configure the HCLK, PCLK1 and PCLK2
+       clocks dividers */
+    RCC_ClkInitStruct.ClockType = ( RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2 );
+    RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_MSI;
+    RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+    RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
+    RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
+
+    if( HAL_RCC_ClockConfig( &RCC_ClkInitStruct, FLASH_LATENCY_0 ) != HAL_OK )
+    {
+        /* Initialization Error */
+        Error_Handler();
+    }
 }
 
 /**
@@ -198,13 +200,14 @@ static void SystemClock_Config(void)
   * @param  None
   * @retval None
   */
-static void Error_Handler(void)
+static void Error_Handler( void )
 {
-  /* Turn LED2 off */
-  BSP_LED_Off(LED2);
-  while(1)
-  {
-  }
+    /* Turn LED2 off */
+    BSP_LED_Off( LED2 );
+
+    while( 1 )
+    {
+    }
 }
 
 #ifdef  USE_FULL_ASSERT
@@ -215,24 +218,24 @@ static void Error_Handler(void)
   * @param  line: assert_param error line source number
   * @retval None
   */
-void assert_failed(uint8_t *file, uint32_t line)
-{ 
-  /* User can add his own implementation to report the file name and line number,
-     ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
+void assert_failed( uint8_t *file, uint32_t line )
+{
+    /* User can add his own implementation to report the file name and line number,
+       ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
 
-  /* Infinite loop */
-  while (1)
-  {
-  }
+    /* Infinite loop */
+    while( 1 )
+    {
+    }
 }
 #endif
 
 /**
   * @}
-  */ 
+  */
 
 /**
   * @}
-  */ 
+  */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

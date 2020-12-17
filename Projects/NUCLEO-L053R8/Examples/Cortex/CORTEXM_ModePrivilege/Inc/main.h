@@ -1,6 +1,6 @@
 /**
   ******************************************************************************
-  * @file    CORTEXM/CORTEXM_MPU/Inc/main.h 
+  * @file    CORTEXM/CORTEXM_MPU/Inc/main.h
   * @author  MCD Application Team
   * @brief   Header for main.c module
   ******************************************************************************

@@ -32,16 +32,16 @@
   */
 typedef struct
 {
-  TSL_StateId_enum_T     StateId;              /**< Current state identifier */
-  TSL_tPosition_T        RawPosition;          /**< Raw position */
-  TSL_tPosition_T        Position;             /**< Scaled position */
-  TSL_tCounter_T         CounterDebounce;      /**< Counter for debounce and calibration management */ 
-  unsigned int           CounterDTO       : 6; /**< Counter for DTO management (TSL_tCounter_T) */
-  unsigned int           Change           : 1; /**< The State is different from the previous one (TSL_StateChange_enum_T) */
-  unsigned int           PosChange        : 1; /**< The RawPosition/Position is different from the previous one (TSL_StateChange_enum_T) */
-  unsigned int           CounterDirection : 6; /**< Counter for direction debounce management (TSL_tCounter_T) */
-  unsigned int           DxSLock          : 1; /**< The State is locked by the DxS (TSL_Bool_enum_T) */
-  unsigned int           Direction        : 1; /**< Movement direction (TSL_Bool_enum_T) */
+    TSL_StateId_enum_T     StateId;              /**< Current state identifier */
+    TSL_tPosition_T        RawPosition;          /**< Raw position */
+    TSL_tPosition_T        Position;             /**< Scaled position */
+    TSL_tCounter_T         CounterDebounce;      /**< Counter for debounce and calibration management */
+    unsigned int           CounterDTO       : 6; /**< Counter for DTO management (TSL_tCounter_T) */
+    unsigned int           Change           : 1; /**< The State is different from the previous one (TSL_StateChange_enum_T) */
+    unsigned int           PosChange        : 1; /**< The RawPosition/Position is different from the previous one (TSL_StateChange_enum_T) */
+    unsigned int           CounterDirection : 6; /**< Counter for direction debounce management (TSL_tCounter_T) */
+    unsigned int           DxSLock          : 1; /**< The State is locked by the DxS (TSL_Bool_enum_T) */
+    unsigned int           Direction        : 1; /**< Movement direction (TSL_Bool_enum_T) */
 }
 TSL_LinRotData_T;
 
@@ -50,26 +50,26 @@ TSL_LinRotData_T;
   */
 typedef struct
 {
-  // Thresholds
+    // Thresholds
 #if TSLPRM_USE_PROX > 0
-  TSL_tThreshold_T  ProxInTh;            /**< Proximity state in threshold */
-  TSL_tThreshold_T  ProxOutTh;           /**< Proximity state out threshold */
+    TSL_tThreshold_T  ProxInTh;            /**< Proximity state in threshold */
+    TSL_tThreshold_T  ProxOutTh;           /**< Proximity state out threshold */
 #endif
-  TSL_tThreshold_T  DetectInTh;          /**< Detection state in threshold */
-  TSL_tThreshold_T  DetectOutTh;         /**< Detection state out threshold */
-  TSL_tThreshold_T  CalibTh;             /**< Calibration state threshold */
-  // Debounce counters
-  TSL_tCounter_T    CounterDebCalib;     /**< Debounce counter to enter in Calibration state */
+    TSL_tThreshold_T  DetectInTh;          /**< Detection state in threshold */
+    TSL_tThreshold_T  DetectOutTh;         /**< Detection state out threshold */
+    TSL_tThreshold_T  CalibTh;             /**< Calibration state threshold */
+    // Debounce counters
+    TSL_tCounter_T    CounterDebCalib;     /**< Debounce counter to enter in Calibration state */
 #if TSLPRM_USE_PROX > 0
-  TSL_tCounter_T    CounterDebProx;      /**< Debounce counter to enter in Proximity state */
+    TSL_tCounter_T    CounterDebProx;      /**< Debounce counter to enter in Proximity state */
 #endif
-  TSL_tCounter_T    CounterDebDetect;    /**< Debounce counter to enter in Detect state */
-  TSL_tCounter_T    CounterDebRelease;   /**< Debounce counter to enter in Release state */
-  TSL_tCounter_T    CounterDebError;     /**< Debounce counter to enter in Error state */
-  TSL_tCounter_T    CounterDebDirection; /**< Debounce counter for the direction change */
-  // Other parameters
-  TSL_tCounter_T    Resolution;          /**< Position resolution */
-  TSL_tPosition_T   DirChangePos;        /**< Direction change position threshold */
+    TSL_tCounter_T    CounterDebDetect;    /**< Debounce counter to enter in Detect state */
+    TSL_tCounter_T    CounterDebRelease;   /**< Debounce counter to enter in Release state */
+    TSL_tCounter_T    CounterDebError;     /**< Debounce counter to enter in Error state */
+    TSL_tCounter_T    CounterDebDirection; /**< Debounce counter for the direction change */
+    // Other parameters
+    TSL_tCounter_T    Resolution;          /**< Position resolution */
+    TSL_tPosition_T   DirChangePos;        /**< Direction change position threshold */
 }
 TSL_LinRotParam_T;
 
@@ -78,16 +78,16 @@ TSL_LinRotParam_T;
   */
 typedef struct
 {
-  TSL_LinRotData_T          *p_Data;    /**< Data (state id, counter, flags, ...) */
-  TSL_LinRotParam_T         *p_Param;   /**< Parameters (thresholds, debounce, ...) */
-  TSL_ChannelData_T         *p_ChD;     /**< First Channel Data (Meas, Ref, Delta, ...) */
-  TSL_tNb_T                 NbChannels; /**< Number of channels */
-  CONST uint16_t            *p_DeltaCoeff; /**< Coefficient to apply on Delta */
-  CONST TSL_tsignPosition_T *p_PosOff;  /**< Position offset table */
-  TSL_tNb_T                 SctComp;    /**< Sector Computation */
-  TSL_tNb_T                 PosCorr;    /**< Position Correction */
-  CONST TSL_State_T         *p_SM;      /**< State Machine */
-  CONST TSL_LinRotMethods_T *p_Methods; /**< Methods */
+    TSL_LinRotData_T          *p_Data;    /**< Data (state id, counter, flags, ...) */
+    TSL_LinRotParam_T         *p_Param;   /**< Parameters (thresholds, debounce, ...) */
+    TSL_ChannelData_T         *p_ChD;     /**< First Channel Data (Meas, Ref, Delta, ...) */
+    TSL_tNb_T                 NbChannels; /**< Number of channels */
+    CONST uint16_t            *p_DeltaCoeff; /**< Coefficient to apply on Delta */
+    CONST TSL_tsignPosition_T *p_PosOff;  /**< Position offset table */
+    TSL_tNb_T                 SctComp;    /**< Sector Computation */
+    TSL_tNb_T                 PosCorr;    /**< Position Correction */
+    CONST TSL_State_T         *p_SM;      /**< State Machine */
+    CONST TSL_LinRotMethods_T *p_Methods; /**< Methods */
 }
 TSL_LinRot_T;
 
@@ -98,14 +98,14 @@ TSL_LinRot_T;
   */
 typedef struct
 {
-  TSL_LinRotData_T          *p_Data;    /**< Data (state id, counter, flags, ...) */
-  TSL_LinRotParam_T         *p_Param;   /**< Parameters (thresholds, debounce, ...) */
-  TSL_ChannelData_T         *p_ChD;     /**< First Channel Data (Meas, Ref, Delta, ...) */
-  TSL_tNb_T                 NbChannels; /**< Number of channels */
-  CONST uint16_t            *p_DeltaCoeff; /**< Coefficient to apply on Delta */
-  CONST TSL_tsignPosition_T *p_PosOff;  /**< Position offset table */
-  TSL_tNb_T                 SctComp;    /**< Sector Computation */
-  TSL_tNb_T                 PosCorr;    /**< Position Correction */
+    TSL_LinRotData_T          *p_Data;    /**< Data (state id, counter, flags, ...) */
+    TSL_LinRotParam_T         *p_Param;   /**< Parameters (thresholds, debounce, ...) */
+    TSL_ChannelData_T         *p_ChD;     /**< First Channel Data (Meas, Ref, Delta, ...) */
+    TSL_tNb_T                 NbChannels; /**< Number of channels */
+    CONST uint16_t            *p_DeltaCoeff; /**< Coefficient to apply on Delta */
+    CONST TSL_tsignPosition_T *p_PosOff;  /**< Position offset table */
+    TSL_tNb_T                 SctComp;    /**< Sector Computation */
+    TSL_tNb_T                 PosCorr;    /**< Position Correction */
 }
 TSL_LinRotB_T;
 
@@ -115,36 +115,36 @@ TSL_LinRotB_T;
 /* Exported functions --------------------------------------------------------*/
 
 // "Object methods" functions
-void TSL_linrot_Init(void);
-void TSL_linrot_Process(void);
-TSL_Status_enum_T TSL_linrot_CalcPos(void);
+void TSL_linrot_Init( void );
+void TSL_linrot_Process( void );
+TSL_Status_enum_T TSL_linrot_CalcPos( void );
 
 // Utility functions
-void TSL_linrot_SetStateCalibration(TSL_tCounter_T delay);
-void TSL_linrot_SetStateOff(void);
-void TSL_linrot_SetStateBurstOnly(void);
-TSL_StateId_enum_T TSL_linrot_GetStateId(void);
-TSL_StateMask_enum_T TSL_linrot_GetStateMask(void);
-TSL_tNb_T TSL_linrot_IsChanged(void);
+void TSL_linrot_SetStateCalibration( TSL_tCounter_T delay );
+void TSL_linrot_SetStateOff( void );
+void TSL_linrot_SetStateBurstOnly( void );
+TSL_StateId_enum_T TSL_linrot_GetStateId( void );
+TSL_StateMask_enum_T TSL_linrot_GetStateMask( void );
+TSL_tNb_T TSL_linrot_IsChanged( void );
 
 // State machine functions
-void TSL_linrot_CalibrationStateProcess(void);
-void TSL_linrot_DebCalibrationStateProcess(void);
-void TSL_linrot_ReleaseStateProcess(void);
-void TSL_linrot_DebReleaseProxStateProcess(void);
-void TSL_linrot_DebReleaseDetectStateProcess(void);
-void TSL_linrot_DebReleaseTouchStateProcess(void);
-void TSL_linrot_ProxStateProcess(void);
-void TSL_linrot_DebProxStateProcess(void);
-void TSL_linrot_DebProxDetectStateProcess(void);
-void TSL_linrot_DebProxTouchStateProcess(void);
-void TSL_linrot_DetectStateProcess(void);
-void TSL_linrot_DebDetectStateProcess(void);
-void TSL_linrot_TouchStateProcess(void);
-void TSL_linrot_DebTouchStateProcess(void);
-void TSL_linrot_ErrorStateProcess(void);
-void TSL_linrot_DebErrorStateProcess(void);
-void TSL_linrot_OffStateProcess(void);
+void TSL_linrot_CalibrationStateProcess( void );
+void TSL_linrot_DebCalibrationStateProcess( void );
+void TSL_linrot_ReleaseStateProcess( void );
+void TSL_linrot_DebReleaseProxStateProcess( void );
+void TSL_linrot_DebReleaseDetectStateProcess( void );
+void TSL_linrot_DebReleaseTouchStateProcess( void );
+void TSL_linrot_ProxStateProcess( void );
+void TSL_linrot_DebProxStateProcess( void );
+void TSL_linrot_DebProxDetectStateProcess( void );
+void TSL_linrot_DebProxTouchStateProcess( void );
+void TSL_linrot_DetectStateProcess( void );
+void TSL_linrot_DebDetectStateProcess( void );
+void TSL_linrot_TouchStateProcess( void );
+void TSL_linrot_DebTouchStateProcess( void );
+void TSL_linrot_ErrorStateProcess( void );
+void TSL_linrot_DebErrorStateProcess( void );
+void TSL_linrot_OffStateProcess( void );
 
 // Position offset constant tables and corrections
 

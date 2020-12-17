@@ -1,4 +1,4 @@
-/** 
+/**
   ******************************************************************************
   * @file    Examples_LL/USART/USART_Communication_Rx_IT/Src/stm32l0xx_it.c
   * @author  MCD Application Team
@@ -47,7 +47,7 @@
   * @param  None
   * @retval None
   */
-void NMI_Handler(void)
+void NMI_Handler( void )
 {
 }
 
@@ -56,12 +56,12 @@ void NMI_Handler(void)
   * @param  None
   * @retval None
   */
-void HardFault_Handler(void)
+void HardFault_Handler( void )
 {
-  /* Go to infinite loop when Hard Fault exception occurs */
-  while (1)
-  {
-  }
+    /* Go to infinite loop when Hard Fault exception occurs */
+    while( 1 )
+    {
+    }
 }
 
 /**
@@ -69,7 +69,7 @@ void HardFault_Handler(void)
   * @param  None
   * @retval None
   */
-void SVC_Handler(void)
+void SVC_Handler( void )
 {
 }
 
@@ -78,7 +78,7 @@ void SVC_Handler(void)
   * @param  None
   * @retval None
   */
-void PendSV_Handler(void)
+void PendSV_Handler( void )
 {
 }
 
@@ -87,7 +87,7 @@ void PendSV_Handler(void)
   * @param  None
   * @retval None
   */
-void SysTick_Handler(void)
+void SysTick_Handler( void )
 {
 }
 
@@ -103,17 +103,17 @@ void SysTick_Handler(void)
   * @param  None
   * @retval None
   */
-void USER_BUTTON_IRQHANDLER(void)
+void USER_BUTTON_IRQHANDLER( void )
 {
-  /* Manage Flags */
-  if(LL_EXTI_IsActiveFlag_0_31(USER_BUTTON_EXTI_LINE) != RESET)
-  {
-    /* Clear EXTI flag */
-    LL_EXTI_ClearFlag_0_31(USER_BUTTON_EXTI_LINE);
+    /* Manage Flags */
+    if( LL_EXTI_IsActiveFlag_0_31( USER_BUTTON_EXTI_LINE ) != RESET )
+    {
+        /* Clear EXTI flag */
+        LL_EXTI_ClearFlag_0_31( USER_BUTTON_EXTI_LINE );
 
-    /* Handle user button press in dedicated function */
-    UserButton_Callback(); 
-  }
+        /* Handle user button press in dedicated function */
+        UserButton_Callback();
+    }
 }
 
 /**
@@ -121,21 +121,21 @@ void USER_BUTTON_IRQHANDLER(void)
   * Param   None
   * Retval  None
   */
-void USARTx_IRQHandler(void)
+void USARTx_IRQHandler( void )
 {
-  /* Check RXNE flag value in ISR register */
-  if(LL_USART_IsActiveFlag_RXNE(USARTx_INSTANCE) && LL_USART_IsEnabledIT_RXNE(USARTx_INSTANCE))
-  {
-    /* RXNE flag will be cleared by reading of RDR register (done in call) */
-    /* Call function in charge of handling Character reception */
-    USART_CharReception_Callback();
-  }
-  else
-  {
-    /* Call Error function */
-    Error_Callback();
-  }
-	
+    /* Check RXNE flag value in ISR register */
+    if( LL_USART_IsActiveFlag_RXNE( USARTx_INSTANCE ) && LL_USART_IsEnabledIT_RXNE( USARTx_INSTANCE ) )
+    {
+        /* RXNE flag will be cleared by reading of RDR register (done in call) */
+        /* Call function in charge of handling Character reception */
+        USART_CharReception_Callback();
+    }
+    else
+    {
+        /* Call Error function */
+        Error_Callback();
+    }
+
 }
 
 /**

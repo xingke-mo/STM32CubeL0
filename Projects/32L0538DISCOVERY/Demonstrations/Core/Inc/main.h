@@ -1,6 +1,6 @@
 /**
   ******************************************************************************
-  * @file    main.h 
+  * @file    main.h
   * @author  MCD Application Team
   * @brief   Header for main.c module
   ******************************************************************************
@@ -38,14 +38,14 @@
 /* Exported types ------------------------------------------------------------*/
 /* Exported constants --------------------------------------------------------*/
 /* Exported constants --------------------------------------------------------*/
-/* User can use this section to tailor I2Cx/I2Cx instance used and associated 
+/* User can use this section to tailor I2Cx/I2Cx instance used and associated
    resources */
 /* Definition for I2Cx clock resources */
 #define I2Cx                              I2C1
 #define I2Cx_CLK_ENABLE()                __HAL_RCC_I2C1_CLK_ENABLE()
 #define I2Cx_CLK_DISABLE()               __HAL_RCC_I2C1_CLK_DISABLE()
 #define I2Cx_SDA_GPIO_CLK_ENABLE()       __HAL_RCC_GPIOB_CLK_ENABLE()
-#define I2Cx_SCL_GPIO_CLK_ENABLE()       __HAL_RCC_GPIOB_CLK_ENABLE() 
+#define I2Cx_SCL_GPIO_CLK_ENABLE()       __HAL_RCC_GPIOB_CLK_ENABLE()
 
 #define I2Cx_FORCE_RESET()               __HAL_RCC_I2C1_FORCE_RESET()
 #define I2Cx_RELEASE_RESET()             __HAL_RCC_I2C1_RELEASE_RESET()

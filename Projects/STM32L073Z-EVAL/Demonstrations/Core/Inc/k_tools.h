@@ -15,14 +15,14 @@
   *                             www.st.com/SLA0044
   *
   ******************************************************************************
-  */ 
+  */
 
 /* Define to prevent recursive inclusion -------------------------------------*/
 #ifndef _K_TOOLS_H
 #define _K_TOOLS_H
 
 #ifdef __cplusplus
- extern "C" {
+extern "C" {
 #endif
 
 #ifdef _K_TOOLS_C
@@ -30,15 +30,15 @@
 #else
 #define GLOBAL extern
 #endif
-   
-   
+
+
 /* Includes ------------------------------------------------------------------*/
 /* Exported types ------------------------------------------------------------*/
 /* Exported constants --------------------------------------------------------*/
 /* Exported variables --------------------------------------------------------*/
 /* Exported macro ------------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */
-GLOBAL uint16_t kTools_Buffercmp(uint8_t* pBuffer1, uint8_t* pBuffer2, uint16_t BufferLength);
+GLOBAL uint16_t kTools_Buffercmp( uint8_t *pBuffer1, uint8_t *pBuffer2, uint16_t BufferLength );
 
 #ifdef __cplusplus
 }

@@ -27,78 +27,78 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* Private functions prototype -----------------------------------------------*/
-static void SoftDelay(uint32_t val);
+static void SoftDelay( uint32_t val );
 
 /**
   * @brief Configures a Bank.
   * @param[in] idx_bk  Index of the Bank to configure
   * @retval Status
   */
-TSL_Status_enum_T TSL_acq_BankConfig(TSL_tIndex_T idx_bk)
+TSL_Status_enum_T TSL_acq_BankConfig( TSL_tIndex_T idx_bk )
 {
-  uint32_t idx_ch;
-  uint32_t objs; /* bit field of TSL_ObjStatus_enum_T type */
-  uint32_t gx;
-  uint32_t ioy;
-  CONST TSL_Bank_T *bank;
-  CONST TSL_ChannelSrc_T *pchSrc;
-  CONST TSL_ChannelDest_T *pchDest;
+    uint32_t idx_ch;
+    uint32_t objs; /* bit field of TSL_ObjStatus_enum_T type */
+    uint32_t gx;
+    uint32_t ioy;
+    CONST TSL_Bank_T *bank;
+    CONST TSL_ChannelSrc_T *pchSrc;
+    CONST TSL_ChannelDest_T *pchDest;
 
-  // Check bank index
-  if (idx_bk >= TSLPRM_TOTAL_BANKS)
-  {
-    return TSL_STATUS_ERROR;
-  }
-
-  // Initialize bank pointers
-  bank = &(TSL_Globals.Bank_Array[idx_bk]);
-  pchSrc = bank->p_chSrc;
-  pchDest = bank->p_chDest;
-  
-  // Mark the current bank processed
-  TSL_Globals.This_Bank = idx_bk;
-
-  //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  // Enable the Gx_IOy used as channels (channels + shield)
-  TSC->IOCCR = bank->msk_IOCCR_channels;
-  // Enable acquisition on selected Groups
-  TSC->IOGCSR = bank->msk_IOGCSR_groups;
-  //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-  // For all channels of the bank check if they are OFF or BURST_ONLY
-  // and set acquisition status flag
-  for (idx_ch = 0; idx_ch < bank->NbChannels; idx_ch++)
-  {
-
-    // Check Object status flag
-    objs = bank->p_chData[pchDest->IdxDest].Flags.ObjStatus;
-
-    if (objs != TSL_OBJ_STATUS_ON)
+    // Check bank index
+    if( idx_bk >= TSLPRM_TOTAL_BANKS )
     {
-      //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-      // Get the Channel Group mask
-      gx = pchSrc->msk_IOGCSR_group;
-      // Stop acquisition of the Group
-      TSC->IOGCSR &= (uint32_t)~gx;
-      //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-      if (objs == TSL_OBJ_STATUS_OFF)
-      {
-        //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-        // Get the Channel IO mask
-        ioy = pchSrc->msk_IOCCR_channel;
-        // Stop Burst of the Channel
-        TSC->IOCCR &= (uint32_t)~ioy;
-        //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-      }
+        return TSL_STATUS_ERROR;
     }
 
-    // Next channel
-    pchSrc++;
-    pchDest++;
-  }
+    // Initialize bank pointers
+    bank = &( TSL_Globals.Bank_Array[idx_bk] );
+    pchSrc = bank->p_chSrc;
+    pchDest = bank->p_chDest;
 
-  return TSL_STATUS_OK;
+    // Mark the current bank processed
+    TSL_Globals.This_Bank = idx_bk;
+
+    //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    // Enable the Gx_IOy used as channels (channels + shield)
+    TSC->IOCCR = bank->msk_IOCCR_channels;
+    // Enable acquisition on selected Groups
+    TSC->IOGCSR = bank->msk_IOGCSR_groups;
+    //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+    // For all channels of the bank check if they are OFF or BURST_ONLY
+    // and set acquisition status flag
+    for( idx_ch = 0; idx_ch < bank->NbChannels; idx_ch++ )
+    {
+
+        // Check Object status flag
+        objs = bank->p_chData[pchDest->IdxDest].Flags.ObjStatus;
+
+        if( objs != TSL_OBJ_STATUS_ON )
+        {
+            //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+            // Get the Channel Group mask
+            gx = pchSrc->msk_IOGCSR_group;
+            // Stop acquisition of the Group
+            TSC->IOGCSR &= ( uint32_t )~gx;
+            //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+            if( objs == TSL_OBJ_STATUS_OFF )
+            {
+                //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+                // Get the Channel IO mask
+                ioy = pchSrc->msk_IOCCR_channel;
+                // Stop Burst of the Channel
+                TSC->IOCCR &= ( uint32_t )~ioy;
+                //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+            }
+        }
+
+        // Next channel
+        pchSrc++;
+        pchDest++;
+    }
+
+    return TSL_STATUS_OK;
 }
 
 
@@ -107,24 +107,24 @@ TSL_Status_enum_T TSL_acq_BankConfig(TSL_tIndex_T idx_bk)
   * @param None
   * @retval None
   */
-void TSL_acq_BankStartAcq(void)
+void TSL_acq_BankStartAcq( void )
 {
-  // Clear both EOAIC and MCEIC flags
-  TSC->ICR |= 0x03;
+    // Clear both EOAIC and MCEIC flags
+    TSC->ICR |= 0x03;
 
-  // Wait capacitors discharge
-  SoftDelay(TSL_Globals.DelayDischarge);
+    // Wait capacitors discharge
+    SoftDelay( TSL_Globals.DelayDischarge );
 
 #if TSLPRM_IODEF > 0 // Default = Input Floating
-  // Set IO default in Input Floating
-  TSC->CR |= (1 << 4);
+    // Set IO default in Input Floating
+    TSC->CR |= ( 1 << 4 );
 #endif
 
-  // Clear both EOA and MCE interrupts
-  TSC->IER &= (uint32_t)(~0x03);
+    // Clear both EOA and MCE interrupts
+    TSC->IER &= ( uint32_t )( ~0x03 );
 
-  // Start acquisition
-  TSC->CR |= 0x02;
+    // Start acquisition
+    TSC->CR |= 0x02;
 }
 
 /**
@@ -132,24 +132,24 @@ void TSL_acq_BankStartAcq(void)
   * @param None
   * @retval None
   */
-void TSL_acq_BankStartAcq_IT(void)
+void TSL_acq_BankStartAcq_IT( void )
 {
-  // Clear both EOAIC and MCEIC flags
-  TSC->ICR |= 0x03;
+    // Clear both EOAIC and MCEIC flags
+    TSC->ICR |= 0x03;
 
-  // Wait capacitors discharge
-  SoftDelay(TSL_Globals.DelayDischarge);
+    // Wait capacitors discharge
+    SoftDelay( TSL_Globals.DelayDischarge );
 
 #if TSLPRM_IODEF > 0 // Default = Input Floating
-  // Set IO default in Input Floating
-  TSC->CR |= (1 << 4);
+    // Set IO default in Input Floating
+    TSC->CR |= ( 1 << 4 );
 #endif
 
-  // Set both EOA and MCE interrupts
-  TSC->IER |= 0x03;
-  
-  // Start acquisition
-  TSC->CR |= 0x02;
+    // Set both EOA and MCE interrupts
+    TSC->IER |= 0x03;
+
+    // Start acquisition
+    TSC->CR |= 0x02;
 }
 
 /**
@@ -157,31 +157,31 @@ void TSL_acq_BankStartAcq_IT(void)
   * @param None
   * @retval Status
   */
-TSL_Status_enum_T TSL_acq_BankWaitEOC(void)
+TSL_Status_enum_T TSL_acq_BankWaitEOC( void )
 {
-  TSL_Status_enum_T retval = TSL_STATUS_BUSY;
+    TSL_Status_enum_T retval = TSL_STATUS_BUSY;
 
-  // Check EOAF flag
-  if (TSC->ISR & 0x01)
-  {
+    // Check EOAF flag
+    if( TSC->ISR & 0x01 )
+    {
 
 #if TSLPRM_IODEF > 0 // Default = Input Floating
-    // Set IO default in Output PP Low to discharge all capacitors
-    TSC->CR &= (uint32_t)(~(1 << 4));
+        // Set IO default in Output PP Low to discharge all capacitors
+        TSC->CR &= ( uint32_t )( ~( 1 << 4 ) );
 #endif
 
-    // Check MCEF flag
-    if (TSC->ISR & 0x02)
-    {
-      retval = TSL_STATUS_ERROR;
+        // Check MCEF flag
+        if( TSC->ISR & 0x02 )
+        {
+            retval = TSL_STATUS_ERROR;
+        }
+        else
+        {
+            retval = TSL_STATUS_OK;
+        }
     }
-    else
-    {
-      retval = TSL_STATUS_OK;
-    }
-  }
 
-  return retval;
+    return retval;
 }
 
 
@@ -190,16 +190,16 @@ TSL_Status_enum_T TSL_acq_BankWaitEOC(void)
   * @param[in] index Index of the measure source
   * @retval Measure
   */
-TSL_tMeas_T TSL_acq_GetMeas(TSL_tIndex_T index)
+TSL_tMeas_T TSL_acq_GetMeas( TSL_tIndex_T index )
 {
-  if (index < TSC_NB_GROUPS_SUPPORTED)
-  {
-    return((TSL_tMeas_T)(TSC->IOGXCR[index]));
-  }
-  else
-  {
-    return((TSL_tMeas_T)0);
-  }
+    if( index < TSC_NB_GROUPS_SUPPORTED )
+    {
+        return( ( TSL_tMeas_T )( TSC->IOGXCR[index] ) );
+    }
+    else
+    {
+        return( ( TSL_tMeas_T )0 );
+    }
 }
 
 
@@ -209,9 +209,9 @@ TSL_tMeas_T TSL_acq_GetMeas(TSL_tIndex_T index)
   * @param[in] meas Last Measurement value
   * @retval Delta value
   */
-TSL_tDelta_T TSL_acq_ComputeDelta(TSL_tRef_T ref, TSL_tMeas_T meas)
+TSL_tDelta_T TSL_acq_ComputeDelta( TSL_tRef_T ref, TSL_tMeas_T meas )
 {
-  return((TSL_tDelta_T)(ref - meas));
+    return( ( TSL_tDelta_T )( ref - meas ) );
 }
 
 
@@ -221,9 +221,9 @@ TSL_tDelta_T TSL_acq_ComputeDelta(TSL_tRef_T ref, TSL_tMeas_T meas)
   * @param[in] delta Delta value
   * @retval Measurement value
   */
-TSL_tMeas_T TSL_acq_ComputeMeas(TSL_tRef_T ref, TSL_tDelta_T delta)
+TSL_tMeas_T TSL_acq_ComputeMeas( TSL_tRef_T ref, TSL_tDelta_T delta )
 {
-  return((TSL_tMeas_T)(ref - delta));
+    return( ( TSL_tMeas_T )( ref - delta ) );
 }
 
 
@@ -232,9 +232,9 @@ TSL_tMeas_T TSL_acq_ComputeMeas(TSL_tRef_T ref, TSL_tDelta_T delta)
   * @param  None
   * @retval Status
   */
-TSL_AcqStatus_enum_T TSL_acq_CheckNoise(void)
+TSL_AcqStatus_enum_T TSL_acq_CheckNoise( void )
 {
-  return TSL_ACQ_STATUS_OK;
+    return TSL_ACQ_STATUS_OK;
 }
 
 
@@ -243,9 +243,9 @@ TSL_AcqStatus_enum_T TSL_acq_CheckNoise(void)
   * @param[in] pCh Pointer on the channel data information
   * @retval Result TRUE if a filter can be applied
   */
-TSL_Bool_enum_T TSL_acq_UseFilter(TSL_ChannelData_T *pCh)
+TSL_Bool_enum_T TSL_acq_UseFilter( TSL_ChannelData_T *pCh )
 {
-  return TSL_TRUE;
+    return TSL_TRUE;
 }
 
 
@@ -254,9 +254,9 @@ TSL_Bool_enum_T TSL_acq_UseFilter(TSL_ChannelData_T *pCh)
   * @param[in] pCh Pointer on the channel data information
   * @retval Result TRUE if the Reference is out of range
   */
-TSL_Bool_enum_T TSL_acq_TestReferenceOutOfRange(TSL_ChannelData_T *pCh)
+TSL_Bool_enum_T TSL_acq_TestReferenceOutOfRange( TSL_ChannelData_T *pCh )
 {
-  return TSL_FALSE;
+    return TSL_FALSE;
 }
 
 
@@ -266,20 +266,20 @@ TSL_Bool_enum_T TSL_acq_TestReferenceOutOfRange(TSL_ChannelData_T *pCh)
   * @param[in] new_meas Measure of the last acquisition on this channel
   * @retval Result TRUE if the Reference is valid
   */
-TSL_Bool_enum_T TSL_acq_TestFirstReferenceIsValid(TSL_ChannelData_T *pCh, TSL_tMeas_T new_meas)
+TSL_Bool_enum_T TSL_acq_TestFirstReferenceIsValid( TSL_ChannelData_T *pCh, TSL_tMeas_T new_meas )
 {
-  return TSL_TRUE;
+    return TSL_TRUE;
 }
 
 
 #if defined(__IAR_SYSTEMS_ICC__) // IAR/EWARM
-#pragma optimize=low
+    #pragma optimize=low
 #elif defined(__CC_ARM) // Keil/MDK-ARM
-#pragma O1
-#pragma Ospace
+    #pragma O1
+    #pragma Ospace
 #elif defined(__GNUC__) // Atollic/True Studio + AC6/SW4STM32
-#pragma GCC push_options
-#pragma GCC optimize ("O0")
+    #pragma GCC push_options
+    #pragma GCC optimize ("O0")
 #endif
 /**
   * @brief  Software delay (private routine)
@@ -290,11 +290,12 @@ TSL_Bool_enum_T TSL_acq_TestFirstReferenceIsValid(TSL_ChannelData_T *pCh, TSL_tM
   * val = 1000: ~126µs
   * val = 2000: ~251µs
   */
-void SoftDelay(uint32_t val)
+void SoftDelay( uint32_t val )
 {
-  volatile uint32_t idx;
-  for (idx = val; idx > 0; idx--)
-  {}
+    volatile uint32_t idx;
+
+    for( idx = val; idx > 0; idx-- )
+    {}
 }
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

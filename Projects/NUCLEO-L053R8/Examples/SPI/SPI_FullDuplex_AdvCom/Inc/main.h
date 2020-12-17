@@ -1,6 +1,6 @@
 /**
   ******************************************************************************
-  * @file    SPI/SPI_FullDuplex_AdvCom/Inc/main.h 
+  * @file    SPI/SPI_FullDuplex_AdvCom/Inc/main.h
   * @author  MCD Application Team
   * @brief   Header for main.c module
   ******************************************************************************
@@ -16,7 +16,7 @@
   *
   ******************************************************************************
   */
-  
+
 /* Define to prevent recursive inclusion -------------------------------------*/
 #ifndef __MAIN_H
 #define __MAIN_H
@@ -27,22 +27,22 @@
 /* Exported types ------------------------------------------------------------*/
 typedef enum
 {
-  ADVCOM_ERROR  = 0x00,
-  ADVCOM_ACK    = 0x01,
-  ADVCOM_NACK   = 0x02
-} 
+    ADVCOM_ERROR  = 0x00,
+    ADVCOM_ACK    = 0x01,
+    ADVCOM_NACK   = 0x02
+}
 ADVCOM_StatusTypeDef;
 
 /* Exported constants --------------------------------------------------------*/
 /* Uncomment this line to use the board as master, if not it is used as slave */
 #define MASTER_BOARD
 
-/* Uncomment one of this switch to enable IT mode, else polling mode 
+/* Uncomment one of this switch to enable IT mode, else polling mode
    is selected */
 #define SPI_MODE_IT
 
 
-/* User can use this section to tailor SPIx instance used and associated 
+/* User can use this section to tailor SPIx instance used and associated
    resources */
 /* Definition for SPIx clock resources */
 #define SPIx                             SPI2
@@ -70,15 +70,15 @@ ADVCOM_StatusTypeDef;
 #define SPIx_NSS_AF                      GPIO_AF0_SPI2
 
 #if defined(SPI_MODE_IT)
-/* Definition for SPIx's NVIC */
-#define SPIx_IRQn                        SPI2_IRQn
-#define SPIx_IRQHandler                  SPI2_IRQHandler
+    /* Definition for SPIx's NVIC */
+    #define SPIx_IRQn                        SPI2_IRQn
+    #define SPIx_IRQHandler                  SPI2_IRQHandler
 #endif
 
 /* Chip Select macro definition */
 #ifdef MASTER_BOARD
-#define SPI_CS_LOW()      HAL_GPIO_WritePin(SPIx_NSS_GPIO_PORT, SPIx_NSS_PIN, GPIO_PIN_RESET)
-#define SPI_CS_HIGH()     HAL_GPIO_WritePin(SPIx_NSS_GPIO_PORT, SPIx_NSS_PIN, GPIO_PIN_SET)
+    #define SPI_CS_LOW()      HAL_GPIO_WritePin(SPIx_NSS_GPIO_PORT, SPIx_NSS_PIN, GPIO_PIN_RESET)
+    #define SPI_CS_HIGH()     HAL_GPIO_WritePin(SPIx_NSS_GPIO_PORT, SPIx_NSS_PIN, GPIO_PIN_SET)
 #endif
 
 /* Exported macro ------------------------------------------------------------*/

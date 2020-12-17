@@ -33,7 +33,7 @@
 #include "stm32l0xx_ll_dma.h"
 #include "stm32l0xx_ll_pwr.h"
 #if defined(USE_FULL_ASSERT)
-#include "stm32_assert.h"
+    #include "stm32_assert.h"
 #endif /* USE_FULL_ASSERT */
 
 /* Exported types ------------------------------------------------------------*/
@@ -43,7 +43,7 @@
 #define USE_TIMEOUT       0
 
 /**
-  * @brief LED2 
+  * @brief LED2
   */
 #define LED2_PIN                           LL_GPIO_PIN_5
 #define LED2_GPIO_PORT                     GPIOA
@@ -64,8 +64,8 @@
 #define USER_BUTTON_GPIO_CLK_ENABLE()           LL_IOP_GRP1_EnableClock(LL_IOP_GRP1_PERIPH_GPIOC)
 #define USER_BUTTON_EXTI_LINE                   LL_EXTI_LINE_13
 #define USER_BUTTON_EXTI_IRQn                   EXTI4_15_IRQn
-#define USER_BUTTON_EXTI_LINE_ENABLE()          LL_EXTI_EnableIT_0_31(USER_BUTTON_EXTI_LINE)   
-#define USER_BUTTON_EXTI_FALLING_TRIG_ENABLE()  LL_EXTI_EnableFallingTrig_0_31(USER_BUTTON_EXTI_LINE)   
+#define USER_BUTTON_EXTI_LINE_ENABLE()          LL_EXTI_EnableIT_0_31(USER_BUTTON_EXTI_LINE)
+#define USER_BUTTON_EXTI_FALLING_TRIG_ENABLE()  LL_EXTI_EnableFallingTrig_0_31(USER_BUTTON_EXTI_LINE)
 #define USER_BUTTON_SYSCFG_SET_EXTI()           do {                                                                     \
                                                   LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_SYSCFG);                  \
                                                   LL_SYSCFG_SetEXTISource(LL_SYSCFG_EXTI_PORTC, LL_SYSCFG_EXTI_LINE13);  \
@@ -76,11 +76,11 @@
 
 /* Exported functions ------------------------------------------------------- */
 /* IRQ Handler treatment */
-void UserButton_Callback(void);
-void AdcDmaTransferComplete_Callback(void);
-void AdcDmaTransferError_Callback(void);
-void AdcGrpRegularSequenceConvComplete_Callback(void);
-void AdcGrpRegularOverrunError_Callback(void);
+void UserButton_Callback( void );
+void AdcDmaTransferComplete_Callback( void );
+void AdcDmaTransferError_Callback( void );
+void AdcGrpRegularSequenceConvComplete_Callback( void );
+void AdcGrpRegularOverrunError_Callback( void );
 
 #endif /* __MAIN_H */
 

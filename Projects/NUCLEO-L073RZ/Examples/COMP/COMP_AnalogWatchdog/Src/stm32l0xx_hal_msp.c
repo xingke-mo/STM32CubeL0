@@ -40,59 +40,59 @@
   */
 
 /**
-  * @brief COMP MSP Initialization 
+  * @brief COMP MSP Initialization
   *        This function configures the hardware resources used in this example:
   *           - Peripheral's clock enable
-  *           - Peripheral's GPIO Configuration  
+  *           - Peripheral's GPIO Configuration
   *           - NVIC configuration for COMP interrupt request enable
   * @param hcomp: COMP handle pointer
   * @retval None
   */
-void HAL_COMP_MspInit(COMP_HandleTypeDef *hcomp)
+void HAL_COMP_MspInit( COMP_HandleTypeDef *hcomp )
 {
-  GPIO_InitTypeDef      GPIO_InitStruct;
+    GPIO_InitTypeDef      GPIO_InitStruct;
 
-  /*##-1- Enable peripherals and GPIO Clocks #################################*/
-  /* Enable GPIO clock ***************************************************/
-  COMPx_GPIO_CLK_ENABLE();
-  
-  /*##-2- Configure peripheral GPIO ##########################################*/
-  /* COMP GPIO pin configuration */
-  GPIO_InitStruct.Pin = COMPx_PIN;
-  GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(COMPx_GPIO_PORT, &GPIO_InitStruct);
+    /*##-1- Enable peripherals and GPIO Clocks #################################*/
+    /* Enable GPIO clock ***************************************************/
+    COMPx_GPIO_CLK_ENABLE();
 
-  /*##-3- Configure the NVIC for COMPx #######################################*/
-   /* Enable the COMPx IRQ Channel */
-  HAL_NVIC_SetPriority(COMPx_IRQn, 3, 0);
-  HAL_NVIC_EnableIRQ(COMPx_IRQn);
+    /*##-2- Configure peripheral GPIO ##########################################*/
+    /* COMP GPIO pin configuration */
+    GPIO_InitStruct.Pin = COMPx_PIN;
+    GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    HAL_GPIO_Init( COMPx_GPIO_PORT, &GPIO_InitStruct );
+
+    /*##-3- Configure the NVIC for COMPx #######################################*/
+    /* Enable the COMPx IRQ Channel */
+    HAL_NVIC_SetPriority( COMPx_IRQn, 3, 0 );
+    HAL_NVIC_EnableIRQ( COMPx_IRQn );
 }
 
 /**
   * @brief  DeInitializes the COMP MSP.
   * @param  hcomp: pointer to a COMP_HandleTypeDef structure that contains
-  *         the configuration information for the specified COMP.  
+  *         the configuration information for the specified COMP.
   * @retval None
   */
-void HAL_COMP_MspDeInit(COMP_HandleTypeDef *hcomp)
+void HAL_COMP_MspDeInit( COMP_HandleTypeDef *hcomp )
 {
-  /*##-1- De-initialize peripheral GPIO ######################################*/
-  /* De-initialize the COMPx GPIO pin */
-  HAL_GPIO_DeInit(COMPx_GPIO_PORT, COMPx_PIN);
+    /*##-1- De-initialize peripheral GPIO ######################################*/
+    /* De-initialize the COMPx GPIO pin */
+    HAL_GPIO_DeInit( COMPx_GPIO_PORT, COMPx_PIN );
 
-  /*##-2- Disable peripherals and GPIO clocks ################################*/
-  /* Disable COMP peripheral clock ***************************************/
-  __HAL_RCC_SYSCFG_CLK_DISABLE();
+    /*##-2- Disable peripherals and GPIO clocks ################################*/
+    /* Disable COMP peripheral clock ***************************************/
+    __HAL_RCC_SYSCFG_CLK_DISABLE();
 
-  /* Disable GPIO clock **************************************************/
-  /* Note: In a real application, by disabling GPIO port, be cautious to not  */
-  /* interfere with potential other peripherals using other GPIOs on the same */
-  /* port.                                                                    */
-  COMPx_GPIO_CLK_DISABLE();
+    /* Disable GPIO clock **************************************************/
+    /* Note: In a real application, by disabling GPIO port, be cautious to not  */
+    /* interfere with potential other peripherals using other GPIOs on the same */
+    /* port.                                                                    */
+    COMPx_GPIO_CLK_DISABLE();
 
-  /*##-3- Disable the NVIC for COMP ##########################################*/
-  HAL_NVIC_DisableIRQ(COMPx_IRQn);
+    /*##-3- Disable the NVIC for COMP ##########################################*/
+    HAL_NVIC_DisableIRQ( COMPx_IRQn );
 }
 
 /**

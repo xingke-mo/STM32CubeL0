@@ -217,9 +217,9 @@ extern "C" {
   * @{
   */
 /* Extended Control functions  ************************************************/
-HAL_StatusTypeDef HAL_TIMEx_MasterConfigSynchronization(TIM_HandleTypeDef *htim,
-                                                        TIM_MasterConfigTypeDef *sMasterConfig);
-HAL_StatusTypeDef HAL_TIMEx_RemapConfig(TIM_HandleTypeDef *htim, uint32_t Remap);
+HAL_StatusTypeDef HAL_TIMEx_MasterConfigSynchronization( TIM_HandleTypeDef *htim,
+        TIM_MasterConfigTypeDef *sMasterConfig );
+HAL_StatusTypeDef HAL_TIMEx_RemapConfig( TIM_HandleTypeDef *htim, uint32_t Remap );
 /**
   * @}
   */

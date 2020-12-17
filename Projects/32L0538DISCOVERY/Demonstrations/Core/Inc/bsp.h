@@ -1,6 +1,6 @@
 /**
   ******************************************************************************
-  * @file    bsp.h 
+  * @file    bsp.h
   * @author  MCD Application Team
   * @brief   Header for main.c module
   ******************************************************************************
@@ -28,10 +28,10 @@
 /* Exported constants --------------------------------------------------------*/
 /* define for the linear */
 /* Exported macros -----------------------------------------------------------*/
-/* Exported functions ------------------------------------------------------- */ 
-void Bsp_Init(void);
-void BSP_TSL_Init(void);
-void BSP_USB_Init(void);
+/* Exported functions ------------------------------------------------------- */
+void Bsp_Init( void );
+void BSP_TSL_Init( void );
+void BSP_USB_Init( void );
 
 #ifdef __cplusplus
 }

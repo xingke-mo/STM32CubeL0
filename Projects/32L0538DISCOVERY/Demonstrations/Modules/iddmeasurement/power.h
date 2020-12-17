@@ -1,6 +1,6 @@
 /**
   ******************************************************************************
-  * @file    power.h 
+  * @file    power.h
   * @author  MCD Application Team
   * @brief   Header for main.c module
   ******************************************************************************
@@ -28,10 +28,10 @@
 /* Exported types ------------------------------------------------------------*/
 /* Exported constants --------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */
-void Idd_Run_process(void);
-void Idd_Sleep_process(void);
-void Idd_LPSleep_process(void);
-void Idd_Stop_process(void);
+void Idd_Run_process( void );
+void Idd_Sleep_process( void );
+void Idd_LPSleep_process( void );
+void Idd_Stop_process( void );
 
 #endif /* __IDD_POWER_H */
 

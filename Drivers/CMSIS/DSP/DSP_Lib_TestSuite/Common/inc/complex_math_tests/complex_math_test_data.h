@@ -19,10 +19,10 @@
 /*--------------------------------------------------------------------------------*/
 
 /* Input/Output Buffers */
-ARR_DESC_DECLARE(complex_math_output_fut_a);
-ARR_DESC_DECLARE(complex_math_output_fut_b);
-ARR_DESC_DECLARE(complex_math_output_ref_a);
-ARR_DESC_DECLARE(complex_math_output_ref_b);
+ARR_DESC_DECLARE( complex_math_output_fut_a );
+ARR_DESC_DECLARE( complex_math_output_fut_b );
+ARR_DESC_DECLARE( complex_math_output_ref_a );
+ARR_DESC_DECLARE( complex_math_output_ref_b );
 
 extern COMPLEX_MATH_BIGGEST_INPUT_TYPE
 complex_math_output_f32_ref_a[COMPLEX_MATH_MAX_INPUT_ELEMENTS * 2];
@@ -37,14 +37,14 @@ extern COMPLEX_MATH_BIGGEST_INPUT_TYPE
 complex_math_output_f32_fut_b[COMPLEX_MATH_MAX_INPUT_ELEMENTS * 2];
 
 /* Block Sizes*/
-ARR_DESC_DECLARE(complex_math_block_sizes);
+ARR_DESC_DECLARE( complex_math_block_sizes );
 
 /* Float Inputs */
-ARR_DESC_DECLARE(complex_math_zeros);
-ARR_DESC_DECLARE(complex_math_f_2);
-ARR_DESC_DECLARE(complex_math_f_15);
-ARR_DESC_DECLARE(complex_math_f_32);
-ARR_DESC_DECLARE(complex_math_f_all);
+ARR_DESC_DECLARE( complex_math_zeros );
+ARR_DESC_DECLARE( complex_math_f_2 );
+ARR_DESC_DECLARE( complex_math_f_15 );
+ARR_DESC_DECLARE( complex_math_f_32 );
+ARR_DESC_DECLARE( complex_math_f_all );
 
 
 #endif /* _COMPLEX_MATH_TEST_DATA_H_ */

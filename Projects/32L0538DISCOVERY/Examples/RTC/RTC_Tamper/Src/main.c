@@ -1,9 +1,9 @@
 /**
   ******************************************************************************
-  * @file    RTC/RTC_Tamper/Src/main.c 
+  * @file    RTC/RTC_Tamper/Src/main.c
   * @author  MCD Application Team
-  * @brief   This sample code shows how to use STM32L0xx RTC HAL API to write/read 
-  *          data to/from RTC Backup data registers and demonstrates the Tamper  
+  * @brief   This sample code shows how to use STM32L0xx RTC HAL API to write/read
+  *          data to/from RTC Backup data registers and demonstrates the Tamper
   *          detection feature.
   ******************************************************************************
   * @attention
@@ -28,7 +28,7 @@
 
 /** @addtogroup RTC_Tamper
   * @{
-  */ 
+  */
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
@@ -42,13 +42,13 @@ __IO FlagStatus TamperStatus = RESET;
 /* Buffer used for displaying Time and Date */
 uint32_t aBKPDataReg[BACKUP_COUNT] =
 {
-  RTC_BKP_DR0, RTC_BKP_DR1, RTC_BKP_DR2,
-  RTC_BKP_DR3, RTC_BKP_DR4
+    RTC_BKP_DR0, RTC_BKP_DR1, RTC_BKP_DR2,
+    RTC_BKP_DR3, RTC_BKP_DR4
 };
 
 /* Private function prototypes -----------------------------------------------*/
-static void SystemClock_Config(void);
-static void RTC_TamperConfig(void);
+static void SystemClock_Config( void );
+static void RTC_TamperConfig( void );
 
 /* Private functions ---------------------------------------------------------*/
 
@@ -57,79 +57,79 @@ static void RTC_TamperConfig(void);
   * @param  None
   * @retval None
   */
-int main(void)
+int main( void )
 {
-  uint32_t index = 0;
- 
-  /* STM32L0xx HAL library initialization:
-       - Configure the Flash prefetch, Flash preread and Buffer caches
-       - Systick timer is configured by default as source of time base, but user 
-             can eventually implement his proper time base source (a general purpose 
-             timer for example or other time source), keeping in mind that Time base 
-             duration should be kept 1ms since PPP_TIMEOUT_VALUEs are defined and 
-             handled in milliseconds basis.
-       - Low Level Initialization
-     */
-  HAL_Init();
+    uint32_t index = 0;
 
-  /* Configure LED3 */
-  BSP_LED_Init(LED3);
+    /* STM32L0xx HAL library initialization:
+         - Configure the Flash prefetch, Flash preread and Buffer caches
+         - Systick timer is configured by default as source of time base, but user
+               can eventually implement his proper time base source (a general purpose
+               timer for example or other time source), keeping in mind that Time base
+               duration should be kept 1ms since PPP_TIMEOUT_VALUEs are defined and
+               handled in milliseconds basis.
+         - Low Level Initialization
+       */
+    HAL_Init();
 
-  /* Configure the system clock to 2 Mhz */
-  SystemClock_Config();
-  
-  /*##-1- Configure RTC Tamper ###############################################*/
-  /* Configure RTC Tamper */
-  RTC_TamperConfig();
-  
-  /* Clear Tamper Flag */
-  __HAL_RTC_TAMPER_CLEAR_FLAG(&RtcHandle, RTC_FLAG_TAMP2F);
-  
-  /*##-2- Write Data on the Back Up registers ################################*/
-  for(index = 0; index < BACKUP_COUNT; index++)
-  {
-    HAL_RTCEx_BKUPWrite(&RtcHandle,aBKPDataReg[index], 0xDF59 + (index * 0x5A));
-  }
+    /* Configure LED3 */
+    BSP_LED_Init( LED3 );
 
-  /*##-3- Check Data is stored on the Back Up registers ######################*/
-  for(index = 0; index < BACKUP_COUNT; index++)
-  {
-    if(HAL_RTCEx_BKUPRead(&RtcHandle, aBKPDataReg[index]) != (0xDF59 + (index * 0x5A)))
+    /* Configure the system clock to 2 Mhz */
+    SystemClock_Config();
+
+    /*##-1- Configure RTC Tamper ###############################################*/
+    /* Configure RTC Tamper */
+    RTC_TamperConfig();
+
+    /* Clear Tamper Flag */
+    __HAL_RTC_TAMPER_CLEAR_FLAG( &RtcHandle, RTC_FLAG_TAMP2F );
+
+    /*##-2- Write Data on the Back Up registers ################################*/
+    for( index = 0; index < BACKUP_COUNT; index++ )
     {
-      ErrorHandler();
+        HAL_RTCEx_BKUPWrite( &RtcHandle, aBKPDataReg[index], 0xDF59 + ( index * 0x5A ) );
     }
-  }
 
-  /* Reset flag after wrting of backup register in order to wait for new button press */
-  TamperStatus = RESET;
-
-  /*##-4- Wait for the tamper button is pressed ##############################*/
-  while(TamperStatus != SET);
-
-  /*##-5- Deactivate Tamper ##################################################*/
-  HAL_RTCEx_DeactivateTamper(&RtcHandle, RTC_TAMPER_2);
-
-  /*##-6- Check Data is cleared on the Back Up registers #####################*/
-  for(index = 0; index < BACKUP_COUNT; index++)
-  {
-    if(HAL_RTCEx_BKUPRead(&RtcHandle, aBKPDataReg[index]) != 0x00)
+    /*##-3- Check Data is stored on the Back Up registers ######################*/
+    for( index = 0; index < BACKUP_COUNT; index++ )
     {
-      ErrorHandler();
+        if( HAL_RTCEx_BKUPRead( &RtcHandle, aBKPDataReg[index] ) != ( 0xDF59 + ( index * 0x5A ) ) )
+        {
+            ErrorHandler();
+        }
     }
-  }
-  
-  /* Turn LED3 on */
-  BSP_LED_On(LED3);
 
-  /* Infinite loop */ 
-  while (1)
-  {
-  }
+    /* Reset flag after wrting of backup register in order to wait for new button press */
+    TamperStatus = RESET;
+
+    /*##-4- Wait for the tamper button is pressed ##############################*/
+    while( TamperStatus != SET );
+
+    /*##-5- Deactivate Tamper ##################################################*/
+    HAL_RTCEx_DeactivateTamper( &RtcHandle, RTC_TAMPER_2 );
+
+    /*##-6- Check Data is cleared on the Back Up registers #####################*/
+    for( index = 0; index < BACKUP_COUNT; index++ )
+    {
+        if( HAL_RTCEx_BKUPRead( &RtcHandle, aBKPDataReg[index] ) != 0x00 )
+        {
+            ErrorHandler();
+        }
+    }
+
+    /* Turn LED3 on */
+    BSP_LED_On( LED3 );
+
+    /* Infinite loop */
+    while( 1 )
+    {
+    }
 }
 
 /**
   * @brief  System Clock Configuration
-  *         The system Clock is configured as follow : 
+  *         The system Clock is configured as follow :
   *            System Clock source            = MSI
   *            SYSCLK(Hz)                     = 2000000
   *            HCLK(Hz)                       = 2000000
@@ -141,44 +141,46 @@ int main(void)
   * @param  None
   * @retval None
   */
-static void SystemClock_Config(void)
+static void SystemClock_Config( void )
 {
-  RCC_ClkInitTypeDef RCC_ClkInitStruct;
-  RCC_OscInitTypeDef RCC_OscInitStruct;
-  
-  /* Enable Power Control clock */
-  __HAL_RCC_PWR_CLK_ENABLE();
-  
-  /* The voltage scaling allows optimizing the power consumption when the device is 
-     clocked below the maximum system frequency, to update the voltage scaling value 
-     regarding system frequency refer to product datasheet.  */
-  __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE3);
-  
-  /* Enable MSI Oscillator */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_MSI;
-  RCC_OscInitStruct.MSIState = RCC_MSI_ON;
-  RCC_OscInitStruct.MSIClockRange = RCC_MSIRANGE_5;
-  RCC_OscInitStruct.MSICalibrationValue = 0x00;
-  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
-  if(HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
-  {
-    /* Error */
-    ErrorHandler();
-  }
+    RCC_ClkInitTypeDef RCC_ClkInitStruct;
+    RCC_OscInitTypeDef RCC_OscInitStruct;
+
+    /* Enable Power Control clock */
+    __HAL_RCC_PWR_CLK_ENABLE();
+
+    /* The voltage scaling allows optimizing the power consumption when the device is
+       clocked below the maximum system frequency, to update the voltage scaling value
+       regarding system frequency refer to product datasheet.  */
+    __HAL_PWR_VOLTAGESCALING_CONFIG( PWR_REGULATOR_VOLTAGE_SCALE3 );
+
+    /* Enable MSI Oscillator */
+    RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_MSI;
+    RCC_OscInitStruct.MSIState = RCC_MSI_ON;
+    RCC_OscInitStruct.MSIClockRange = RCC_MSIRANGE_5;
+    RCC_OscInitStruct.MSICalibrationValue = 0x00;
+    RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
+
+    if( HAL_RCC_OscConfig( &RCC_OscInitStruct ) != HAL_OK )
+    {
+        /* Error */
+        ErrorHandler();
+    }
 
 
-  /* Select MSI as system clock source and configure the HCLK, PCLK1 and PCLK2 
-     clocks dividers */
-  RCC_ClkInitStruct.ClockType = (RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2);
-  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_MSI;
-  RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
-  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;  
-  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;  
-  if(HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_0) != HAL_OK)
-  {
-    /* Error */
-    ErrorHandler();
-  }
+    /* Select MSI as system clock source and configure the HCLK, PCLK1 and PCLK2
+       clocks dividers */
+    RCC_ClkInitStruct.ClockType = ( RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2 );
+    RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_MSI;
+    RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+    RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
+    RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
+
+    if( HAL_RCC_ClockConfig( &RCC_ClkInitStruct, FLASH_LATENCY_0 ) != HAL_OK )
+    {
+        /* Error */
+        ErrorHandler();
+    }
 }
 
 /**
@@ -186,16 +188,16 @@ static void SystemClock_Config(void)
   * @param  None
   * @retval None
   */
-void ErrorHandler(void)
+void ErrorHandler( void )
 {
-  while(1)
-  {
-    /* Toggle LED3 */
-    BSP_LED_Toggle(LED3);
-    
-    /* Delay */
-    HAL_Delay(100);
-  }
+    while( 1 )
+    {
+        /* Toggle LED3 */
+        BSP_LED_Toggle( LED3 );
+
+        /* Delay */
+        HAL_Delay( 100 );
+    }
 }
 
 /**
@@ -203,51 +205,51 @@ void ErrorHandler(void)
   * @param  None
   * @retval None
   */
-static void RTC_TamperConfig(void)
+static void RTC_TamperConfig( void )
 {
-  RTC_TamperTypeDef  stamperstructure;
-  
-  /*##-1- Configure the RTC peripheral #######################################*/
-  /* Configure RTC prescaler and RTC data registers */
-  /* RTC configured as follow:
-      - Hour Format    = Format 24
-      - Asynch Prediv  = Value according to source clock
-      - Synch Prediv   = Value according to source clock
-      - OutPut         = Output Disable
-      - OutPutPolarity = High Polarity
-      - OutPutType     = Open Drain */
-  RtcHandle.Instance = RTC; 
-  RtcHandle.Init.HourFormat = RTC_HOURFORMAT_24;
-  RtcHandle.Init.AsynchPrediv = RTC_ASYNCH_PREDIV;
-  RtcHandle.Init.SynchPrediv = RTC_SYNCH_PREDIV;
-  RtcHandle.Init.OutPut = RTC_OUTPUT_DISABLE;
-  RtcHandle.Init.OutPutPolarity = RTC_OUTPUT_POLARITY_HIGH;
-  RtcHandle.Init.OutPutType = RTC_OUTPUT_TYPE_OPENDRAIN;
-  
-  if(HAL_RTC_Init(&RtcHandle) != HAL_OK)
-  {
-    /* Error */
-    ErrorHandler(); 
-  }
-  
-  /*##-2- Configure the Tamper ###############################################*/
-  /* Use PA0 as Tamper 2 with interrupt mode */
-  stamperstructure.Filter = RTC_TAMPERFILTER_DISABLE;
-  stamperstructure.Tamper = RTC_TAMPER_2;
-  stamperstructure.Interrupt = RTC_TAMPER2_INTERRUPT;
-  stamperstructure.Trigger = RTC_TAMPERTRIGGER_FALLINGEDGE;
-  stamperstructure.NoErase = RTC_TAMPER_ERASE_BACKUP_ENABLE;
-  stamperstructure.MaskFlag = RTC_TAMPERMASK_FLAG_DISABLE;
-  stamperstructure.SamplingFrequency = RTC_TAMPERSAMPLINGFREQ_RTCCLK_DIV256;
-  stamperstructure.PrechargeDuration = RTC_TAMPERPRECHARGEDURATION_1RTCCLK;
-  stamperstructure.TamperPullUp = RTC_TAMPER_PULLUP_DISABLE;
-  stamperstructure.TimeStampOnTamperDetection = RTC_TIMESTAMPONTAMPERDETECTION_DISABLE;
-      
-  if(HAL_RTCEx_SetTamper_IT(&RtcHandle, &stamperstructure) != HAL_OK)
-  {
-    /* Error */
-    ErrorHandler(); 
-  }   
+    RTC_TamperTypeDef  stamperstructure;
+
+    /*##-1- Configure the RTC peripheral #######################################*/
+    /* Configure RTC prescaler and RTC data registers */
+    /* RTC configured as follow:
+        - Hour Format    = Format 24
+        - Asynch Prediv  = Value according to source clock
+        - Synch Prediv   = Value according to source clock
+        - OutPut         = Output Disable
+        - OutPutPolarity = High Polarity
+        - OutPutType     = Open Drain */
+    RtcHandle.Instance = RTC;
+    RtcHandle.Init.HourFormat = RTC_HOURFORMAT_24;
+    RtcHandle.Init.AsynchPrediv = RTC_ASYNCH_PREDIV;
+    RtcHandle.Init.SynchPrediv = RTC_SYNCH_PREDIV;
+    RtcHandle.Init.OutPut = RTC_OUTPUT_DISABLE;
+    RtcHandle.Init.OutPutPolarity = RTC_OUTPUT_POLARITY_HIGH;
+    RtcHandle.Init.OutPutType = RTC_OUTPUT_TYPE_OPENDRAIN;
+
+    if( HAL_RTC_Init( &RtcHandle ) != HAL_OK )
+    {
+        /* Error */
+        ErrorHandler();
+    }
+
+    /*##-2- Configure the Tamper ###############################################*/
+    /* Use PA0 as Tamper 2 with interrupt mode */
+    stamperstructure.Filter = RTC_TAMPERFILTER_DISABLE;
+    stamperstructure.Tamper = RTC_TAMPER_2;
+    stamperstructure.Interrupt = RTC_TAMPER2_INTERRUPT;
+    stamperstructure.Trigger = RTC_TAMPERTRIGGER_FALLINGEDGE;
+    stamperstructure.NoErase = RTC_TAMPER_ERASE_BACKUP_ENABLE;
+    stamperstructure.MaskFlag = RTC_TAMPERMASK_FLAG_DISABLE;
+    stamperstructure.SamplingFrequency = RTC_TAMPERSAMPLINGFREQ_RTCCLK_DIV256;
+    stamperstructure.PrechargeDuration = RTC_TAMPERPRECHARGEDURATION_1RTCCLK;
+    stamperstructure.TamperPullUp = RTC_TAMPER_PULLUP_DISABLE;
+    stamperstructure.TimeStampOnTamperDetection = RTC_TIMESTAMPONTAMPERDETECTION_DISABLE;
+
+    if( HAL_RTCEx_SetTamper_IT( &RtcHandle, &stamperstructure ) != HAL_OK )
+    {
+        /* Error */
+        ErrorHandler();
+    }
 }
 
 
@@ -260,24 +262,24 @@ static void RTC_TamperConfig(void)
   * @param  line: assert_param error line source number
   * @retval None
   */
-void assert_failed(uint8_t *file, uint32_t line)
-{ 
-  /* User can add his own implementation to report the file name and line number,
-     ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
+void assert_failed( uint8_t *file, uint32_t line )
+{
+    /* User can add his own implementation to report the file name and line number,
+       ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
 
-  /* Infinite loop */
-  while (1)
-  {
-  }
+    /* Infinite loop */
+    while( 1 )
+    {
+    }
 }
 #endif
 
 /**
   * @}
-  */ 
+  */
 
 /**
   * @}
-  */ 
+  */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

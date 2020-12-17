@@ -28,7 +28,7 @@
 
 /* Exported functions --------------------------------------------------------*/
 
-void TSL_dxs_FirstObj(CONST TSL_ObjectGroup_T *objgrp);
+void TSL_dxs_FirstObj( CONST TSL_ObjectGroup_T *objgrp );
 
 #endif /* __TSL_DXS_H */
 

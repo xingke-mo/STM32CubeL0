@@ -76,52 +76,52 @@ __IO uint16_t  TSENSORAddress = 0;
   * @param  None
   * @retval TSENSOR status
   */
-uint32_t BSP_TSENSOR_Init(void)
+uint32_t BSP_TSENSOR_Init( void )
 {
-  uint8_t ret = TSENSOR_ERROR;
-  TSENSOR_InitTypeDef STLM75_InitStructure;
+    uint8_t ret = TSENSOR_ERROR;
+    TSENSOR_InitTypeDef STLM75_InitStructure;
 
-  /* Temperature Sensor Initialization */
-  if(Stlm75Drv.IsReady(TSENSOR_I2C_ADDRESS_A01, TSENSOR_MAX_TRIALS) == HAL_OK)
-  {
-    /* Initialize the temperature sensor driver structure */
-    TSENSORAddress = TSENSOR_I2C_ADDRESS_A01;
-    tsensor_drv = &Stlm75Drv;
-
-    ret = TSENSOR_OK;
-  }
-  else
-  {
-    if(Stlm75Drv.IsReady(TSENSOR_I2C_ADDRESS_A02, TSENSOR_MAX_TRIALS) == HAL_OK)
+    /* Temperature Sensor Initialization */
+    if( Stlm75Drv.IsReady( TSENSOR_I2C_ADDRESS_A01, TSENSOR_MAX_TRIALS ) == HAL_OK )
     {
-      /* Initialize the temperature sensor driver structure */
-      TSENSORAddress = TSENSOR_I2C_ADDRESS_A02;
-      tsensor_drv = &Stlm75Drv;
+        /* Initialize the temperature sensor driver structure */
+        TSENSORAddress = TSENSOR_I2C_ADDRESS_A01;
+        tsensor_drv = &Stlm75Drv;
 
-      ret = TSENSOR_OK;
+        ret = TSENSOR_OK;
     }
     else
     {
-      ret = TSENSOR_ERROR;
+        if( Stlm75Drv.IsReady( TSENSOR_I2C_ADDRESS_A02, TSENSOR_MAX_TRIALS ) == HAL_OK )
+        {
+            /* Initialize the temperature sensor driver structure */
+            TSENSORAddress = TSENSOR_I2C_ADDRESS_A02;
+            tsensor_drv = &Stlm75Drv;
+
+            ret = TSENSOR_OK;
+        }
+        else
+        {
+            ret = TSENSOR_ERROR;
+        }
     }
-  }
 
-  if (ret == TSENSOR_OK)
-  {
-    /* Configure Temperature Sensor : Conversion 9 bits in continuous mode */
-    /* Alert outside range Limit Temperature 12° <-> 24°c */
-    STLM75_InitStructure.AlertMode             = STLM75_INTERRUPT_MODE;
-    STLM75_InitStructure.ConversionMode        = STLM75_CONTINUOUS_MODE;
-    STLM75_InitStructure.TemperatureLimitHigh  = 24;
-    STLM75_InitStructure.TemperatureLimitLow   = -12;
+    if( ret == TSENSOR_OK )
+    {
+        /* Configure Temperature Sensor : Conversion 9 bits in continuous mode */
+        /* Alert outside range Limit Temperature 12° <-> 24°c */
+        STLM75_InitStructure.AlertMode             = STLM75_INTERRUPT_MODE;
+        STLM75_InitStructure.ConversionMode        = STLM75_CONTINUOUS_MODE;
+        STLM75_InitStructure.TemperatureLimitHigh  = 24;
+        STLM75_InitStructure.TemperatureLimitLow   = -12;
 
-    /* TSENSOR Init */
-    tsensor_drv->Init(TSENSORAddress, &STLM75_InitStructure);
+        /* TSENSOR Init */
+        tsensor_drv->Init( TSENSORAddress, &STLM75_InitStructure );
 
-    ret = TSENSOR_OK;
-  }
+        ret = TSENSOR_OK;
+    }
 
-  return ret;
+    return ret;
 }
 
 /**
@@ -129,9 +129,9 @@ uint32_t BSP_TSENSOR_Init(void)
   * @param  None
   * @retval The Temperature Sensor status.
   */
-uint8_t BSP_TSENSOR_ReadStatus(void)
+uint8_t BSP_TSENSOR_ReadStatus( void )
 {
-  return (tsensor_drv->ReadStatus(TSENSORAddress));
+    return ( tsensor_drv->ReadStatus( TSENSORAddress ) );
 }
 
 /**
@@ -139,9 +139,9 @@ uint8_t BSP_TSENSOR_ReadStatus(void)
   * @param  None
   * @retval STLM75 measured temperature value.
   */
-float BSP_TSENSOR_ReadTemp(void)
+float BSP_TSENSOR_ReadTemp( void )
 {
-  return tsensor_drv->ReadTemp(TSENSORAddress);
+    return tsensor_drv->ReadTemp( TSENSORAddress );
 }
 
 /**

@@ -110,8 +110,8 @@ extern "C" {
   * @{
   */
 /* Peripheral Control functions  ************************************************/
-HAL_StatusTypeDef HAL_I2CEx_ConfigAnalogFilter(I2C_HandleTypeDef *hi2c, uint32_t AnalogFilter);
-HAL_StatusTypeDef HAL_I2CEx_ConfigDigitalFilter(I2C_HandleTypeDef *hi2c, uint32_t DigitalFilter);
+HAL_StatusTypeDef HAL_I2CEx_ConfigAnalogFilter( I2C_HandleTypeDef *hi2c, uint32_t AnalogFilter );
+HAL_StatusTypeDef HAL_I2CEx_ConfigDigitalFilter( I2C_HandleTypeDef *hi2c, uint32_t DigitalFilter );
 /**
   * @}
   */
@@ -119,8 +119,8 @@ HAL_StatusTypeDef HAL_I2CEx_ConfigDigitalFilter(I2C_HandleTypeDef *hi2c, uint32_
 /** @addtogroup I2CEx_Exported_Functions_Group2 I2C Extended WakeUp Mode Functions
   * @{
   */
-HAL_StatusTypeDef HAL_I2CEx_EnableWakeUp(I2C_HandleTypeDef *hi2c);
-HAL_StatusTypeDef HAL_I2CEx_DisableWakeUp(I2C_HandleTypeDef *hi2c);
+HAL_StatusTypeDef HAL_I2CEx_EnableWakeUp( I2C_HandleTypeDef *hi2c );
+HAL_StatusTypeDef HAL_I2CEx_DisableWakeUp( I2C_HandleTypeDef *hi2c );
 /**
   * @}
   */
@@ -129,8 +129,8 @@ HAL_StatusTypeDef HAL_I2CEx_DisableWakeUp(I2C_HandleTypeDef *hi2c);
   * @{
   */
 #if  (defined(SYSCFG_CFGR2_I2C_PB6_FMP) || defined(SYSCFG_CFGR2_I2C_PB7_FMP)) || (defined(SYSCFG_CFGR2_I2C_PB8_FMP) || defined(SYSCFG_CFGR2_I2C_PB9_FMP)) || (defined(SYSCFG_CFGR2_I2C1_FMP)) || defined(SYSCFG_CFGR2_I2C2_FMP) || defined(SYSCFG_CFGR2_I2C3_FMP)
-void HAL_I2CEx_EnableFastModePlus(uint32_t ConfigFastModePlus);
-void HAL_I2CEx_DisableFastModePlus(uint32_t ConfigFastModePlus);
+void HAL_I2CEx_EnableFastModePlus( uint32_t ConfigFastModePlus );
+void HAL_I2CEx_DisableFastModePlus( uint32_t ConfigFastModePlus );
 #endif
 /**
   * @}

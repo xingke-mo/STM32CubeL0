@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    FIREWALL/FIREWALL_VolatileData_Executable/Src/main.c
   * @author  MCD Application Team
-  * @brief   This sample code shows how to use STM32L0xx FIREWALL HAL API 
-  *          to  protect an executable volatile data segment. 
+  * @brief   This sample code shows how to use STM32L0xx FIREWALL HAL API
+  *          to  protect an executable volatile data segment.
   ******************************************************************************
   * @attention
   *
@@ -34,20 +34,20 @@
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
 /* Firewall configuration structure */
-FIREWALL_InitTypeDef fw_init;  
- 
-/* Non-protected data, will be processed by protected function */ 
+FIREWALL_InitTypeDef fw_init;
+
+/* Non-protected data, will be processed by protected function */
 uint32_t unprotected_vdata[N] = {1, 4, 9, 16, 25, 36, 49, 64, 81, 100};
 
-/* Variables used for code processing checking purposes */  
+/* Variables used for code processing checking purposes */
 uint32_t expected_vdata_function_output_1 = 861;
 uint32_t expected_vdata_function_output_2 = 1113;
 
-/* Array located in protected volatile data segment (SRAM) */  
+/* Array located in protected volatile data segment (SRAM) */
 extern uint32_t protected_volatile_array[N];
 
 /* Private function prototypes -----------------------------------------------*/
-void SystemClock_Config(void);
+void SystemClock_Config( void );
 /* Private functions ---------------------------------------------------------*/
 
 /**
@@ -55,220 +55,222 @@ void SystemClock_Config(void);
   * @param  None
   * @retval None
   */
-int main(void)
+int main( void )
 {
-  uint32_t (*fptr)(uint32_t * array); /* Function pointer used to invoke executable protected volatile data segment */
-  fptr = (uint32_t (*)(uint32_t * array))0x20002105; 
-                                      /* Point at the proper address to obey call-gate entry procedure: 
-                                         the address is the executable volatile data segment start + 1,
-                                         where the executable volatile data segment start is the start address
-                                         of the Firewall protected area + 4. */                                         
-  uint32_t vdata_function_output = 0; /* output of the protected function */                                         
- 
-  
-  /* STM32L0xx HAL library initialization:
-       - Configure the Flash prefetch
-       - Systick timer is configured by default as source of time base, but user 
-         can eventually implement his proper time base source (a general purpose 
-         timer for example or other time source), keeping in mind that Time base 
-         duration should be kept 1ms since PPP_TIMEOUT_VALUEs are defined and 
-         handled in milliseconds basis.
-       - Low Level Initialization
-     */
-  HAL_Init();
+    uint32_t ( *fptr )( uint32_t *array ); /* Function pointer used to invoke executable protected volatile data segment */
+    fptr = ( uint32_t ( * )( uint32_t *array ) )0x20002105;
+    /* Point at the proper address to obey call-gate entry procedure:
+       the address is the executable volatile data segment start + 1,
+       where the executable volatile data segment start is the start address
+       of the Firewall protected area + 4. */
+    uint32_t vdata_function_output = 0; /* output of the protected function */
 
-  /* Configure the system clock to 2 MHz */
-  SystemClock_Config();
 
-  /* Initialize LED1 */
-  BSP_LED_Init(LED1);
+    /* STM32L0xx HAL library initialization:
+         - Configure the Flash prefetch
+         - Systick timer is configured by default as source of time base, but user
+           can eventually implement his proper time base source (a general purpose
+           timer for example or other time source), keeping in mind that Time base
+           duration should be kept 1ms since PPP_TIMEOUT_VALUEs are defined and
+           handled in milliseconds basis.
+         - Low Level Initialization
+       */
+    HAL_Init();
 
-  /* Enable SYSCFG clock to be able to enable the Firewall */
-  __HAL_RCC_SYSCFG_CLK_ENABLE();    
-     
-  /* Enable Power Clock to be able to use RTC back-up registers.
-     The latter are used to keep track of the example code proper unrolling.
-     They are not related to Firewall functionality. */
-  __HAL_RCC_PWR_CLK_ENABLE(); 
-  HAL_PWR_EnableBkUpAccess();     
-     
-     
+    /* Configure the system clock to 2 MHz */
+    SystemClock_Config();
+
+    /* Initialize LED1 */
+    BSP_LED_Init( LED1 );
+
+    /* Enable SYSCFG clock to be able to enable the Firewall */
+    __HAL_RCC_SYSCFG_CLK_ENABLE();
+
+    /* Enable Power Clock to be able to use RTC back-up registers.
+       The latter are used to keep track of the example code proper unrolling.
+       They are not related to Firewall functionality. */
+    __HAL_RCC_PWR_CLK_ENABLE();
+    HAL_PWR_EnableBkUpAccess();
+
+
     /**************************************************************************/
     /*                                                                        */
-    /*         RTC back-up initialization and RCC reset flags clear up        */    
-    /*                                                                        */  
-    /**************************************************************************/     
-     
+    /*         RTC back-up initialization and RCC reset flags clear up        */
+    /*                                                                        */
+    /**************************************************************************/
+
     /* Very first main() run if at this point RTC->BKP4R = 0 */
-    if (READ_REG(RTC->BKP4R) == 0)
+    if( READ_REG( RTC->BKP4R ) == 0 )
     {
-       /* Mark that this is the first main() run */
-       WRITE_REG( RTC->BKP4R, 0x1 );
-       /* Initialize RTC back-up registers, used to log code progress
-          or unexpected software resets / uncorrect processing
-          (can be used for debugging purposes)   */
-       WRITE_REG( RTC->BKP0R, 0x0 ); 
-       WRITE_REG( RTC->BKP1R, 0x0 );
-                
-       /* Clear RCC reset indication flags to be
-          able to detect a Firewall reset */
-       __HAL_RCC_CLEAR_RESET_FLAGS();
+        /* Mark that this is the first main() run */
+        WRITE_REG( RTC->BKP4R, 0x1 );
+        /* Initialize RTC back-up registers, used to log code progress
+           or unexpected software resets / uncorrect processing
+           (can be used for debugging purposes)   */
+        WRITE_REG( RTC->BKP0R, 0x0 );
+        WRITE_REG( RTC->BKP1R, 0x0 );
+
+        /* Clear RCC reset indication flags to be
+           able to detect a Firewall reset */
+        __HAL_RCC_CLEAR_RESET_FLAGS();
     }
     else
     {
-      /* This is not the first main() run, a software
-         reset has occurred */
-       
-      if (__HAL_RCC_GET_FLAG(RCC_FLAG_FWRST) != RESET)
-      {
-        /* An unexpected Firewall reset has occurred, log it
-          in filling up RTC back-up register BKP0R with 0x1 */      
-        WRITE_REG( RTC->BKP0R, 0x1 );
-      }
-      else
-      {
-        /* No unexpected Firewall reset has occurred, log it
-          in filling up RTC back-up register BKP1R with 0x1 */
-        WRITE_REG( RTC->BKP1R, 0x1 );     
-      }
-      /* example unsuccessful end, exit in Error */ 
-      Error_Handler();
+        /* This is not the first main() run, a software
+           reset has occurred */
+
+        if( __HAL_RCC_GET_FLAG( RCC_FLAG_FWRST ) != RESET )
+        {
+            /* An unexpected Firewall reset has occurred, log it
+              in filling up RTC back-up register BKP0R with 0x1 */
+            WRITE_REG( RTC->BKP0R, 0x1 );
+        }
+        else
+        {
+            /* No unexpected Firewall reset has occurred, log it
+              in filling up RTC back-up register BKP1R with 0x1 */
+            WRITE_REG( RTC->BKP1R, 0x1 );
+        }
+
+        /* example unsuccessful end, exit in Error */
+        Error_Handler();
     }
-    
-    
-    
+
+
+
     /**************************************************************************/
     /*                                                                        */
     /*             Firewall parameters setting and enabling                   */
-    /*                                                                        */  
+    /*                                                                        */
     /**************************************************************************/
-    
-    /* No protected code segment (length set to 0) */   
+
+    /* No protected code segment (length set to 0) */
     fw_init.CodeSegmentStartAddress      = 0x0;
     fw_init.CodeSegmentLength            = 0;
-    
-    /* No protected non-volatile data segment (length set to 0) */   
+
+    /* No protected non-volatile data segment (length set to 0) */
     fw_init.NonVDataSegmentStartAddress = 0x0;
     fw_init.NonVDataSegmentLength       = 0;
-    
-    /* Protected volatile data segment (in SRAM memory) start address and length */   
+
+    /* Protected volatile data segment (in SRAM memory) start address and length */
     fw_init.VDataSegmentStartAddress    = 0x20002100;
-    fw_init.VDataSegmentLength          = 3840; /* 0xF00 bytes */  
-    
-    /* The protected volatile data segment can be executed */  
+    fw_init.VDataSegmentLength          = 3840; /* 0xF00 bytes */
+
+    /* The protected volatile data segment can be executed */
     fw_init.VolatileDataExecution       = FIREWALL_VOLATILEDATA_EXECUTABLE;
-    
+
     /* The protected volatile data segment is not shared with non-protected
-      application code */    
+      application code */
     fw_init.VolatileDataShared          = FIREWALL_VOLATILEDATA_NOT_SHARED;
-    
+
     /* Firewall configuration */
-    if (HAL_FIREWALL_Config(&fw_init) != HAL_OK)
+    if( HAL_FIREWALL_Config( &fw_init ) != HAL_OK )
     {
-      Error_Handler();
-    }  
-    
+        Error_Handler();
+    }
+
     /* Enable Firewall */
     HAL_FIREWALL_EnableFirewall();
-    
-    /* From this point, the Firewall is closed */ 
-    
-    
+
+    /* From this point, the Firewall is closed */
+
+
     /**************************************************************************/
     /*                                                                        */
     /*              First access to protected executable data                 */
-    /*                                                                        */  
-    /**************************************************************************/  
-     
-    /* Invoke vdata_protected_function() API located at the proper address  to 
-       follow the call gate sequence. 
-       vdata_protected_function() is located in the protected volatile data 
+    /*                                                                        */
+    /**************************************************************************/
+
+    /* Invoke vdata_protected_function() API located at the proper address  to
+       follow the call gate sequence.
+       vdata_protected_function() is located in the protected volatile data
        segment set as executable.
        This call will open the Firewall.
-       Note that FPA bit is set to 0 at this point. */   
-       
-       
+       Note that FPA bit is set to 0 at this point. */
+
+
     /* In the example, the protected function processes
-       non-protected input data and outputs an internal computation result. 
+       non-protected input data and outputs an internal computation result.
        For demonstration purposes, vdata_protected_function() accesses as well
-       data located in the protected volatile data segment. 
+       data located in the protected volatile data segment.
        vdata_protected_function() itself ensures that FPA bit is set
        before exiting the protected area.
-       */ 
-     
-    vdata_function_output = vdata_protected_function(unprotected_vdata); 
-    
+       */
+
+    vdata_function_output = vdata_protected_function( unprotected_vdata );
+
     /* The Firewall is now closed again. */
-        
+
     /* Check that the output is that expected */
-    if (vdata_function_output != expected_vdata_function_output_1)
+    if( vdata_function_output != expected_vdata_function_output_1 )
     {
-      /* Processing issue, log it in filling up RTC back-up register BKP0R 
-         with 0x2, then exit in Error */  
-      WRITE_REG( RTC->BKP0R, 0x2 ); 
-      Error_Handler();
+        /* Processing issue, log it in filling up RTC back-up register BKP0R
+           with 0x2, then exit in Error */
+        WRITE_REG( RTC->BKP0R, 0x2 );
+        Error_Handler();
     }
 
-    
+
     /**************************************************************************/
     /*                                                                        */
     /*                      Safety precaution, reset FPA                      */
-    /*                                                                        */  
-    /**************************************************************************/      
-    
-    /* Reset FPA bit to avoid any undesired attempt to access the protected  
+    /*                                                                        */
+    /**************************************************************************/
+
+    /* Reset FPA bit to avoid any undesired attempt to access the protected
        area (software will reset when jumping back to non-protected code) */
     HAL_FIREWALL_DisablePreArmFlag();
-        
-        
+
+
     /**************************************************************************/
     /*                                                                        */
     /*              Second access to protected executable data                */
-    /*                                                                        */  
-    /**************************************************************************/          
-     
+    /*                                                                        */
+    /**************************************************************************/
+
     /* For demonstration purposes, invoke protected executable data segment
       in resorting this time to a function pointer.
       Is exactly the same as invoking vdata_protected_function() but
       may be useful in some protected application execution cases.  */
 
-    vdata_function_output = fptr(unprotected_vdata);
-      
-    /* The Firewall is now closed again. */      
+    vdata_function_output = fptr( unprotected_vdata );
+
+    /* The Firewall is now closed again. */
 
     /* Check that the output is that expected */
-    if (vdata_function_output != expected_vdata_function_output_2)
+    if( vdata_function_output != expected_vdata_function_output_2 )
     {
-      /* Processing issue, log it in filling up RTC back-up register BKP1R 
-         with 0x2, then exit in Error */     
-      WRITE_REG( RTC->BKP1R, 0x2 ); 
-      Error_Handler();
-    }    
-    
-    
+        /* Processing issue, log it in filling up RTC back-up register BKP1R
+           with 0x2, then exit in Error */
+        WRITE_REG( RTC->BKP1R, 0x2 );
+        Error_Handler();
+    }
+
+
     /**************************************************************************/
     /*                                                                        */
     /*                       Successful example execution                     */
-    /*                                                                        */  
-    /**************************************************************************/            
+    /*                                                                        */
+    /**************************************************************************/
 
-    /* Reset BKP4R to ensure a restart from a clean slate at the software next relaunch. */   
+    /* Reset BKP4R to ensure a restart from a clean slate at the software next relaunch. */
     WRITE_REG( RTC->BKP4R, 0x0 );
-    
-    /* Turn on LED1 */        
-    BSP_LED_On(LED1);
-    while (1)
+
+    /* Turn on LED1 */
+    BSP_LED_On( LED1 );
+
+    while( 1 )
     {
     }
 
-                          
-    
+
+
 
 }
 
 /**
   * @brief  System Clock Configuration
-  *         The system Clock is configured as follow : 
+  *         The system Clock is configured as follow :
   *            System Clock source            = MSI
   *            SYSCLK(Hz)                     = 2000000
   *            HCLK(Hz)                       = 2000000
@@ -279,43 +281,46 @@ int main(void)
   *            Main regulator output voltage  = Scale3 mode
   * @retval None
   */
-void SystemClock_Config(void)
+void SystemClock_Config( void )
 {
-  RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
-  RCC_OscInitTypeDef RCC_OscInitStruct = {0};
-  
-  /* Enable MSI Oscillator */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_MSI;
-  RCC_OscInitStruct.MSIState = RCC_MSI_ON;
-  RCC_OscInitStruct.MSIClockRange = RCC_MSIRANGE_5;
-  RCC_OscInitStruct.MSICalibrationValue=0x00;
-  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
-  if (HAL_RCC_OscConfig(&RCC_OscInitStruct)!= HAL_OK)
-  {
-    /* Initialization Error */
-    while(1); 
-  }
-  
-  /* Select MSI as system clock source and configure the HCLK, PCLK1 and PCLK2 
-     clocks dividers */
-  RCC_ClkInitStruct.ClockType = (RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2);
-  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_MSI;
-  RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
-  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;  
-  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;  
-  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_0)!= HAL_OK)
-  {
-    /* Initialization Error */
-    while(1); 
-  }
-  /* Enable Power Control clock */
-  __HAL_RCC_PWR_CLK_ENABLE();
-  
-  /* The voltage scaling allows optimizing the power consumption when the device is 
-     clocked below the maximum system frequency, to update the voltage scaling value 
-     regarding system frequency refer to product datasheet.  */
-  __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE3);
-  
+    RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
+    RCC_OscInitTypeDef RCC_OscInitStruct = {0};
+
+    /* Enable MSI Oscillator */
+    RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_MSI;
+    RCC_OscInitStruct.MSIState = RCC_MSI_ON;
+    RCC_OscInitStruct.MSIClockRange = RCC_MSIRANGE_5;
+    RCC_OscInitStruct.MSICalibrationValue = 0x00;
+    RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
+
+    if( HAL_RCC_OscConfig( &RCC_OscInitStruct ) != HAL_OK )
+    {
+        /* Initialization Error */
+        while( 1 );
+    }
+
+    /* Select MSI as system clock source and configure the HCLK, PCLK1 and PCLK2
+       clocks dividers */
+    RCC_ClkInitStruct.ClockType = ( RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2 );
+    RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_MSI;
+    RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+    RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
+    RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
+
+    if( HAL_RCC_ClockConfig( &RCC_ClkInitStruct, FLASH_LATENCY_0 ) != HAL_OK )
+    {
+        /* Initialization Error */
+        while( 1 );
+    }
+
+    /* Enable Power Control clock */
+    __HAL_RCC_PWR_CLK_ENABLE();
+
+    /* The voltage scaling allows optimizing the power consumption when the device is
+       clocked below the maximum system frequency, to update the voltage scaling value
+       regarding system frequency refer to product datasheet.  */
+    __HAL_PWR_VOLTAGESCALING_CONFIG( PWR_REGULATOR_VOLTAGE_SCALE3 );
+
 }
 
 
@@ -325,51 +330,52 @@ void SystemClock_Config(void)
   * @param  None
   * @retval None
   */
-void Error_Handler(void)
+void Error_Handler( void )
 {
-  /* Re-initialize BKP4R to ensure a restart
-    from a clean slate at the software next relaunch. */   
-  WRITE_REG( RTC->BKP4R, 0x0 );
-  while(1)
-  {
-    /* In case of error, LED1 transmits a sequence of three dots, three dashes, three dots */
-    BSP_LED_On(LED1); 
-    HAL_Delay(300);
-    BSP_LED_Off(LED1);
-    HAL_Delay(300); 
-    BSP_LED_On(LED1); 
-    HAL_Delay(300);
-    BSP_LED_Off(LED1);
-    HAL_Delay(300);  
-    BSP_LED_On(LED1); 
-    HAL_Delay(300);
-    BSP_LED_Off(LED1);
-    HAL_Delay(300);   
-    BSP_LED_On(LED1); 
-    HAL_Delay(700);
-    BSP_LED_Off(LED1);
-    HAL_Delay(700); 
-    BSP_LED_On(LED1); 
-    HAL_Delay(700);
-    BSP_LED_Off(LED1);
-    HAL_Delay(700);  
-    BSP_LED_On(LED1); 
-    HAL_Delay(700);
-    BSP_LED_Off(LED1);
-    HAL_Delay(700); 
-    BSP_LED_On(LED1); 
-    HAL_Delay(300);
-    BSP_LED_Off(LED1);
-    HAL_Delay(300); 
-    BSP_LED_On(LED1); 
-    HAL_Delay(300);
-    BSP_LED_Off(LED1);
-    HAL_Delay(300);  
-    BSP_LED_On(LED1); 
-    HAL_Delay(300);
-    BSP_LED_Off(LED1);
-    HAL_Delay(800); 
-  }
+    /* Re-initialize BKP4R to ensure a restart
+      from a clean slate at the software next relaunch. */
+    WRITE_REG( RTC->BKP4R, 0x0 );
+
+    while( 1 )
+    {
+        /* In case of error, LED1 transmits a sequence of three dots, three dashes, three dots */
+        BSP_LED_On( LED1 );
+        HAL_Delay( 300 );
+        BSP_LED_Off( LED1 );
+        HAL_Delay( 300 );
+        BSP_LED_On( LED1 );
+        HAL_Delay( 300 );
+        BSP_LED_Off( LED1 );
+        HAL_Delay( 300 );
+        BSP_LED_On( LED1 );
+        HAL_Delay( 300 );
+        BSP_LED_Off( LED1 );
+        HAL_Delay( 300 );
+        BSP_LED_On( LED1 );
+        HAL_Delay( 700 );
+        BSP_LED_Off( LED1 );
+        HAL_Delay( 700 );
+        BSP_LED_On( LED1 );
+        HAL_Delay( 700 );
+        BSP_LED_Off( LED1 );
+        HAL_Delay( 700 );
+        BSP_LED_On( LED1 );
+        HAL_Delay( 700 );
+        BSP_LED_Off( LED1 );
+        HAL_Delay( 700 );
+        BSP_LED_On( LED1 );
+        HAL_Delay( 300 );
+        BSP_LED_Off( LED1 );
+        HAL_Delay( 300 );
+        BSP_LED_On( LED1 );
+        HAL_Delay( 300 );
+        BSP_LED_Off( LED1 );
+        HAL_Delay( 300 );
+        BSP_LED_On( LED1 );
+        HAL_Delay( 300 );
+        BSP_LED_Off( LED1 );
+        HAL_Delay( 800 );
+    }
 }
 
 
@@ -378,12 +384,12 @@ void Error_Handler(void)
   * @param None
   * @retval None
   */
-void HAL_SYSTICK_Callback(void)
+void HAL_SYSTICK_Callback( void )
 {
-  HAL_IncTick();  
+    HAL_IncTick();
 }
-    
-  
+
+
 
 #ifdef  USE_FULL_ASSERT
 /**
@@ -393,15 +399,15 @@ void HAL_SYSTICK_Callback(void)
   * @param  line: assert_param error line source number
   * @retval None
   */
-void assert_failed(uint8_t *file, uint32_t line)
+void assert_failed( uint8_t *file, uint32_t line )
 {
-  /* User can add his own implementation to report the file name and line number,
-     ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
+    /* User can add his own implementation to report the file name and line number,
+       ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
 
-  /* Infinite loop */
-  while (1)
-  {
-  }
+    /* Infinite loop */
+    while( 1 )
+    {
+    }
 }
 #endif
 

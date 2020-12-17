@@ -93,16 +93,16 @@
   *        only by using I2C_FASTMODEPLUS_I2C3 parameter.
   * @retval None
   */
-void HAL_SMBUSEx_EnableFastModePlus(uint32_t ConfigFastModePlus)
+void HAL_SMBUSEx_EnableFastModePlus( uint32_t ConfigFastModePlus )
 {
-  /* Check the parameter */
-  assert_param(IS_SMBUS_FASTMODEPLUS(ConfigFastModePlus));
+    /* Check the parameter */
+    assert_param( IS_SMBUS_FASTMODEPLUS( ConfigFastModePlus ) );
 
-  /* Enable SYSCFG clock */
-  __HAL_RCC_SYSCFG_CLK_ENABLE();
+    /* Enable SYSCFG clock */
+    __HAL_RCC_SYSCFG_CLK_ENABLE();
 
-  /* Enable fast mode plus driving capability for selected pin */
-  SET_BIT(SYSCFG->CFGR2, (uint32_t)ConfigFastModePlus);
+    /* Enable fast mode plus driving capability for selected pin */
+    SET_BIT( SYSCFG->CFGR2, ( uint32_t )ConfigFastModePlus );
 }
 
 /**
@@ -120,16 +120,16 @@ void HAL_SMBUSEx_EnableFastModePlus(uint32_t ConfigFastModePlus)
   *        only by using I2C_FASTMODEPLUS_I2C3 parameter.
   * @retval None
   */
-void HAL_SMBUSEx_DisableFastModePlus(uint32_t ConfigFastModePlus)
+void HAL_SMBUSEx_DisableFastModePlus( uint32_t ConfigFastModePlus )
 {
-  /* Check the parameter */
-  assert_param(IS_SMBUS_FASTMODEPLUS(ConfigFastModePlus));
+    /* Check the parameter */
+    assert_param( IS_SMBUS_FASTMODEPLUS( ConfigFastModePlus ) );
 
-  /* Enable SYSCFG clock */
-  __HAL_RCC_SYSCFG_CLK_ENABLE();
+    /* Enable SYSCFG clock */
+    __HAL_RCC_SYSCFG_CLK_ENABLE();
 
-  /* Disable fast mode plus driving capability for selected pin */
-  CLEAR_BIT(SYSCFG->CFGR2, (uint32_t)ConfigFastModePlus);
+    /* Disable fast mode plus driving capability for selected pin */
+    CLEAR_BIT( SYSCFG->CFGR2, ( uint32_t )ConfigFastModePlus );
 }
 
 #endif /* FMP_AVAILABILITY */

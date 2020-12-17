@@ -1,6 +1,6 @@
 /**
   ******************************************************************************
-  * @file    main.h 
+  * @file    main.h
   * @author  MCD Application Team
   * @brief   Header for main.c file
   ******************************************************************************
@@ -22,9 +22,9 @@
 #define __MAIN_H
 
 #ifdef __cplusplus
- extern "C" {
+extern "C" {
 #endif
-   
+
 /* Includes ------------------------------------------------------------------*/
 #include "stddef.h"
 
@@ -36,7 +36,7 @@
 #include "stm32l073z_eval_idd.h"
 
 #include "stm32l0xx_tsensor.h" //change SMB
-   
+
 /* FatFs includes component */
 #include "ff_gen_drv.h"
 #include "sd_diskio.h"
@@ -62,23 +62,25 @@
 #define IT_PRIO_SYS_TICK              1
 
 
-typedef enum {
-  CONFIG_LC_SENSOR_LOW_POWER,
-  CONFIG_LC_SENSOR_STD,
-  CONFIG_LC_SENSOR_OFF,
-  
+typedef enum
+{
+    CONFIG_LC_SENSOR_LOW_POWER,
+    CONFIG_LC_SENSOR_STD,
+    CONFIG_LC_SENSOR_OFF,
+
 } LcSensorModeTypeEnum;
 
-typedef enum {
-      RTC_CLOCK_NONE,
-      RTC_CLOCK_LSI,
-      RTC_CLOCK_LSE
+typedef enum
+{
+    RTC_CLOCK_NONE,
+    RTC_CLOCK_LSI,
+    RTC_CLOCK_LSE
 } rtcConfigClockEnum;
 
 extern LcSensorModeTypeEnum  LCSensorMode;
 extern volatile FlagStatus FlagItTamperButton;
 
-//---------------------------------------------------------- 
+//----------------------------------------------------------
 /* User can use this section to tailor SMBUSx/SMBUSx instance used and associated
    resources */
 /* Definition for SMBUSx clock resources */
@@ -86,7 +88,7 @@ extern volatile FlagStatus FlagItTamperButton;
 #define SMBUSx_CLKSOURCE_SYSCLK           RCC_I2C1CLKSOURCE_SYSCLK
 #define SMBUSx_CLK_ENABLE()               __HAL_RCC_I2C1_CLK_ENABLE()
 #define SMBUSx_SDA_GPIO_CLK_ENABLE()      __HAL_RCC_GPIOB_CLK_ENABLE()
-#define SMBUSx_SCL_GPIO_CLK_ENABLE()      __HAL_RCC_GPIOB_CLK_ENABLE() 
+#define SMBUSx_SCL_GPIO_CLK_ENABLE()      __HAL_RCC_GPIOB_CLK_ENABLE()
 
 #define SMBUSx_FORCE_RESET()              __HAL_RCC_I2C1_FORCE_RESET()
 #define SMBUSx_RELEASE_RESET()            __HAL_RCC_I2C1_RELEASE_RESET()
@@ -105,7 +107,7 @@ extern volatile FlagStatus FlagItTamperButton;
 #define SMBUSx_IRQn                       I2C1_IRQn
 #define SMBUSx_IRQHandler                 I2C1_IRQHandler
 
-//---------------------------------------------------------- 
+//----------------------------------------------------------
 /* User can use this section to tailor USARTx/UARTx instance used and associated
    resources */
 /* Definition for USARTx clock resources */
@@ -147,19 +149,19 @@ extern volatile FlagStatus FlagItTamperButton;
 /* Size of Reception buffer */
 #define RXBUFFERSIZE                      10
 
-     /* Exported macro ------------------------------------------------------------*/
+/* Exported macro ------------------------------------------------------------*/
 #define COUNTOF(__BUFFER__)   (sizeof(__BUFFER__) / sizeof(*(__BUFFER__)))
 /* Exported functions ------------------------------------------------------- */
 
 //----------------------------------------------------------
 /* Exported macros -----------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */
-void SystemClock_Config_ForLowPower(void);
-void SystemClock_ConfigMSI(void);
-void SystemClock_DisableMSI(void);
+void SystemClock_Config_ForLowPower( void );
+void SystemClock_ConfigMSI( void );
+void SystemClock_DisableMSI( void );
 
-void SystemClock_ConfigHSI_noPLL_16M(void);
-void DecodeMFXInterrupt(uint32_t *ptJoyState, uint32_t *ptIddState);
+void SystemClock_ConfigHSI_noPLL_16M( void );
+void DecodeMFXInterrupt( uint32_t *ptJoyState, uint32_t *ptIddState );
 
 #ifdef __cplusplus
 }

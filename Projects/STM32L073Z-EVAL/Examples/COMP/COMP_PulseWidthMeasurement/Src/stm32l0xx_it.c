@@ -50,7 +50,7 @@ extern DAC_HandleTypeDef    DacHandle;
   * @param  None
   * @retval None
   */
-void NMI_Handler(void)
+void NMI_Handler( void )
 {
 }
 
@@ -59,12 +59,12 @@ void NMI_Handler(void)
   * @param  None
   * @retval None
   */
-void HardFault_Handler(void)
+void HardFault_Handler( void )
 {
-  /* Go to infinite loop when Hard Fault exception occurs */
-  while (1)
-  {
-  }
+    /* Go to infinite loop when Hard Fault exception occurs */
+    while( 1 )
+    {
+    }
 }
 
 /**
@@ -72,7 +72,7 @@ void HardFault_Handler(void)
   * @param  None
   * @retval None
   */
-void SVC_Handler(void)
+void SVC_Handler( void )
 {
 }
 
@@ -81,7 +81,7 @@ void SVC_Handler(void)
   * @param  None
   * @retval None
   */
-void PendSV_Handler(void)
+void PendSV_Handler( void )
 {
 }
 
@@ -90,9 +90,9 @@ void PendSV_Handler(void)
   * @param  None
   * @retval None
   */
-void SysTick_Handler(void)
+void SysTick_Handler( void )
 {
-  HAL_IncTick();
+    HAL_IncTick();
 }
 
 /******************************************************************************/
@@ -107,9 +107,9 @@ void SysTick_Handler(void)
  * @param  None
  * @retval None
  */
-void COMPx_IRQHandler(void)
+void COMPx_IRQHandler( void )
 {
- HAL_COMP_IRQHandler(&Comp2Handle);
+    HAL_COMP_IRQHandler( &Comp2Handle );
 }
 
 /**
@@ -117,9 +117,9 @@ void COMPx_IRQHandler(void)
 * @param  None
 * @retval None
 */
-void TIMx_IRQHandler(void)
+void TIMx_IRQHandler( void )
 {
-  HAL_TIM_IRQHandler(&TimHandle);
+    HAL_TIM_IRQHandler( &TimHandle );
 }
 
 /**
@@ -127,9 +127,9 @@ void TIMx_IRQHandler(void)
 * @param  None
 * @retval None
 */
-void DACx_IRQHandler(void)
+void DACx_IRQHandler( void )
 {
-  HAL_DAC_IRQHandler(&DacHandle);
+    HAL_DAC_IRQHandler( &DacHandle );
 }
 
 /**
@@ -137,9 +137,9 @@ void DACx_IRQHandler(void)
 * @param  None
 * @retval None
 */
-void DMA1_Channel4_5_6_7_IRQHandler(void)
+void DMA1_Channel4_5_6_7_IRQHandler( void )
 {
-  HAL_DMA_IRQHandler(DacHandle.DMA_Handle2);
+    HAL_DMA_IRQHandler( DacHandle.DMA_Handle2 );
 }
 
 /**

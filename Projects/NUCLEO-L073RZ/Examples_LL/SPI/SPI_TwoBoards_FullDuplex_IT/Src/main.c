@@ -42,29 +42,29 @@ __IO uint8_t ubButtonPress = 0;
 
 /* Buffer used for transmission */
 uint8_t aTxBuffer[] = "**** SPI_TwoBoards_FullDuplex_IT communication **** SPI_TwoBoards_FullDuplex_IT communication **** SPI_TwoBoards_FullDuplex_IT communication ****";
-uint8_t ubNbDataToTransmit = sizeof(aTxBuffer);
+uint8_t ubNbDataToTransmit = sizeof( aTxBuffer );
 __IO uint8_t ubTransmitIndex = 0;
 
 /* Buffer used for reception */
-uint8_t aRxBuffer[sizeof(aTxBuffer)];
-uint8_t ubNbDataToReceive = sizeof(aTxBuffer);
+uint8_t aRxBuffer[sizeof( aTxBuffer )];
+uint8_t ubNbDataToReceive = sizeof( aTxBuffer );
 __IO uint8_t ubReceiveIndex = 0;
 
 
 /* Private function prototypes -----------------------------------------------*/
-void     SystemClock_Config(void);
-void     Configure_SPI(void);
-void     Activate_SPI(void);
-void     LED_Init(void);
-void     LED_On(void);
-void     LED_Blinking(uint32_t Period);
+void     SystemClock_Config( void );
+void     Configure_SPI( void );
+void     Activate_SPI( void );
+void     LED_Init( void );
+void     LED_On( void );
+void     LED_Blinking( uint32_t Period );
 #ifdef MASTER_BOARD
-void     LED_Off(void);
-void     UserButton_Init(void);
-void     WaitForUserButtonPress(void);
+    void     LED_Off( void );
+    void     UserButton_Init( void );
+    void     WaitForUserButtonPress( void );
 #endif
-void     WaitAndCheckEndOfTransfer(void);
-uint8_t  Buffercmp8(uint8_t* pBuffer1, uint8_t* pBuffer2, uint8_t BufferLength);
+void     WaitAndCheckEndOfTransfer( void );
+uint8_t  Buffercmp8( uint8_t *pBuffer1, uint8_t *pBuffer2, uint8_t BufferLength );
 
 /* Private functions ---------------------------------------------------------*/
 
@@ -73,36 +73,36 @@ uint8_t  Buffercmp8(uint8_t* pBuffer1, uint8_t* pBuffer2, uint8_t BufferLength);
   * @param  None
   * @retval None
   */
-int main(void)
+int main( void )
 {
-  /* Configure the system clock to 2.097 MHz */
-  SystemClock_Config();
+    /* Configure the system clock to 2.097 MHz */
+    SystemClock_Config();
 
-  /* Initialize LED2 */
-  LED_Init();
+    /* Initialize LED2 */
+    LED_Init();
 
-  /* Configure the SPI1 parameters */
-  Configure_SPI();
+    /* Configure the SPI1 parameters */
+    Configure_SPI();
 
 #ifdef MASTER_BOARD
-  /* Initialize User push-button in EXTI mode */
-  UserButton_Init();
+    /* Initialize User push-button in EXTI mode */
+    UserButton_Init();
 
-  /* Wait for User push-button press to start transfer */
-  WaitForUserButtonPress();
+    /* Wait for User push-button press to start transfer */
+    WaitForUserButtonPress();
 #endif
 
-  /* Enable the SPI1 peripheral */
-  Activate_SPI();
+    /* Enable the SPI1 peripheral */
+    Activate_SPI();
 
-  /* Wait for the end of the transfer and check received data */
-  /* LED blinking FAST during waiting time */
-  WaitAndCheckEndOfTransfer();
+    /* Wait for the end of the transfer and check received data */
+    /* LED blinking FAST during waiting time */
+    WaitAndCheckEndOfTransfer();
 
-  /* Infinite loop */
-  while (1)
-  {
-  }
+    /* Infinite loop */
+    while( 1 )
+    {
+    }
 }
 
 
@@ -118,64 +118,64 @@ int main(void)
   * @param  None
   * @retval None
   */
-void Configure_SPI(void)
+void Configure_SPI( void )
 {
-  /* (1) Enables GPIO clock and configures the SPI1 pins ********************/
-  /* Enable the peripheral clock of GPIOB */
-  LL_IOP_GRP1_EnableClock(LL_IOP_GRP1_PERIPH_GPIOB);
+    /* (1) Enables GPIO clock and configures the SPI1 pins ********************/
+    /* Enable the peripheral clock of GPIOB */
+    LL_IOP_GRP1_EnableClock( LL_IOP_GRP1_PERIPH_GPIOB );
 
-  /* Configure SCK Pin connected to pin 31 of CN10 connector */
-  LL_GPIO_SetPinMode(GPIOB, LL_GPIO_PIN_3, LL_GPIO_MODE_ALTERNATE);
-  LL_GPIO_SetAFPin_0_7(GPIOB, LL_GPIO_PIN_3, LL_GPIO_AF_0);
-  LL_GPIO_SetPinSpeed(GPIOB, LL_GPIO_PIN_3, LL_GPIO_SPEED_FREQ_HIGH);
-  LL_GPIO_SetPinPull(GPIOB, LL_GPIO_PIN_3, LL_GPIO_PULL_DOWN);
+    /* Configure SCK Pin connected to pin 31 of CN10 connector */
+    LL_GPIO_SetPinMode( GPIOB, LL_GPIO_PIN_3, LL_GPIO_MODE_ALTERNATE );
+    LL_GPIO_SetAFPin_0_7( GPIOB, LL_GPIO_PIN_3, LL_GPIO_AF_0 );
+    LL_GPIO_SetPinSpeed( GPIOB, LL_GPIO_PIN_3, LL_GPIO_SPEED_FREQ_HIGH );
+    LL_GPIO_SetPinPull( GPIOB, LL_GPIO_PIN_3, LL_GPIO_PULL_DOWN );
 
-  /* Configure MISO Pin connected to pin 27 of CN10 connector */
-  LL_GPIO_SetPinMode(GPIOB, LL_GPIO_PIN_4, LL_GPIO_MODE_ALTERNATE);
-  LL_GPIO_SetAFPin_0_7(GPIOB, LL_GPIO_PIN_4, LL_GPIO_AF_0);
-  LL_GPIO_SetPinSpeed(GPIOB, LL_GPIO_PIN_4, LL_GPIO_SPEED_FREQ_HIGH);
-  LL_GPIO_SetPinPull(GPIOB, LL_GPIO_PIN_4, LL_GPIO_PULL_DOWN);
+    /* Configure MISO Pin connected to pin 27 of CN10 connector */
+    LL_GPIO_SetPinMode( GPIOB, LL_GPIO_PIN_4, LL_GPIO_MODE_ALTERNATE );
+    LL_GPIO_SetAFPin_0_7( GPIOB, LL_GPIO_PIN_4, LL_GPIO_AF_0 );
+    LL_GPIO_SetPinSpeed( GPIOB, LL_GPIO_PIN_4, LL_GPIO_SPEED_FREQ_HIGH );
+    LL_GPIO_SetPinPull( GPIOB, LL_GPIO_PIN_4, LL_GPIO_PULL_DOWN );
 
-  /* Configure MOSI Pin connected to pin 29 of CN10 connector */
-  LL_GPIO_SetPinMode(GPIOB, LL_GPIO_PIN_5, LL_GPIO_MODE_ALTERNATE);
-  LL_GPIO_SetAFPin_0_7(GPIOB, LL_GPIO_PIN_5, LL_GPIO_AF_0);
-  LL_GPIO_SetPinSpeed(GPIOB, LL_GPIO_PIN_5, LL_GPIO_SPEED_FREQ_HIGH);
-  LL_GPIO_SetPinPull(GPIOB, LL_GPIO_PIN_5, LL_GPIO_PULL_DOWN);
+    /* Configure MOSI Pin connected to pin 29 of CN10 connector */
+    LL_GPIO_SetPinMode( GPIOB, LL_GPIO_PIN_5, LL_GPIO_MODE_ALTERNATE );
+    LL_GPIO_SetAFPin_0_7( GPIOB, LL_GPIO_PIN_5, LL_GPIO_AF_0 );
+    LL_GPIO_SetPinSpeed( GPIOB, LL_GPIO_PIN_5, LL_GPIO_SPEED_FREQ_HIGH );
+    LL_GPIO_SetPinPull( GPIOB, LL_GPIO_PIN_5, LL_GPIO_PULL_DOWN );
 
-  /* (2) Configure NVIC for SPI1 transfer complete/error interrupts **********/
-  /* Set priority for SPI1_IRQn */
-  NVIC_SetPriority(SPI1_IRQn, 0);
-  /* Enable SPI1_IRQn           */
-  NVIC_EnableIRQ(SPI1_IRQn);
+    /* (2) Configure NVIC for SPI1 transfer complete/error interrupts **********/
+    /* Set priority for SPI1_IRQn */
+    NVIC_SetPriority( SPI1_IRQn, 0 );
+    /* Enable SPI1_IRQn           */
+    NVIC_EnableIRQ( SPI1_IRQn );
 
-  /* (3) Configure SPI1 functional parameters ********************************/
+    /* (3) Configure SPI1 functional parameters ********************************/
 
-  /* Enable the peripheral clock of GPIOB */
-  LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_SPI1);
+    /* Enable the peripheral clock of GPIOB */
+    LL_APB2_GRP1_EnableClock( LL_APB2_GRP1_PERIPH_SPI1 );
 
-  /* Configure SPI1 communication */
-  LL_SPI_SetBaudRatePrescaler(SPI1, LL_SPI_BAUDRATEPRESCALER_DIV32);
-  LL_SPI_SetTransferDirection(SPI1,LL_SPI_FULL_DUPLEX);
-  LL_SPI_SetClockPhase(SPI1, LL_SPI_PHASE_2EDGE);
-  LL_SPI_SetClockPolarity(SPI1, LL_SPI_POLARITY_HIGH);
-  /* Reset value is LL_SPI_MSB_FIRST */
-  //LL_SPI_SetTransferBitOrder(SPI1, LL_SPI_MSB_FIRST);
-  LL_SPI_SetDataWidth(SPI1, LL_SPI_DATAWIDTH_8BIT);
-  LL_SPI_SetNSSMode(SPI1, LL_SPI_NSS_SOFT);
+    /* Configure SPI1 communication */
+    LL_SPI_SetBaudRatePrescaler( SPI1, LL_SPI_BAUDRATEPRESCALER_DIV32 );
+    LL_SPI_SetTransferDirection( SPI1, LL_SPI_FULL_DUPLEX );
+    LL_SPI_SetClockPhase( SPI1, LL_SPI_PHASE_2EDGE );
+    LL_SPI_SetClockPolarity( SPI1, LL_SPI_POLARITY_HIGH );
+    /* Reset value is LL_SPI_MSB_FIRST */
+    //LL_SPI_SetTransferBitOrder(SPI1, LL_SPI_MSB_FIRST);
+    LL_SPI_SetDataWidth( SPI1, LL_SPI_DATAWIDTH_8BIT );
+    LL_SPI_SetNSSMode( SPI1, LL_SPI_NSS_SOFT );
 #ifdef MASTER_BOARD
-  LL_SPI_SetMode(SPI1, LL_SPI_MODE_MASTER);
+    LL_SPI_SetMode( SPI1, LL_SPI_MODE_MASTER );
 #else
-  /* Reset value is LL_SPI_MODE_SLAVE */
-  //LL_SPI_SetMode(SPI1, LL_SPI_MODE_SLAVE);
+    /* Reset value is LL_SPI_MODE_SLAVE */
+    //LL_SPI_SetMode(SPI1, LL_SPI_MODE_SLAVE);
 #endif /* MASTER_BOARD */
 
-  /* Configure SPI1 transfer interrupts */
-  /* Enable RXNE  Interrupt             */
-  LL_SPI_EnableIT_RXNE(SPI1);
-  /* Enable TXE   Interrupt             */
-  LL_SPI_EnableIT_TXE(SPI1);
-  /* Enable Error Interrupt             */
-  LL_SPI_EnableIT_ERR(SPI1);
+    /* Configure SPI1 transfer interrupts */
+    /* Enable RXNE  Interrupt             */
+    LL_SPI_EnableIT_RXNE( SPI1 );
+    /* Enable TXE   Interrupt             */
+    LL_SPI_EnableIT_TXE( SPI1 );
+    /* Enable Error Interrupt             */
+    LL_SPI_EnableIT_ERR( SPI1 );
 }
 
 /**
@@ -183,10 +183,10 @@ void Configure_SPI(void)
   * @param  None
   * @retval None
   */
-void Activate_SPI(void)
+void Activate_SPI( void )
 {
-  /* Enable SPI1 */
-  LL_SPI_Enable(SPI1);
+    /* Enable SPI1 */
+    LL_SPI_Enable( SPI1 );
 }
 
 /**
@@ -194,19 +194,19 @@ void Activate_SPI(void)
   * @param  None
   * @retval None
   */
-void LED_Init(void)
+void LED_Init( void )
 {
-  /* Enable the LED2 Clock */
-  LED2_GPIO_CLK_ENABLE();
+    /* Enable the LED2 Clock */
+    LED2_GPIO_CLK_ENABLE();
 
-  /* Configure IO in output push-pull mode to drive external LED2 */
-  LL_GPIO_SetPinMode(LED2_GPIO_PORT, LED2_PIN, LL_GPIO_MODE_OUTPUT);
-  /* Reset value is LL_GPIO_OUTPUT_PUSHPULL */
-  //LL_GPIO_SetPinOutputType(LED2_GPIO_PORT, LED2_PIN, LL_GPIO_OUTPUT_PUSHPULL);
-  /* Reset value is LL_GPIO_SPEED_FREQ_LOW */
-  //LL_GPIO_SetPinSpeed(LED2_GPIO_PORT, LED2_PIN, LL_GPIO_SPEED_FREQ_LOW);
-  /* Reset value is LL_GPIO_PULL_NO */
-  //LL_GPIO_SetPinPull(LED2_GPIO_PORT, LED2_PIN, LL_GPIO_PULL_NO);
+    /* Configure IO in output push-pull mode to drive external LED2 */
+    LL_GPIO_SetPinMode( LED2_GPIO_PORT, LED2_PIN, LL_GPIO_MODE_OUTPUT );
+    /* Reset value is LL_GPIO_OUTPUT_PUSHPULL */
+    //LL_GPIO_SetPinOutputType(LED2_GPIO_PORT, LED2_PIN, LL_GPIO_OUTPUT_PUSHPULL);
+    /* Reset value is LL_GPIO_SPEED_FREQ_LOW */
+    //LL_GPIO_SetPinSpeed(LED2_GPIO_PORT, LED2_PIN, LL_GPIO_SPEED_FREQ_LOW);
+    /* Reset value is LL_GPIO_PULL_NO */
+    //LL_GPIO_SetPinPull(LED2_GPIO_PORT, LED2_PIN, LL_GPIO_PULL_NO);
 }
 
 /**
@@ -214,10 +214,10 @@ void LED_Init(void)
   * @param  None
   * @retval None
   */
-void LED_On(void)
+void LED_On( void )
 {
-  /* Turn LED2 on */
-  LL_GPIO_SetOutputPin(LED2_GPIO_PORT, LED2_PIN);
+    /* Turn LED2 on */
+    LL_GPIO_SetOutputPin( LED2_GPIO_PORT, LED2_PIN );
 }
 
 #ifdef MASTER_BOARD
@@ -226,10 +226,10 @@ void LED_On(void)
   * @param  None
   * @retval None
   */
-void LED_Off(void)
+void LED_Off( void )
 {
-  /* Turn LED2 off */
-  LL_GPIO_ResetOutputPin(LED2_GPIO_PORT, LED2_PIN);
+    /* Turn LED2 off */
+    LL_GPIO_ResetOutputPin( LED2_GPIO_PORT, LED2_PIN );
 }
 #endif
 
@@ -242,14 +242,14 @@ void LED_Off(void)
   *     @arg LED_BLINK_ERROR : Error specific Blinking
   * @retval None
   */
-void LED_Blinking(uint32_t Period)
+void LED_Blinking( uint32_t Period )
 {
-  /* Toggle LED2 in an infinite loop */
-  while (1)
-  {
-    LL_GPIO_TogglePin(LED2_GPIO_PORT, LED2_PIN);
-    LL_mDelay(Period);
-  }
+    /* Toggle LED2 in an infinite loop */
+    while( 1 )
+    {
+        LL_GPIO_TogglePin( LED2_GPIO_PORT, LED2_PIN );
+        LL_mDelay( Period );
+    }
 }
 
 #ifdef MASTER_BOARD
@@ -258,25 +258,25 @@ void LED_Blinking(uint32_t Period)
   * @param  None
   * @retval None
   */
-void UserButton_Init(void)
+void UserButton_Init( void )
 {
-  /* Enable the BUTTON Clock */
-  USER_BUTTON_GPIO_CLK_ENABLE();
+    /* Enable the BUTTON Clock */
+    USER_BUTTON_GPIO_CLK_ENABLE();
 
-  /* Configure GPIO for BUTTON */
-  LL_GPIO_SetPinMode(USER_BUTTON_GPIO_PORT, USER_BUTTON_PIN, LL_GPIO_MODE_INPUT);
-  LL_GPIO_SetPinPull(USER_BUTTON_GPIO_PORT, USER_BUTTON_PIN, LL_GPIO_PULL_NO);
+    /* Configure GPIO for BUTTON */
+    LL_GPIO_SetPinMode( USER_BUTTON_GPIO_PORT, USER_BUTTON_PIN, LL_GPIO_MODE_INPUT );
+    LL_GPIO_SetPinPull( USER_BUTTON_GPIO_PORT, USER_BUTTON_PIN, LL_GPIO_PULL_NO );
 
-  /* Connect External Line to the GPIO*/
-  USER_BUTTON_SYSCFG_SET_EXTI();
+    /* Connect External Line to the GPIO*/
+    USER_BUTTON_SYSCFG_SET_EXTI();
 
-  /* Enable a rising trigger External line 13 Interrupt */
-  USER_BUTTON_EXTI_LINE_ENABLE();
-  USER_BUTTON_EXTI_FALLING_TRIG_ENABLE();
+    /* Enable a rising trigger External line 13 Interrupt */
+    USER_BUTTON_EXTI_LINE_ENABLE();
+    USER_BUTTON_EXTI_FALLING_TRIG_ENABLE();
 
-  /* Configure NVIC for USER_BUTTON_EXTI_IRQn */
-  NVIC_EnableIRQ(USER_BUTTON_EXTI_IRQn);
-  NVIC_SetPriority(USER_BUTTON_EXTI_IRQn, 0x03);
+    /* Configure NVIC for USER_BUTTON_EXTI_IRQn */
+    NVIC_EnableIRQ( USER_BUTTON_EXTI_IRQn );
+    NVIC_SetPriority( USER_BUTTON_EXTI_IRQn, 0x03 );
 }
 
 /**
@@ -284,16 +284,17 @@ void UserButton_Init(void)
   * @param  None
   * @retval None
   */
-  /*  */
-void WaitForUserButtonPress(void)
+/*  */
+void WaitForUserButtonPress( void )
 {
-  while (ubButtonPress == 0)
-  {
-    LL_GPIO_TogglePin(LED2_GPIO_PORT, LED2_PIN);
-    LL_mDelay(LED_BLINK_FAST);
-  }
-  /* Ensure that LED2 is turned Off */
-  LED_Off();
+    while( ubButtonPress == 0 )
+    {
+        LL_GPIO_TogglePin( LED2_GPIO_PORT, LED2_PIN );
+        LL_mDelay( LED_BLINK_FAST );
+    }
+
+    /* Ensure that LED2 is turned Off */
+    LED_Off();
 }
 #endif
 
@@ -302,33 +303,35 @@ void WaitForUserButtonPress(void)
   * @param  None
   * @retval None
   */
-void WaitAndCheckEndOfTransfer(void)
+void WaitAndCheckEndOfTransfer( void )
 {
-  /* 1 - Wait end of transmission */
-  while (ubTransmitIndex != ubNbDataToTransmit)
-  {
-  }
-  /* Disable TXE Interrupt */
-  LL_SPI_DisableIT_TXE(SPI1);
+    /* 1 - Wait end of transmission */
+    while( ubTransmitIndex != ubNbDataToTransmit )
+    {
+    }
 
-  /* 2 - Wait end of reception */
-  while (ubNbDataToReceive > ubReceiveIndex)
-  {
-  }
-  /* Disable RXNE Interrupt */
-  LL_SPI_DisableIT_RXNE(SPI1);
+    /* Disable TXE Interrupt */
+    LL_SPI_DisableIT_TXE( SPI1 );
 
-  /* 3 - Compare Transmit data to receive data */
-  if(Buffercmp8((uint8_t*)aTxBuffer, (uint8_t*)aRxBuffer, ubNbDataToTransmit))
-  {
-    /* Processing Error */
-    LED_Blinking(LED_BLINK_ERROR);
-  }
-  else
-  {
-    /* Turn On Led if data are well received */
-    LED_On();
-  }
+    /* 2 - Wait end of reception */
+    while( ubNbDataToReceive > ubReceiveIndex )
+    {
+    }
+
+    /* Disable RXNE Interrupt */
+    LL_SPI_DisableIT_RXNE( SPI1 );
+
+    /* 3 - Compare Transmit data to receive data */
+    if( Buffercmp8( ( uint8_t * )aTxBuffer, ( uint8_t * )aRxBuffer, ubNbDataToTransmit ) )
+    {
+        /* Processing Error */
+        LED_Blinking( LED_BLINK_ERROR );
+    }
+    else
+    {
+        /* Turn On Led if data are well received */
+        LED_On();
+    }
 }
 
 /**
@@ -339,25 +342,25 @@ void WaitAndCheckEndOfTransfer(void)
 * @retval   0: Comparison is OK (the two Buffers are identical)
 *           Value different from 0: Comparison is NOK (Buffers are different)
 */
-uint8_t Buffercmp8(uint8_t* pBuffer1, uint8_t* pBuffer2, uint8_t BufferLength)
+uint8_t Buffercmp8( uint8_t *pBuffer1, uint8_t *pBuffer2, uint8_t BufferLength )
 {
-  while (BufferLength--)
-  {
-    if (*pBuffer1 != *pBuffer2)
+    while( BufferLength-- )
     {
-      return 1;
+        if( *pBuffer1 != *pBuffer2 )
+        {
+            return 1;
+        }
+
+        pBuffer1++;
+        pBuffer2++;
     }
 
-    pBuffer1++;
-    pBuffer2++;
-  }
-
-  return 0;
+    return 0;
 }
 
 /**
   * @brief  System Clock Configuration
-  *         The system Clock is configured as follow : 
+  *         The system Clock is configured as follow :
   *            System Clock source            = MSI
   *            SYSCLK(Hz)                     = 2097000
   *            HCLK(Hz)                       = 2097000
@@ -368,43 +371,50 @@ uint8_t Buffercmp8(uint8_t* pBuffer1, uint8_t* pBuffer2, uint8_t BufferLength)
   *            Main regulator output voltage  = Scale3 mode
   * @retval None
   */
-void SystemClock_Config(void)
+void SystemClock_Config( void )
 {
-  /* MSI configuration and activation */
-  LL_RCC_PLL_Disable();
-  /* Set new latency */
-  LL_FLASH_SetLatency(LL_FLASH_LATENCY_1);
+    /* MSI configuration and activation */
+    LL_RCC_PLL_Disable();
+    /* Set new latency */
+    LL_FLASH_SetLatency( LL_FLASH_LATENCY_1 );
 
-  LL_RCC_MSI_Enable();
-  while(LL_RCC_MSI_IsReady() != 1) 
-  {
-  };
-  LL_RCC_MSI_SetRange(LL_RCC_MSIRANGE_5);  
-  LL_RCC_MSI_SetCalibTrimming(0x0);
+    LL_RCC_MSI_Enable();
 
-  /* Sysclk activation  */
-  LL_RCC_SetAHBPrescaler(LL_RCC_SYSCLK_DIV_1);
-  LL_RCC_SetSysClkSource(LL_RCC_SYS_CLKSOURCE_MSI);
-  while(LL_RCC_GetSysClkSource() != LL_RCC_SYS_CLKSOURCE_STATUS_MSI) 
-  {
-  };
-  
-  /* Set APB1 & APB2 prescaler*/
-  LL_RCC_SetAPB1Prescaler(LL_RCC_APB1_DIV_1);
-  LL_RCC_SetAPB2Prescaler(LL_RCC_APB2_DIV_1);
+    while( LL_RCC_MSI_IsReady() != 1 )
+    {
+    };
 
-  /* Set systick to 1ms in using frequency set to 2MHz */
-  LL_Init1msTick(2097000);
+    LL_RCC_MSI_SetRange( LL_RCC_MSIRANGE_5 );
 
-  /* Update CMSIS variable (which can be updated also through SystemCoreClockUpdate function) */
-  LL_SetSystemCoreClock(2097000);  
+    LL_RCC_MSI_SetCalibTrimming( 0x0 );
 
-  /* Enable Power Control clock */
-  LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_PWR);
-  /* The voltage scaling allows optimizing the power consumption when the device is 
-     clocked below the maximum system frequency, to update the voltage scaling value 
-     regarding system frequency refer to product datasheet.  */
-  LL_PWR_SetRegulVoltageScaling(LL_PWR_REGU_VOLTAGE_SCALE3);
+    /* Sysclk activation  */
+    LL_RCC_SetAHBPrescaler( LL_RCC_SYSCLK_DIV_1 );
+
+    LL_RCC_SetSysClkSource( LL_RCC_SYS_CLKSOURCE_MSI );
+
+    while( LL_RCC_GetSysClkSource() != LL_RCC_SYS_CLKSOURCE_STATUS_MSI )
+    {
+    };
+
+    /* Set APB1 & APB2 prescaler*/
+    LL_RCC_SetAPB1Prescaler( LL_RCC_APB1_DIV_1 );
+
+    LL_RCC_SetAPB2Prescaler( LL_RCC_APB2_DIV_1 );
+
+    /* Set systick to 1ms in using frequency set to 2MHz */
+    LL_Init1msTick( 2097000 );
+
+    /* Update CMSIS variable (which can be updated also through SystemCoreClockUpdate function) */
+    LL_SetSystemCoreClock( 2097000 );
+
+    /* Enable Power Control clock */
+    LL_APB1_GRP1_EnableClock( LL_APB1_GRP1_PERIPH_PWR );
+
+    /* The voltage scaling allows optimizing the power consumption when the device is
+       clocked below the maximum system frequency, to update the voltage scaling value
+       regarding system frequency refer to product datasheet.  */
+    LL_PWR_SetRegulVoltageScaling( LL_PWR_REGU_VOLTAGE_SCALE3 );
 }
 
 
@@ -416,10 +426,10 @@ void SystemClock_Config(void)
   * @param  None
   * @retval None
   */
-void UserButton_Callback(void)
+void UserButton_Callback( void )
 {
-  /* Update User push-button variable : to be checked in waiting loop in main program */
-  ubButtonPress = 1;
+    /* Update User push-button variable : to be checked in waiting loop in main program */
+    ubButtonPress = 1;
 }
 
 /**
@@ -428,11 +438,11 @@ void UserButton_Callback(void)
   * @param  None
   * @retval None
   */
-void  SPI1_Rx_Callback(void)
+void  SPI1_Rx_Callback( void )
 {
-  /* Read character in Data register.
-  RXNE flag is cleared by reading data in DR register */
-  aRxBuffer[ubReceiveIndex++] = LL_SPI_ReceiveData8(SPI1);
+    /* Read character in Data register.
+    RXNE flag is cleared by reading data in DR register */
+    aRxBuffer[ubReceiveIndex++] = LL_SPI_ReceiveData8( SPI1 );
 }
 
 /**
@@ -441,11 +451,11 @@ void  SPI1_Rx_Callback(void)
   * @param  None
   * @retval None
   */
-void  SPI1_Tx_Callback(void)
+void  SPI1_Tx_Callback( void )
 {
-  /* Write character in Data register.
-  TXE flag is cleared by reading data in DR register */
-  LL_SPI_TransmitData8(SPI1, aTxBuffer[ubTransmitIndex++]);
+    /* Write character in Data register.
+    TXE flag is cleared by reading data in DR register */
+    LL_SPI_TransmitData8( SPI1, aTxBuffer[ubTransmitIndex++] );
 }
 
 /**
@@ -453,16 +463,16 @@ void  SPI1_Tx_Callback(void)
   * @param  None
   * @retval None
   */
-void SPI1_TransferError_Callback(void)
+void SPI1_TransferError_Callback( void )
 {
-  /* Disable RXNE  Interrupt             */
-  LL_SPI_DisableIT_RXNE(SPI1);
+    /* Disable RXNE  Interrupt             */
+    LL_SPI_DisableIT_RXNE( SPI1 );
 
-  /* Disable TXE   Interrupt             */
-  LL_SPI_DisableIT_TXE(SPI1);
+    /* Disable TXE   Interrupt             */
+    LL_SPI_DisableIT_TXE( SPI1 );
 
-  /* Set LED2 to Blinking mode to indicate error occurs */
-  LED_Blinking(LED_BLINK_ERROR);
+    /* Set LED2 to Blinking mode to indicate error occurs */
+    LED_Blinking( LED_BLINK_ERROR );
 }
 
 #ifdef  USE_FULL_ASSERT
@@ -474,15 +484,15 @@ void SPI1_TransferError_Callback(void)
   * @param  line: assert_param error line source number
   * @retval None
   */
-void assert_failed(uint8_t *file, uint32_t line)
+void assert_failed( uint8_t *file, uint32_t line )
 {
-  /* User can add his own implementation to report the file name and line number,
-     ex: printf("Wrong parameters value: file %s on line %d", file, line) */
+    /* User can add his own implementation to report the file name and line number,
+       ex: printf("Wrong parameters value: file %s on line %d", file, line) */
 
-  /* Infinite loop */
-  while (1)
-  {
-  }
+    /* Infinite loop */
+    while( 1 )
+    {
+    }
 }
 #endif
 

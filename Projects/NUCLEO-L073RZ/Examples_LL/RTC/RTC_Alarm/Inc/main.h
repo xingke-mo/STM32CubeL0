@@ -33,7 +33,7 @@
 #include "stm32l0xx_ll_cortex.h"
 #include <stdio.h>
 #if defined(USE_FULL_ASSERT)
-#include "stm32_assert.h"
+    #include "stm32_assert.h"
 #endif /* USE_FULL_ASSERT */
 
 /* Exported types ------------------------------------------------------------*/
@@ -45,7 +45,7 @@
 #define RTC_ERROR_TIMEOUT 1
 
 /**
-  * @brief LED2 
+  * @brief LED2
   */
 
 #define LED2_PIN                           LL_GPIO_PIN_5
@@ -64,7 +64,7 @@
 /* Exported macro ------------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */
 /* IRQ Handler treatment.  */
-void Alarm_Callback(void);
+void Alarm_Callback( void );
 
 #endif /* __MAIN_H */
 

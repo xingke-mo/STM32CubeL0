@@ -47,22 +47,22 @@ extern "C" {
   */
 typedef struct
 {
-  uint32_t Mode;                /*!< Specifies the I2S operating mode.
+    uint32_t Mode;                /*!< Specifies the I2S operating mode.
                                      This parameter can be a value of @ref I2S_Mode */
 
-  uint32_t Standard;            /*!< Specifies the standard used for the I2S communication.
+    uint32_t Standard;            /*!< Specifies the standard used for the I2S communication.
                                      This parameter can be a value of @ref I2S_Standard */
 
-  uint32_t DataFormat;          /*!< Specifies the data format for the I2S communication.
+    uint32_t DataFormat;          /*!< Specifies the data format for the I2S communication.
                                      This parameter can be a value of @ref I2S_Data_Format */
 
-  uint32_t MCLKOutput;          /*!< Specifies whether the I2S MCLK output is enabled or not.
+    uint32_t MCLKOutput;          /*!< Specifies whether the I2S MCLK output is enabled or not.
                                      This parameter can be a value of @ref I2S_MCLK_Output */
 
-  uint32_t AudioFreq;           /*!< Specifies the frequency selected for the I2S communication.
+    uint32_t AudioFreq;           /*!< Specifies the frequency selected for the I2S communication.
                                      This parameter can be a value of @ref I2S_Audio_Frequency */
 
-  uint32_t CPOL;                /*!< Specifies the idle state of the I2S clock.
+    uint32_t CPOL;                /*!< Specifies the idle state of the I2S clock.
                                      This parameter can be a value of @ref I2S_Clock_Polarity */
 } I2S_InitTypeDef;
 
@@ -71,13 +71,13 @@ typedef struct
   */
 typedef enum
 {
-  HAL_I2S_STATE_RESET      = 0x00U,  /*!< I2S not yet initialized or disabled                */
-  HAL_I2S_STATE_READY      = 0x01U,  /*!< I2S initialized and ready for use                  */
-  HAL_I2S_STATE_BUSY       = 0x02U,  /*!< I2S internal process is ongoing                    */
-  HAL_I2S_STATE_BUSY_TX    = 0x03U,  /*!< Data Transmission process is ongoing               */
-  HAL_I2S_STATE_BUSY_RX    = 0x04U,  /*!< Data Reception process is ongoing                  */
-  HAL_I2S_STATE_TIMEOUT    = 0x06U,  /*!< I2S timeout state                                  */
-  HAL_I2S_STATE_ERROR      = 0x07U   /*!< I2S error state                                    */
+    HAL_I2S_STATE_RESET      = 0x00U,  /*!< I2S not yet initialized or disabled                */
+    HAL_I2S_STATE_READY      = 0x01U,  /*!< I2S initialized and ready for use                  */
+    HAL_I2S_STATE_BUSY       = 0x02U,  /*!< I2S internal process is ongoing                    */
+    HAL_I2S_STATE_BUSY_TX    = 0x03U,  /*!< Data Transmission process is ongoing               */
+    HAL_I2S_STATE_BUSY_RX    = 0x04U,  /*!< Data Reception process is ongoing                  */
+    HAL_I2S_STATE_TIMEOUT    = 0x06U,  /*!< I2S timeout state                                  */
+    HAL_I2S_STATE_ERROR      = 0x07U   /*!< I2S error state                                    */
 } HAL_I2S_StateTypeDef;
 
 /**
@@ -89,45 +89,45 @@ typedef struct __I2S_HandleTypeDef
 typedef struct
 #endif /* USE_HAL_I2S_REGISTER_CALLBACKS */
 {
-  SPI_TypeDef                *Instance;    /*!< I2S registers base address */
+    SPI_TypeDef                *Instance;    /*!< I2S registers base address */
 
-  I2S_InitTypeDef            Init;         /*!< I2S communication parameters */
+    I2S_InitTypeDef            Init;         /*!< I2S communication parameters */
 
-  uint16_t                   *pTxBuffPtr;  /*!< Pointer to I2S Tx transfer buffer */
+    uint16_t                   *pTxBuffPtr;  /*!< Pointer to I2S Tx transfer buffer */
 
-  __IO uint16_t              TxXferSize;   /*!< I2S Tx transfer size */
+    __IO uint16_t              TxXferSize;   /*!< I2S Tx transfer size */
 
-  __IO uint16_t              TxXferCount;  /*!< I2S Tx transfer Counter */
+    __IO uint16_t              TxXferCount;  /*!< I2S Tx transfer Counter */
 
-  uint16_t                   *pRxBuffPtr;  /*!< Pointer to I2S Rx transfer buffer */
+    uint16_t                   *pRxBuffPtr;  /*!< Pointer to I2S Rx transfer buffer */
 
-  __IO uint16_t              RxXferSize;   /*!< I2S Rx transfer size */
+    __IO uint16_t              RxXferSize;   /*!< I2S Rx transfer size */
 
-  __IO uint16_t              RxXferCount;  /*!< I2S Rx transfer counter
+    __IO uint16_t              RxXferCount;  /*!< I2S Rx transfer counter
                                               (This field is initialized at the
                                                same value as transfer size at the
                                                beginning of the transfer and
                                                decremented when a sample is received
                                                NbSamplesReceived = RxBufferSize-RxBufferCount) */
-  DMA_HandleTypeDef          *hdmatx;      /*!< I2S Tx DMA handle parameters */
+    DMA_HandleTypeDef          *hdmatx;      /*!< I2S Tx DMA handle parameters */
 
-  DMA_HandleTypeDef          *hdmarx;      /*!< I2S Rx DMA handle parameters */
+    DMA_HandleTypeDef          *hdmarx;      /*!< I2S Rx DMA handle parameters */
 
-  __IO HAL_LockTypeDef       Lock;         /*!< I2S locking object */
+    __IO HAL_LockTypeDef       Lock;         /*!< I2S locking object */
 
-  __IO HAL_I2S_StateTypeDef  State;        /*!< I2S communication state */
+    __IO HAL_I2S_StateTypeDef  State;        /*!< I2S communication state */
 
-  __IO uint32_t              ErrorCode;    /*!< I2S Error code
+    __IO uint32_t              ErrorCode;    /*!< I2S Error code
                                                 This parameter can be a value of @ref I2S_Error */
 
 #if (USE_HAL_I2S_REGISTER_CALLBACKS == 1U)
-  void (* TxCpltCallback)(struct __I2S_HandleTypeDef *hi2s);             /*!< I2S Tx Completed callback          */
-  void (* RxCpltCallback)(struct __I2S_HandleTypeDef *hi2s);             /*!< I2S Rx Completed callback          */
-  void (* TxHalfCpltCallback)(struct __I2S_HandleTypeDef *hi2s);         /*!< I2S Tx Half Completed callback     */
-  void (* RxHalfCpltCallback)(struct __I2S_HandleTypeDef *hi2s);         /*!< I2S Rx Half Completed callback     */
-  void (* ErrorCallback)(struct __I2S_HandleTypeDef *hi2s);              /*!< I2S Error callback                 */
-  void (* MspInitCallback)(struct __I2S_HandleTypeDef *hi2s);            /*!< I2S Msp Init callback              */
-  void (* MspDeInitCallback)(struct __I2S_HandleTypeDef *hi2s);          /*!< I2S Msp DeInit callback            */
+    void ( * TxCpltCallback )( struct __I2S_HandleTypeDef *hi2s );         /*!< I2S Tx Completed callback          */
+    void ( * RxCpltCallback )( struct __I2S_HandleTypeDef *hi2s );         /*!< I2S Rx Completed callback          */
+    void ( * TxHalfCpltCallback )( struct __I2S_HandleTypeDef *hi2s );     /*!< I2S Tx Half Completed callback     */
+    void ( * RxHalfCpltCallback )( struct __I2S_HandleTypeDef *hi2s );     /*!< I2S Rx Half Completed callback     */
+    void ( * ErrorCallback )( struct __I2S_HandleTypeDef *hi2s );          /*!< I2S Error callback                 */
+    void ( * MspInitCallback )( struct __I2S_HandleTypeDef *hi2s );        /*!< I2S Msp Init callback              */
+    void ( * MspDeInitCallback )( struct __I2S_HandleTypeDef *hi2s );      /*!< I2S Msp DeInit callback            */
 
 #endif  /* USE_HAL_I2S_REGISTER_CALLBACKS */
 } I2S_HandleTypeDef;
@@ -138,20 +138,20 @@ typedef struct
   */
 typedef enum
 {
-  HAL_I2S_TX_COMPLETE_CB_ID             = 0x00U,    /*!< I2S Tx Completed callback ID         */
-  HAL_I2S_RX_COMPLETE_CB_ID             = 0x01U,    /*!< I2S Rx Completed callback ID         */
-  HAL_I2S_TX_HALF_COMPLETE_CB_ID        = 0x03U,    /*!< I2S Tx Half Completed callback ID    */
-  HAL_I2S_RX_HALF_COMPLETE_CB_ID        = 0x04U,    /*!< I2S Rx Half Completed callback ID    */
-  HAL_I2S_ERROR_CB_ID                   = 0x06U,    /*!< I2S Error callback ID                */
-  HAL_I2S_MSPINIT_CB_ID                 = 0x07U,    /*!< I2S Msp Init callback ID             */
-  HAL_I2S_MSPDEINIT_CB_ID               = 0x08U     /*!< I2S Msp DeInit callback ID           */
+    HAL_I2S_TX_COMPLETE_CB_ID             = 0x00U,    /*!< I2S Tx Completed callback ID         */
+    HAL_I2S_RX_COMPLETE_CB_ID             = 0x01U,    /*!< I2S Rx Completed callback ID         */
+    HAL_I2S_TX_HALF_COMPLETE_CB_ID        = 0x03U,    /*!< I2S Tx Half Completed callback ID    */
+    HAL_I2S_RX_HALF_COMPLETE_CB_ID        = 0x04U,    /*!< I2S Rx Half Completed callback ID    */
+    HAL_I2S_ERROR_CB_ID                   = 0x06U,    /*!< I2S Error callback ID                */
+    HAL_I2S_MSPINIT_CB_ID                 = 0x07U,    /*!< I2S Msp Init callback ID             */
+    HAL_I2S_MSPDEINIT_CB_ID               = 0x08U     /*!< I2S Msp DeInit callback ID           */
 
 } HAL_I2S_CallbackIDTypeDef;
 
 /**
   * @brief  HAL I2S Callback pointer definition
   */
-typedef  void (*pI2S_CallbackTypeDef)(I2S_HandleTypeDef *hi2s); /*!< pointer to an I2S callback function */
+typedef  void ( *pI2S_CallbackTypeDef )( I2S_HandleTypeDef *hi2s ); /*!< pointer to an I2S callback function */
 
 #endif /* USE_HAL_I2S_REGISTER_CALLBACKS */
 /**
@@ -403,16 +403,16 @@ typedef  void (*pI2S_CallbackTypeDef)(I2S_HandleTypeDef *hi2s); /*!< pointer to 
   * @{
   */
 /* Initialization/de-initialization functions  ********************************/
-HAL_StatusTypeDef HAL_I2S_Init(I2S_HandleTypeDef *hi2s);
-HAL_StatusTypeDef HAL_I2S_DeInit(I2S_HandleTypeDef *hi2s);
-void HAL_I2S_MspInit(I2S_HandleTypeDef *hi2s);
-void HAL_I2S_MspDeInit(I2S_HandleTypeDef *hi2s);
+HAL_StatusTypeDef HAL_I2S_Init( I2S_HandleTypeDef *hi2s );
+HAL_StatusTypeDef HAL_I2S_DeInit( I2S_HandleTypeDef *hi2s );
+void HAL_I2S_MspInit( I2S_HandleTypeDef *hi2s );
+void HAL_I2S_MspDeInit( I2S_HandleTypeDef *hi2s );
 
 /* Callbacks Register/UnRegister functions  ***********************************/
 #if (USE_HAL_I2S_REGISTER_CALLBACKS == 1U)
-HAL_StatusTypeDef HAL_I2S_RegisterCallback(I2S_HandleTypeDef *hi2s, HAL_I2S_CallbackIDTypeDef CallbackID,
-                                           pI2S_CallbackTypeDef pCallback);
-HAL_StatusTypeDef HAL_I2S_UnRegisterCallback(I2S_HandleTypeDef *hi2s, HAL_I2S_CallbackIDTypeDef CallbackID);
+HAL_StatusTypeDef HAL_I2S_RegisterCallback( I2S_HandleTypeDef *hi2s, HAL_I2S_CallbackIDTypeDef CallbackID,
+        pI2S_CallbackTypeDef pCallback );
+HAL_StatusTypeDef HAL_I2S_UnRegisterCallback( I2S_HandleTypeDef *hi2s, HAL_I2S_CallbackIDTypeDef CallbackID );
 #endif /* USE_HAL_I2S_REGISTER_CALLBACKS */
 /**
   * @}
@@ -423,28 +423,28 @@ HAL_StatusTypeDef HAL_I2S_UnRegisterCallback(I2S_HandleTypeDef *hi2s, HAL_I2S_Ca
   */
 /* I/O operation functions  ***************************************************/
 /* Blocking mode: Polling */
-HAL_StatusTypeDef HAL_I2S_Transmit(I2S_HandleTypeDef *hi2s, uint16_t *pData, uint16_t Size, uint32_t Timeout);
-HAL_StatusTypeDef HAL_I2S_Receive(I2S_HandleTypeDef *hi2s, uint16_t *pData, uint16_t Size, uint32_t Timeout);
+HAL_StatusTypeDef HAL_I2S_Transmit( I2S_HandleTypeDef *hi2s, uint16_t *pData, uint16_t Size, uint32_t Timeout );
+HAL_StatusTypeDef HAL_I2S_Receive( I2S_HandleTypeDef *hi2s, uint16_t *pData, uint16_t Size, uint32_t Timeout );
 
 /* Non-Blocking mode: Interrupt */
-HAL_StatusTypeDef HAL_I2S_Transmit_IT(I2S_HandleTypeDef *hi2s, uint16_t *pData, uint16_t Size);
-HAL_StatusTypeDef HAL_I2S_Receive_IT(I2S_HandleTypeDef *hi2s, uint16_t *pData, uint16_t Size);
-void HAL_I2S_IRQHandler(I2S_HandleTypeDef *hi2s);
+HAL_StatusTypeDef HAL_I2S_Transmit_IT( I2S_HandleTypeDef *hi2s, uint16_t *pData, uint16_t Size );
+HAL_StatusTypeDef HAL_I2S_Receive_IT( I2S_HandleTypeDef *hi2s, uint16_t *pData, uint16_t Size );
+void HAL_I2S_IRQHandler( I2S_HandleTypeDef *hi2s );
 
 /* Non-Blocking mode: DMA */
-HAL_StatusTypeDef HAL_I2S_Transmit_DMA(I2S_HandleTypeDef *hi2s, uint16_t *pData, uint16_t Size);
-HAL_StatusTypeDef HAL_I2S_Receive_DMA(I2S_HandleTypeDef *hi2s, uint16_t *pData, uint16_t Size);
+HAL_StatusTypeDef HAL_I2S_Transmit_DMA( I2S_HandleTypeDef *hi2s, uint16_t *pData, uint16_t Size );
+HAL_StatusTypeDef HAL_I2S_Receive_DMA( I2S_HandleTypeDef *hi2s, uint16_t *pData, uint16_t Size );
 
-HAL_StatusTypeDef HAL_I2S_DMAPause(I2S_HandleTypeDef *hi2s);
-HAL_StatusTypeDef HAL_I2S_DMAResume(I2S_HandleTypeDef *hi2s);
-HAL_StatusTypeDef HAL_I2S_DMAStop(I2S_HandleTypeDef *hi2s);
+HAL_StatusTypeDef HAL_I2S_DMAPause( I2S_HandleTypeDef *hi2s );
+HAL_StatusTypeDef HAL_I2S_DMAResume( I2S_HandleTypeDef *hi2s );
+HAL_StatusTypeDef HAL_I2S_DMAStop( I2S_HandleTypeDef *hi2s );
 
 /* Callbacks used in non blocking modes (Interrupt and DMA) *******************/
-void HAL_I2S_TxHalfCpltCallback(I2S_HandleTypeDef *hi2s);
-void HAL_I2S_TxCpltCallback(I2S_HandleTypeDef *hi2s);
-void HAL_I2S_RxHalfCpltCallback(I2S_HandleTypeDef *hi2s);
-void HAL_I2S_RxCpltCallback(I2S_HandleTypeDef *hi2s);
-void HAL_I2S_ErrorCallback(I2S_HandleTypeDef *hi2s);
+void HAL_I2S_TxHalfCpltCallback( I2S_HandleTypeDef *hi2s );
+void HAL_I2S_TxCpltCallback( I2S_HandleTypeDef *hi2s );
+void HAL_I2S_RxHalfCpltCallback( I2S_HandleTypeDef *hi2s );
+void HAL_I2S_RxCpltCallback( I2S_HandleTypeDef *hi2s );
+void HAL_I2S_ErrorCallback( I2S_HandleTypeDef *hi2s );
 /**
   * @}
   */
@@ -453,8 +453,8 @@ void HAL_I2S_ErrorCallback(I2S_HandleTypeDef *hi2s);
   * @{
   */
 /* Peripheral Control and State functions  ************************************/
-HAL_I2S_StateTypeDef HAL_I2S_GetState(I2S_HandleTypeDef *hi2s);
-uint32_t HAL_I2S_GetError(I2S_HandleTypeDef *hi2s);
+HAL_I2S_StateTypeDef HAL_I2S_GetState( I2S_HandleTypeDef *hi2s );
+uint32_t HAL_I2S_GetError( I2S_HandleTypeDef *hi2s );
 /**
   * @}
   */

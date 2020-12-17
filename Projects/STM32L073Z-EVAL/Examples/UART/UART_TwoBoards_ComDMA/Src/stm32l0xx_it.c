@@ -8,11 +8,11 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2016 STMicroelectronics. 
+  * <h2><center>&copy; Copyright (c) 2016 STMicroelectronics.
   * All rights reserved.</center></h2>
   *
   * This software component is licensed by ST under BSD 3-Clause license,
-  * the "License"; You may not use this file except in compliance with the 
+  * the "License"; You may not use this file except in compliance with the
   * License. You may obtain a copy of the License at:
   *                        opensource.org/licenses/BSD-3-Clause
   *
@@ -49,7 +49,7 @@ extern UART_HandleTypeDef UartHandle;
   * @param  None
   * @retval None
   */
-void NMI_Handler(void)
+void NMI_Handler( void )
 {
 }
 
@@ -58,12 +58,12 @@ void NMI_Handler(void)
   * @param  None
   * @retval None
   */
-void HardFault_Handler(void)
+void HardFault_Handler( void )
 {
-  /* Go to infinite loop when Hard Fault exception occurs */
-  while (1)
-  {
-  }
+    /* Go to infinite loop when Hard Fault exception occurs */
+    while( 1 )
+    {
+    }
 }
 
 /**
@@ -71,7 +71,7 @@ void HardFault_Handler(void)
   * @param  None
   * @retval None
   */
-void SVC_Handler(void)
+void SVC_Handler( void )
 {
 }
 
@@ -80,7 +80,7 @@ void SVC_Handler(void)
   * @param  None
   * @retval None
   */
-void PendSV_Handler(void)
+void PendSV_Handler( void )
 {
 }
 
@@ -89,9 +89,9 @@ void PendSV_Handler(void)
   * @param  None
   * @retval None
   */
-void SysTick_Handler(void)
+void SysTick_Handler( void )
 {
-  HAL_IncTick();
+    HAL_IncTick();
 }
 
 /******************************************************************************/
@@ -107,10 +107,10 @@ void SysTick_Handler(void)
   * @Note   This function is redefined in "main.h" and related to DMA
   *         used for USART data transmission
   */
-void USARTx_DMA_RX_IRQHandler(void)
+void USARTx_DMA_RX_IRQHandler( void )
 {
-  HAL_DMA_IRQHandler(UartHandle.hdmatx);
-  HAL_DMA_IRQHandler(UartHandle.hdmarx);
+    HAL_DMA_IRQHandler( UartHandle.hdmatx );
+    HAL_DMA_IRQHandler( UartHandle.hdmarx );
 }
 
 /**
@@ -120,9 +120,9 @@ void USARTx_DMA_RX_IRQHandler(void)
   * @Note   This function is redefined in "main.h" and related to DMA
   *         used for USART data transmission
   */
-void USARTx_IRQHandler(void)
+void USARTx_IRQHandler( void )
 {
-  HAL_UART_IRQHandler(&UartHandle);
+    HAL_UART_IRQHandler( &UartHandle );
 }
 
 /**
@@ -130,9 +130,9 @@ void USARTx_IRQHandler(void)
   * @param  None
   * @retval None
   */
-void EXTI4_15_IRQHandler(void)
+void EXTI4_15_IRQHandler( void )
 {
-  HAL_GPIO_EXTI_IRQHandler(TAMPER_BUTTON_PIN);
+    HAL_GPIO_EXTI_IRQHandler( TAMPER_BUTTON_PIN );
 }
 
 /**

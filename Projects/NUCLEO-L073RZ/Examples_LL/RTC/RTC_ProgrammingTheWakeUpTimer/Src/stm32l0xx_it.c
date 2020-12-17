@@ -1,4 +1,4 @@
-/** 
+/**
   ******************************************************************************
   * @file    Examples_LL/RTC/RTC_ProgrammingTheWakeUpTimer/Src/stm32l0xx_it.c
   * @author  MCD Application Team
@@ -47,7 +47,7 @@
   * @param  None
   * @retval None
   */
-void NMI_Handler(void)
+void NMI_Handler( void )
 {
 }
 
@@ -56,12 +56,12 @@ void NMI_Handler(void)
   * @param  None
   * @retval None
   */
-void HardFault_Handler(void)
+void HardFault_Handler( void )
 {
-  /* Go to infinite loop when Hard Fault exception occurs */
-  while (1)
-  {
-  }
+    /* Go to infinite loop when Hard Fault exception occurs */
+    while( 1 )
+    {
+    }
 }
 
 /**
@@ -69,7 +69,7 @@ void HardFault_Handler(void)
   * @param  None
   * @retval None
   */
-void SVC_Handler(void)
+void SVC_Handler( void )
 {
 }
 
@@ -78,7 +78,7 @@ void SVC_Handler(void)
   * @param  None
   * @retval None
   */
-void PendSV_Handler(void)
+void PendSV_Handler( void )
 {
 }
 
@@ -87,7 +87,7 @@ void PendSV_Handler(void)
   * @param  None
   * @retval None
   */
-void SysTick_Handler(void)
+void SysTick_Handler( void )
 {
 }
 
@@ -105,16 +105,16 @@ void SysTick_Handler(void)
   * @param  None
   * @retval None
   */
-void USER_BUTTON_IRQHANDLER(void)
+void USER_BUTTON_IRQHANDLER( void )
 {
-  /* Manage Flags */
-  if(LL_EXTI_IsActiveFlag_0_31(USER_BUTTON_EXTI_LINE) != RESET)
-  {
-    LL_EXTI_ClearFlag_0_31(USER_BUTTON_EXTI_LINE);
+    /* Manage Flags */
+    if( LL_EXTI_IsActiveFlag_0_31( USER_BUTTON_EXTI_LINE ) != RESET )
+    {
+        LL_EXTI_ClearFlag_0_31( USER_BUTTON_EXTI_LINE );
 
-    /* Manage code in main.c */
-    UserButton_Callback(); 
-  }
+        /* Manage code in main.c */
+        UserButton_Callback();
+    }
 }
 
 /**
@@ -122,28 +122,28 @@ void USER_BUTTON_IRQHANDLER(void)
   * Param   None
   * Retval  None
   */
-void USART1_IRQHandler(void)
+void USART1_IRQHandler( void )
 {
-  /* Check RXNE flag value in ISR register */
-  if(LL_USART_IsActiveFlag_RXNE(USART1) && LL_USART_IsEnabledIT_RXNE(USART1))
-  {
-    /* RXNE flag will be cleared by reading of RDR register (done in call) */
-    /* Call function in charge of handling Character reception */
-    USART_CharReception_Callback();
-  }
-  else if((USART1->ISR & USART_ISR_TC) == USART_ISR_TC)
-  {
-    /* Clear TC flag */
-    LL_USART_ClearFlag_TC(USART1);
-    
-    /* Call function in charge of handling end of transmission of sent character
-       and prepare next charcater transmission */
-    USART_CharTransmitComplete_Callback();
-  }
-  else
-  {
-      NVIC_DisableIRQ(USART1_IRQn); /* Disable USART1_IRQn */
-  }
+    /* Check RXNE flag value in ISR register */
+    if( LL_USART_IsActiveFlag_RXNE( USART1 ) && LL_USART_IsEnabledIT_RXNE( USART1 ) )
+    {
+        /* RXNE flag will be cleared by reading of RDR register (done in call) */
+        /* Call function in charge of handling Character reception */
+        USART_CharReception_Callback();
+    }
+    else if( ( USART1->ISR & USART_ISR_TC ) == USART_ISR_TC )
+    {
+        /* Clear TC flag */
+        LL_USART_ClearFlag_TC( USART1 );
+
+        /* Call function in charge of handling end of transmission of sent character
+           and prepare next charcater transmission */
+        USART_CharTransmitComplete_Callback();
+    }
+    else
+    {
+        NVIC_DisableIRQ( USART1_IRQn ); /* Disable USART1_IRQn */
+    }
 }
 
 
@@ -153,23 +153,23 @@ void USART1_IRQHandler(void)
   * Param   None
   * Retval  None
   */
-void RTC_IRQHandler(void)
+void RTC_IRQHandler( void )
 {
-  /* Check WUT flag */
-  if(LL_RTC_IsActiveFlag_WUT(RTC) == 1)
-  {
-    /* Reset Wake up flag */
-    LL_RTC_ClearFlag_WUT(RTC); 
-    /* clear exti line 20 flag */
-    LL_EXTI_ClearFlag_0_31(LL_EXTI_LINE_20);
-    
-    RTC_Wakup_Treatement();
-  }
-  else
-  {
-    /* Disable RTC_IRQn */
-    NVIC_DisableIRQ(RTC_IRQn);
-  }
+    /* Check WUT flag */
+    if( LL_RTC_IsActiveFlag_WUT( RTC ) == 1 )
+    {
+        /* Reset Wake up flag */
+        LL_RTC_ClearFlag_WUT( RTC );
+        /* clear exti line 20 flag */
+        LL_EXTI_ClearFlag_0_31( LL_EXTI_LINE_20 );
+
+        RTC_Wakup_Treatement();
+    }
+    else
+    {
+        /* Disable RTC_IRQn */
+        NVIC_DisableIRQ( RTC_IRQn );
+    }
 }
 /**
   * @}

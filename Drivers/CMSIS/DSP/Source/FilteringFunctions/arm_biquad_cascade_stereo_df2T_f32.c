@@ -140,10 +140,10 @@
 
 LOW_OPTIMIZATION_ENTER
 void arm_biquad_cascade_stereo_df2T_f32(
-const arm_biquad_cascade_stereo_df2T_instance_f32 * S,
-float32_t * pSrc,
-float32_t * pDst,
-uint32_t blockSize)
+    const arm_biquad_cascade_stereo_df2T_instance_f32 *S,
+    float32_t *pSrc,
+    float32_t *pDst,
+    uint32_t blockSize )
 {
 
     float32_t *pIn = pSrc;                         /*  source pointer            */
@@ -184,7 +184,8 @@ uint32_t blockSize)
 
         /* First part of the processing with loop unrolling.  Compute 8 outputs at a time.
         ** a second loop below computes the remaining 1 to 7 samples. */
-        while (sample > 0U) {
+        while( sample > 0U )
+        {
 
             /* y[n] = b0 * x[n] + d1 */
             /* d1 = b1 * x[n] + a1 * y[n] + d2 */
@@ -368,14 +369,16 @@ uint32_t blockSize)
         }
 
         sample = blockSize & 0x7U;
-        while (sample > 0U) {
+
+        while( sample > 0U )
+        {
             /* Read the input */
             Xn1a = *pIn++; //Channel a
             Xn1b = *pIn++; //Channel b
 
             /* y[n] = b0 * x[n] + d1 */
-            acc1a = (b0 * Xn1a) + d1a;
-            acc1b = (b0 * Xn1b) + d1b;
+            acc1a = ( b0 * Xn1a ) + d1a;
+            acc1b = ( b0 * Xn1b ) + d1b;
 
             /* Store the result in the accumulator in the destination buffer. */
             *pOut++ = acc1a;
@@ -383,12 +386,12 @@ uint32_t blockSize)
 
             /* Every time after the output is computed state should be updated. */
             /* d1 = b1 * x[n] + a1 * y[n] + d2 */
-            d1a = ((b1 * Xn1a) + (a1 * acc1a)) + d2a;
-            d1b = ((b1 * Xn1b) + (a1 * acc1b)) + d2b;
+            d1a = ( ( b1 * Xn1a ) + ( a1 * acc1a ) ) + d2a;
+            d1b = ( ( b1 * Xn1b ) + ( a1 * acc1b ) ) + d2b;
 
             /* d2 = b2 * x[n] + a2 * y[n] */
-            d2a = (b2 * Xn1a) + (a2 * acc1a);
-            d2b = (b2 * Xn1b) + (a2 * acc1b);
+            d2a = ( b2 * Xn1a ) + ( a2 * acc1a );
+            d2b = ( b2 * Xn1b ) + ( a2 * acc1b );
 
             sample--;
         }
@@ -409,7 +412,7 @@ uint32_t blockSize)
         /*Reset the output working pointer */
         pOut = pDst;
 
-    } while (stage > 0U);
+    } while( stage > 0U );
 
 #elif defined(ARM_MATH_CM0_FAMILY)
 
@@ -433,15 +436,15 @@ uint32_t blockSize)
 
         sample = blockSize;
 
-        while (sample > 0U)
+        while( sample > 0U )
         {
             /* Read the input */
             Xn1a = *pIn++; //Channel a
             Xn1b = *pIn++; //Channel b
 
             /* y[n] = b0 * x[n] + d1 */
-            acc1a = (b0 * Xn1a) + d1a;
-            acc1b = (b0 * Xn1b) + d1b;
+            acc1a = ( b0 * Xn1a ) + d1a;
+            acc1b = ( b0 * Xn1b ) + d1b;
 
             /* Store the result in the accumulator in the destination buffer. */
             *pOut++ = acc1a;
@@ -449,12 +452,12 @@ uint32_t blockSize)
 
             /* Every time after the output is computed state should be updated. */
             /* d1 = b1 * x[n] + a1 * y[n] + d2 */
-            d1a = ((b1 * Xn1a) + (a1 * acc1a)) + d2a;
-            d1b = ((b1 * Xn1b) + (a1 * acc1b)) + d2b;
+            d1a = ( ( b1 * Xn1a ) + ( a1 * acc1a ) ) + d2a;
+            d1b = ( ( b1 * Xn1b ) + ( a1 * acc1b ) ) + d2b;
 
             /* d2 = b2 * x[n] + a2 * y[n] */
-            d2a = (b2 * Xn1a) + (a2 * acc1a);
-            d2b = (b2 * Xn1b) + (a2 * acc1b);
+            d2a = ( b2 * Xn1a ) + ( a2 * acc1a );
+            d2b = ( b2 * Xn1b ) + ( a2 * acc1b );
 
             /* decrement the loop counter */
             sample--;
@@ -475,7 +478,7 @@ uint32_t blockSize)
         /* decrement the loop counter */
         stage--;
 
-    } while (stage > 0U);
+    } while( stage > 0U );
 
 #else
 
@@ -507,7 +510,8 @@ uint32_t blockSize)
 
         /* First part of the processing with loop unrolling.  Compute 4 outputs at a time.
         ** a second loop below computes the remaining 1 to 3 samples. */
-        while (sample > 0U) {
+        while( sample > 0U )
+        {
 
             /* y[n] = b0 * x[n] + d1 */
             /* d1 = b1 * x[n] + a1 * y[n] + d2 */
@@ -614,7 +618,9 @@ uint32_t blockSize)
         }
 
         sample = blockSize & 0x3U;
-        while (sample > 0U) {
+
+        while( sample > 0U )
+        {
             Xn1a = *pIn++;
             Xn1b = *pIn++;
 
@@ -658,7 +664,7 @@ uint32_t blockSize)
         /* decrement the loop counter */
         stage--;
 
-    } while (stage > 0U);
+    } while( stage > 0U );
 
 #endif
 

@@ -28,23 +28,23 @@
 
 #include "arm_math.h"
 
- /**
- * @addtogroup PID
- * @{
- */
+/**
+* @addtogroup PID
+* @{
+*/
 
 /**
 * @brief  Reset function for the Q15 PID Control.
-* @param[in] *S		Instance pointer of PID control data structure.
+* @param[in] *S     Instance pointer of PID control data structure.
 * @return none.
 * \par Description:
 * The function resets the state buffer to zeros.
 */
 void arm_pid_reset_q15(
-  arm_pid_instance_q15 * S)
+    arm_pid_instance_q15 *S )
 {
-  /* Reset state to zero, The size will be always 3 samples */
-  memset(S->state, 0, 3U * sizeof(q15_t));
+    /* Reset state to zero, The size will be always 3 samples */
+    memset( S->state, 0, 3U * sizeof( q15_t ) );
 }
 
 /**

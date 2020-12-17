@@ -2,7 +2,7 @@
   ******************************************************************************
   * @file    Examples_LL/UTILS/UTILS_ReadDeviceInfo/Src/main.c
   * @author  MCD Application Team
-  * @brief   This example describes how to read UID, Device ID and Revision ID 
+  * @brief   This example describes how to read UID, Device ID and Revision ID
   *          through the STM32L0xx UTILS LL API.
   ******************************************************************************
   * @attention
@@ -41,7 +41,7 @@ uint8_t aShowUIDWord1[32]    = {0};
 uint8_t aShowUIDWord2[32]    = {0};
 
 /* Private function prototypes -----------------------------------------------*/
-void     GetMCUInfo(void);
+void     GetMCUInfo( void );
 
 /* Private functions ---------------------------------------------------------*/
 
@@ -50,15 +50,15 @@ void     GetMCUInfo(void);
   * @param  None
   * @retval None
   */
-int main(void)
+int main( void )
 {
-  /* Get different information available in the MCU */
-  GetMCUInfo();
-  
-  /* Infinite loop */
-  while (1)
-  {
-  }
+    /* Get different information available in the MCU */
+    GetMCUInfo();
+
+    /* Infinite loop */
+    while( 1 )
+    {
+    }
 }
 
 /**
@@ -66,22 +66,22 @@ int main(void)
   * @param  None
   * @retval None
   */
-void GetMCUInfo(void)
+void GetMCUInfo( void )
 {
-  /* Display Device ID in string format */
-  sprintf((char*)aShowDeviceID,"Device ID = 0x%lX", LL_DBGMCU_GetDeviceID());
-  
-  /* Display Revision ID in string format */
-  sprintf((char*)aShowRevisionID,"Revision ID = 0x%lX", LL_DBGMCU_GetRevisionID());
+    /* Display Device ID in string format */
+    sprintf( ( char * )aShowDeviceID, "Device ID = 0x%lX", LL_DBGMCU_GetDeviceID() );
 
-  /* Display UID Word0 */
-  sprintf((char*)aShowUIDWord0,"UID Word0 = 0x%lX", LL_GetUID_Word0());
-  
-  /* Display UID Word1 */
-  sprintf((char*)aShowUIDWord1,"UID Word1 = 0x%lX", LL_GetUID_Word1());
-  
-  /* Display UID Word2 */
-  sprintf((char*)aShowUIDWord2,"UID Word2 = 0x%lX", LL_GetUID_Word2());
+    /* Display Revision ID in string format */
+    sprintf( ( char * )aShowRevisionID, "Revision ID = 0x%lX", LL_DBGMCU_GetRevisionID() );
+
+    /* Display UID Word0 */
+    sprintf( ( char * )aShowUIDWord0, "UID Word0 = 0x%lX", LL_GetUID_Word0() );
+
+    /* Display UID Word1 */
+    sprintf( ( char * )aShowUIDWord1, "UID Word1 = 0x%lX", LL_GetUID_Word1() );
+
+    /* Display UID Word2 */
+    sprintf( ( char * )aShowUIDWord2, "UID Word2 = 0x%lX", LL_GetUID_Word2() );
 
 }
 

@@ -1,4 +1,4 @@
-/** 
+/**
   ******************************************************************************
   * @file    Examples_LL/I2C/I2C_OneBoard_Communication_DMAAndIT/Src/stm32l0xx_it.c
   * @author  MCD Application Team
@@ -47,7 +47,7 @@
   * @param  None
   * @retval None
   */
-void NMI_Handler(void)
+void NMI_Handler( void )
 {
 }
 
@@ -56,12 +56,12 @@ void NMI_Handler(void)
   * @param  None
   * @retval None
   */
-void HardFault_Handler(void)
+void HardFault_Handler( void )
 {
-  /* Go to infinite loop when Hard Fault exception occurs */
-  while (1)
-  {
-  }
+    /* Go to infinite loop when Hard Fault exception occurs */
+    while( 1 )
+    {
+    }
 }
 
 /**
@@ -69,7 +69,7 @@ void HardFault_Handler(void)
   * @param  None
   * @retval None
   */
-void SVC_Handler(void)
+void SVC_Handler( void )
 {
 }
 
@@ -78,7 +78,7 @@ void SVC_Handler(void)
   * @param  None
   * @retval None
   */
-void PendSV_Handler(void)
+void PendSV_Handler( void )
 {
 }
 
@@ -87,7 +87,7 @@ void PendSV_Handler(void)
   * @param  None
   * @retval None
   */
-void SysTick_Handler(void)
+void SysTick_Handler( void )
 {
 }
 
@@ -103,16 +103,16 @@ void SysTick_Handler(void)
   * @param  None
   * @retval None
   */
-void USER_BUTTON_IRQHANDLER(void)
+void USER_BUTTON_IRQHANDLER( void )
 {
-  /* Manage Flags */
-  if(LL_EXTI_IsActiveFlag_0_31(USER_BUTTON_EXTI_LINE) != RESET)
-  {
-    LL_EXTI_ClearFlag_0_31(USER_BUTTON_EXTI_LINE);
+    /* Manage Flags */
+    if( LL_EXTI_IsActiveFlag_0_31( USER_BUTTON_EXTI_LINE ) != RESET )
+    {
+        LL_EXTI_ClearFlag_0_31( USER_BUTTON_EXTI_LINE );
 
-    /* Manage code in main.c.*/
-    UserButton_Callback(); 
-  }
+        /* Manage code in main.c.*/
+        UserButton_Callback();
+    }
 }
 
 /**
@@ -120,61 +120,61 @@ void USER_BUTTON_IRQHANDLER(void)
   * Param   None
   * Retval  None
   */
-void I2C1_IRQHandler(void)
+void I2C1_IRQHandler( void )
 {
-  /* Check ADDR flag value in ISR register */
-  if(LL_I2C_IsActiveFlag_ADDR(I2C1))
-  {
-    /* Verify the Address Match with the OWN Slave address */
-    if(LL_I2C_GetAddressMatchCode(I2C1) == SLAVE_OWN_ADDRESS)
+    /* Check ADDR flag value in ISR register */
+    if( LL_I2C_IsActiveFlag_ADDR( I2C1 ) )
     {
-      /* Verify the transfer direction, a write direction, Slave enters receiver mode */
-      if(LL_I2C_GetTransferDirection(I2C1) == LL_I2C_DIRECTION_WRITE)
-      {
-        /* Clear ADDR flag value in ISR register */
-        LL_I2C_ClearFlag_ADDR(I2C1);
+        /* Verify the Address Match with the OWN Slave address */
+        if( LL_I2C_GetAddressMatchCode( I2C1 ) == SLAVE_OWN_ADDRESS )
+        {
+            /* Verify the transfer direction, a write direction, Slave enters receiver mode */
+            if( LL_I2C_GetTransferDirection( I2C1 ) == LL_I2C_DIRECTION_WRITE )
+            {
+                /* Clear ADDR flag value in ISR register */
+                LL_I2C_ClearFlag_ADDR( I2C1 );
 
-        /* Enable Receive Interrupt */
-        LL_I2C_EnableIT_RX(I2C1);
-      }
-      else
-      {
-        /* Clear ADDR flag value in ISR register */
-        LL_I2C_ClearFlag_ADDR(I2C1);
+                /* Enable Receive Interrupt */
+                LL_I2C_EnableIT_RX( I2C1 );
+            }
+            else
+            {
+                /* Clear ADDR flag value in ISR register */
+                LL_I2C_ClearFlag_ADDR( I2C1 );
 
-        /* Call Error function */
-        Error_Callback();
-      }
+                /* Call Error function */
+                Error_Callback();
+            }
+        }
+        else
+        {
+            /* Clear ADDR flag value in ISR register */
+            LL_I2C_ClearFlag_ADDR( I2C1 );
+
+            /* Call Error function */
+            Error_Callback();
+        }
+    }
+    /* Check RXNE flag value in ISR register */
+    else if( LL_I2C_IsActiveFlag_RXNE( I2C1 ) )
+    {
+        /* Call function Slave Reception Callback */
+        Slave_Reception_Callback();
+    }
+    /* Check STOP flag value in ISR register */
+    else if( LL_I2C_IsActiveFlag_STOP( I2C1 ) )
+    {
+        /* End of Transfer */
+        LL_I2C_ClearFlag_STOP( I2C1 );
+
+        /* Call function Slave Complete Callback */
+        Slave_Complete_Callback();
     }
     else
     {
-      /* Clear ADDR flag value in ISR register */
-      LL_I2C_ClearFlag_ADDR(I2C1);
-        
-      /* Call Error function */
-      Error_Callback();
+        /* Call Error function */
+        Error_Callback();
     }
-  }
-  /* Check RXNE flag value in ISR register */
-  else if(LL_I2C_IsActiveFlag_RXNE(I2C1))
-  {
-    /* Call function Slave Reception Callback */
-    Slave_Reception_Callback();
-  }
-  /* Check STOP flag value in ISR register */
-  else if(LL_I2C_IsActiveFlag_STOP(I2C1))
-  {
-    /* End of Transfer */
-    LL_I2C_ClearFlag_STOP(I2C1);
-    
-    /* Call function Slave Complete Callback */
-    Slave_Complete_Callback();
-  }
-  else
-  {
-    /* Call Error function */
-    Error_Callback();
-  }
 }
 
 /**
@@ -182,17 +182,17 @@ void I2C1_IRQHandler(void)
   * @param  None
   * @retval None
   */
-void DMA1_Channel2_3_IRQHandler(void)
+void DMA1_Channel2_3_IRQHandler( void )
 {
-  if(LL_DMA_IsActiveFlag_TC2(DMA1))
-  {
-    LL_DMA_ClearFlag_GI2(DMA1);
-    Transfer_Complete_Callback();
-  }
-  else if(LL_DMA_IsActiveFlag_TE2(DMA1))
-  {
-    Transfer_Error_Callback();
-  }
+    if( LL_DMA_IsActiveFlag_TC2( DMA1 ) )
+    {
+        LL_DMA_ClearFlag_GI2( DMA1 );
+        Transfer_Complete_Callback();
+    }
+    else if( LL_DMA_IsActiveFlag_TE2( DMA1 ) )
+    {
+        Transfer_Error_Callback();
+    }
 }
 /**
   * @}

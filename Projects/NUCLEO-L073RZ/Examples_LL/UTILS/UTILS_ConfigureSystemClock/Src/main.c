@@ -2,7 +2,7 @@
   ******************************************************************************
   * @file    Examples_LL/UTILS/UTILS_ConfigureSystemClock/Src/main.c
   * @author  MCD Application Team
-  * @brief   This example describes how to configure system clock using PLL with 
+  * @brief   This example describes how to configure system clock using PLL with
   *          HSI as source clock through the STM32L0xx UTILS LL API.
   ******************************************************************************
   * @attention
@@ -44,8 +44,8 @@ LL_UTILS_PLLInitTypeDef sUTILS_PLLInitStruct = {LL_RCC_PLL_MUL_6, LL_RCC_PLL_DIV
 LL_UTILS_ClkInitTypeDef sUTILS_ClkInitStruct = {LL_RCC_SYSCLK_DIV_2, LL_RCC_APB1_DIV_2, LL_RCC_APB2_DIV_1};
 
 /* Private function prototypes -----------------------------------------------*/
-void     LED_Init(void);
-void     MCO_ConfigGPIO(void);
+void     LED_Init( void );
+void     MCO_ConfigGPIO( void );
 
 /* Private functions ---------------------------------------------------------*/
 
@@ -54,35 +54,35 @@ void     MCO_ConfigGPIO(void);
   * @param  None
   * @retval None
   */
-int main(void)
+int main( void )
 {
-  /* System started with default clock used after reset */
+    /* System started with default clock used after reset */
 
-  /* Switch to PLL with HSI as clock source             */
-  LL_PLL_ConfigSystemClock_HSI(&sUTILS_PLLInitStruct, &sUTILS_ClkInitStruct);
-  
-  /* 
-     CMSIS variable automatically updated according to new configuration.
-     SystemCoreClock should be equal to calculated HCLK frequency.
-     FLASH latency is also tuned according to system constraints described 
-     in the reference manual.           
-  */
+    /* Switch to PLL with HSI as clock source             */
+    LL_PLL_ConfigSystemClock_HSI( &sUTILS_PLLInitStruct, &sUTILS_ClkInitStruct );
 
-  /* Set Systick to 1ms in using frequency set to SystemCoreClock */
-  LL_Init1msTick(SystemCoreClock);
+    /*
+       CMSIS variable automatically updated according to new configuration.
+       SystemCoreClock should be equal to calculated HCLK frequency.
+       FLASH latency is also tuned according to system constraints described
+       in the reference manual.
+    */
 
-  /* Initialize LED2 */
-  LED_Init();
+    /* Set Systick to 1ms in using frequency set to SystemCoreClock */
+    LL_Init1msTick( SystemCoreClock );
 
-  /* Configure SYSCLK for MCO */
-  MCO_ConfigGPIO();
+    /* Initialize LED2 */
+    LED_Init();
 
-  /* Toggle LED2 in an infinite loop with a period of 1Hz */
-  while (1)
-  {
-    LL_GPIO_TogglePin(LED2_GPIO_PORT, LED2_PIN);  
-    LL_mDelay(1000);
-  }
+    /* Configure SYSCLK for MCO */
+    MCO_ConfigGPIO();
+
+    /* Toggle LED2 in an infinite loop with a period of 1Hz */
+    while( 1 )
+    {
+        LL_GPIO_TogglePin( LED2_GPIO_PORT, LED2_PIN );
+        LL_mDelay( 1000 );
+    }
 }
 
 /**
@@ -90,22 +90,22 @@ int main(void)
   * @param  None
   * @retval None
   */
-void LED_Init(void)
+void LED_Init( void )
 {
-  /* Enable the LED2 Clock */
-  LED2_GPIO_CLK_ENABLE();
+    /* Enable the LED2 Clock */
+    LED2_GPIO_CLK_ENABLE();
 
-  /* Configure IO in output push-pull mode to drive external LED2 */
-  LL_GPIO_SetPinMode(LED2_GPIO_PORT, LED2_PIN, LL_GPIO_MODE_OUTPUT);
-  /* Reset value is LL_GPIO_OUTPUT_PUSHPULL */
-  //LL_GPIO_SetPinOutputType(LED2_GPIO_PORT, LED2_PIN, LL_GPIO_OUTPUT_PUSHPULL);
-  /* Reset value is LL_GPIO_SPEED_FREQ_LOW */
-  //LL_GPIO_SetPinSpeed(LED2_GPIO_PORT, LED2_PIN, LL_GPIO_SPEED_FREQ_LOW);
-  /* Reset value is LL_GPIO_PULL_NO */
-  //LL_GPIO_SetPinPull(LED2_GPIO_PORT, LED2_PIN, LL_GPIO_PULL_NO);
+    /* Configure IO in output push-pull mode to drive external LED2 */
+    LL_GPIO_SetPinMode( LED2_GPIO_PORT, LED2_PIN, LL_GPIO_MODE_OUTPUT );
+    /* Reset value is LL_GPIO_OUTPUT_PUSHPULL */
+    //LL_GPIO_SetPinOutputType(LED2_GPIO_PORT, LED2_PIN, LL_GPIO_OUTPUT_PUSHPULL);
+    /* Reset value is LL_GPIO_SPEED_FREQ_LOW */
+    //LL_GPIO_SetPinSpeed(LED2_GPIO_PORT, LED2_PIN, LL_GPIO_SPEED_FREQ_LOW);
+    /* Reset value is LL_GPIO_PULL_NO */
+    //LL_GPIO_SetPinPull(LED2_GPIO_PORT, LED2_PIN, LL_GPIO_PULL_NO);
 
-  /* Select MCO clock source and prescaler */
-  LL_RCC_ConfigMCO(LL_RCC_MCO1SOURCE_SYSCLK, LL_RCC_MCO1_DIV_1);
+    /* Select MCO clock source and prescaler */
+    LL_RCC_ConfigMCO( LL_RCC_MCO1SOURCE_SYSCLK, LL_RCC_MCO1_DIV_1 );
 }
 
 /**
@@ -113,17 +113,17 @@ void LED_Init(void)
   * @param  None
   * @retval None
   */
-void MCO_ConfigGPIO(void)
+void MCO_ConfigGPIO( void )
 {
-  /* MCO Clock Enable */
-  LL_IOP_GRP1_EnableClock(LL_IOP_GRP1_PERIPH_GPIOA);
+    /* MCO Clock Enable */
+    LL_IOP_GRP1_EnableClock( LL_IOP_GRP1_PERIPH_GPIOA );
 
-  /* Configure the MCO pin in alternate function mode */
-  LL_GPIO_SetPinMode(GPIOA, LL_GPIO_PIN_8, LL_GPIO_MODE_ALTERNATE);
-  LL_GPIO_SetPinOutputType(GPIOA, LL_GPIO_PIN_8, LL_GPIO_OUTPUT_PUSHPULL);
-  LL_GPIO_SetPinSpeed(GPIOA, LL_GPIO_PIN_8, LL_GPIO_SPEED_FREQ_HIGH);
-  LL_GPIO_SetPinPull(GPIOA, LL_GPIO_PIN_8, LL_GPIO_PULL_NO);
-  LL_GPIO_SetAFPin_8_15(GPIOA, LL_GPIO_PIN_8, LL_GPIO_AF_0);
+    /* Configure the MCO pin in alternate function mode */
+    LL_GPIO_SetPinMode( GPIOA, LL_GPIO_PIN_8, LL_GPIO_MODE_ALTERNATE );
+    LL_GPIO_SetPinOutputType( GPIOA, LL_GPIO_PIN_8, LL_GPIO_OUTPUT_PUSHPULL );
+    LL_GPIO_SetPinSpeed( GPIOA, LL_GPIO_PIN_8, LL_GPIO_SPEED_FREQ_HIGH );
+    LL_GPIO_SetPinPull( GPIOA, LL_GPIO_PIN_8, LL_GPIO_PULL_NO );
+    LL_GPIO_SetAFPin_8_15( GPIOA, LL_GPIO_PIN_8, LL_GPIO_AF_0 );
 }
 
 #ifdef  USE_FULL_ASSERT
@@ -135,15 +135,15 @@ void MCO_ConfigGPIO(void)
   * @param  line: assert_param error line source number
   * @retval None
   */
-void assert_failed(uint8_t *file, uint32_t line)
+void assert_failed( uint8_t *file, uint32_t line )
 {
-  /* User can add his own implementation to report the file name and line number,
-     ex: printf("Wrong parameters value: file %s on line %d", file, line) */
+    /* User can add his own implementation to report the file name and line number,
+       ex: printf("Wrong parameters value: file %s on line %d", file, line) */
 
-  /* Infinite loop */
-  while (1)
-  {
-  }
+    /* Infinite loop */
+    while( 1 )
+    {
+    }
 }
 #endif
 

@@ -30,7 +30,7 @@
 /* Exported constants --------------------------------------------------------*/
 /* Exported macro ------------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */
-extern void Error_Handler(void);
+extern void Error_Handler( void );
 
 #endif /* __MAIN_H */
 

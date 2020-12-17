@@ -1,6 +1,6 @@
 /**
   ******************************************************************************
-  * @file    RTC/RTC_LSI/Inc/main.h 
+  * @file    RTC/RTC_LSI/Inc/main.h
   * @author  MCD Application Team
   * @brief   Header for main.c module
   ******************************************************************************
@@ -16,7 +16,7 @@
   *
   ******************************************************************************
   */
-  
+
 /* Define to prevent recursive inclusion -------------------------------------*/
 #ifndef __MAIN_H
 #define __MAIN_H
@@ -29,7 +29,7 @@
 /* Exported constants --------------------------------------------------------*/
 #define RTC_ASYNCH_PREDIV    0x7C
 #define RTC_SYNCH_PREDIV     0x0127
-  
+
 /* Exported macro ------------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */
 

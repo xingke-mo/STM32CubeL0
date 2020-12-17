@@ -47,7 +47,7 @@
   * @param  None
   * @retval None
   */
-void NMI_Handler(void)
+void NMI_Handler( void )
 {
 }
 
@@ -56,12 +56,12 @@ void NMI_Handler(void)
   * @param  None
   * @retval None
   */
-void HardFault_Handler(void)
+void HardFault_Handler( void )
 {
-  /* Go to infinite loop when Hard Fault exception occurs */
-  while (1)
-  {
-  }
+    /* Go to infinite loop when Hard Fault exception occurs */
+    while( 1 )
+    {
+    }
 }
 
 /**
@@ -69,7 +69,7 @@ void HardFault_Handler(void)
   * @param  None
   * @retval None
   */
-void SVC_Handler(void)
+void SVC_Handler( void )
 {
 }
 
@@ -78,7 +78,7 @@ void SVC_Handler(void)
   * @param  None
   * @retval None
   */
-void PendSV_Handler(void)
+void PendSV_Handler( void )
 {
 }
 
@@ -87,9 +87,9 @@ void PendSV_Handler(void)
   * @param  None
   * @retval None
   */
-void SysTick_Handler(void)
+void SysTick_Handler( void )
 {
-  HAL_IncTick();
+    HAL_IncTick();
 }
 
 /******************************************************************************/
@@ -104,23 +104,23 @@ void SysTick_Handler(void)
   * @param  None
   * @retval None
   */
-void USARTx_IRQHandler(void)
+void USARTx_IRQHandler( void )
 {
-  /* Customize process using LL interface to improve the performance (exhaustive feature management not handled) */
+    /* Customize process using LL interface to improve the performance (exhaustive feature management not handled) */
 
-  /* Check RXNE flag value in ISR register */
-  if(LL_USART_IsActiveFlag_RXNE(USARTx) && LL_USART_IsEnabledIT_RXNE(USARTx))
-  {
-    /* RXNE flag will be cleared by reading of RDR register (done in call) */
-    /* Call function in charge of handling Character reception */
-    UART_CharReception_Callback();
-  }
+    /* Check RXNE flag value in ISR register */
+    if( LL_USART_IsActiveFlag_RXNE( USARTx ) && LL_USART_IsEnabledIT_RXNE( USARTx ) )
+    {
+        /* RXNE flag will be cleared by reading of RDR register (done in call) */
+        /* Call function in charge of handling Character reception */
+        UART_CharReception_Callback();
+    }
 
-  if(LL_USART_IsEnabledIT_ERROR(USARTx) && LL_USART_IsActiveFlag_NE(USARTx))
-  {
-    /* Call Error function */
-    UART_Error_Callback();
-  }
+    if( LL_USART_IsEnabledIT_ERROR( USARTx ) && LL_USART_IsActiveFlag_NE( USARTx ) )
+    {
+        /* Call Error function */
+        UART_Error_Callback();
+    }
 }
 
 /**

@@ -31,21 +31,22 @@
 /* Private variables ---------------------------------------------------------*/
 /* Private function prototypes -----------------------------------------------*/
 /* Extern function prototypes ------------------------------------------------*/
-uint16_t Flash_If_Init(void);
-uint16_t Flash_If_Erase(uint32_t Add);
-uint16_t Flash_If_Write(uint8_t *src, uint8_t *dest, uint32_t Len);
-uint8_t *Flash_If_Read(uint8_t *src, uint8_t *dest, uint32_t Len);
-uint16_t Flash_If_DeInit(void);
-uint16_t Flash_If_GetStatus(uint32_t Add, uint8_t Cmd, uint8_t *buffer);
+uint16_t Flash_If_Init( void );
+uint16_t Flash_If_Erase( uint32_t Add );
+uint16_t Flash_If_Write( uint8_t *src, uint8_t *dest, uint32_t Len );
+uint8_t *Flash_If_Read( uint8_t *src, uint8_t *dest, uint32_t Len );
+uint16_t Flash_If_DeInit( void );
+uint16_t Flash_If_GetStatus( uint32_t Add, uint8_t Cmd, uint8_t *buffer );
 
-USBD_DFU_MediaTypeDef USBD_DFU_Flash_fops= {
-  (uint8_t *)FLASH_DESC_STR,
-  Flash_If_Init,
-  Flash_If_DeInit,
-  Flash_If_Erase,
-  Flash_If_Write,
-  Flash_If_Read,
-  Flash_If_GetStatus,
+USBD_DFU_MediaTypeDef USBD_DFU_Flash_fops =
+{
+    ( uint8_t * )FLASH_DESC_STR,
+    Flash_If_Init,
+    Flash_If_DeInit,
+    Flash_If_Erase,
+    Flash_If_Write,
+    Flash_If_Read,
+    Flash_If_GetStatus,
 };
 
 /* Private functions ---------------------------------------------------------*/
@@ -54,11 +55,11 @@ USBD_DFU_MediaTypeDef USBD_DFU_Flash_fops= {
   * @param  None
   * @retval 0 if operation is successeful, MAL_FAIL else.
   */
-uint16_t Flash_If_Init(void)
+uint16_t Flash_If_Init( void )
 {
-  /* Unlock the internal flash */
-  HAL_FLASH_Unlock();
-  return 0;
+    /* Unlock the internal flash */
+    HAL_FLASH_Unlock();
+    return 0;
 }
 
 /**
@@ -66,11 +67,11 @@ uint16_t Flash_If_Init(void)
   * @param  None
   * @retval 0 if operation is successeful, MAL_FAIL else.
   */
-uint16_t Flash_If_DeInit(void)
+uint16_t Flash_If_DeInit( void )
 {
-  /* Lock the internal flash */
-  HAL_FLASH_Lock();
-  return 0;
+    /* Lock the internal flash */
+    HAL_FLASH_Lock();
+    return 0;
 }
 
 /**
@@ -78,23 +79,24 @@ uint16_t Flash_If_DeInit(void)
   * @param  Add: Address of sector to be erased.
   * @retval 0 if operation is successeful, MAL_FAIL else.
   */
-uint16_t Flash_If_Erase(uint32_t Add)
+uint16_t Flash_If_Erase( uint32_t Add )
 {
-  uint32_t PageError;
-  /* Variable contains Flash operation status */
-  HAL_StatusTypeDef status;
-  FLASH_EraseInitTypeDef eraseinitstruct;
+    uint32_t PageError;
+    /* Variable contains Flash operation status */
+    HAL_StatusTypeDef status;
+    FLASH_EraseInitTypeDef eraseinitstruct;
 
-  eraseinitstruct.TypeErase = FLASH_TYPEERASE_PAGES;
-  eraseinitstruct.PageAddress = Add;
-  eraseinitstruct.NbPages = 1U;
-  status = HAL_FLASHEx_Erase(&eraseinitstruct, &PageError);
+    eraseinitstruct.TypeErase = FLASH_TYPEERASE_PAGES;
+    eraseinitstruct.PageAddress = Add;
+    eraseinitstruct.NbPages = 1U;
+    status = HAL_FLASHEx_Erase( &eraseinitstruct, &PageError );
 
-  if (status != HAL_OK)
-  {
-    return 1U;
-  }
-  return 0U;
+    if( status != HAL_OK )
+    {
+        return 1U;
+    }
+
+    return 0U;
 }
 
 /**
@@ -104,30 +106,31 @@ uint16_t Flash_If_Erase(uint32_t Add)
   * @param  Len: Number of data to be written (in bytes).
   * @retval 0 if operation is successeful, MAL_FAIL else.
   */
-uint16_t Flash_If_Write(uint8_t *src, uint8_t *dest, uint32_t Len)
+uint16_t Flash_If_Write( uint8_t *src, uint8_t *dest, uint32_t Len )
 {
-  uint32_t i = 0;
+    uint32_t i = 0;
 
-  for(i = 0; i < Len; i+=4)
-  {
-    /* Device voltage range supposed to be [2.7V to 3.6V], the operation will
-       be done by byte */
-    if(HAL_FLASH_Program(FLASH_TYPEPROGRAM_WORD, (uint32_t)(dest+i), *(uint32_t*)(src+i)) == HAL_OK)
+    for( i = 0; i < Len; i += 4 )
     {
-     /* Check the written value */
-      if(*(uint32_t *)(src + i) != *(uint32_t*)(dest+i))
-      {
-        /* Flash content doesn't match SRAM content */
-        return 2;
-      }
+        /* Device voltage range supposed to be [2.7V to 3.6V], the operation will
+           be done by byte */
+        if( HAL_FLASH_Program( FLASH_TYPEPROGRAM_WORD, ( uint32_t )( dest + i ), *( uint32_t * )( src + i ) ) == HAL_OK )
+        {
+            /* Check the written value */
+            if( *( uint32_t * )( src + i ) != *( uint32_t * )( dest + i ) )
+            {
+                /* Flash content doesn't match SRAM content */
+                return 2;
+            }
+        }
+        else
+        {
+            /* Error occurred while writing data in Flash memory */
+            return 1;
+        }
     }
-    else
-    {
-      /* Error occurred while writing data in Flash memory */
-      return 1;
-    }
-  }
-  return 0;
+
+    return 0;
 }
 
 /**
@@ -137,17 +140,18 @@ uint16_t Flash_If_Write(uint8_t *src, uint8_t *dest, uint32_t Len)
   * @param  Len: Number of data to be read (in bytes).
   * @retval Pointer to the physical address where data should be read.
   */
-uint8_t *Flash_If_Read(uint8_t *src, uint8_t *dest, uint32_t Len)
+uint8_t *Flash_If_Read( uint8_t *src, uint8_t *dest, uint32_t Len )
 {
-  uint32_t i = 0;
-  uint8_t *psrc = src;
+    uint32_t i = 0;
+    uint8_t *psrc = src;
 
-  for(i = 0; i < Len; i++)
-  {
-    dest[i] = *psrc++;
-  }
-  /* Return a valid address to avoid HardFault */
-  return (uint8_t*)(dest);
+    for( i = 0; i < Len; i++ )
+    {
+        dest[i] = *psrc++;
+    }
+
+    /* Return a valid address to avoid HardFault */
+    return ( uint8_t * )( dest );
 }
 
 /**
@@ -156,24 +160,25 @@ uint8_t *Flash_If_Read(uint8_t *src, uint8_t *dest, uint32_t Len)
   * @param  Cmd: Number of data to be read (in bytes).
   * @retval 0 if operation is successeful
   */
-uint16_t Flash_If_GetStatus(uint32_t Add, uint8_t Cmd, uint8_t *buffer)
+uint16_t Flash_If_GetStatus( uint32_t Add, uint8_t Cmd, uint8_t *buffer )
 {
-  switch(Cmd)
-  {
-  case DFU_MEDIA_PROGRAM:
-    buffer[1] = (uint8_t)FLASH_PROGRAM_TIME;
-    buffer[2] = (uint8_t)(FLASH_PROGRAM_TIME << 8);
-    buffer[3] = 0;
-    break;
+    switch( Cmd )
+    {
+    case DFU_MEDIA_PROGRAM:
+        buffer[1] = ( uint8_t )FLASH_PROGRAM_TIME;
+        buffer[2] = ( uint8_t )( FLASH_PROGRAM_TIME << 8 );
+        buffer[3] = 0;
+        break;
 
-  case DFU_MEDIA_ERASE:
-  default:
-    buffer[1] = (uint8_t)FLASH_ERASE_TIME;
-    buffer[2] = (uint8_t)(FLASH_ERASE_TIME << 8);
-    buffer[3] = 0;
-    break;
-  }
-  return 0;
+    case DFU_MEDIA_ERASE:
+    default:
+        buffer[1] = ( uint8_t )FLASH_ERASE_TIME;
+        buffer[2] = ( uint8_t )( FLASH_ERASE_TIME << 8 );
+        buffer[3] = 0;
+        break;
+    }
+
+    return 0;
 }
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

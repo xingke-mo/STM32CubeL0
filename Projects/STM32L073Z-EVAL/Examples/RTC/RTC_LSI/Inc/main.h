@@ -28,12 +28,12 @@
 /* Exported types ------------------------------------------------------------*/
 /* Exported constants --------------------------------------------------------*/
 #define RTC_ASYNCH_PREDIV    0x7C
-#define RTC_SYNCH_PREDIV     0x127 
+#define RTC_SYNCH_PREDIV     0x127
 
 
 /* Exported macro ------------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */
-void Error_Handler(void);
+void Error_Handler( void );
 
 #endif /* __MAIN_H */
 

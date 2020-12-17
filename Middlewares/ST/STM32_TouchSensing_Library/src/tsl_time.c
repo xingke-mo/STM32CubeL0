@@ -32,24 +32,27 @@
   * @param  None
   * @retval None
   */
-void TSL_tim_ProcessIT(void)
+void TSL_tim_ProcessIT( void )
 {
-  static TSL_tTick_ms_T count_1s = 0;
+    static TSL_tTick_ms_T count_1s = 0;
 
-  // Count 1 global tick every xxx ms (defined by TSLPRM_TICK_FREQ parameter)
-  TSL_Globals.Tick_ms++;
+    // Count 1 global tick every xxx ms (defined by TSLPRM_TICK_FREQ parameter)
+    TSL_Globals.Tick_ms++;
 
-  // Check if 1 second has elapsed
-  count_1s++;
-  if (count_1s > (TSLPRM_TICK_FREQ - 1))
-  {
-    TSL_Globals.Tick_sec++; // 1 global tick every second
-    if (TSL_Globals.Tick_sec > 63)  // Due to DTO counter on 6 bits...
+    // Check if 1 second has elapsed
+    count_1s++;
+
+    if( count_1s > ( TSLPRM_TICK_FREQ - 1 ) )
     {
-      TSL_Globals.Tick_sec = 0;
+        TSL_Globals.Tick_sec++; // 1 global tick every second
+
+        if( TSL_Globals.Tick_sec > 63 ) // Due to DTO counter on 6 bits...
+        {
+            TSL_Globals.Tick_sec = 0;
+        }
+
+        count_1s = 0;
     }
-    count_1s = 0;
-  }
 }
 
 
@@ -60,55 +63,56 @@ void TSL_tim_ProcessIT(void)
   * @param[in] last_tick Variable holding the last tick value
   * @retval Status
   */
-TSL_Status_enum_T TSL_tim_CheckDelay_ms(TSL_tTick_ms_T delay_ms, __IO TSL_tTick_ms_T *last_tick)
+TSL_Status_enum_T TSL_tim_CheckDelay_ms( TSL_tTick_ms_T delay_ms, __IO TSL_tTick_ms_T *last_tick )
 {
-  TSL_tTick_ms_T tick;
-  TSL_tTick_ms_T diff;
+    TSL_tTick_ms_T tick;
+    TSL_tTick_ms_T diff;
 
-  disableInterrupts();
+    disableInterrupts();
 
-  tick = TSL_Globals.Tick_ms;
+    tick = TSL_Globals.Tick_ms;
 
-  if (delay_ms == 0)
-  {
-    enableInterrupts();
-    return TSL_STATUS_ERROR;
-  }
+    if( delay_ms == 0 )
+    {
+        enableInterrupts();
+        return TSL_STATUS_ERROR;
+    }
 
-  // Counter Roll-over management
-  if (tick >= *last_tick)
-  {
-    diff = tick - *last_tick;
-  }
-  else
-  {
-    diff = (0xFFFF - *last_tick) + tick + 1;
-  }
+    // Counter Roll-over management
+    if( tick >= *last_tick )
+    {
+        diff = tick - *last_tick;
+    }
+    else
+    {
+        diff = ( 0xFFFF - *last_tick ) + tick + 1;
+    }
 
 #if (TSLPRM_TICK_FREQ == 125)
-  if (diff >= (TSL_tTick_ms_T)(delay_ms >> 3)) // Divide by 8 for 8ms tick
+
+    if( diff >= ( TSL_tTick_ms_T )( delay_ms >> 3 ) ) // Divide by 8 for 8ms tick
 #endif
 #if (TSLPRM_TICK_FREQ == 250)
-  if (diff >= (TSL_tTick_ms_T)(delay_ms >> 2)) // Divide by 4 for 4ms tick
+        if( diff >= ( TSL_tTick_ms_T )( delay_ms >> 2 ) ) // Divide by 4 for 4ms tick
 #endif
 #if (TSLPRM_TICK_FREQ == 500)
-  if (diff >= (TSL_tTick_ms_T)(delay_ms >> 1)) // Divide by 2 for 2ms tick
+            if( diff >= ( TSL_tTick_ms_T )( delay_ms >> 1 ) ) // Divide by 2 for 2ms tick
 #endif
 #if (TSLPRM_TICK_FREQ == 1000)
-  if (diff >= (TSL_tTick_ms_T)delay_ms) // Direct value for 1ms tick
+                if( diff >= ( TSL_tTick_ms_T )delay_ms ) // Direct value for 1ms tick
 #endif
 #if (TSLPRM_TICK_FREQ == 2000)
-  if (diff >= (TSL_tTick_ms_T)(delay_ms << 1)) // Multiply by 2 for 0.5ms tick
+                    if( diff >= ( TSL_tTick_ms_T )( delay_ms << 1 ) ) // Multiply by 2 for 0.5ms tick
 #endif
-  {
-    // Save current time
-    *last_tick = tick;
-    enableInterrupts();
-    return TSL_STATUS_OK;
-  }
+                    {
+                        // Save current time
+                        *last_tick = tick;
+                        enableInterrupts();
+                        return TSL_STATUS_OK;
+                    }
 
-  enableInterrupts();
-  return TSL_STATUS_BUSY;
+    enableInterrupts();
+    return TSL_STATUS_BUSY;
 
 }
 
@@ -119,41 +123,41 @@ TSL_Status_enum_T TSL_tim_CheckDelay_ms(TSL_tTick_ms_T delay_ms, __IO TSL_tTick_
   * @param[in] last_tick Variable holding the last tick value
   * @retval Status
   */
-TSL_Status_enum_T TSL_tim_CheckDelay_sec(TSL_tTick_sec_T delay_sec, __IO TSL_tTick_sec_T *last_tick)
+TSL_Status_enum_T TSL_tim_CheckDelay_sec( TSL_tTick_sec_T delay_sec, __IO TSL_tTick_sec_T *last_tick )
 {
-  TSL_tTick_sec_T tick;
-  TSL_tTick_sec_T diff;
+    TSL_tTick_sec_T tick;
+    TSL_tTick_sec_T diff;
 
-  disableInterrupts();
+    disableInterrupts();
 
-  tick = TSL_Globals.Tick_sec;
+    tick = TSL_Globals.Tick_sec;
 
-  if (delay_sec == 0)
-  {
+    if( delay_sec == 0 )
+    {
+        enableInterrupts();
+        return TSL_STATUS_ERROR;
+    }
+
+    // Counter Roll-over management
+    if( tick >= *last_tick )
+    {
+        diff = ( TSL_tTick_sec_T )( tick - *last_tick );
+    }
+    else
+    {
+        diff = ( TSL_tTick_sec_T )( ( 63 - *last_tick ) + tick + 1 ); // DTO counter is on 6 bits
+    }
+
+    if( diff >= delay_sec )
+    {
+        // Save current time
+        *last_tick = tick;
+        enableInterrupts();
+        return TSL_STATUS_OK;
+    }
+
     enableInterrupts();
-    return TSL_STATUS_ERROR;
-  }
-
-  // Counter Roll-over management
-  if (tick >= *last_tick)
-  {
-    diff = (TSL_tTick_sec_T)(tick - *last_tick);
-  }
-  else
-  {
-    diff = (TSL_tTick_sec_T)((63 - *last_tick) + tick + 1); // DTO counter is on 6 bits
-  }
-
-  if (diff >= delay_sec)
-  {
-    // Save current time
-    *last_tick = tick;
-    enableInterrupts();
-    return TSL_STATUS_OK;
-  }
-
-  enableInterrupts();
-  return TSL_STATUS_BUSY;
+    return TSL_STATUS_BUSY;
 
 }
 

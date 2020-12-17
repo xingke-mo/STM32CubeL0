@@ -26,7 +26,7 @@
 #include "stm32l073z_eval.h"
 
 #if defined(TARGET_STM32F756G_EVAL)
-#include "stm32l073z_eval_io.h"
+    #include "stm32l073z_eval_io.h"
 #endif
 
 /* Exported types ------------------------------------------------------------*/

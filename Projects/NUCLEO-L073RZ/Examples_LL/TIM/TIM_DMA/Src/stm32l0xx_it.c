@@ -1,4 +1,4 @@
-/** 
+/**
   ******************************************************************************
   * @file    Examples_LL/TIM/TIM_DMA/Src/stm32l0xx_it.c
   * @author  MCD Application Team
@@ -47,7 +47,7 @@
   * @param  None
   * @retval None
   */
-void NMI_Handler(void)
+void NMI_Handler( void )
 {
 }
 
@@ -56,12 +56,12 @@ void NMI_Handler(void)
   * @param  None
   * @retval None
   */
-void HardFault_Handler(void)
+void HardFault_Handler( void )
 {
-  /* Go to infinite loop when Hard Fault exception occurs */
-  while (1)
-  {
-  }
+    /* Go to infinite loop when Hard Fault exception occurs */
+    while( 1 )
+    {
+    }
 }
 
 /**
@@ -69,7 +69,7 @@ void HardFault_Handler(void)
   * @param  None
   * @retval None
   */
-void SVC_Handler(void)
+void SVC_Handler( void )
 {
 }
 
@@ -78,7 +78,7 @@ void SVC_Handler(void)
   * @param  None
   * @retval None
   */
-void PendSV_Handler(void)
+void PendSV_Handler( void )
 {
 }
 
@@ -87,7 +87,7 @@ void PendSV_Handler(void)
   * @param  None
   * @retval None
   */
-void SysTick_Handler(void)
+void SysTick_Handler( void )
 {
 }
 
@@ -103,17 +103,17 @@ void SysTick_Handler(void)
 * @param  None
 * @retval None
 */
-void TIM2_IRQHandler(void)
+void TIM2_IRQHandler( void )
 {
-  /* Check whether update interrupt is pending */
-  if(LL_TIM_IsActiveFlag_UPDATE(TIM2) == 1)
-  {
-    /* Clear the update interrupt flag*/
-    LL_TIM_ClearFlag_UPDATE(TIM2);
-  }
-  
-  /* TIM2 update interrupt processing */
-  TimerUpdate_Callback();
+    /* Check whether update interrupt is pending */
+    if( LL_TIM_IsActiveFlag_UPDATE( TIM2 ) == 1 )
+    {
+        /* Clear the update interrupt flag*/
+        LL_TIM_ClearFlag_UPDATE( TIM2 );
+    }
+
+    /* TIM2 update interrupt processing */
+    TimerUpdate_Callback();
 }
 
 /**
@@ -121,17 +121,17 @@ void TIM2_IRQHandler(void)
 * @param  None
 * @retval None
 */
-void DMA1_Channel2_IRQHandler(void)
+void DMA1_Channel2_IRQHandler( void )
 {
-  if(LL_DMA_IsActiveFlag_TC2(DMA1) == 1)
-  {
-    LL_DMA_ClearFlag_GI2(DMA1);
-    TransferComplete_Callback();
-  }
-  else if(LL_DMA_IsActiveFlag_TE2(DMA1) == 1)
-  {
-    TransferError_Callback();
-  }
+    if( LL_DMA_IsActiveFlag_TC2( DMA1 ) == 1 )
+    {
+        LL_DMA_ClearFlag_GI2( DMA1 );
+        TransferComplete_Callback();
+    }
+    else if( LL_DMA_IsActiveFlag_TE2( DMA1 ) == 1 )
+    {
+        TransferError_Callback();
+    }
 }
 
 

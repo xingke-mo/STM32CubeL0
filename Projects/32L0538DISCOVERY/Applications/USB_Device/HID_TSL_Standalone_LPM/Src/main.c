@@ -1,7 +1,7 @@
 /**
   ******************************************************************************
   * @file    USB_Device/HID_TSL_Standalone_LPM/Src/main.c
-  * @author  MCD Application Team 
+  * @author  MCD Application Team
   * @brief   USB device HID demo main file
   ******************************************************************************
   * @attention
@@ -18,7 +18,7 @@
   */
 
 /* Includes ------------------------------------------------------------------*/
-#include "main.h"  
+#include "main.h"
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
@@ -34,10 +34,10 @@ USBD_HandleTypeDef USBD_Device;
 /* TSC handler declaration */
 TSC_HandleTypeDef TscHandle;
 /* Private function prototypes -----------------------------------------------*/
-static void SystemClock_Config(void);
-static void TSL_Config(void);
-static void Process_Sensors(tsl_user_status_t status);
-static void GetPointerData(uint8_t *pbuf);
+static void SystemClock_Config( void );
+static void TSL_Config( void );
+static void Process_Sensors( tsl_user_status_t status );
+static void GetPointerData( uint8_t *pbuf );
 /* Private functions ---------------------------------------------------------*/
 
 /**
@@ -45,55 +45,56 @@ static void GetPointerData(uint8_t *pbuf);
   * @param  None
   * @retval None
   */
-int main(void)
+int main( void )
 {
-  tsl_user_status_t tsl_status;
-  
-  /* STM32L0xx HAL library initialization:
-       - Configure the Flash prefetch, Flash preread and Buffer caches
-       - Systick timer is configured by default as source of time base, but user 
-             can eventually implement his proper time base source (a general purpose 
-             timer for example or other time source), keeping in mind that Time base 
-             duration should be kept 1ms since PPP_TIMEOUT_VALUEs are defined and 
-             handled in milliseconds basis.
-       - Low Level Initialization
-     */
-  HAL_Init();
-  
-  /* Configure the system clock to get correspondent USB clock source */
-  SystemClock_Config();
-  
-  /* Configure Key button for remote wakeup */
-  BSP_PB_Init(BUTTON_KEY, BUTTON_MODE_EXTI);
-  
-  /* Init Device Library */
-  USBD_Init(&USBD_Device, &HID_Desc, 0);
-  
-  /* Register the HID class */
-  USBD_RegisterClass(&USBD_Device, &USBD_HID);
-  
-  /* Start Device Process */
-  USBD_Start(&USBD_Device);
+    tsl_user_status_t tsl_status;
 
-  /* Configure the TSL*/
-  TSL_Config();
+    /* STM32L0xx HAL library initialization:
+         - Configure the Flash prefetch, Flash preread and Buffer caches
+         - Systick timer is configured by default as source of time base, but user
+               can eventually implement his proper time base source (a general purpose
+               timer for example or other time source), keeping in mind that Time base
+               duration should be kept 1ms since PPP_TIMEOUT_VALUEs are defined and
+               handled in milliseconds basis.
+         - Low Level Initialization
+       */
+    HAL_Init();
 
-  /* In an infinite loop, send periodically host mouse pointer position (emulated) */  
-  while (1)
-  {
-    /* Execute STMTouch Driver state machine */
-    tsl_status = tsl_user_Exec();
-    if (tsl_status != TSL_USER_STATUS_BUSY)
+    /* Configure the system clock to get correspondent USB clock source */
+    SystemClock_Config();
+
+    /* Configure Key button for remote wakeup */
+    BSP_PB_Init( BUTTON_KEY, BUTTON_MODE_EXTI );
+
+    /* Init Device Library */
+    USBD_Init( &USBD_Device, &HID_Desc, 0 );
+
+    /* Register the HID class */
+    USBD_RegisterClass( &USBD_Device, &USBD_HID );
+
+    /* Start Device Process */
+    USBD_Start( &USBD_Device );
+
+    /* Configure the TSL*/
+    TSL_Config();
+
+    /* In an infinite loop, send periodically host mouse pointer position (emulated) */
+    while( 1 )
     {
-      Process_Sensors(tsl_status);
+        /* Execute STMTouch Driver state machine */
+        tsl_status = tsl_user_Exec();
+
+        if( tsl_status != TSL_USER_STATUS_BUSY )
+        {
+            Process_Sensors( tsl_status );
+        }
     }
-  }
 }
 
 /**
   * @brief  System Clock Configuration
   *         The system Clock is configured as follow:
-  *         HSI48 used as USB clock source 
+  *         HSI48 used as USB clock source
   *              - System Clock source            = HSI
   *              - HSI Frequency(Hz)              = 16000000
   *              - SYSCLK(Hz)                     = 16000000
@@ -106,58 +107,58 @@ int main(void)
   * @param  None
   * @retval None
   */
-static void SystemClock_Config(void)
+static void SystemClock_Config( void )
 {
-  RCC_ClkInitTypeDef RCC_ClkInitStruct;
-  RCC_OscInitTypeDef RCC_OscInitStruct;
-  RCC_PeriphCLKInitTypeDef  PeriphClkInitStruct;
-  static RCC_CRSInitTypeDef RCC_CRSInitStruct;
-  
-  /* Enable HSI Oscillator to be used as System clock source
-     Enable HSI48 Oscillator to be used as USB clock source */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI | RCC_OSCILLATORTYPE_HSI48;
-  RCC_OscInitStruct.HSIState = RCC_HSI_ON;
-  RCC_OscInitStruct.HSI48State = RCC_HSI48_ON;
-  HAL_RCC_OscConfig(&RCC_OscInitStruct); 
- 
-  /* Select HSI48 as USB clock source */
-  PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_USB;
-  PeriphClkInitStruct.UsbClockSelection = RCC_USBCLKSOURCE_HSI48;
-  HAL_RCCEx_PeriphCLKConfig(&PeriphClkInitStruct);
-  
-  /* Select HSI as system clock source and configure the HCLK, PCLK1 and PCLK2 
-     clock dividers */
-  RCC_ClkInitStruct.ClockType = (RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2);
-  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_HSI;
-  RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
-  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;  
-  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;  
-  HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_0);
-    
-  /*Configure the clock recovery system (CRS)**********************************/
-  
-  /*Enable CRS Clock*/
-  __HAL_RCC_CRS_CLK_ENABLE();
-  
-  /* Default Synchro Signal division factor (not divided) */
-  RCC_CRSInitStruct.Prescaler = RCC_CRS_SYNC_DIV1;  
-  /* Set the SYNCSRC[1:0] bits according to CRS_Source value */
-  RCC_CRSInitStruct.Source = RCC_CRS_SYNC_SOURCE_USB;  
-  /* HSI48 is synchronized with USB SOF at 1KHz rate */
-  RCC_CRSInitStruct.ReloadValue =  __HAL_RCC_CRS_RELOADVALUE_CALCULATE(48000000, 1000);
-  RCC_CRSInitStruct.ErrorLimitValue = RCC_CRS_ERRORLIMIT_DEFAULT;  
-  /* Set the TRIM[5:0] to the default value*/
-  RCC_CRSInitStruct.HSI48CalibrationValue = 0x20;   
-  /* Start automatic synchronization */ 
-  HAL_RCCEx_CRSConfig (&RCC_CRSInitStruct);
-   
-  /* Enable Power Controller clock */
-  __HAL_RCC_PWR_CLK_ENABLE();
-  
-  /* The voltage scaling allows optimizing the power consumption when the device is 
-  clocked below the maximum system frequency, to update the voltage scaling value 
-  regarding system frequency refer to product datasheet. */
-  __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE1);
+    RCC_ClkInitTypeDef RCC_ClkInitStruct;
+    RCC_OscInitTypeDef RCC_OscInitStruct;
+    RCC_PeriphCLKInitTypeDef  PeriphClkInitStruct;
+    static RCC_CRSInitTypeDef RCC_CRSInitStruct;
+
+    /* Enable HSI Oscillator to be used as System clock source
+       Enable HSI48 Oscillator to be used as USB clock source */
+    RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI | RCC_OSCILLATORTYPE_HSI48;
+    RCC_OscInitStruct.HSIState = RCC_HSI_ON;
+    RCC_OscInitStruct.HSI48State = RCC_HSI48_ON;
+    HAL_RCC_OscConfig( &RCC_OscInitStruct );
+
+    /* Select HSI48 as USB clock source */
+    PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_USB;
+    PeriphClkInitStruct.UsbClockSelection = RCC_USBCLKSOURCE_HSI48;
+    HAL_RCCEx_PeriphCLKConfig( &PeriphClkInitStruct );
+
+    /* Select HSI as system clock source and configure the HCLK, PCLK1 and PCLK2
+       clock dividers */
+    RCC_ClkInitStruct.ClockType = ( RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2 );
+    RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_HSI;
+    RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+    RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
+    RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
+    HAL_RCC_ClockConfig( &RCC_ClkInitStruct, FLASH_LATENCY_0 );
+
+    /*Configure the clock recovery system (CRS)**********************************/
+
+    /*Enable CRS Clock*/
+    __HAL_RCC_CRS_CLK_ENABLE();
+
+    /* Default Synchro Signal division factor (not divided) */
+    RCC_CRSInitStruct.Prescaler = RCC_CRS_SYNC_DIV1;
+    /* Set the SYNCSRC[1:0] bits according to CRS_Source value */
+    RCC_CRSInitStruct.Source = RCC_CRS_SYNC_SOURCE_USB;
+    /* HSI48 is synchronized with USB SOF at 1KHz rate */
+    RCC_CRSInitStruct.ReloadValue =  __HAL_RCC_CRS_RELOADVALUE_CALCULATE( 48000000, 1000 );
+    RCC_CRSInitStruct.ErrorLimitValue = RCC_CRS_ERRORLIMIT_DEFAULT;
+    /* Set the TRIM[5:0] to the default value*/
+    RCC_CRSInitStruct.HSI48CalibrationValue = 0x20;
+    /* Start automatic synchronization */
+    HAL_RCCEx_CRSConfig( &RCC_CRSInitStruct );
+
+    /* Enable Power Controller clock */
+    __HAL_RCC_PWR_CLK_ENABLE();
+
+    /* The voltage scaling allows optimizing the power consumption when the device is
+    clocked below the maximum system frequency, to update the voltage scaling value
+    regarding system frequency refer to product datasheet. */
+    __HAL_PWR_VOLTAGESCALING_CONFIG( PWR_REGULATOR_VOLTAGE_SCALE1 );
 }
 
 /**
@@ -165,36 +166,36 @@ static void SystemClock_Config(void)
   * @param  pbuf: Pointer to report
   * @retval None
   */
-static void GetPointerData(uint8_t *pbuf)
+static void GetPointerData( uint8_t *pbuf )
 {
-  int8_t  x = 0, y = 0 ;
-  
-  if (LINEAR_POSITION < 4)
-  {
-    /* Mouse Cursor move to the LEFT*/
-    x -= CURSOR_STEP;
-  }
-  
-  else if (LINEAR_POSITION < 8)
-  {
-    /* Mouse Cursor move to the RIGHT*/
-    x += CURSOR_STEP;
-  }
-  else if (LINEAR_POSITION < 12)
-  {
-    /* Mouse Cursor move to the UP*/
-    y -= CURSOR_STEP;
-  }
-  else
-  {
-    /* Mouse Cursor move to the DOWN*/
-    y += CURSOR_STEP;
-  }
-  
-  pbuf[0] = 0;
-  pbuf[1] = x;
-  pbuf[2] = y;
-  pbuf[3] = 0;
+    int8_t  x = 0, y = 0 ;
+
+    if( LINEAR_POSITION < 4 )
+    {
+        /* Mouse Cursor move to the LEFT*/
+        x -= CURSOR_STEP;
+    }
+
+    else if( LINEAR_POSITION < 8 )
+    {
+        /* Mouse Cursor move to the RIGHT*/
+        x += CURSOR_STEP;
+    }
+    else if( LINEAR_POSITION < 12 )
+    {
+        /* Mouse Cursor move to the UP*/
+        y -= CURSOR_STEP;
+    }
+    else
+    {
+        /* Mouse Cursor move to the DOWN*/
+        y += CURSOR_STEP;
+    }
+
+    pbuf[0] = 0;
+    pbuf[1] = x;
+    pbuf[2] = y;
+    pbuf[3] = 0;
 }
 
 /**
@@ -202,19 +203,20 @@ static void GetPointerData(uint8_t *pbuf)
   * @param  status TSL user status
   * @retval None
   */
-static void Process_Sensors(tsl_user_status_t status)
+static void Process_Sensors( tsl_user_status_t status )
 {
-	uint8_t HID_Buffer[4];
+    uint8_t HID_Buffer[4];
 
-  if (LINEAR_DETECT)
-  {
-    GetPointerData(HID_Buffer);
-    /* send data though IN endpoint*/
-    if((HID_Buffer[1] != 0) || (HID_Buffer[2] != 0))
+    if( LINEAR_DETECT )
     {
-      USBD_HID_SendReport(&USBD_Device, HID_Buffer, 4);
+        GetPointerData( HID_Buffer );
+
+        /* send data though IN endpoint*/
+        if( ( HID_Buffer[1] != 0 ) || ( HID_Buffer[2] != 0 ) )
+        {
+            USBD_HID_SendReport( &USBD_Device, HID_Buffer, 4 );
+        }
     }
-  }
 }
 
 /**
@@ -223,29 +225,29 @@ static void Process_Sensors(tsl_user_status_t status)
   * @param  None
   * @retval None
   */
-static void TSL_Config(void)
+static void TSL_Config( void )
 {
-  /* Configure the TSC peripheral */
-  TscHandle.Instance = TSC;
-  TscHandle.Init.AcquisitionMode         = TSC_ACQ_MODE_NORMAL;
-  TscHandle.Init.CTPulseHighLength       = TSC_CTPH_2CYCLES;
-  TscHandle.Init.CTPulseLowLength        = TSC_CTPL_2CYCLES;
-  TscHandle.Init.IODefaultMode           = TSC_IODEF_OUT_PP_LOW;
-  TscHandle.Init.MaxCountInterrupt       = DISABLE;
-  TscHandle.Init.MaxCountValue           = TSC_MCV_8191;
-  TscHandle.Init.PulseGeneratorPrescaler = TSC_PG_PRESC_DIV2;
-  TscHandle.Init.SpreadSpectrum          = DISABLE;
-  TscHandle.Init.SpreadSpectrumDeviation = 127;
-  TscHandle.Init.SpreadSpectrumPrescaler = TSC_SS_PRESC_DIV1;
-  TscHandle.Init.SynchroPinPolarity      = TSC_SYNC_POLARITY_FALLING;
-  /* All channel, shield and sampling IOs must be declared below */
-  TscHandle.Init.ChannelIOs              = TSC_GROUP1_IO3 | TSC_GROUP2_IO3 | TSC_GROUP3_IO2;
-  TscHandle.Init.SamplingIOs             = TSC_GROUP1_IO4 | TSC_GROUP2_IO4 | TSC_GROUP3_IO3;
-  TscHandle.Init.ShieldIOs               = 0;
-  HAL_TSC_Init(&TscHandle);
+    /* Configure the TSC peripheral */
+    TscHandle.Instance = TSC;
+    TscHandle.Init.AcquisitionMode         = TSC_ACQ_MODE_NORMAL;
+    TscHandle.Init.CTPulseHighLength       = TSC_CTPH_2CYCLES;
+    TscHandle.Init.CTPulseLowLength        = TSC_CTPL_2CYCLES;
+    TscHandle.Init.IODefaultMode           = TSC_IODEF_OUT_PP_LOW;
+    TscHandle.Init.MaxCountInterrupt       = DISABLE;
+    TscHandle.Init.MaxCountValue           = TSC_MCV_8191;
+    TscHandle.Init.PulseGeneratorPrescaler = TSC_PG_PRESC_DIV2;
+    TscHandle.Init.SpreadSpectrum          = DISABLE;
+    TscHandle.Init.SpreadSpectrumDeviation = 127;
+    TscHandle.Init.SpreadSpectrumPrescaler = TSC_SS_PRESC_DIV1;
+    TscHandle.Init.SynchroPinPolarity      = TSC_SYNC_POLARITY_FALLING;
+    /* All channel, shield and sampling IOs must be declared below */
+    TscHandle.Init.ChannelIOs              = TSC_GROUP1_IO3 | TSC_GROUP2_IO3 | TSC_GROUP3_IO2;
+    TscHandle.Init.SamplingIOs             = TSC_GROUP1_IO4 | TSC_GROUP2_IO4 | TSC_GROUP3_IO3;
+    TscHandle.Init.ShieldIOs               = 0;
+    HAL_TSC_Init( &TscHandle );
 
-  /* Initialize the STMTouch driver */
-  tsl_user_Init();
+    /* Initialize the STMTouch driver */
+    tsl_user_Init();
 }
 #ifdef  USE_FULL_ASSERT
 
@@ -256,15 +258,15 @@ static void TSL_Config(void)
   * @param  line: assert_param error line source number
   * @retval None
   */
-void assert_failed(uint8_t *file, uint32_t line)
-{ 
-  /* User can add his own implementation to report the file name and line number,
-     ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
+void assert_failed( uint8_t *file, uint32_t line )
+{
+    /* User can add his own implementation to report the file name and line number,
+       ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
 
-  /* Infinite loop */
-  while (1)
-  {
-  }
+    /* Infinite loop */
+    while( 1 )
+    {
+    }
 }
 #endif
 

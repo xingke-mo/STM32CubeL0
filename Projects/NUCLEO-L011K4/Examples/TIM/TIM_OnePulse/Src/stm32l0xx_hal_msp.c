@@ -49,28 +49,28 @@
   * @param htim: TIM handle pointer
   * @retval None
   */
-void HAL_TIM_OnePulse_MspInit(TIM_HandleTypeDef *htim)
+void HAL_TIM_OnePulse_MspInit( TIM_HandleTypeDef *htim )
 {
-  GPIO_InitTypeDef   GPIO_InitStruct;
+    GPIO_InitTypeDef   GPIO_InitStruct;
 
-  /* Enable the TIMx clock */
-  TIMx_CLK_ENABLE();
+    /* Enable the TIMx clock */
+    TIMx_CLK_ENABLE();
 
-  /* Enable GPIO Port Channel1 & channel2 Clock */
-  TIMx_CHANNEL_GPIO_PORT();
+    /* Enable GPIO Port Channel1 & channel2 Clock */
+    TIMx_CHANNEL_GPIO_PORT();
 
-  /* Configure PA.00 and PA.01 */
-  GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-  GPIO_InitStruct.Alternate = GPIO_AF_TIMx;
+    /* Configure PA.00 and PA.01 */
+    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+    GPIO_InitStruct.Alternate = GPIO_AF_TIMx;
 
-  GPIO_InitStruct.Pull = GPIO_PUPD_CHANNEL1;
-  GPIO_InitStruct.Pin = GPIO_PIN_CHANNEL1;
-  HAL_GPIO_Init(TIMx_GPIO_PORT, &GPIO_InitStruct);
+    GPIO_InitStruct.Pull = GPIO_PUPD_CHANNEL1;
+    GPIO_InitStruct.Pin = GPIO_PIN_CHANNEL1;
+    HAL_GPIO_Init( TIMx_GPIO_PORT, &GPIO_InitStruct );
 
-  GPIO_InitStruct.Pull = GPIO_PUPD_CHANNEL2;
-  GPIO_InitStruct.Pin = GPIO_PIN_CHANNEL2;
-  HAL_GPIO_Init(TIMx_GPIO_PORT, &GPIO_InitStruct);
+    GPIO_InitStruct.Pull = GPIO_PUPD_CHANNEL2;
+    GPIO_InitStruct.Pin = GPIO_PIN_CHANNEL2;
+    HAL_GPIO_Init( TIMx_GPIO_PORT, &GPIO_InitStruct );
 
 
 }

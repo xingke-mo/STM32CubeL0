@@ -1,7 +1,7 @@
 /**
   ******************************************************************************
   * @file    pressure_app.h
-  * @author  MCD Application Team   
+  * @author  MCD Application Team
   * @brief   System information functions
   ******************************************************************************
   * @attention
@@ -19,9 +19,9 @@
 
 #undef GLOBAL
 #ifdef __PRESSURE_APP_C
-#define GLOBAL
+    #define GLOBAL
 #else
-#define GLOBAL extern
+    #define GLOBAL extern
 #endif
 
 /* Includes ------------------------------------------------------------------*/
@@ -31,7 +31,7 @@
   */
 
 /** @defgroup PRESSURE_INFO
-  * @brief system info routines 
+  * @brief system info routines
   * @{
   */
 

@@ -1,6 +1,6 @@
 /**
   ******************************************************************************
-  * @file    RTC/RTC_TimeStamp/Src/main.c 
+  * @file    RTC/RTC_TimeStamp/Src/main.c
   * @author  MCD Application Team
   * @brief   This sample code shows how to use STM32L0xx RTC HAL API to
   *          ensure Time Stamp configuration.
@@ -27,7 +27,7 @@
 
 /** @addtogroup RTC_TimeStamp
   * @{
-  */ 
+  */
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
@@ -40,14 +40,14 @@ I2C_HandleTypeDef I2CxHandle;
 /* Buffers used for displaying Time and Date */
 uint8_t aShowTime[50] = {0}, aShowTimeStamp[50] = {0};
 uint8_t aShowDate[50] = {0}, aShowDateStamp[50] = {0};
- 
+
 FlagStatus TamperStatus = RESET;
 
 /* Private function prototypes -----------------------------------------------*/
-static void SystemClock_Config(void);
-static void RTC_TimeStampConfig(void);
-static void RTC_CalendarShow(void);
-static void I2C_Config(void);
+static void SystemClock_Config( void );
+static void RTC_TimeStampConfig( void );
+static void RTC_CalendarShow( void );
+static void I2C_Config( void );
 
 /* Private functions ---------------------------------------------------------*/
 
@@ -56,96 +56,98 @@ static void I2C_Config(void);
   * @param  None
   * @retval None
   */
-int main(void)
-{ 
-  uint8_t param;
-  GPIO_InitTypeDef  GPIO_InitStruct;
+int main( void )
+{
+    uint8_t param;
+    GPIO_InitTypeDef  GPIO_InitStruct;
 
-  /* STM32L0xx HAL library initialization:
-       - Configure the Flash prefetch, Flash preread and Buffer caches
-       - Systick timer is configured by default as source of time base, but user 
-             can eventually implement his proper time base source (a general purpose 
-             timer for example or other time source), keeping in mind that Time base 
-             duration should be kept 1ms since PPP_TIMEOUT_VALUEs are defined and 
-             handled in milliseconds basis.
-       - Low Level Initialization
-     */
-  HAL_Init();
-  
-  /* Configure LED3 */
-  BSP_LED_Init(LED3);
-  
-  /* Turn LED3 on */
-  BSP_LED_On(LED3);
-  
-  /* Configure the system clock to 2 Mhz */
-  SystemClock_Config();
-  
-  /* Configure the I2C */
-  I2C_Config();
+    /* STM32L0xx HAL library initialization:
+         - Configure the Flash prefetch, Flash preread and Buffer caches
+         - Systick timer is configured by default as source of time base, but user
+               can eventually implement his proper time base source (a general purpose
+               timer for example or other time source), keeping in mind that Time base
+               duration should be kept 1ms since PPP_TIMEOUT_VALUEs are defined and
+               handled in milliseconds basis.
+         - Low Level Initialization
+       */
+    HAL_Init();
 
-  /* ######################### MFX Configuration ############################ */
-  /* PA1 GPIO pin configuration to wakeup MFX  */
-  __HAL_RCC_GPIOA_CLK_ENABLE();
-  GPIO_InitStruct.Pin       = GPIO_PIN_1;
-  GPIO_InitStruct.Mode      = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull      = GPIO_PULLUP;
-  GPIO_InitStruct.Speed     = GPIO_SPEED_FREQ_HIGH;
-  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_SET);
+    /* Configure LED3 */
+    BSP_LED_Init( LED3 );
 
-  /* Required delay to wake-up MFX */
-  HAL_Delay(100);
+    /* Turn LED3 on */
+    BSP_LED_On( LED3 );
 
-  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_RESET);
+    /* Configure the system clock to 2 Mhz */
+    SystemClock_Config();
 
-  param=0x80;
-  if(HAL_I2C_Mem_Write(&I2CxHandle, 0x84, 0x40, I2C_MEMADD_SIZE_8BIT, &param, 0x1, 10000) != HAL_OK)
-  {
-    Error_Handler();
-  }
+    /* Configure the I2C */
+    I2C_Config();
 
-  /* Required delay to reset the MFX */
-  HAL_Delay(100);
+    /* ######################### MFX Configuration ############################ */
+    /* PA1 GPIO pin configuration to wakeup MFX  */
+    __HAL_RCC_GPIOA_CLK_ENABLE();
+    GPIO_InitStruct.Pin       = GPIO_PIN_1;
+    GPIO_InitStruct.Mode      = GPIO_MODE_OUTPUT_PP;
+    GPIO_InitStruct.Pull      = GPIO_PULLUP;
+    GPIO_InitStruct.Speed     = GPIO_SPEED_FREQ_HIGH;
+    HAL_GPIO_Init( GPIOA, &GPIO_InitStruct );
+    HAL_GPIO_WritePin( GPIOA, GPIO_PIN_1, GPIO_PIN_SET );
 
-  param=0x40;    /* Enter MFX into standby to avoid conflict on PC13 pin */
-  if(HAL_I2C_Mem_Write(&I2CxHandle, 0x84, 0x40, I2C_MEMADD_SIZE_8BIT, &param, 0x1, 10000) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  
- /*##-1- Configure the RTC peripheral #######################################*/
-  /* Configure RTC prescaler and RTC data registers */
-  /* RTC configured as follow:
-      - Hour Format    = Format 12
-      - Asynch Prediv  = Value according to source clock
-      - Synch Prediv   = Value according to source clock
-      - OutPut         = Output Disable
-      - OutPutPolarity = High Polarity
-      - OutPutType     = Open Drain */
-  RtcHandle.Instance = RTC; 
-  RtcHandle.Init.HourFormat = RTC_HOURFORMAT_12;
-  RtcHandle.Init.AsynchPrediv = RTC_ASYNCH_PREDIV;
-  RtcHandle.Init.SynchPrediv = RTC_SYNCH_PREDIV;
-  RtcHandle.Init.OutPut = RTC_OUTPUT_DISABLE;
-  RtcHandle.Init.OutPutPolarity = RTC_OUTPUT_POLARITY_HIGH;
-  RtcHandle.Init.OutPutType = RTC_OUTPUT_TYPE_OPENDRAIN;
-  
-  if(HAL_RTC_Init(&RtcHandle) != HAL_OK)
-  {
-    /* Initialization Error */
-    Error_Handler(); 
-  }
-  
+    /* Required delay to wake-up MFX */
+    HAL_Delay( 100 );
+
+    HAL_GPIO_WritePin( GPIOA, GPIO_PIN_1, GPIO_PIN_RESET );
+
+    param = 0x80;
+
+    if( HAL_I2C_Mem_Write( &I2CxHandle, 0x84, 0x40, I2C_MEMADD_SIZE_8BIT, &param, 0x1, 10000 ) != HAL_OK )
+    {
+        Error_Handler();
+    }
+
+    /* Required delay to reset the MFX */
+    HAL_Delay( 100 );
+
+    param = 0x40;  /* Enter MFX into standby to avoid conflict on PC13 pin */
+
+    if( HAL_I2C_Mem_Write( &I2CxHandle, 0x84, 0x40, I2C_MEMADD_SIZE_8BIT, &param, 0x1, 10000 ) != HAL_OK )
+    {
+        Error_Handler();
+    }
+
+    /*##-1- Configure the RTC peripheral #######################################*/
+    /* Configure RTC prescaler and RTC data registers */
+    /* RTC configured as follow:
+        - Hour Format    = Format 12
+        - Asynch Prediv  = Value according to source clock
+        - Synch Prediv   = Value according to source clock
+        - OutPut         = Output Disable
+        - OutPutPolarity = High Polarity
+        - OutPutType     = Open Drain */
+    RtcHandle.Instance = RTC;
+    RtcHandle.Init.HourFormat = RTC_HOURFORMAT_12;
+    RtcHandle.Init.AsynchPrediv = RTC_ASYNCH_PREDIV;
+    RtcHandle.Init.SynchPrediv = RTC_SYNCH_PREDIV;
+    RtcHandle.Init.OutPut = RTC_OUTPUT_DISABLE;
+    RtcHandle.Init.OutPutPolarity = RTC_OUTPUT_POLARITY_HIGH;
+    RtcHandle.Init.OutPutType = RTC_OUTPUT_TYPE_OPENDRAIN;
+
+    if( HAL_RTC_Init( &RtcHandle ) != HAL_OK )
+    {
+        /* Initialization Error */
+        Error_Handler();
+    }
+
     /*##-2-  Configure RTC Timestamp ############################################*/
     RTC_TimeStampConfig();
- 
-  /* Infinite loop */  
-  while (1)
-  {
-    /*##-3- Display the updated Time and Date ################################*/
-    RTC_CalendarShow();
-  }
+
+    /* Infinite loop */
+    while( 1 )
+    {
+        /*##-3- Display the updated Time and Date ################################*/
+        RTC_CalendarShow();
+    }
 }
 
 /**
@@ -153,21 +155,21 @@ int main(void)
   * @param  None
   * @retval None
   */
-void Error_Handler(void)
+void Error_Handler( void )
 {
-  while(1)
-  {
-    /* Turn LED3 on */
-    BSP_LED_Toggle(LED3);
-    
-    /* Delay */
-    HAL_Delay(100);
-  }
+    while( 1 )
+    {
+        /* Turn LED3 on */
+        BSP_LED_Toggle( LED3 );
+
+        /* Delay */
+        HAL_Delay( 100 );
+    }
 }
 
 /**
   * @brief  System Clock Configuration
-  *         The system Clock is configured as follow : 
+  *         The system Clock is configured as follow :
   *            System Clock source            = MSI
   *            SYSCLK(Hz)                     = 2000000
   *            HCLK(Hz)                       = 2000000
@@ -179,43 +181,45 @@ void Error_Handler(void)
   * @param  None
   * @retval None
   */
-static void SystemClock_Config(void)
+static void SystemClock_Config( void )
 {
-  RCC_ClkInitTypeDef RCC_ClkInitStruct;
-  RCC_OscInitTypeDef RCC_OscInitStruct;
-  
-  /* Enable Power Control clock */
-  __HAL_RCC_PWR_CLK_ENABLE();
-  
-  /* The voltage scaling allows optimizing the power consumption when the device is 
-     clocked below the maximum system frequency, to update the voltage scaling value 
-     regarding system frequency refer to product datasheet.  */
-  __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE3);
-  
-  /* Enable MSI Oscillator */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_MSI;
-  RCC_OscInitStruct.MSIState = RCC_MSI_ON;
-  RCC_OscInitStruct.MSIClockRange = RCC_MSIRANGE_5;
-  RCC_OscInitStruct.MSICalibrationValue = 0x00;
-  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
-  if(HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
-  {
-    /* Initialization Error */
-    Error_Handler();
-  }
+    RCC_ClkInitTypeDef RCC_ClkInitStruct;
+    RCC_OscInitTypeDef RCC_OscInitStruct;
 
-  /* Select MSI as system clock source and configure the HCLK, PCLK1 and PCLK2 
-     clocks dividers */
-  RCC_ClkInitStruct.ClockType = (RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2);
-  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_MSI;
-  RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
-  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;  
-  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;  
-  if(HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_0) != HAL_OK)
-  {
-    /* Initialization Error */
-    Error_Handler();
-  }
+    /* Enable Power Control clock */
+    __HAL_RCC_PWR_CLK_ENABLE();
+
+    /* The voltage scaling allows optimizing the power consumption when the device is
+       clocked below the maximum system frequency, to update the voltage scaling value
+       regarding system frequency refer to product datasheet.  */
+    __HAL_PWR_VOLTAGESCALING_CONFIG( PWR_REGULATOR_VOLTAGE_SCALE3 );
+
+    /* Enable MSI Oscillator */
+    RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_MSI;
+    RCC_OscInitStruct.MSIState = RCC_MSI_ON;
+    RCC_OscInitStruct.MSIClockRange = RCC_MSIRANGE_5;
+    RCC_OscInitStruct.MSICalibrationValue = 0x00;
+    RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
+
+    if( HAL_RCC_OscConfig( &RCC_OscInitStruct ) != HAL_OK )
+    {
+        /* Initialization Error */
+        Error_Handler();
+    }
+
+    /* Select MSI as system clock source and configure the HCLK, PCLK1 and PCLK2
+       clocks dividers */
+    RCC_ClkInitStruct.ClockType = ( RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2 );
+    RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_MSI;
+    RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+    RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
+    RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
+
+    if( HAL_RCC_ClockConfig( &RCC_ClkInitStruct, FLASH_LATENCY_0 ) != HAL_OK )
+    {
+        /* Initialization Error */
+        Error_Handler();
+    }
 }
 
 /**
@@ -223,84 +227,84 @@ static void SystemClock_Config(void)
   * @param  None
   * @retval None
   */
-static void RTC_TimeStampConfig(void)
+static void RTC_TimeStampConfig( void )
 {
-  RTC_DateTypeDef sdatestructure;
-  RTC_TimeTypeDef stimestructure;
-  RTC_TamperTypeDef stamperstructure;
-  
-  /*##-1- Configure the Tamper peripheral ####################################*/
-  /* Configure Tamper registers */
-  /* RTC Tamper configured as follow:
-  - Pamper = Tamper1
-  - Pin selection = PC13
-  - Trigger = Falling Edge
-  - TimeStamp On Tamper Detection = Enable */ 
-  stamperstructure.Filter = RTC_TAMPERFILTER_DISABLE;
-  stamperstructure.Tamper = RTC_TAMPER_1;
-  stamperstructure.Trigger = RTC_TAMPERTRIGGER_FALLINGEDGE;
-  stamperstructure.SamplingFrequency = RTC_TAMPERSAMPLINGFREQ_RTCCLK_DIV4096;
-  stamperstructure.PrechargeDuration = RTC_TAMPERPRECHARGEDURATION_1RTCCLK ;
-  stamperstructure.TamperPullUp = RTC_TAMPER_PULLUP_DISABLE;
-  stamperstructure.TimeStampOnTamperDetection = RTC_TIMESTAMPONTAMPERDETECTION_ENABLE;
-  HAL_RTCEx_SetTamper(&RtcHandle, &stamperstructure);
-  
-  /*##-2- Configure the Time Stamp peripheral ################################*/
-  /*  RTC TimeStamp flag Generation: TimeStamp Rising Edge on PC13 Pin */
-  HAL_RTCEx_SetTimeStamp_IT(&RtcHandle, RTC_TIMESTAMPEDGE_RISING, RTC_TIMESTAMPPIN_DEFAULT);
-  
-  /* Clear the TIMESTAMP interrupt pending bit */
-  __HAL_RTC_TIMESTAMP_CLEAR_FLAG(&RtcHandle,RTC_FLAG_TSF);
-  
-  /*##-3- Configure the Date #################################################*/
-  /* Set Date: Monday April 14th 2014 */
-  sdatestructure.Year = 0x14;
-  sdatestructure.Month = RTC_MONTH_APRIL;
-  sdatestructure.Date = 0x14;
-  sdatestructure.WeekDay = RTC_WEEKDAY_MONDAY;
-  
-  if(HAL_RTC_SetDate(&RtcHandle,&sdatestructure, RTC_FORMAT_BCD) != HAL_OK)
-  {
-    /* Initialization Error */
-    Error_Handler(); 
-  } 
-  
-  /*##-4- Configure the Time #################################################*/
-  /* Set Time: 08:10:00 */
-  stimestructure.Hours = 0x08;
-  stimestructure.Minutes = 0x10;
-  stimestructure.Seconds = 0x00;
-  stimestructure.TimeFormat = RTC_HOURFORMAT12_AM;
-  stimestructure.DayLightSaving = RTC_DAYLIGHTSAVING_NONE ;
-  stimestructure.StoreOperation = RTC_STOREOPERATION_RESET;
-  
-  if(HAL_RTC_SetTime(&RtcHandle,&stimestructure, RTC_FORMAT_BCD) != HAL_OK)
-  {
-    /* Initialization Error */
-    Error_Handler(); 
-  }
+    RTC_DateTypeDef sdatestructure;
+    RTC_TimeTypeDef stimestructure;
+    RTC_TamperTypeDef stamperstructure;
+
+    /*##-1- Configure the Tamper peripheral ####################################*/
+    /* Configure Tamper registers */
+    /* RTC Tamper configured as follow:
+    - Pamper = Tamper1
+    - Pin selection = PC13
+    - Trigger = Falling Edge
+    - TimeStamp On Tamper Detection = Enable */
+    stamperstructure.Filter = RTC_TAMPERFILTER_DISABLE;
+    stamperstructure.Tamper = RTC_TAMPER_1;
+    stamperstructure.Trigger = RTC_TAMPERTRIGGER_FALLINGEDGE;
+    stamperstructure.SamplingFrequency = RTC_TAMPERSAMPLINGFREQ_RTCCLK_DIV4096;
+    stamperstructure.PrechargeDuration = RTC_TAMPERPRECHARGEDURATION_1RTCCLK ;
+    stamperstructure.TamperPullUp = RTC_TAMPER_PULLUP_DISABLE;
+    stamperstructure.TimeStampOnTamperDetection = RTC_TIMESTAMPONTAMPERDETECTION_ENABLE;
+    HAL_RTCEx_SetTamper( &RtcHandle, &stamperstructure );
+
+    /*##-2- Configure the Time Stamp peripheral ################################*/
+    /*  RTC TimeStamp flag Generation: TimeStamp Rising Edge on PC13 Pin */
+    HAL_RTCEx_SetTimeStamp_IT( &RtcHandle, RTC_TIMESTAMPEDGE_RISING, RTC_TIMESTAMPPIN_DEFAULT );
+
+    /* Clear the TIMESTAMP interrupt pending bit */
+    __HAL_RTC_TIMESTAMP_CLEAR_FLAG( &RtcHandle, RTC_FLAG_TSF );
+
+    /*##-3- Configure the Date #################################################*/
+    /* Set Date: Monday April 14th 2014 */
+    sdatestructure.Year = 0x14;
+    sdatestructure.Month = RTC_MONTH_APRIL;
+    sdatestructure.Date = 0x14;
+    sdatestructure.WeekDay = RTC_WEEKDAY_MONDAY;
+
+    if( HAL_RTC_SetDate( &RtcHandle, &sdatestructure, RTC_FORMAT_BCD ) != HAL_OK )
+    {
+        /* Initialization Error */
+        Error_Handler();
+    }
+
+    /*##-4- Configure the Time #################################################*/
+    /* Set Time: 08:10:00 */
+    stimestructure.Hours = 0x08;
+    stimestructure.Minutes = 0x10;
+    stimestructure.Seconds = 0x00;
+    stimestructure.TimeFormat = RTC_HOURFORMAT12_AM;
+    stimestructure.DayLightSaving = RTC_DAYLIGHTSAVING_NONE ;
+    stimestructure.StoreOperation = RTC_STOREOPERATION_RESET;
+
+    if( HAL_RTC_SetTime( &RtcHandle, &stimestructure, RTC_FORMAT_BCD ) != HAL_OK )
+    {
+        /* Initialization Error */
+        Error_Handler();
+    }
 }
 
 /**
-  * @brief  Tamper callback 
+  * @brief  Tamper callback
   * @param  hrtc : hrtc handle
   * @retval None
   */
-void HAL_RTCEx_TimeStampEventCallback(RTC_HandleTypeDef *hrtc)
+void HAL_RTCEx_TimeStampEventCallback( RTC_HandleTypeDef *hrtc )
 {
-   RTC_DateTypeDef sTimeStampDateget;
-   RTC_TimeTypeDef sTimeStampget;
-  
-  /* Clear the Tamper Flag */
-  __HAL_RTC_TAMPER_CLEAR_FLAG(hrtc,RTC_FLAG_TAMP1F);
-  
-  HAL_RTCEx_GetTimeStamp(&RtcHandle, &sTimeStampget, &sTimeStampDateget, RTC_FORMAT_BIN);
+    RTC_DateTypeDef sTimeStampDateget;
+    RTC_TimeTypeDef sTimeStampget;
 
-#ifdef DISPLAY_ON_DUBUGGER  
-  /* Display time Format : hh:mm:ss */
-  sprintf((char*)aShowTimeStamp,"%.2d:%.2d:%.2d", sTimeStampget.Hours, sTimeStampget.Minutes, sTimeStampget.Seconds);
-  /* Display date Format : mm-dd */
-  sprintf((char*)aShowDateStamp,"%.2d-%.2d-%.2d", sTimeStampDateget.Month, sTimeStampDateget.Date, 2014);
+    /* Clear the Tamper Flag */
+    __HAL_RTC_TAMPER_CLEAR_FLAG( hrtc, RTC_FLAG_TAMP1F );
+
+    HAL_RTCEx_GetTimeStamp( &RtcHandle, &sTimeStampget, &sTimeStampDateget, RTC_FORMAT_BIN );
+
+#ifdef DISPLAY_ON_DUBUGGER
+    /* Display time Format : hh:mm:ss */
+    sprintf( ( char * )aShowTimeStamp, "%.2d:%.2d:%.2d", sTimeStampget.Hours, sTimeStampget.Minutes, sTimeStampget.Seconds );
+    /* Display date Format : mm-dd */
+    sprintf( ( char * )aShowDateStamp, "%.2d-%.2d-%.2d", sTimeStampDateget.Month, sTimeStampDateget.Date, 2014 );
 #endif
 }
 
@@ -310,48 +314,49 @@ void HAL_RTCEx_TimeStampEventCallback(RTC_HandleTypeDef *hrtc)
   * @param  showdate : pointer to buffer
   * @retval None
   */
-static void RTC_CalendarShow(void)
+static void RTC_CalendarShow( void )
 {
-  RTC_DateTypeDef sdatestructureget;
-  RTC_TimeTypeDef stimestructureget;
-  
-  /* Get the RTC current Time */
-  HAL_RTC_GetTime(&RtcHandle, &stimestructureget, RTC_FORMAT_BIN);
-  /* Get the RTC current Date */
-  HAL_RTC_GetDate(&RtcHandle, &sdatestructureget, RTC_FORMAT_BIN);
-  
+    RTC_DateTypeDef sdatestructureget;
+    RTC_TimeTypeDef stimestructureget;
+
+    /* Get the RTC current Time */
+    HAL_RTC_GetTime( &RtcHandle, &stimestructureget, RTC_FORMAT_BIN );
+    /* Get the RTC current Date */
+    HAL_RTC_GetDate( &RtcHandle, &sdatestructureget, RTC_FORMAT_BIN );
+
 #ifdef DISPLAY_ON_DUBUGGER
-  /* Display time Format : hh:mm:ss */
-  sprintf((char*)aShowTime,"%.2d:%.2d:%.2d", stimestructureget.Hours, stimestructureget.Minutes, stimestructureget.Seconds);
-  /* Display date Format : mm-dd-yy */
-  sprintf((char*)aShowDate,"%.2d-%.2d-%.2d", sdatestructureget.Month, sdatestructureget.Date, 2000 + sdatestructureget.Year);
+    /* Display time Format : hh:mm:ss */
+    sprintf( ( char * )aShowTime, "%.2d:%.2d:%.2d", stimestructureget.Hours, stimestructureget.Minutes, stimestructureget.Seconds );
+    /* Display date Format : mm-dd-yy */
+    sprintf( ( char * )aShowDate, "%.2d-%.2d-%.2d", sdatestructureget.Month, sdatestructureget.Date, 2000 + sdatestructureget.Year );
 #endif
-} 
+}
 
 /**
   * @brief  I2C Configuration
   * @param  None
   * @retval None
   */
-static void I2C_Config(void)
+static void I2C_Config( void )
 {
-  I2CxHandle.Instance              = I2C1;
-  HAL_I2C_DeInit(&I2CxHandle);
-  /*##-1- Configure the I2C peripheral #######################################*/
-  I2CxHandle.Instance              = I2C1;
-  I2CxHandle.Init.AddressingMode   = I2C_ADDRESSINGMODE_7BIT;
-  I2CxHandle.Init.Timing           = 0x00B1112E;
-  I2CxHandle.Init.DualAddressMode  = I2C_DUALADDRESS_DISABLE;
-  I2CxHandle.Init.OwnAddress2Masks = I2C_OA2_NOMASK;
-  I2CxHandle.Init.GeneralCallMode  = I2C_GENERALCALL_DISABLE;
-  I2CxHandle.Init.NoStretchMode    = I2C_NOSTRETCH_DISABLE;
-  I2CxHandle.Init.OwnAddress1      = 0x0;
-  I2CxHandle.Init.OwnAddress2      = 0x0;
-  if(HAL_I2C_Init(&I2CxHandle) != HAL_OK)
-  {
-    /* Initialization Error */
-    Error_Handler();
-  }
+    I2CxHandle.Instance              = I2C1;
+    HAL_I2C_DeInit( &I2CxHandle );
+    /*##-1- Configure the I2C peripheral #######################################*/
+    I2CxHandle.Instance              = I2C1;
+    I2CxHandle.Init.AddressingMode   = I2C_ADDRESSINGMODE_7BIT;
+    I2CxHandle.Init.Timing           = 0x00B1112E;
+    I2CxHandle.Init.DualAddressMode  = I2C_DUALADDRESS_DISABLE;
+    I2CxHandle.Init.OwnAddress2Masks = I2C_OA2_NOMASK;
+    I2CxHandle.Init.GeneralCallMode  = I2C_GENERALCALL_DISABLE;
+    I2CxHandle.Init.NoStretchMode    = I2C_NOSTRETCH_DISABLE;
+    I2CxHandle.Init.OwnAddress1      = 0x0;
+    I2CxHandle.Init.OwnAddress2      = 0x0;
+
+    if( HAL_I2C_Init( &I2CxHandle ) != HAL_OK )
+    {
+        /* Initialization Error */
+        Error_Handler();
+    }
 }
 
 #ifdef  USE_FULL_ASSERT
@@ -363,24 +368,24 @@ static void I2C_Config(void)
   * @param  line: assert_param error line source number
   * @retval None
   */
-void assert_failed(uint8_t *file, uint32_t line)
-{ 
-  /* User can add his own implementation to report the file name and line number,
-     ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
+void assert_failed( uint8_t *file, uint32_t line )
+{
+    /* User can add his own implementation to report the file name and line number,
+       ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
 
-  /* Infinite loop */
-  while (1)
-  {
-  }
+    /* Infinite loop */
+    while( 1 )
+    {
+    }
 }
 #endif
 
 /**
   * @}
-  */ 
+  */
 
 /**
   * @}
-  */ 
+  */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

@@ -47,10 +47,10 @@
   * @param hcrc: CRC handle pointer
   * @retval None
   */
-void HAL_CRC_MspInit(CRC_HandleTypeDef *hcrc)
+void HAL_CRC_MspInit( CRC_HandleTypeDef *hcrc )
 {
-  /* CRC Peripheral clock enable */
-  __HAL_RCC_CRC_CLK_ENABLE();
+    /* CRC Peripheral clock enable */
+    __HAL_RCC_CRC_CLK_ENABLE();
 }
 
 /**
@@ -60,10 +60,10 @@ void HAL_CRC_MspInit(CRC_HandleTypeDef *hcrc)
   * @param hcrc: CRC handle pointer
   * @retval None
   */
-void HAL_CRC_MspDeInit(CRC_HandleTypeDef *hcrc)
+void HAL_CRC_MspDeInit( CRC_HandleTypeDef *hcrc )
 {
-  /* CRC Peripheral clock disable */
-  __HAL_RCC_CRC_CLK_DISABLE();
+    /* CRC Peripheral clock disable */
+    __HAL_RCC_CRC_CLK_DISABLE();
 }
 
 /**

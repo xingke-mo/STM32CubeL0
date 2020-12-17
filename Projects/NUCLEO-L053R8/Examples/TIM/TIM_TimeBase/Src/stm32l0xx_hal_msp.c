@@ -3,7 +3,7 @@
   * @file    TIM/TIM_TimeBase/Src/stm32l0xx_hal_msp.c
   * @author  MCD Application Team
   * @brief   HAL MSP module.
-  *         
+  *
   @verbatim
  ===============================================================================
                      ##### How to use this driver #####
@@ -24,7 +24,7 @@
   *                        opensource.org/licenses/BSD-3-Clause
   *
   ******************************************************************************
-  */ 
+  */
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32l0xx_hal.h"
@@ -51,28 +51,28 @@
   */
 
 /**
-  * @brief TIM MSP Initialization 
-  *        This function configures the hardware resources used in this example: 
+  * @brief TIM MSP Initialization
+  *        This function configures the hardware resources used in this example:
   *           - Peripheral's clock enable
-  *           - Peripheral's GPIO Configuration  
+  *           - Peripheral's GPIO Configuration
   * @param htim: TIM handle pointer
   * @retval None
   */
-void HAL_TIM_Base_MspInit(TIM_HandleTypeDef *htim)
+void HAL_TIM_Base_MspInit( TIM_HandleTypeDef *htim )
 {
-  /*##-1- Enable peripherals and GPIO Clocks #################################*/
-  /* TIMx Peripheral clock enable */
-  TIMx_CLK_ENABLE();
-  
-  /* The used GPIO (LED2 port) will be configured in the main program through
-  LED2 initialization method */
+    /*##-1- Enable peripherals and GPIO Clocks #################################*/
+    /* TIMx Peripheral clock enable */
+    TIMx_CLK_ENABLE();
 
-  /*##-2- Configure the NVIC for TIMx ########################################*/
-  /* Set the TIMx priority */
-  HAL_NVIC_SetPriority(TIMx_IRQn, 0, 0);
-  
-  /* Enable the TIMx global Interrupt */
-  HAL_NVIC_EnableIRQ(TIMx_IRQn);
+    /* The used GPIO (LED2 port) will be configured in the main program through
+    LED2 initialization method */
+
+    /*##-2- Configure the NVIC for TIMx ########################################*/
+    /* Set the TIMx priority */
+    HAL_NVIC_SetPriority( TIMx_IRQn, 0, 0 );
+
+    /* Enable the TIMx global Interrupt */
+    HAL_NVIC_EnableIRQ( TIMx_IRQn );
 }
 
 /**
@@ -80,20 +80,20 @@ void HAL_TIM_Base_MspInit(TIM_HandleTypeDef *htim)
   * @param  None
   * @retval None
   */
-void HAL_MspInit(void)
+void HAL_MspInit( void )
 {
-  /* NOTE : This function is eventually modified by the user */
+    /* NOTE : This function is eventually modified by the user */
 
 }
 
 /**
   * @brief  DeInitializes the Global MSP.
-  * @param  None  
+  * @param  None
   * @retval None
   */
-void HAL_MspDeInit(void)
+void HAL_MspDeInit( void )
 {
-  /* NOTE : This function is eventually modified by the user */
+    /* NOTE : This function is eventually modified by the user */
 
 }
 

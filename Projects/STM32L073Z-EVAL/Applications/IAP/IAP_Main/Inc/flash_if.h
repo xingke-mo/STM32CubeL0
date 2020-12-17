@@ -1,6 +1,6 @@
 /**
   ******************************************************************************
-  * @file    IAP_Main/Inc/flash_if.h 
+  * @file    IAP_Main/Inc/flash_if.h
   * @author  MCD Application Team
   * @brief   This file provides all the headers of the flash_if functions.
   ******************************************************************************
@@ -29,27 +29,29 @@
 
 
 /* Error code */
-enum 
+enum
 {
-  FLASHIF_OK = 0,
-  FLASHIF_ERASEKO,
-  FLASHIF_WRITINGCTRL_ERROR,
-  FLASHIF_WRITING_ERROR,
-  FLASHIF_PROTECTION_ERRROR
+    FLASHIF_OK = 0,
+    FLASHIF_ERASEKO,
+    FLASHIF_WRITINGCTRL_ERROR,
+    FLASHIF_WRITING_ERROR,
+    FLASHIF_PROTECTION_ERRROR
 };
 
-/* protection type */  
-enum{
-  FLASHIF_PROTECTION_NONE         = 0,
-  FLASHIF_PROTECTION_PCROPENABLED = 0x1,
-  FLASHIF_PROTECTION_WRPENABLED   = 0x2,
-  FLASHIF_PROTECTION_RDPENABLED   = 0x4,
+/* protection type */
+enum
+{
+    FLASHIF_PROTECTION_NONE         = 0,
+    FLASHIF_PROTECTION_PCROPENABLED = 0x1,
+    FLASHIF_PROTECTION_WRPENABLED   = 0x2,
+    FLASHIF_PROTECTION_RDPENABLED   = 0x4,
 };
 
 /* protection update */
-enum {
-	FLASHIF_WRP_ENABLE,
-	FLASHIF_WRP_DISABLE
+enum
+{
+    FLASHIF_WRP_ENABLE,
+    FLASHIF_WRP_DISABLE
 };
 
 /* Define the address from where user application will be loaded.
@@ -58,7 +60,7 @@ enum {
 #define APPLICATION_ADDRESS     (uint32_t)0x08005000      /* Start user code address: ADDR_FLASH_PAGE_8 */
 
 /* Notable Flash addresses */
-#define FLASH_START		              ((uint32_t)0x08000000)
+#define FLASH_START                   ((uint32_t)0x08000000)
 #define FLASH_START_BANK1             ((uint32_t)0x08000000)
 #define WORDS_IN_HALF_PAGE            ((uint32_t)16)
 #define FLASH_HALF_PAGE_SIZE          ((uint32_t)WORDS_IN_HALF_PAGE*4)
@@ -84,11 +86,11 @@ enum {
   loaded, is write protected */
 #define FLASH_PROTECTED_SECTORS       (~(uint32_t)((1 << FLASH_SECTOR_NUMBER) - 1))
 /* Exported functions ------------------------------------------------------- */
-void FLASH_If_Init(void);
-uint32_t FLASH_If_Erase(uint32_t StartSector);
-uint32_t FLASH_If_GetWriteProtectionStatus(void);
-uint32_t FLASH_If_Write(uint32_t destination, uint32_t *p_source, uint32_t length);
-uint32_t FLASH_If_WriteProtectionConfig(uint32_t protectionstate);
+void FLASH_If_Init( void );
+uint32_t FLASH_If_Erase( uint32_t StartSector );
+uint32_t FLASH_If_GetWriteProtectionStatus( void );
+uint32_t FLASH_If_Write( uint32_t destination, uint32_t *p_source, uint32_t length );
+uint32_t FLASH_If_WriteProtectionConfig( uint32_t protectionstate );
 
 #endif  /* __FLASH_IF_H */
 

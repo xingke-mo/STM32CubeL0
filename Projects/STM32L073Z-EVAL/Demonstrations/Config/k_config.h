@@ -22,7 +22,7 @@
 #define __K_CONFIG_H
 
 #ifdef __cplusplus
- extern "C" {
+extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
@@ -38,23 +38,24 @@
 #define DEMO_INFO1   "MCD Application Team"
 #define DEMO_INFO2   "COPYRIGHT 2016"
 #define DEMO_INFO3   "STMicroelectronics"
-   
+
 #define CHOOSEFILE_MAXLEN   255
 
-typedef enum{
- MODULE_MAIN_APP,
- MODULE_LPUART_WAKEUP,
- MODULE_LOW_POWER,
- MODULE_TSENSOR,
- MODULE_LC_SENSOR_METERING,
- MODULE_PRESSURE_MEASUREMENT,
- MODULE_SYSTEM_INFO,
- MODULE_MAX,
- MODULE_NONE = 0xFF
+typedef enum
+{
+    MODULE_MAIN_APP,
+    MODULE_LPUART_WAKEUP,
+    MODULE_LOW_POWER,
+    MODULE_TSENSOR,
+    MODULE_LC_SENSOR_METERING,
+    MODULE_PRESSURE_MEASUREMENT,
+    MODULE_SYSTEM_INFO,
+    MODULE_MAX,
+    MODULE_NONE = 0xFF
 } MODULES_INFO;
 
 #define countof(a) (sizeof(a) / sizeof(*(a)))
-/* Exported functions ------------------------------------------------------- */ 
+/* Exported functions ------------------------------------------------------- */
 
 #ifdef __cplusplus
 }

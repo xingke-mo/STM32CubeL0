@@ -1,6 +1,6 @@
 /**
   ******************************************************************************
-  * @file    stm32l0xx_timebase_lptim.h 
+  * @file    stm32l0xx_timebase_lptim.h
   * @author  MCD Application Team
   * @brief   RTOS and HAL time base based on LPTIM header file.
   ******************************************************************************
@@ -21,7 +21,7 @@
 #define __RTOS_LPTIM_BASE_TIME_H
 
 #ifdef __cplusplus
- extern "C" {
+extern "C" {
 #endif
 /* Includes ------------------------------------------------------------------*/
 #include "stm32l0xx_hal.h"
@@ -31,9 +31,9 @@
 /* Private variables ---------------------------------------------------------*/
 /* Private function prototypes -----------------------------------------------*/
 /* Private functions ---------------------------------------------------------*/
-void InitTick (uint32_t TickPriority);
-void LPTIM1_IRQHandler(void);
-  
+void InitTick( uint32_t TickPriority );
+void LPTIM1_IRQHandler( void );
+
 #ifdef __cplusplus
 }
 #endif

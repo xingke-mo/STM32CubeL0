@@ -2,7 +2,7 @@
   ******************************************************************************
   * @file    COMP/COMP_Interrupt/Src/stm32l0xx_hal_msp.c
   * @author  MCD Application Team
-  * @brief   HAL MSP module.    
+  * @brief   HAL MSP module.
   ******************************************************************************
   * @attention
   *
@@ -43,56 +43,56 @@ extern COMP_HandleTypeDef     hcomp1;
   */
 
 /**
-  * @brief COMP MSP Initialization 
+  * @brief COMP MSP Initialization
   *        This function configures the hardware resources used in this example:
   *           - Peripheral's clock enable
   * @param hcomp: COMP handle pointer
   * @retval None
   */
-void HAL_COMP_MspInit(COMP_HandleTypeDef* hcomp)
+void HAL_COMP_MspInit( COMP_HandleTypeDef *hcomp )
 {
-  GPIO_InitTypeDef       GPIO_InitStruct;
+    GPIO_InitTypeDef       GPIO_InitStruct;
 
-  /*##-1- Enable peripherals and GPIO Clocks #################################*/
-  /* Enable GPIO clock */
-  __HAL_RCC_GPIOA_CLK_ENABLE();
-  
-  /*##-2- Configure peripheral GPIO ##########################################*/ 
-  /* COMP1 Analog GPIO pin configuration */
-  GPIO_InitStruct.Pin   = GPIO_PIN_1;
-  GPIO_InitStruct.Mode  = GPIO_MODE_ANALOG;
-  GPIO_InitStruct.Pull  = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+    /*##-1- Enable peripherals and GPIO Clocks #################################*/
+    /* Enable GPIO clock */
+    __HAL_RCC_GPIOA_CLK_ENABLE();
 
-  /*##-3- Configure the NVIC for COMP1 #######################################*/
-   /* Enable the COMP1 IRQ Channel */
-  HAL_NVIC_SetPriority(ADC1_COMP_IRQn, 0, 0);
-  HAL_NVIC_EnableIRQ(ADC1_COMP_IRQn);
+    /*##-2- Configure peripheral GPIO ##########################################*/
+    /* COMP1 Analog GPIO pin configuration */
+    GPIO_InitStruct.Pin   = GPIO_PIN_1;
+    GPIO_InitStruct.Mode  = GPIO_MODE_ANALOG;
+    GPIO_InitStruct.Pull  = GPIO_NOPULL;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+    HAL_GPIO_Init( GPIOA, &GPIO_InitStruct );
+
+    /*##-3- Configure the NVIC for COMP1 #######################################*/
+    /* Enable the COMP1 IRQ Channel */
+    HAL_NVIC_SetPriority( ADC1_COMP_IRQn, 0, 0 );
+    HAL_NVIC_EnableIRQ( ADC1_COMP_IRQn );
 }
 
 /**
   * @brief  DeInitializes the COMP MSP.
   * @param  hcomp: pointer to a COMP_HandleTypeDef structure that contains
-  *         the configuration information for the specified COMP.  
+  *         the configuration information for the specified COMP.
   * @retval None
   */
-void HAL_COMP_MspDeInit(COMP_HandleTypeDef* hcomp)
+void HAL_COMP_MspDeInit( COMP_HandleTypeDef *hcomp )
 {
-  /*##-1- Reset peripherals ##################################################*/
-  /* Disable COMP1 clock */
-  __HAL_RCC_SYSCFG_CLK_DISABLE();
-  /* Disable GPIO clock */
-  __HAL_RCC_GPIOA_CLK_DISABLE();
+    /*##-1- Reset peripherals ##################################################*/
+    /* Disable COMP1 clock */
+    __HAL_RCC_SYSCFG_CLK_DISABLE();
+    /* Disable GPIO clock */
+    __HAL_RCC_GPIOA_CLK_DISABLE();
 
-  /*##-2- Disable peripherals and GPIO  ######################################*/
-  /* De-Initialize COMP1 */
-  HAL_COMP_DeInit(&hcomp1);
-  /* De-initialize the GPIO pin */
-  HAL_GPIO_DeInit(GPIOA, GPIO_PIN_1);
+    /*##-2- Disable peripherals and GPIO  ######################################*/
+    /* De-Initialize COMP1 */
+    HAL_COMP_DeInit( &hcomp1 );
+    /* De-initialize the GPIO pin */
+    HAL_GPIO_DeInit( GPIOA, GPIO_PIN_1 );
 
-  /*##-3- Disable the NVIC for COMP ##########################################*/
-  HAL_NVIC_DisableIRQ(ADC1_COMP_IRQn);
+    /*##-3- Disable the NVIC for COMP ##########################################*/
+    HAL_NVIC_DisableIRQ( ADC1_COMP_IRQn );
 }
 
 /**

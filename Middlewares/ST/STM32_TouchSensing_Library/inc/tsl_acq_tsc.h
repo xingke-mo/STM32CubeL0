@@ -29,7 +29,7 @@
 /* Defines -------------------------------------------------------------------*/
 
 #ifndef CONST
-#define CONST const
+    #define CONST const
 #endif
 
 // SysTick enable/disable interrupt macros
@@ -72,38 +72,38 @@ typedef uint8_t   TSL_tTick_sec_T; /**< Time in sec */
   */
 typedef struct
 {
-  TSL_tIndexDest_T  IdxDest; /**< Index in the Channel data array */
+    TSL_tIndexDest_T  IdxDest; /**< Index in the Channel data array */
 } TSL_ChannelDest_T;
 
 /** Channel Source and Configuration
   */
 typedef struct
 {
-  TSL_tIndexSrc_T  IdxSrc; /**< Index of TSC->IOGXCR[] registers */
-  // For TSC acquisition only
-  uint32_t         msk_IOCCR_channel; /**< Mask of the Channel IO (electrodes ONLY) */
-  uint32_t         msk_IOGCSR_group;  /**< Mask of the Group used (electrodes ONLY) */
+    TSL_tIndexSrc_T  IdxSrc; /**< Index of TSC->IOGXCR[] registers */
+    // For TSC acquisition only
+    uint32_t         msk_IOCCR_channel; /**< Mask of the Channel IO (electrodes ONLY) */
+    uint32_t         msk_IOGCSR_group;  /**< Mask of the Group used (electrodes ONLY) */
 } TSL_ChannelSrc_T;
 
 /** Channel flags
   */
 typedef struct
 {
-  unsigned int DataReady : 1; /**< To identify a new measurement (TSL_DataReady_enum_T) */
-  unsigned int AcqStatus : 2; /**< Acquisition status (TSL_AcqStatus_enum_T) */
-  unsigned int ObjStatus : 2; /**< Object status (TSL_ObjStatus_enum_T) */
+    unsigned int DataReady : 1; /**< To identify a new measurement (TSL_DataReady_enum_T) */
+    unsigned int AcqStatus : 2; /**< Acquisition status (TSL_AcqStatus_enum_T) */
+    unsigned int ObjStatus : 2; /**< Object status (TSL_ObjStatus_enum_T) */
 } TSL_ChannelFlags_T;
 
 /** Channel Data
   */
 typedef struct
 {
-  TSL_ChannelFlags_T   Flags;   /**< Flags */
-  TSL_tRef_T           Ref;     /**< Reference */
-  TSL_tRefRest_T       RefRest; /**< Reference rest for ECS */
-  TSL_tDelta_T         Delta;   /**< Delta */
+    TSL_ChannelFlags_T   Flags;   /**< Flags */
+    TSL_tRef_T           Ref;     /**< Reference */
+    TSL_tRefRest_T       RefRest; /**< Reference rest for ECS */
+    TSL_tDelta_T         Delta;   /**< Delta */
 #if TSLPRM_USE_MEAS > 0
-  TSL_tMeas_T          Meas;    /**< Hold the last acquisition measure */
+    TSL_tMeas_T          Meas;    /**< Hold the last acquisition measure */
 #endif
 } TSL_ChannelData_T;
 
@@ -115,31 +115,31 @@ typedef struct
   */
 typedef struct
 {
-  // Common to all acquisitions
-  CONST TSL_ChannelSrc_T  *p_chSrc;     /**< Pointer to the Channel Source and Configuration */
-  CONST TSL_ChannelDest_T *p_chDest;    /**< Pointer to the Channel Destination */
-  TSL_ChannelData_T       *p_chData;    /**< Pointer to the Channel Data */
-  TSL_tNb_T               NbChannels;   /**< Number of channels in the bank */
-  // For TSC acquisition only
-  uint32_t                msk_IOCCR_channels; /**< Mask of all channel IOs (electrodes AND shields) */
-  uint32_t                msk_IOGCSR_groups;  /**< Mask of all groups used (electrodes ONLY) */
+    // Common to all acquisitions
+    CONST TSL_ChannelSrc_T  *p_chSrc;     /**< Pointer to the Channel Source and Configuration */
+    CONST TSL_ChannelDest_T *p_chDest;    /**< Pointer to the Channel Destination */
+    TSL_ChannelData_T       *p_chData;    /**< Pointer to the Channel Data */
+    TSL_tNb_T               NbChannels;   /**< Number of channels in the bank */
+    // For TSC acquisition only
+    uint32_t                msk_IOCCR_channels; /**< Mask of all channel IOs (electrodes AND shields) */
+    uint32_t                msk_IOGCSR_groups;  /**< Mask of all groups used (electrodes ONLY) */
 } TSL_Bank_T;
 
 /* Exported variables --------------------------------------------------------*/
 /* Exported macros -----------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */
 
-TSL_Status_enum_T TSL_acq_BankConfig(TSL_tIndex_T idx_bk);
-TSL_Bool_enum_T TSL_acq_UseFilter(TSL_ChannelData_T *pCh);
-TSL_Bool_enum_T TSL_acq_TestReferenceOutOfRange(TSL_ChannelData_T *pCh);
-TSL_Bool_enum_T TSL_acq_TestFirstReferenceIsValid(TSL_ChannelData_T *pCh, TSL_tMeas_T new_meas);
-void TSL_acq_BankStartAcq(void);
-void TSL_acq_BankStartAcq_IT(void);
-TSL_Status_enum_T TSL_acq_BankWaitEOC(void);
-TSL_AcqStatus_enum_T TSL_acq_CheckNoise(void);
-TSL_tMeas_T TSL_acq_GetMeas(TSL_tIndexSrc_T index);
-TSL_tDelta_T TSL_acq_ComputeDelta(TSL_tRef_T ref, TSL_tMeas_T meas);
-TSL_tMeas_T TSL_acq_ComputeMeas(TSL_tRef_T ref, TSL_tDelta_T delta);
+TSL_Status_enum_T TSL_acq_BankConfig( TSL_tIndex_T idx_bk );
+TSL_Bool_enum_T TSL_acq_UseFilter( TSL_ChannelData_T *pCh );
+TSL_Bool_enum_T TSL_acq_TestReferenceOutOfRange( TSL_ChannelData_T *pCh );
+TSL_Bool_enum_T TSL_acq_TestFirstReferenceIsValid( TSL_ChannelData_T *pCh, TSL_tMeas_T new_meas );
+void TSL_acq_BankStartAcq( void );
+void TSL_acq_BankStartAcq_IT( void );
+TSL_Status_enum_T TSL_acq_BankWaitEOC( void );
+TSL_AcqStatus_enum_T TSL_acq_CheckNoise( void );
+TSL_tMeas_T TSL_acq_GetMeas( TSL_tIndexSrc_T index );
+TSL_tDelta_T TSL_acq_ComputeDelta( TSL_tRef_T ref, TSL_tMeas_T meas );
+TSL_tMeas_T TSL_acq_ComputeMeas( TSL_tRef_T ref, TSL_tDelta_T delta );
 
 #endif /* __TSL_ACQ_TSC_H */
 

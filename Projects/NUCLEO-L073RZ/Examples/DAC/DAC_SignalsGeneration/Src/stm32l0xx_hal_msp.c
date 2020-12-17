@@ -40,56 +40,56 @@
   */
 
 /**
-  * @brief DAC MSP Initialization 
-  *        This function configures the hardware resources used in this example: 
+  * @brief DAC MSP Initialization
+  *        This function configures the hardware resources used in this example:
   *           - Peripheral's clock enable
   *           - Peripheral's GPIO Configuration
   * @param hdac: DAC handle pointer
   * @retval None
   */
-void HAL_DAC_MspInit(DAC_HandleTypeDef *hdac)
+void HAL_DAC_MspInit( DAC_HandleTypeDef *hdac )
 {
-  GPIO_InitTypeDef          GPIO_InitStruct;
-  static DMA_HandleTypeDef  hdma_dac1;
+    GPIO_InitTypeDef          GPIO_InitStruct;
+    static DMA_HandleTypeDef  hdma_dac1;
 
-  /*##-1- Enable peripherals and GPIO Clocks #################################*/
-  /* Enable GPIO clock ****************************************/
-  DACx_CHANNEL_GPIO_CLK_ENABLE();
-  /* DAC Periph clock enable */
-  DACx_CLK_ENABLE();
-  /* DMA1 clock enable */
-  DMAx_CLK_ENABLE();
+    /*##-1- Enable peripherals and GPIO Clocks #################################*/
+    /* Enable GPIO clock ****************************************/
+    DACx_CHANNEL_GPIO_CLK_ENABLE();
+    /* DAC Periph clock enable */
+    DACx_CLK_ENABLE();
+    /* DMA1 clock enable */
+    DMAx_CLK_ENABLE();
 
-  /*##-2- Configure peripheral GPIO ##########################################*/
-  /* DAC Channel1 GPIO pin configuration */
-  GPIO_InitStruct.Pin = DACx_CHANNEL_PIN;
-  GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(DACx_CHANNEL_GPIO_PORT, &GPIO_InitStruct);
+    /*##-2- Configure peripheral GPIO ##########################################*/
+    /* DAC Channel1 GPIO pin configuration */
+    GPIO_InitStruct.Pin = DACx_CHANNEL_PIN;
+    GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    HAL_GPIO_Init( DACx_CHANNEL_GPIO_PORT, &GPIO_InitStruct );
 
-  /*##-3- Configure the DMA ##########################################*/
-  /* Set the parameters to be configured for DACx_DMA1_CHANNEL2 */
-  hdma_dac1.Instance = DACx_DMA_INSTANCE;
+    /*##-3- Configure the DMA ##########################################*/
+    /* Set the parameters to be configured for DACx_DMA1_CHANNEL2 */
+    hdma_dac1.Instance = DACx_DMA_INSTANCE;
 
-  hdma_dac1.Init.Request  = DMA_REQUEST_9;
+    hdma_dac1.Init.Request  = DMA_REQUEST_9;
 
-  hdma_dac1.Init.Direction = DMA_MEMORY_TO_PERIPH;
-  hdma_dac1.Init.PeriphInc = DMA_PINC_DISABLE;
-  hdma_dac1.Init.MemInc = DMA_MINC_ENABLE;
-  hdma_dac1.Init.PeriphDataAlignment = DMA_PDATAALIGN_BYTE;
-  hdma_dac1.Init.MemDataAlignment = DMA_MDATAALIGN_BYTE;
-  hdma_dac1.Init.Mode = DMA_CIRCULAR;
-  hdma_dac1.Init.Priority = DMA_PRIORITY_HIGH;
+    hdma_dac1.Init.Direction = DMA_MEMORY_TO_PERIPH;
+    hdma_dac1.Init.PeriphInc = DMA_PINC_DISABLE;
+    hdma_dac1.Init.MemInc = DMA_MINC_ENABLE;
+    hdma_dac1.Init.PeriphDataAlignment = DMA_PDATAALIGN_BYTE;
+    hdma_dac1.Init.MemDataAlignment = DMA_MDATAALIGN_BYTE;
+    hdma_dac1.Init.Mode = DMA_CIRCULAR;
+    hdma_dac1.Init.Priority = DMA_PRIORITY_HIGH;
 
-  HAL_DMA_Init(&hdma_dac1);
+    HAL_DMA_Init( &hdma_dac1 );
 
-  /* Associate the initialized DMA handle to the the DAC handle */
-  __HAL_LINKDMA(hdac, DMA_Handle1, hdma_dac1);
+    /* Associate the initialized DMA handle to the the DAC handle */
+    __HAL_LINKDMA( hdac, DMA_Handle1, hdma_dac1 );
 
-  /*##-4- Configure the NVIC for DMA #########################################*/
-  /* Enable the DMA1_Channel2 IRQ Channel */
-  HAL_NVIC_SetPriority(DACx_DMA_IRQn, 2, 0);
-  HAL_NVIC_EnableIRQ(DACx_DMA_IRQn);
+    /*##-4- Configure the NVIC for DMA #########################################*/
+    /* Enable the DMA1_Channel2 IRQ Channel */
+    HAL_NVIC_SetPriority( DACx_DMA_IRQn, 2, 0 );
+    HAL_NVIC_EnableIRQ( DACx_DMA_IRQn );
 
 }
 
@@ -99,22 +99,22 @@ void HAL_DAC_MspInit(DAC_HandleTypeDef *hdac)
   *         the configuration information for the specified DAC.
   * @retval None
   */
-void HAL_DAC_MspDeInit(DAC_HandleTypeDef *hdac)
+void HAL_DAC_MspDeInit( DAC_HandleTypeDef *hdac )
 {
-  /*##-1- Reset peripherals ##################################################*/
-  DACx_FORCE_RESET();
-  DACx_RELEASE_RESET();
+    /*##-1- Reset peripherals ##################################################*/
+    DACx_FORCE_RESET();
+    DACx_RELEASE_RESET();
 
-  /*##-2- Disable peripherals and GPIO Clocks ################################*/
-  /* De-initialize the DAC Channel1 GPIO pin */
-  HAL_GPIO_DeInit(DACx_CHANNEL_GPIO_PORT, DACx_CHANNEL_PIN);
+    /*##-2- Disable peripherals and GPIO Clocks ################################*/
+    /* De-initialize the DAC Channel1 GPIO pin */
+    HAL_GPIO_DeInit( DACx_CHANNEL_GPIO_PORT, DACx_CHANNEL_PIN );
 
-  /*##-3- Disable the DMA Channel ############################################*/
-  /* De-Initialize the DMA Channel associate to DAC_Channel1 */
-  HAL_DMA_DeInit(hdac->DMA_Handle1);
+    /*##-3- Disable the DMA Channel ############################################*/
+    /* De-Initialize the DMA Channel associate to DAC_Channel1 */
+    HAL_DMA_DeInit( hdac->DMA_Handle1 );
 
-  /*##-4- Disable the NVIC for DMA ###########################################*/
-  HAL_NVIC_DisableIRQ(DACx_DMA_IRQn);
+    /*##-4- Disable the NVIC for DMA ###########################################*/
+    HAL_NVIC_DisableIRQ( DACx_DMA_IRQn );
 }
 
 /**
@@ -125,10 +125,10 @@ void HAL_DAC_MspDeInit(DAC_HandleTypeDef *hdac)
   * @param htim: TIM handle pointer
   * @retval None
   */
-void HAL_TIM_Base_MspInit(TIM_HandleTypeDef *htim)
+void HAL_TIM_Base_MspInit( TIM_HandleTypeDef *htim )
 {
-  /* TIM6 Periph clock enable */
-  __HAL_RCC_TIM6_CLK_ENABLE();
+    /* TIM6 Periph clock enable */
+    __HAL_RCC_TIM6_CLK_ENABLE();
 }
 
 /**
@@ -139,12 +139,12 @@ void HAL_TIM_Base_MspInit(TIM_HandleTypeDef *htim)
   * @param htim: TIM handle pointer
   * @retval None
   */
-void HAL_TIM_Base_MspDeInit(TIM_HandleTypeDef *htim)
+void HAL_TIM_Base_MspDeInit( TIM_HandleTypeDef *htim )
 {
 
-  /*##-1- Reset peripherals ##################################################*/
-  __HAL_RCC_TIM6_FORCE_RESET();
-  __HAL_RCC_TIM6_RELEASE_RESET();
+    /*##-1- Reset peripherals ##################################################*/
+    __HAL_RCC_TIM6_FORCE_RESET();
+    __HAL_RCC_TIM6_RELEASE_RESET();
 }
 
 /**

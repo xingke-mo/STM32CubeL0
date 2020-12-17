@@ -34,113 +34,115 @@
 
 /* Private macro -------------------------------------------------------------*/
 /* Private function prototypes -----------------------------------------------*/
-uint8_t *USBD_HID_DeviceDescriptor(USBD_SpeedTypeDef speed, uint16_t *length);
-uint8_t *USBD_HID_LangIDStrDescriptor(USBD_SpeedTypeDef speed, uint16_t *length);
-uint8_t *USBD_HID_ManufacturerStrDescriptor (USBD_SpeedTypeDef speed, uint16_t *length);
-uint8_t *USBD_HID_ProductStrDescriptor (USBD_SpeedTypeDef speed, uint16_t *length);
-uint8_t *USBD_HID_SerialStrDescriptor(USBD_SpeedTypeDef speed, uint16_t *length);
-uint8_t *USBD_HID_ConfigStrDescriptor(USBD_SpeedTypeDef speed, uint16_t *length);
-uint8_t *USBD_HID_InterfaceStrDescriptor(USBD_SpeedTypeDef speed, uint16_t *length);
+uint8_t *USBD_HID_DeviceDescriptor( USBD_SpeedTypeDef speed, uint16_t *length );
+uint8_t *USBD_HID_LangIDStrDescriptor( USBD_SpeedTypeDef speed, uint16_t *length );
+uint8_t *USBD_HID_ManufacturerStrDescriptor( USBD_SpeedTypeDef speed, uint16_t *length );
+uint8_t *USBD_HID_ProductStrDescriptor( USBD_SpeedTypeDef speed, uint16_t *length );
+uint8_t *USBD_HID_SerialStrDescriptor( USBD_SpeedTypeDef speed, uint16_t *length );
+uint8_t *USBD_HID_ConfigStrDescriptor( USBD_SpeedTypeDef speed, uint16_t *length );
+uint8_t *USBD_HID_InterfaceStrDescriptor( USBD_SpeedTypeDef speed, uint16_t *length );
 
 #if (USBD_LPM_ENABLED == 1)
-uint8_t *USBD_USR_BOSDescriptor(USBD_SpeedTypeDef speed , uint16_t *length);
+    uint8_t *USBD_USR_BOSDescriptor( USBD_SpeedTypeDef speed, uint16_t *length );
 #endif
 
 /* Private variables ---------------------------------------------------------*/
-USBD_DescriptorsTypeDef HID_Desc = {
-  USBD_HID_DeviceDescriptor,
-  USBD_HID_LangIDStrDescriptor,
-  USBD_HID_ManufacturerStrDescriptor,
-  USBD_HID_ProductStrDescriptor,
-  USBD_HID_SerialStrDescriptor,
-  USBD_HID_ConfigStrDescriptor,
-  USBD_HID_InterfaceStrDescriptor,
+USBD_DescriptorsTypeDef HID_Desc =
+{
+    USBD_HID_DeviceDescriptor,
+    USBD_HID_LangIDStrDescriptor,
+    USBD_HID_ManufacturerStrDescriptor,
+    USBD_HID_ProductStrDescriptor,
+    USBD_HID_SerialStrDescriptor,
+    USBD_HID_ConfigStrDescriptor,
+    USBD_HID_InterfaceStrDescriptor,
 #if (USBD_LPM_ENABLED == 1)
-  USBD_USR_BOSDescriptor,
+    USBD_USR_BOSDescriptor,
 #endif
 };
 
 /* USB Standard Device Descriptor */
-const uint8_t USBD_DeviceDesc[USB_LEN_DEV_DESC]= {
-  0x12,                       /* bLength */
-  USB_DESC_TYPE_DEVICE,       /* bDescriptorType */
+const uint8_t USBD_DeviceDesc[USB_LEN_DEV_DESC] =
+{
+    0x12,                       /* bLength */
+    USB_DESC_TYPE_DEVICE,       /* bDescriptorType */
 #if (USBD_LPM_ENABLED == 1)
-  0x01,                       /*bcdUSB */     /* changed to USB version 2.01
+    0x01,                       /*bcdUSB */     /* changed to USB version 2.01
   in order to support LPM L1 suspend
   resume test of USBCV3.0*/
 #else
-  0x00,                       /* bcdUSB */
+    0x00,                       /* bcdUSB */
 #endif
-  0x02,
-  0x00,                       /* bDeviceClass */
-  0x00,                       /* bDeviceSubClass */
-  0x00,                       /* bDeviceProtocol */
-  USB_MAX_EP0_SIZE,           /* bMaxPacketSize */
-  LOBYTE(USBD_VID),           /* idVendor */
-  HIBYTE(USBD_VID),           /* idVendor */
-  LOBYTE(USBD_PID),           /* idVendor */
-  HIBYTE(USBD_PID),           /* idVendor */
-  0x00,                       /* bcdDevice rel. 2.00 */
-  0x02,
-  USBD_IDX_MFC_STR,           /* Index of manufacturer string */
-  USBD_IDX_PRODUCT_STR,       /* Index of product string */
-  USBD_IDX_SERIAL_STR,        /* Index of serial number string */
-  USBD_MAX_NUM_CONFIGURATION  /* bNumConfigurations */
+    0x02,
+    0x00,                       /* bDeviceClass */
+    0x00,                       /* bDeviceSubClass */
+    0x00,                       /* bDeviceProtocol */
+    USB_MAX_EP0_SIZE,           /* bMaxPacketSize */
+    LOBYTE( USBD_VID ),         /* idVendor */
+    HIBYTE( USBD_VID ),         /* idVendor */
+    LOBYTE( USBD_PID ),         /* idVendor */
+    HIBYTE( USBD_PID ),         /* idVendor */
+    0x00,                       /* bcdDevice rel. 2.00 */
+    0x02,
+    USBD_IDX_MFC_STR,           /* Index of manufacturer string */
+    USBD_IDX_PRODUCT_STR,       /* Index of product string */
+    USBD_IDX_SERIAL_STR,        /* Index of serial number string */
+    USBD_MAX_NUM_CONFIGURATION  /* bNumConfigurations */
 }; /* USB_DeviceDescriptor */
 
 /* BOS descriptor */
 #if (USBD_LPM_ENABLED == 1)
 #if defined ( __ICCARM__ ) /*!< IAR Compiler */
-  #pragma data_alignment=4
+    #pragma data_alignment=4
 #endif
 __ALIGN_BEGIN  uint8_t USBD_BOSDesc[USB_SIZ_BOS_DESC] __ALIGN_END =
 {
-  0x5,
-  USB_DESC_TYPE_BOS,
-  0xC,
-  0x0,
-  0x1,  /* 1 device capability */
-  /* device capability*/
-  0x7,
-  USB_DEVICE_CAPABITY_TYPE,
-  0x2,
-  0x6, /*LPM capability bit set */
-  0x0,
-  0x0,
-  0x0
+    0x5,
+    USB_DESC_TYPE_BOS,
+    0xC,
+    0x0,
+    0x1,  /* 1 device capability */
+    /* device capability*/
+    0x7,
+    USB_DEVICE_CAPABITY_TYPE,
+    0x2,
+    0x6, /*LPM capability bit set */
+    0x0,
+    0x0,
+    0x0
 };
 #endif
 
 /* USB Standard Device Descriptor */
-const uint8_t USBD_LangIDDesc[USB_LEN_LANGID_STR_DESC]=
+const uint8_t USBD_LangIDDesc[USB_LEN_LANGID_STR_DESC] =
 {
-  USB_LEN_LANGID_STR_DESC,
-  USB_DESC_TYPE_STRING,
-  LOBYTE(USBD_LANGID_STRING),
-  HIBYTE(USBD_LANGID_STRING),
+    USB_LEN_LANGID_STR_DESC,
+    USB_DESC_TYPE_STRING,
+    LOBYTE( USBD_LANGID_STRING ),
+    HIBYTE( USBD_LANGID_STRING ),
 };
 
 uint8_t USBD_StringSerial[USB_SIZ_STRING_SERIAL] =
 {
-  USB_SIZ_STRING_SERIAL,
-  USB_DESC_TYPE_STRING,
+    USB_SIZ_STRING_SERIAL,
+    USB_DESC_TYPE_STRING,
 };
 
 uint8_t USBD_StrDesc[USBD_MAX_STR_DESC_SIZ];
 
 /* Private functions ---------------------------------------------------------*/
-static void IntToUnicode (uint32_t value , uint8_t *pbuf , uint8_t len);
-static void Get_SerialNum(void);
+static void IntToUnicode( uint32_t value, uint8_t *pbuf, uint8_t len );
+static void Get_SerialNum( void );
 /**
   * @brief  Returns the device descriptor.
   * @param  speed: Current device speed
   * @param  length: Pointer to data length variable
   * @retval Pointer to descriptor buffer
   */
-uint8_t *USBD_HID_DeviceDescriptor(USBD_SpeedTypeDef speed, uint16_t *length)
+uint8_t *USBD_HID_DeviceDescriptor( USBD_SpeedTypeDef speed, uint16_t *length )
 {
-  *length = sizeof(USBD_DeviceDesc);
-  return (uint8_t*)USBD_DeviceDesc;
+    *length = sizeof( USBD_DeviceDesc );
+    return ( uint8_t * )USBD_DeviceDesc;
 }
 
 /**
@@ -149,10 +151,10 @@ uint8_t *USBD_HID_DeviceDescriptor(USBD_SpeedTypeDef speed, uint16_t *length)
   * @param  length: Pointer to data length variable
   * @retval Pointer to descriptor buffer
   */
-uint8_t *USBD_HID_LangIDStrDescriptor(USBD_SpeedTypeDef speed, uint16_t *length)
+uint8_t *USBD_HID_LangIDStrDescriptor( USBD_SpeedTypeDef speed, uint16_t *length )
 {
-  *length = sizeof(USBD_LangIDDesc);
-  return (uint8_t*)USBD_LangIDDesc;
+    *length = sizeof( USBD_LangIDDesc );
+    return ( uint8_t * )USBD_LangIDDesc;
 }
 
 /**
@@ -161,10 +163,10 @@ uint8_t *USBD_HID_LangIDStrDescriptor(USBD_SpeedTypeDef speed, uint16_t *length)
   * @param  length: Pointer to data length variable
   * @retval Pointer to descriptor buffer
   */
-uint8_t *USBD_HID_ProductStrDescriptor(USBD_SpeedTypeDef speed, uint16_t *length)
+uint8_t *USBD_HID_ProductStrDescriptor( USBD_SpeedTypeDef speed, uint16_t *length )
 {
-  USBD_GetString((uint8_t *)(uint8_t *)USBD_PRODUCT_FS_STRING, USBD_StrDesc, length);
-  return USBD_StrDesc;
+    USBD_GetString( ( uint8_t * )( uint8_t * )USBD_PRODUCT_FS_STRING, USBD_StrDesc, length );
+    return USBD_StrDesc;
 }
 
 /**
@@ -173,10 +175,10 @@ uint8_t *USBD_HID_ProductStrDescriptor(USBD_SpeedTypeDef speed, uint16_t *length
   * @param  length: Pointer to data length variable
   * @retval Pointer to descriptor buffer
   */
-uint8_t *USBD_HID_ManufacturerStrDescriptor(USBD_SpeedTypeDef speed, uint16_t *length)
+uint8_t *USBD_HID_ManufacturerStrDescriptor( USBD_SpeedTypeDef speed, uint16_t *length )
 {
-  USBD_GetString((uint8_t *)(uint8_t *)USBD_MANUFACTURER_STRING, USBD_StrDesc, length);
-  return USBD_StrDesc;
+    USBD_GetString( ( uint8_t * )( uint8_t * )USBD_MANUFACTURER_STRING, USBD_StrDesc, length );
+    return USBD_StrDesc;
 }
 
 /**
@@ -185,14 +187,14 @@ uint8_t *USBD_HID_ManufacturerStrDescriptor(USBD_SpeedTypeDef speed, uint16_t *l
   * @param  length: Pointer to data length variable
   * @retval Pointer to descriptor buffer
   */
-uint8_t *USBD_HID_SerialStrDescriptor(USBD_SpeedTypeDef speed, uint16_t *length)
+uint8_t *USBD_HID_SerialStrDescriptor( USBD_SpeedTypeDef speed, uint16_t *length )
 {
-  *length = USB_SIZ_STRING_SERIAL;
+    *length = USB_SIZ_STRING_SERIAL;
 
-  /* Update the serial number string descriptor with the data from the unique ID*/
-  Get_SerialNum();
+    /* Update the serial number string descriptor with the data from the unique ID*/
+    Get_SerialNum();
 
-  return (uint8_t*)USBD_StringSerial;
+    return ( uint8_t * )USBD_StringSerial;
 }
 
 /**
@@ -201,10 +203,10 @@ uint8_t *USBD_HID_SerialStrDescriptor(USBD_SpeedTypeDef speed, uint16_t *length)
   * @param  length: Pointer to data length variable
   * @retval Pointer to descriptor buffer
   */
-uint8_t *USBD_HID_ConfigStrDescriptor(USBD_SpeedTypeDef speed, uint16_t *length)
+uint8_t *USBD_HID_ConfigStrDescriptor( USBD_SpeedTypeDef speed, uint16_t *length )
 {
-  USBD_GetString((uint8_t *)(uint8_t *)USBD_CONFIGURATION_FS_STRING, USBD_StrDesc, length);
-  return USBD_StrDesc;
+    USBD_GetString( ( uint8_t * )( uint8_t * )USBD_CONFIGURATION_FS_STRING, USBD_StrDesc, length );
+    return USBD_StrDesc;
 }
 
 /**
@@ -213,10 +215,10 @@ uint8_t *USBD_HID_ConfigStrDescriptor(USBD_SpeedTypeDef speed, uint16_t *length)
   * @param  length: Pointer to data length variable
   * @retval Pointer to descriptor buffer
   */
-uint8_t *USBD_HID_InterfaceStrDescriptor(USBD_SpeedTypeDef speed, uint16_t *length)
+uint8_t *USBD_HID_InterfaceStrDescriptor( USBD_SpeedTypeDef speed, uint16_t *length )
 {
-  USBD_GetString((uint8_t *)(uint8_t *)USBD_INTERFACE_FS_STRING, USBD_StrDesc, length);
-  return USBD_StrDesc;
+    USBD_GetString( ( uint8_t * )( uint8_t * )USBD_INTERFACE_FS_STRING, USBD_StrDesc, length );
+    return USBD_StrDesc;
 }
 
 /**
@@ -224,28 +226,28 @@ uint8_t *USBD_HID_InterfaceStrDescriptor(USBD_SpeedTypeDef speed, uint16_t *leng
   * @param  None
   * @retval None
   */
-static void Get_SerialNum(void)
+static void Get_SerialNum( void )
 {
-  uint32_t deviceserial0, deviceserial1, deviceserial2;
+    uint32_t deviceserial0, deviceserial1, deviceserial2;
 
-  deviceserial0 = *(uint32_t*)DEVICE_ID1;
-  deviceserial1 = *(uint32_t*)DEVICE_ID2;
-  deviceserial2 = *(uint32_t*)DEVICE_ID3;
+    deviceserial0 = *( uint32_t * )DEVICE_ID1;
+    deviceserial1 = *( uint32_t * )DEVICE_ID2;
+    deviceserial2 = *( uint32_t * )DEVICE_ID3;
 
-  deviceserial0 += deviceserial2;
+    deviceserial0 += deviceserial2;
 
-  if (deviceserial0 != 0)
-  {
-    IntToUnicode (deviceserial0, &USBD_StringSerial[2] ,8);
-    IntToUnicode (deviceserial1, &USBD_StringSerial[18] ,4);
-  }
-  else
-  {
-    deviceserial0 = 0xFFFFFFFF;
-    deviceserial1= 0xFFFFFFFF;
-    IntToUnicode (deviceserial0, &USBD_StringSerial[2] ,8);
-    IntToUnicode (deviceserial1, &USBD_StringSerial[18] ,4);
-  }
+    if( deviceserial0 != 0 )
+    {
+        IntToUnicode( deviceserial0, &USBD_StringSerial[2], 8 );
+        IntToUnicode( deviceserial1, &USBD_StringSerial[18], 4 );
+    }
+    else
+    {
+        deviceserial0 = 0xFFFFFFFF;
+        deviceserial1 = 0xFFFFFFFF;
+        IntToUnicode( deviceserial0, &USBD_StringSerial[2], 8 );
+        IntToUnicode( deviceserial1, &USBD_StringSerial[18], 4 );
+    }
 }
 
 #if (USBD_LPM_ENABLED == 1)
@@ -257,10 +259,10 @@ static void Get_SerialNum(void)
   * @param  length : pointer to data length variable
   * @retval pointer to descriptor buffer
   */
-uint8_t *USBD_USR_BOSDescriptor(USBD_SpeedTypeDef speed , uint16_t *length)
+uint8_t *USBD_USR_BOSDescriptor( USBD_SpeedTypeDef speed, uint16_t *length )
 {
-  *length = sizeof(USBD_BOSDesc);
-  return (uint8_t*)USBD_BOSDesc;
+    *length = sizeof( USBD_BOSDesc );
+    return ( uint8_t * )USBD_BOSDesc;
 }
 #endif
 
@@ -271,25 +273,25 @@ uint8_t *USBD_USR_BOSDescriptor(USBD_SpeedTypeDef speed , uint16_t *length)
   * @param  len: buffer length
   * @retval None
   */
-static void IntToUnicode (uint32_t value , uint8_t *pbuf , uint8_t len)
+static void IntToUnicode( uint32_t value, uint8_t *pbuf, uint8_t len )
 {
-  uint8_t idx = 0;
+    uint8_t idx = 0;
 
-  for( idx = 0 ; idx < len ; idx ++)
-  {
-    if( ((value >> 28)) < 0xA )
+    for( idx = 0 ; idx < len ; idx ++ )
     {
-      pbuf[ 2* idx] = (value >> 28) + '0';
-    }
-    else
-    {
-      pbuf[2* idx] = (value >> 28) + 'A' - 10;
-    }
+        if( ( ( value >> 28 ) ) < 0xA )
+        {
+            pbuf[ 2 * idx] = ( value >> 28 ) + '0';
+        }
+        else
+        {
+            pbuf[2 * idx] = ( value >> 28 ) + 'A' - 10;
+        }
 
-    value = value << 4;
+        value = value << 4;
 
-    pbuf[ 2* idx + 1] = 0;
-  }
+        pbuf[ 2 * idx + 1] = 0;
+    }
 }
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

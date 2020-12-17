@@ -37,7 +37,7 @@
 
 /* Definition for COMPx Channel Pin */
 #define COMPx_PIN                      GPIO_PIN_5
-#define COMPx_GPIO_PORT                GPIOB 
+#define COMPx_GPIO_PORT                GPIOB
 
 /* Definition for COMPx's NVIC */
 #define COMPx_IRQn                     ADC1_COMP_IRQn
@@ -61,7 +61,7 @@
 #define TIMx_GPIO_CLK_DISABLE()       __HAL_RCC_GPIOB_CLK_DISABLE()
 
 #define TIMx_PIN                      GPIO_PIN_14
-#define TIMx_GPIO_PORT                GPIOB 
+#define TIMx_GPIO_PORT                GPIOB
 
 
 /* Exported macro ------------------------------------------------------------*/

@@ -130,11 +130,11 @@
         1,                                                      \
         CORRELATE_MAX_INPUT_ELTS)  /* Note the lacking semicolon */
 
-CORRELATE_DEFINE_RAND_INPUT_ARR_DESCS(f32);
-CORRELATE_DEFINE_RAND_INPUT_ARR_DESCS(q31);
-CORRELATE_DEFINE_RAND_INPUT_ARR_DESCS(q15);
-CORRELATE_DEFINE_RAND_INPUT_ARR_DESCS(q7);
-ARR_DESC_DEFINE(float32_t, correlate_input_zeros, CORRELATE_MAX_INPUT_ELTS, CURLY(0));
+CORRELATE_DEFINE_RAND_INPUT_ARR_DESCS( f32 );
+CORRELATE_DEFINE_RAND_INPUT_ARR_DESCS( q31 );
+CORRELATE_DEFINE_RAND_INPUT_ARR_DESCS( q15 );
+CORRELATE_DEFINE_RAND_INPUT_ARR_DESCS( q7 );
+ARR_DESC_DEFINE( float32_t, correlate_input_zeros, CORRELATE_MAX_INPUT_ELTS, CURLY( 0 ) );
 
 /**
  *  Define Input #ARR_DESC_t arrays by type suffix.
@@ -167,10 +167,10 @@ ARR_DESC_DEFINE(float32_t, correlate_input_zeros, CORRELATE_MAX_INPUT_ELTS, CURL
                         &correlate_input_rand2_##type_suffix      \
                         )) /* Note the lacking semicolon */
 
-CORRELATE_DEFINE_ALL_INPUTS(f32);
-CORRELATE_DEFINE_ALL_INPUTS(q31);
-CORRELATE_DEFINE_ALL_INPUTS(q15);
-CORRELATE_DEFINE_ALL_INPUTS(q7);
+CORRELATE_DEFINE_ALL_INPUTS( f32 );
+CORRELATE_DEFINE_ALL_INPUTS( q31 );
+CORRELATE_DEFINE_ALL_INPUTS( q15 );
+CORRELATE_DEFINE_ALL_INPUTS( q7 );
 
 /*--------------------------------------------------------------------------------*/
 /* Convolution Lengths */
@@ -187,27 +187,27 @@ CORRELATE_DEFINE_ALL_INPUTS(q7);
  *  - 15 * MAX : Longest correlate.
  *  MAX * MAX  : Longest correlate.
  */
-ARR_DESC_DEFINE(uint32_t,
-                correlate_lens_a,
-                5,
-                CURLY(
-                    1,
-                    1,
-                    17,
-                    15,
-                    CORRELATE_MAX_INPUT_ELTS
-                    ));
+ARR_DESC_DEFINE( uint32_t,
+                 correlate_lens_a,
+                 5,
+                 CURLY(
+                     1,
+                     1,
+                     17,
+                     15,
+                     CORRELATE_MAX_INPUT_ELTS
+                 ) );
 
-ARR_DESC_DEFINE(uint32_t,
-                correlate_lens_b,
-                5,
-                CURLY(
-                    1,
-                    2,
-                    1,
-                    CORRELATE_MAX_INPUT_ELTS,
-                    CORRELATE_MAX_INPUT_ELTS
-                    ));
+ARR_DESC_DEFINE( uint32_t,
+                 correlate_lens_b,
+                 5,
+                 CURLY(
+                     1,
+                     2,
+                     1,
+                     CORRELATE_MAX_INPUT_ELTS,
+                     CORRELATE_MAX_INPUT_ELTS
+                 ) );
 
 /*--------------------------------------------------------------------------------*/
 /* Convolution Tests */
@@ -267,44 +267,44 @@ ARR_DESC_DEFINE(uint32_t,
         ) /* Note the lacking semicolon*/
 
 /* Tests on functions without partial outputs */
-CORRELATE_DEFINE_TEST(correlate          , f32, float32_t, CORRELATE_TEST_TEMPLATE);
-CORRELATE_DEFINE_TEST(correlate          , q31, q31_t    , CORRELATE_TEST_TEMPLATE);
-CORRELATE_DEFINE_TEST(correlate          , q15, q15_t    , CORRELATE_TEST_TEMPLATE);
-CORRELATE_DEFINE_TEST(correlate          , q7 , q7_t     , CORRELATE_TEST_TEMPLATE);
-CORRELATE_DEFINE_TEST(correlate_opt      , q15, q15_t    , CORRELATE_TEST_TEMPLATE);
+CORRELATE_DEFINE_TEST( correlate, f32, float32_t, CORRELATE_TEST_TEMPLATE );
+CORRELATE_DEFINE_TEST( correlate, q31, q31_t, CORRELATE_TEST_TEMPLATE );
+CORRELATE_DEFINE_TEST( correlate, q15, q15_t, CORRELATE_TEST_TEMPLATE );
+CORRELATE_DEFINE_TEST( correlate, q7, q7_t, CORRELATE_TEST_TEMPLATE );
+CORRELATE_DEFINE_TEST( correlate_opt, q15, q15_t, CORRELATE_TEST_TEMPLATE );
 
 CORRELATE_TEST_TEMPLATE(
-   arm_correlate_opt_q7,
-   CORRELATE_arm_correlate_opt_q7_INPUT_INTERFACE,
-   ref_correlate_opt_q7,
-   CORRELATE_ref_correlate_opt_q7_INPUT_INTERFACE,
-   q7,
-   q7_t
-   );
+    arm_correlate_opt_q7,
+    CORRELATE_arm_correlate_opt_q7_INPUT_INTERFACE,
+    ref_correlate_opt_q7,
+    CORRELATE_ref_correlate_opt_q7_INPUT_INTERFACE,
+    q7,
+    q7_t
+);
 
-CORRELATE_DEFINE_TEST(correlate_fast     , q31, q31_t    , CORRELATE_TEST_TEMPLATE);
-CORRELATE_DEFINE_TEST(correlate_fast     , q15, q15_t    , CORRELATE_TEST_TEMPLATE);
-CORRELATE_DEFINE_TEST(correlate_fast_opt , q15, q15_t    , CORRELATE_TEST_TEMPLATE);
+CORRELATE_DEFINE_TEST( correlate_fast, q31, q31_t, CORRELATE_TEST_TEMPLATE );
+CORRELATE_DEFINE_TEST( correlate_fast, q15, q15_t, CORRELATE_TEST_TEMPLATE );
+CORRELATE_DEFINE_TEST( correlate_fast_opt, q15, q15_t, CORRELATE_TEST_TEMPLATE );
 
 /*--------------------------------------------------------------------------------*/
 /* Collect all tests in a group. */
 /*--------------------------------------------------------------------------------*/
 
-JTEST_DEFINE_GROUP(correlate_tests)
+JTEST_DEFINE_GROUP( correlate_tests )
 {
     /*
       To skip a test, comment it out.
     */
-    JTEST_TEST_CALL(arm_correlate_f32_tests);
-    JTEST_TEST_CALL(arm_correlate_q31_tests);
-    JTEST_TEST_CALL(arm_correlate_q15_tests);
-    JTEST_TEST_CALL(arm_correlate_q7_tests);
+    JTEST_TEST_CALL( arm_correlate_f32_tests );
+    JTEST_TEST_CALL( arm_correlate_q31_tests );
+    JTEST_TEST_CALL( arm_correlate_q15_tests );
+    JTEST_TEST_CALL( arm_correlate_q7_tests );
 
-    JTEST_TEST_CALL(arm_correlate_opt_q15_tests);
-    JTEST_TEST_CALL(arm_correlate_opt_q7_tests);
+    JTEST_TEST_CALL( arm_correlate_opt_q15_tests );
+    JTEST_TEST_CALL( arm_correlate_opt_q7_tests );
 
-    JTEST_TEST_CALL(arm_correlate_fast_q31_tests);
-    JTEST_TEST_CALL(arm_correlate_fast_q15_tests);
+    JTEST_TEST_CALL( arm_correlate_fast_q31_tests );
+    JTEST_TEST_CALL( arm_correlate_fast_q15_tests );
 
-    JTEST_TEST_CALL(arm_correlate_fast_opt_q15_tests);
+    JTEST_TEST_CALL( arm_correlate_fast_opt_q15_tests );
 }

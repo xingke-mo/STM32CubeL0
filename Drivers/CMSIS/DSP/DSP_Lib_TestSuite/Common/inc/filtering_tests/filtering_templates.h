@@ -45,24 +45,24 @@
             output_type,                                    \
             FILTERING_SNR_THRESHOLD_##output_type           \
             );                                              \
-    } while (0)                                              
+    } while (0)
 
 /**
  *  Compare reference and fut outputs starting at some offset using SNR.
  *  Special case for float64_t
  */
-#define FILTERING_DBL_SNR_COMPARE_INTERFACE(block_size,  				\
-                                            output_type) 				\
-    do                                                      		\
-    {                                                       		\
-        TEST_ASSERT_DBL_SNR(                        						\
+#define FILTERING_DBL_SNR_COMPARE_INTERFACE(block_size,                 \
+                                            output_type)                \
+    do                                                              \
+    {                                                               \
+        TEST_ASSERT_DBL_SNR(                                                \
             (float64_t*)filtering_output_ref,               \
             (float64_t*)filtering_output_fut,               \
-            block_size,                                     		\
-            FILTERING_SNR_THRESHOLD_##output_type           		\
-            );                                              		\
-    } while (0)                                              
-		
+            block_size,                                             \
+            FILTERING_SNR_THRESHOLD_##output_type                   \
+            );                                                      \
+    } while (0)
+
 /*--------------------------------------------------------------------------------*/
 /* Input Interfaces */
 /*--------------------------------------------------------------------------------*/

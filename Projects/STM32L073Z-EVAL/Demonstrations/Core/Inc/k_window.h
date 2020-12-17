@@ -15,14 +15,14 @@
   *                             www.st.com/SLA0044
   *
   ******************************************************************************
-  */ 
+  */
 
 /* Define to prevent recursive inclusion -------------------------------------*/
 #ifndef _K_WINDOW_H
 #define _K_WINDOW_H
 
 #ifdef __cplusplus
- extern "C" {
+extern "C" {
 #endif
 
 #ifdef _K_WINDOW_C
@@ -30,17 +30,17 @@
 #else
 #define GLOBAL extern
 #endif
-   
-   
+
+
 /* Includes ------------------------------------------------------------------*/
 /* Exported types ------------------------------------------------------------*/
 /* Exported constants --------------------------------------------------------*/
 /* Exported variables --------------------------------------------------------*/
 /* Exported macro ------------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */
-GLOBAL void kWindow_Error(char *msg);
-GLOBAL void kWindow_PopupCentered(char *title, uint16_t title_tc, uint16_t title_bc ,char *Msg, uint16_t msg_tc, uint16_t msg_bc );
-GLOBAL void kWindow_PopupAligned(char *title, uint16_t title_tc, uint16_t title_bc ,char *Msg, uint16_t msg_tc, uint16_t msg_bc );
+GLOBAL void kWindow_Error( char *msg );
+GLOBAL void kWindow_PopupCentered( char *title, uint16_t title_tc, uint16_t title_bc, char *Msg, uint16_t msg_tc, uint16_t msg_bc );
+GLOBAL void kWindow_PopupAligned( char *title, uint16_t title_tc, uint16_t title_bc, char *Msg, uint16_t msg_tc, uint16_t msg_bc );
 
 
 #ifdef __cplusplus

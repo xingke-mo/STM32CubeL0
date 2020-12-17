@@ -35,7 +35,7 @@
 /* Private variables ---------------------------------------------------------*/
 static JOYState_TypeDef JoyState = JOY_NONE;
 /* Private function prototypes -----------------------------------------------*/
-static void Joystick_SetHint(void);
+static void Joystick_SetHint( void );
 /* Private functions ---------------------------------------------------------*/
 
 /**
@@ -43,85 +43,95 @@ static void Joystick_SetHint(void);
   * @param  None
   * @retval None
   */
-void Joystick_demo (void)
+void Joystick_demo( void )
 {
-  static uint16_t xPtr = 12;
-  static uint16_t yPtr = 92;
-  static uint16_t old_xPtr = 12;
-  static uint16_t old_yPtr = 92;
+    static uint16_t xPtr = 12;
+    static uint16_t yPtr = 92;
+    static uint16_t old_xPtr = 12;
+    static uint16_t old_yPtr = 92;
 
-  Joystick_SetHint();
+    Joystick_SetHint();
 
-  if (BSP_JOY_Init(JOY_MODE_GPIO) != IO_OK)
-  {
-    Error_Handler();
-  }
-
-  while (1)
-  {
-    /* Get the Joystick State */
-    JoyState = BSP_JOY_GetState();
-
-    switch(JoyState)
+    if( BSP_JOY_Init( JOY_MODE_GPIO ) != IO_OK )
     {
-    case JOY_UP:
-      if(yPtr > 92)
-      {
-        yPtr--;
-      }
-      break;
-    case JOY_DOWN:
-        if(yPtr < (BSP_LCD_GetYSize() - 12 - 11))
-      {
-        yPtr++;
-      }
-      break;
-    case JOY_LEFT:
-      if(xPtr > 12)
-      {
-        xPtr--;
-      }
-      break;
-    case JOY_RIGHT:
-        if(xPtr < (BSP_LCD_GetXSize() - 8 - 11))
-      {
-        xPtr++;
-      }
-      break;
-    default:
-      break;
+        Error_Handler();
     }
 
-    BSP_LCD_SetBackColor(LCD_COLOR_WHITE);
-    BSP_LCD_SetTextColor(LCD_COLOR_BLUE);
+    while( 1 )
+    {
+        /* Get the Joystick State */
+        JoyState = BSP_JOY_GetState();
 
-    if(JoyState == JOY_SEL)
-    {
-      BSP_LCD_SetTextColor(LCD_COLOR_RED);
-      BSP_LCD_DisplayChar(xPtr, yPtr, 'X');
+        switch( JoyState )
+        {
+        case JOY_UP:
+            if( yPtr > 92 )
+            {
+                yPtr--;
+            }
 
-    }
-    else if(JoyState == JOY_NONE)
-    {
-      BSP_LCD_SetTextColor(LCD_COLOR_BLUE);
-      BSP_LCD_DisplayChar(xPtr, yPtr, 'X');
-    }
-    else
-    {
-      BSP_LCD_SetTextColor(LCD_COLOR_WHITE);
-      BSP_LCD_DisplayChar(old_xPtr, old_yPtr, 'X');
-      BSP_LCD_SetTextColor(LCD_COLOR_BLUE);
-      BSP_LCD_DisplayChar(xPtr, yPtr, 'X');
+            break;
 
-      old_xPtr = xPtr;
-      old_yPtr = yPtr;
+        case JOY_DOWN:
+            if( yPtr < ( BSP_LCD_GetYSize() - 12 - 11 ) )
+            {
+                yPtr++;
+            }
+
+            break;
+
+        case JOY_LEFT:
+            if( xPtr > 12 )
+            {
+                xPtr--;
+            }
+
+            break;
+
+        case JOY_RIGHT:
+            if( xPtr < ( BSP_LCD_GetXSize() - 8 - 11 ) )
+            {
+                xPtr++;
+            }
+
+            break;
+
+        default:
+            break;
+        }
+
+        BSP_LCD_SetBackColor( LCD_COLOR_WHITE );
+        BSP_LCD_SetTextColor( LCD_COLOR_BLUE );
+
+        if( JoyState == JOY_SEL )
+        {
+            BSP_LCD_SetTextColor( LCD_COLOR_RED );
+            BSP_LCD_DisplayChar( xPtr, yPtr, 'X' );
+
+        }
+        else if( JoyState == JOY_NONE )
+        {
+            BSP_LCD_SetTextColor( LCD_COLOR_BLUE );
+            BSP_LCD_DisplayChar( xPtr, yPtr, 'X' );
+        }
+        else
+        {
+            BSP_LCD_SetTextColor( LCD_COLOR_WHITE );
+            BSP_LCD_DisplayChar( old_xPtr, old_yPtr, 'X' );
+            BSP_LCD_SetTextColor( LCD_COLOR_BLUE );
+            BSP_LCD_DisplayChar( xPtr, yPtr, 'X' );
+
+            old_xPtr = xPtr;
+            old_yPtr = yPtr;
+        }
+
+        if( CheckForUserInput() > 0 )
+        {
+            return;
+        }
+
+        HAL_Delay( 5 );
     }
-    if(CheckForUserInput() > 0)
-    {
-      return;
-    }
-    HAL_Delay(5);
-  }
 }
 
 /**
@@ -129,27 +139,27 @@ void Joystick_demo (void)
   * @param  None
   * @retval None
   */
-static void Joystick_SetHint(void)
+static void Joystick_SetHint( void )
 {
-  /* Clear the LCD */
-  BSP_LCD_Clear(LCD_COLOR_WHITE);
+    /* Clear the LCD */
+    BSP_LCD_Clear( LCD_COLOR_WHITE );
 
-  /* Set Joystick Demo description */
-  BSP_LCD_SetTextColor(LCD_COLOR_BLUE);
-  BSP_LCD_FillRect(0, 0, BSP_LCD_GetXSize(), 80);
-  BSP_LCD_SetTextColor(LCD_COLOR_WHITE);
-  BSP_LCD_SetBackColor(LCD_COLOR_BLUE);
-  BSP_LCD_SetFont(&Font24);
-  BSP_LCD_DisplayStringAt(0, 0, (uint8_t *)"Joystick", CENTER_MODE);
-  BSP_LCD_SetFont(&Font12);
-  BSP_LCD_DisplayStringAt(0, 30, (uint8_t *)"Please use the joystick to move the pointer", CENTER_MODE);
-  BSP_LCD_DisplayStringAt(0, 45, (uint8_t *)"inside the rectangle, to switch to next menu", CENTER_MODE);
-  BSP_LCD_DisplayStringAt(0, 60, (uint8_t *)"press Wkup/Tamper push-button.", CENTER_MODE);
+    /* Set Joystick Demo description */
+    BSP_LCD_SetTextColor( LCD_COLOR_BLUE );
+    BSP_LCD_FillRect( 0, 0, BSP_LCD_GetXSize(), 80 );
+    BSP_LCD_SetTextColor( LCD_COLOR_WHITE );
+    BSP_LCD_SetBackColor( LCD_COLOR_BLUE );
+    BSP_LCD_SetFont( &Font24 );
+    BSP_LCD_DisplayStringAt( 0, 0, ( uint8_t * )"Joystick", CENTER_MODE );
+    BSP_LCD_SetFont( &Font12 );
+    BSP_LCD_DisplayStringAt( 0, 30, ( uint8_t * )"Please use the joystick to move the pointer", CENTER_MODE );
+    BSP_LCD_DisplayStringAt( 0, 45, ( uint8_t * )"inside the rectangle, to switch to next menu", CENTER_MODE );
+    BSP_LCD_DisplayStringAt( 0, 60, ( uint8_t * )"press Wkup/Tamper push-button.", CENTER_MODE );
 
-  /* Set the LCD Text Color */
-  BSP_LCD_SetTextColor(LCD_COLOR_BLUE);
-  BSP_LCD_DrawRect(10, 90, BSP_LCD_GetXSize() - 20, BSP_LCD_GetYSize()- 100);
-  BSP_LCD_DrawRect(11, 91, BSP_LCD_GetXSize() - 22, BSP_LCD_GetYSize()- 102);
+    /* Set the LCD Text Color */
+    BSP_LCD_SetTextColor( LCD_COLOR_BLUE );
+    BSP_LCD_DrawRect( 10, 90, BSP_LCD_GetXSize() - 20, BSP_LCD_GetYSize() - 100 );
+    BSP_LCD_DrawRect( 11, 91, BSP_LCD_GetXSize() - 22, BSP_LCD_GetYSize() - 102 );
 }
 /**
   * @}

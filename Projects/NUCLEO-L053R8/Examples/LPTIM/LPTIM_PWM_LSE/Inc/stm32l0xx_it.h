@@ -1,6 +1,6 @@
 /**
   ******************************************************************************
-  * @file    LPTIM/LPTIM_PWM_LSE/Inc/stm32l0xx_it.h 
+  * @file    LPTIM/LPTIM_PWM_LSE/Inc/stm32l0xx_it.h
   * @author  MCD Application Team
   * @brief   This file contains the headers of the interrupt handlers.
   ******************************************************************************
@@ -22,8 +22,8 @@
 #define __STM32L0xx_IT_H
 
 #ifdef __cplusplus
- extern "C" {
-#endif 
+extern "C" {
+#endif
 
 /* Includes ------------------------------------------------------------------*/
 /* Exported types ------------------------------------------------------------*/
@@ -31,11 +31,11 @@
 /* Exported macro ------------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */
 
-void NMI_Handler(void);
-void HardFault_Handler(void);
-void SVC_Handler(void);
-void PendSV_Handler(void);
-void SysTick_Handler(void);
+void NMI_Handler( void );
+void HardFault_Handler( void );
+void SVC_Handler( void );
+void PendSV_Handler( void );
+void SysTick_Handler( void );
 #ifdef __cplusplus
 }
 #endif

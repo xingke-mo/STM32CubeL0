@@ -71,25 +71,25 @@
 
 
 #if defined(WAVEFORM_VOLTAGE_GENERATION_FOR_TEST)
-/* ## Definition of DAC related resources ################################### */
-/* Definition of DACx clock resources */
-#define DACx                            DAC
-#define DACx_CLK_ENABLE()               __HAL_RCC_DAC_CLK_ENABLE()
-#define DACx_CHANNEL_GPIO_CLK_ENABLE()  __HAL_RCC_GPIOA_CLK_ENABLE()
+    /* ## Definition of DAC related resources ################################### */
+    /* Definition of DACx clock resources */
+    #define DACx                            DAC
+    #define DACx_CLK_ENABLE()               __HAL_RCC_DAC_CLK_ENABLE()
+    #define DACx_CHANNEL_GPIO_CLK_ENABLE()  __HAL_RCC_GPIOA_CLK_ENABLE()
 
-#define DACx_FORCE_RESET()              __HAL_RCC_DAC_FORCE_RESET()
-#define DACx_RELEASE_RESET()            __HAL_RCC_DAC_RELEASE_RESET()
+    #define DACx_FORCE_RESET()              __HAL_RCC_DAC_FORCE_RESET()
+    #define DACx_RELEASE_RESET()            __HAL_RCC_DAC_RELEASE_RESET()
 
-/* Definition of DACx channels */
-#define DACx_CHANNEL_TO_ADCx_CHANNELa            DAC_CHANNEL_1
+    /* Definition of DACx channels */
+    #define DACx_CHANNEL_TO_ADCx_CHANNELa            DAC_CHANNEL_1
 
-/* Definition of DACx channels pins */
-#define DACx_CHANNEL_TO_ADCx_CHANNELa_PIN        GPIO_PIN_4
-#define DACx_CHANNEL_TO_ADCx_CHANNELa_GPIO_PORT  GPIOA
+    /* Definition of DACx channels pins */
+    #define DACx_CHANNEL_TO_ADCx_CHANNELa_PIN        GPIO_PIN_4
+    #define DACx_CHANNEL_TO_ADCx_CHANNELa_GPIO_PORT  GPIOA
 
-/* Definition of DACx NVIC resources */
-#define DACx_IRQn                       TIM6_DAC_IRQn
-#define DACx_IRQHandler                 TIM6_DAC_IRQHandler
+    /* Definition of DACx NVIC resources */
+    #define DACx_IRQn                       TIM6_DAC_IRQn
+    #define DACx_IRQHandler                 TIM6_DAC_IRQHandler
 
 #endif /* WAVEFORM_VOLTAGE_GENERATION_FOR_TEST */
 

@@ -40,12 +40,12 @@ UART_HandleTypeDef UartHandle_1;
 
 
 /* global Functions */
-static void Error_Handler(void);
-static void  RtcClockSetup(rtcConfigClockEnum flag);
+static void Error_Handler( void );
+static void  RtcClockSetup( rtcConfigClockEnum flag );
 
 /* static Functions */
-void SystemClock_Config(void);
-void SystemClock_ConfigMSI_Slow(void);
+void SystemClock_Config( void );
+void SystemClock_ConfigMSI_Slow( void );
 
 /**
 * @}
@@ -63,48 +63,49 @@ void SystemClock_ConfigMSI_Slow(void);
 
 
 
-extern void ManageIddMeasurementMenu(char * messTitle,uint32_t flagModeIt);
-extern void DisplayStandbyIddMeasurement(void);
+extern void ManageIddMeasurementMenu( char *messTitle, uint32_t flagModeIt );
+extern void DisplayStandbyIddMeasurement( void );
 
-int main(void)
+int main( void )
 {
 
-  /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-  HAL_Init();
+    /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+    HAL_Init();
 
-  /* Configure the system clock @ CPU max */
-  SystemClock_Config();
+    /* Configure the system clock @ CPU max */
+    SystemClock_Config();
 
-   /* Set the SysTick to the highest priority in order to avoid
-   * being blocked inside functions waiting on timeouts.
-   */
-   HAL_InitTick(0);
+    /* Set the SysTick to the highest priority in order to avoid
+    * being blocked inside functions waiting on timeouts.
+    */
+    HAL_InitTick( 0 );
 
-  /* LED init */
-  BSP_LED_Init(LED1);
-  BSP_LED_Init(LED2);
-  BSP_LED_Init(LED3);
-  BSP_LED_Init(LED4);
+    /* LED init */
+    BSP_LED_Init( LED1 );
+    BSP_LED_Init( LED2 );
+    BSP_LED_Init( LED3 );
+    BSP_LED_Init( LED4 );
 
-  HAL_NVIC_SetPriority(EXTI4_15_IRQn, 1, 0);
-  /* Reset Idd measurement component if not reseting from standby mode */
-  if (__HAL_PWR_GET_FLAG(PWR_FLAG_SB) == RESET)
-  {
-    BSP_IDD_Reset();
-  }
+    HAL_NVIC_SetPriority( EXTI4_15_IRQn, 1, 0 );
 
-  BSP_IDD_Init();
+    /* Reset Idd measurement component if not reseting from standby mode */
+    if( __HAL_PWR_GET_FLAG( PWR_FLAG_SB ) == RESET )
+    {
+        BSP_IDD_Reset();
+    }
 
-  BSP_IDD_ClearIT();
-  BSP_IDD_ErrorClearIT();
+    BSP_IDD_Init();
 
-  BSP_IDD_DisableIT();
-  BSP_IDD_ErrorDisableIT();
+    BSP_IDD_ClearIT();
+    BSP_IDD_ErrorClearIT();
+
+    BSP_IDD_DisableIT();
+    BSP_IDD_ErrorDisableIT();
 
 
-  /* Start the demo thread */
-  kDemo_Start();
-  return 0;
+    /* Start the demo thread */
+    kDemo_Start();
+    return 0;
 }
 
 /* DecodeMFXInterrupt                                  */
@@ -115,89 +116,94 @@ int main(void)
   * @param ptIddState: idd state update through this function
   * @retval None
   */
-void DecodeMFXInterrupt(uint32_t *ptJoyState, uint32_t *ptIddState)
+void DecodeMFXInterrupt( uint32_t *ptJoyState, uint32_t *ptIddState )
 {
-  uint32_t itStatus = 0;
+    uint32_t itStatus = 0;
 
-  /*Initialize the states*/
-  *ptJoyState = JOY_NONE_PIN;
-  *ptIddState = IDD_STATE_UNCHANGED;
+    /*Initialize the states*/
+    *ptJoyState = JOY_NONE_PIN;
+    *ptIddState = IDD_STATE_UNCHANGED;
 
-   /* Check if it was an event on the Joystick */
-   /********************************************/
-   itStatus = BSP_IO_ITGetStatus(JOY_ALL_PINS);
-   if (itStatus != 0) // The joystick has been selected...
-   {
-     /* Define the GPIO which was selected */
-     if ((itStatus & JOY_SEL_PIN) == JOY_SEL_PIN)
-     {
-         *ptJoyState =JOY_SEL_PIN;
-     }
-     else if ((itStatus & JOY_DOWN_PIN) == JOY_DOWN_PIN)
-     {
-         *ptJoyState =JOY_DOWN_PIN;
-     }
-     else if ((itStatus & JOY_LEFT_PIN) == JOY_LEFT_PIN)
-     {
-         *ptJoyState =JOY_LEFT_PIN;
-     }
-     else if ((itStatus & JOY_RIGHT_PIN) == JOY_RIGHT_PIN)
-     {
-         *ptJoyState =JOY_RIGHT_PIN;
-     }
-     else if ((itStatus & JOY_UP_PIN) == JOY_UP_PIN)
-     {
-         *ptJoyState =JOY_UP_PIN;
-     }
-     else
-     {
-       *ptJoyState =JOY_NONE_PIN;
-     }
-     /* Clear the IT */
-     BSP_IO_ITClear();
-   }
+    /* Check if it was an event on the Joystick */
+    /********************************************/
+    itStatus = BSP_IO_ITGetStatus( JOY_ALL_PINS );
 
-   /* Note : Since the IDD interupts are no more used, it is not necessary
-    * to check for the IDD_Termination_Measurement interrupt
-    * and the IDD_Error interrupt
-    */
-}
+    if( itStatus != 0 ) // The joystick has been selected...
+    {
+        /* Define the GPIO which was selected */
+        if( ( itStatus & JOY_SEL_PIN ) == JOY_SEL_PIN )
+        {
+            *ptJoyState = JOY_SEL_PIN;
+        }
+        else if( ( itStatus & JOY_DOWN_PIN ) == JOY_DOWN_PIN )
+        {
+            *ptJoyState = JOY_DOWN_PIN;
+        }
+        else if( ( itStatus & JOY_LEFT_PIN ) == JOY_LEFT_PIN )
+        {
+            *ptJoyState = JOY_LEFT_PIN;
+        }
+        else if( ( itStatus & JOY_RIGHT_PIN ) == JOY_RIGHT_PIN )
+        {
+            *ptJoyState = JOY_RIGHT_PIN;
+        }
+        else if( ( itStatus & JOY_UP_PIN ) == JOY_UP_PIN )
+        {
+            *ptJoyState = JOY_UP_PIN;
+        }
+        else
+        {
+            *ptJoyState = JOY_NONE_PIN;
+        }
 
-/** @brief EXTI line detection callbacks
-  * @param GPIO_Pin: Specifies the pins connected EXTI line
-  * @retval None
-  */
-void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
-{
-  uint32_t JoyState_tmp = 0;
-  uint32_t IddState_tmp = 0;
-
-  switch(GPIO_Pin)
-  {
-  case SD_DETECT_PIN :
-    kStorage_SdDetection(BSP_SD_IsDetected());
-    break;
-  case MFX_IRQOUT_PIN :
-    /* In this case, only a flag is set.
-     * Note : To get the origin of this interrupt, it is requested to send I2C commands
-     * to the MFX, but this cannot be done inside the Interrupt Handler.
-     */
-
-    DecodeMFXInterrupt(&JoyState_tmp, &IddState_tmp);
-
-    if (IddState_tmp==IDD_STATE_UNCHANGED){ /* only for Joystick IT case*/
-      kMenu_EventHandler(JoyState_tmp);
+        /* Clear the IT */
+        BSP_IO_ITClear();
     }
 
-    break;
-  case TAMPER_BUTTON_PIN :
-     FlagItTamperButton = SET;
-    break;
+    /* Note : Since the IDD interupts are no more used, it is not necessary
+     * to check for the IDD_Termination_Measurement interrupt
+     * and the IDD_Error interrupt
+     */
+}
 
-  default :
-    Error_Handler();
-    break;
-  }
+/** @brief EXTI line detection callbacks
+  * @param GPIO_Pin: Specifies the pins connected EXTI line
+  * @retval None
+  */
+void HAL_GPIO_EXTI_Callback( uint16_t GPIO_Pin )
+{
+    uint32_t JoyState_tmp = 0;
+    uint32_t IddState_tmp = 0;
+
+    switch( GPIO_Pin )
+    {
+    case SD_DETECT_PIN :
+        kStorage_SdDetection( BSP_SD_IsDetected() );
+        break;
+
+    case MFX_IRQOUT_PIN :
+        /* In this case, only a flag is set.
+         * Note : To get the origin of this interrupt, it is requested to send I2C commands
+         * to the MFX, but this cannot be done inside the Interrupt Handler.
+         */
+
+        DecodeMFXInterrupt( &JoyState_tmp, &IddState_tmp );
+
+        if( IddState_tmp == IDD_STATE_UNCHANGED ) /* only for Joystick IT case*/
+        {
+            kMenu_EventHandler( JoyState_tmp );
+        }
+
+        break;
+
+    case TAMPER_BUTTON_PIN :
+        FlagItTamperButton = SET;
+        break;
+
+    default :
+        Error_Handler();
+        break;
+    }
 
 }
 
@@ -205,72 +211,72 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
   * @param GPIO_Pin: Specifies the pins connected EXTI line
   * @retval None
   */
-void kDemo_Initialization(void)
+void kDemo_Initialization( void )
 {
-  /* Initialize the LCD */
-  BSP_LCD_Init();
+    /* Initialize the LCD */
+    BSP_LCD_Init();
 
-  if (__HAL_PWR_GET_FLAG(PWR_FLAG_SB) != RESET)
-  {
-      DisplayStandbyIddMeasurement();
+    if( __HAL_PWR_GET_FLAG( PWR_FLAG_SB ) != RESET )
+    {
+        DisplayStandbyIddMeasurement();
 
-    /* Clear StandBy flag */
-    __HAL_PWR_CLEAR_FLAG(PWR_FLAG_SB);
+        /* Clear StandBy flag */
+        __HAL_PWR_CLEAR_FLAG( PWR_FLAG_SB );
 
-    HAL_NVIC_SystemReset();
-  }
+        HAL_NVIC_SystemReset();
+    }
 
-  BSP_LCD_Clear(LCD_COLOR_WHITE);
+    BSP_LCD_Clear( LCD_COLOR_WHITE );
 
-  /* Check the SD presence else wait until SD insertion */
-  BSP_SD_Init();
+    /* Check the SD presence else wait until SD insertion */
+    BSP_SD_Init();
 
-  if(BSP_SD_IsDetected() != SD_PRESENT)
-  {
-    kWindow_Error("Sd card not \n present\n...\n\nWait sd insertion\n");
-    HAL_Delay(2000); /* Wait for 2 sec */
-  }
+    if( BSP_SD_IsDetected() != SD_PRESENT )
+    {
+        kWindow_Error( "Sd card not \n present\n...\n\nWait sd insertion\n" );
+        HAL_Delay( 2000 ); /* Wait for 2 sec */
+    }
 
-  /* FatFs initialisation */
-  if(kStorage_Init() != KSTORAGE_NOERROR)
-  {
-    kWindow_Error("FatFs initialization failed\nplease check the SD card\n");
-    HAL_Delay(2000); /* Wait for 2 sec */
-  }
+    /* FatFs initialisation */
+    if( kStorage_Init() != KSTORAGE_NOERROR )
+    {
+        kWindow_Error( "FatFs initialization failed\nplease check the SD card\n" );
+        HAL_Delay( 2000 ); /* Wait for 2 sec */
+    }
 
-  /* Display the demonstration window */
-  BSP_LCD_SetFont(&Font24);
-  BSP_LCD_Clear(LCD_COLOR_WHITE);
-  BSP_LCD_SetBackColor(LCD_COLOR_BLUE);
-  BSP_LCD_SetTextColor(LCD_COLOR_BLUE);
-  BSP_LCD_FillRect(0, 0, BSP_LCD_GetXSize(), Font24.Height*2);
-  BSP_LCD_SetTextColor(LCD_COLOR_WHITE);
-  BSP_LCD_DisplayStringAt( 0,              0,      (uint8_t *)EVAL_BOARD, CENTER_MODE);
-  BSP_LCD_DisplayStringAt( 0,  Font24.Height, (uint8_t *)"DEMONSTRATION", CENTER_MODE);
-  kStorage_OpenFileDrawPixel(80, 90, (uint8_t *)"STFILES/STLogo.bmp");
+    /* Display the demonstration window */
+    BSP_LCD_SetFont( &Font24 );
+    BSP_LCD_Clear( LCD_COLOR_WHITE );
+    BSP_LCD_SetBackColor( LCD_COLOR_BLUE );
+    BSP_LCD_SetTextColor( LCD_COLOR_BLUE );
+    BSP_LCD_FillRect( 0, 0, BSP_LCD_GetXSize(), Font24.Height * 2 );
+    BSP_LCD_SetTextColor( LCD_COLOR_WHITE );
+    BSP_LCD_DisplayStringAt( 0,              0, ( uint8_t * )EVAL_BOARD, CENTER_MODE );
+    BSP_LCD_DisplayStringAt( 0,  Font24.Height, ( uint8_t * )"DEMONSTRATION", CENTER_MODE );
+    kStorage_OpenFileDrawPixel( 80, 90, ( uint8_t * )"STFILES/STLogo.bmp" );
 
-  /* Let time user to see information */
-  HAL_Delay(2000);
+    /* Let time user to see information */
+    HAL_Delay( 2000 );
 
-  /* Module Initialization */
-  kModule_Init();
+    /* Module Initialization */
+    kModule_Init();
 }
 
-void kModule_Init(void)
+void kModule_Init( void )
 {
-   kModule_Add(MODULE_MAIN_APP, ModuleAppMain);
-   kModule_Add(MODULE_LPUART_WAKEUP, LpUartWakepModuleItem);
-   kModule_Add(MODULE_LOW_POWER, LowPowerModuleItem);
-   kModule_Add(MODULE_TSENSOR , ModuleTsensor);
-   kModule_Add(MODULE_LC_SENSOR_METERING , LcSensorMeteringModuleItem);
-   kModule_Add(MODULE_PRESSURE_MEASUREMENT , PressureModuleItem);
-   kModule_Add(MODULE_SYSTEM_INFO , HelpModuleItem);
+    kModule_Add( MODULE_MAIN_APP, ModuleAppMain );
+    kModule_Add( MODULE_LPUART_WAKEUP, LpUartWakepModuleItem );
+    kModule_Add( MODULE_LOW_POWER, LowPowerModuleItem );
+    kModule_Add( MODULE_TSENSOR, ModuleTsensor );
+    kModule_Add( MODULE_LC_SENSOR_METERING, LcSensorMeteringModuleItem );
+    kModule_Add( MODULE_PRESSURE_MEASUREMENT, PressureModuleItem );
+    kModule_Add( MODULE_SYSTEM_INFO, HelpModuleItem );
 
 }
 
-void kDemo_UnInitialization(void)
+void kDemo_UnInitialization( void )
 {
-  /* Nothing to do */
+    /* Nothing to do */
 }
 
 /**
@@ -286,44 +292,46 @@ void kDemo_UnInitialization(void)
   *            Main regulator output voltage  = Scale1 mode
   * @retval None
   */
-void SystemClock_Config(void)
+void SystemClock_Config( void )
 {
-  RCC_ClkInitTypeDef RCC_ClkInitStruct ={0};
-  RCC_OscInitTypeDef RCC_OscInitStruct = {0};
+    RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
+    RCC_OscInitTypeDef RCC_OscInitStruct = {0};
 
     /* Enable Power Control clock */
-  __HAL_RCC_PWR_CLK_ENABLE();
+    __HAL_RCC_PWR_CLK_ENABLE();
 
- /* Enable HSE Oscillator */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
-  RCC_OscInitStruct.HSEState = RCC_HSE_ON;
-  RCC_OscInitStruct.PLL.PLLSource   = RCC_PLLSOURCE_HSE;
-  RCC_OscInitStruct.PLL.PLLState    = RCC_PLL_ON;
-  RCC_OscInitStruct.PLL.PLLMUL      = RCC_PLL_MUL8;
-  RCC_OscInitStruct.PLL.PLLDIV      = RCC_PLL_DIV2;
-  if (HAL_RCC_OscConfig(&RCC_OscInitStruct)!= HAL_OK)
-  {
-    /* Initialization Error */
-    while(1);
-  }
+    /* Enable HSE Oscillator */
+    RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
+    RCC_OscInitStruct.HSEState = RCC_HSE_ON;
+    RCC_OscInitStruct.PLL.PLLSource   = RCC_PLLSOURCE_HSE;
+    RCC_OscInitStruct.PLL.PLLState    = RCC_PLL_ON;
+    RCC_OscInitStruct.PLL.PLLMUL      = RCC_PLL_MUL8;
+    RCC_OscInitStruct.PLL.PLLDIV      = RCC_PLL_DIV2;
 
-  /* Select PLL as system clock source and configure the HCLK, PCLK1 and PCLK2
-     clocks dividers */
-  RCC_ClkInitStruct.ClockType = (RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2);
-  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
-  RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
-  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
-  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
-  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_1)!= HAL_OK)
-  {
-    /* Initialization Error */
-    while(1);
-  }
+    if( HAL_RCC_OscConfig( &RCC_OscInitStruct ) != HAL_OK )
+    {
+        /* Initialization Error */
+        while( 1 );
+    }
 
-  /* The voltage scaling allows optimizing the power consumption when the device is
-     clocked below the maximum system frequency, to update the voltage scaling value
-     regarding system frequency refer to product datasheet.  */
-  __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE1);
+    /* Select PLL as system clock source and configure the HCLK, PCLK1 and PCLK2
+       clocks dividers */
+    RCC_ClkInitStruct.ClockType = ( RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2 );
+    RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
+    RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+    RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
+    RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
+
+    if( HAL_RCC_ClockConfig( &RCC_ClkInitStruct, FLASH_LATENCY_1 ) != HAL_OK )
+    {
+        /* Initialization Error */
+        while( 1 );
+    }
+
+    /* The voltage scaling allows optimizing the power consumption when the device is
+       clocked below the maximum system frequency, to update the voltage scaling value
+       regarding system frequency refer to product datasheet.  */
+    __HAL_PWR_VOLTAGESCALING_CONFIG( PWR_REGULATOR_VOLTAGE_SCALE1 );
 
 }
 
@@ -340,52 +348,55 @@ void SystemClock_Config(void)
   * @param  None
   * @retval None
   */
-void SystemClock_ConfigHSI_noPLL_16M(void)
+void SystemClock_ConfigHSI_noPLL_16M( void )
 {
-  RCC_ClkInitTypeDef RCC_ClkInitStruct;
-  RCC_OscInitTypeDef RCC_OscInitStruct;
+    RCC_ClkInitTypeDef RCC_ClkInitStruct;
+    RCC_OscInitTypeDef RCC_OscInitStruct;
 
-  /* Make sure we can select the highest Clock and the fastest Flash access */
-  /* Enable Power Control clock */
-  __HAL_RCC_PWR_CLK_ENABLE();
+    /* Make sure we can select the highest Clock and the fastest Flash access */
+    /* Enable Power Control clock */
+    __HAL_RCC_PWR_CLK_ENABLE();
 
- /* VCore set to 1,8V */
-  __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE2);
+    /* VCore set to 1,8V */
+    __HAL_PWR_VOLTAGESCALING_CONFIG( PWR_REGULATOR_VOLTAGE_SCALE2 );
 
-  /* Enable HSI as source */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
-  RCC_OscInitStruct.HSIState = RCC_HSI_ON;
-  RCC_OscInitStruct.HSICalibrationValue= RCC_HSICALIBRATION_DEFAULT;
-  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
-  if (HAL_RCC_OscConfig(&RCC_OscInitStruct)!= HAL_OK)
-  {
-    /* Initialization Error */
-    while(1);
-  }
-  /* Select HSI as system clock source and configure the HCLK, PCLK1 and PCLK2
-     clocks dividers */
-  RCC_ClkInitStruct.ClockType = (RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2);
-  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_HSI;
-  RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
-  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV4;
-  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV2;
-  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_1) != HAL_OK)
-  {
-    while(1);
-  }
+    /* Enable HSI as source */
+    RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
+    RCC_OscInitStruct.HSIState = RCC_HSI_ON;
+    RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
+    RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
 
-  /* Disable HSE and MSI if requested ... */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE | RCC_OSCILLATORTYPE_MSI;
-  RCC_OscInitStruct.HSEState = RCC_HSE_OFF;
-  RCC_OscInitStruct.MSIState = RCC_MSI_OFF;
-  RCC_OscInitStruct.MSICalibrationValue = 0x00;
-  RCC_OscInitStruct.PLL.PLLState    = RCC_PLL_OFF;
+    if( HAL_RCC_OscConfig( &RCC_OscInitStruct ) != HAL_OK )
+    {
+        /* Initialization Error */
+        while( 1 );
+    }
 
-  if(HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
-  {
-    /* Initialization Error */
-    Error_Handler();
-  }
+    /* Select HSI as system clock source and configure the HCLK, PCLK1 and PCLK2
+       clocks dividers */
+    RCC_ClkInitStruct.ClockType = ( RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2 );
+    RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_HSI;
+    RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+    RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV4;
+    RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV2;
+
+    if( HAL_RCC_ClockConfig( &RCC_ClkInitStruct, FLASH_LATENCY_1 ) != HAL_OK )
+    {
+        while( 1 );
+    }
+
+    /* Disable HSE and MSI if requested ... */
+    RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE | RCC_OSCILLATORTYPE_MSI;
+    RCC_OscInitStruct.HSEState = RCC_HSE_OFF;
+    RCC_OscInitStruct.MSIState = RCC_MSI_OFF;
+    RCC_OscInitStruct.MSICalibrationValue = 0x00;
+    RCC_OscInitStruct.PLL.PLLState    = RCC_PLL_OFF;
+
+    if( HAL_RCC_OscConfig( &RCC_OscInitStruct ) != HAL_OK )
+    {
+        /* Initialization Error */
+        Error_Handler();
+    }
 }
 
 /**
@@ -401,44 +412,46 @@ void SystemClock_ConfigHSI_noPLL_16M(void)
   *            Main regulator output voltage  = Scale2 mode
   * @retval None
   */
-void SystemClock_Config_ForLowPower(void)
+void SystemClock_Config_ForLowPower( void )
 {
-  RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
-  RCC_OscInitTypeDef RCC_OscInitStruct = {0};
+    RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
+    RCC_OscInitTypeDef RCC_OscInitStruct = {0};
 
-  /* Enable Power Control clock */
-  __HAL_RCC_PWR_CLK_ENABLE();
+    /* Enable Power Control clock */
+    __HAL_RCC_PWR_CLK_ENABLE();
 
 
-  /* Enable MSI Oscillator */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_MSI;
-  RCC_OscInitStruct.MSIState = RCC_MSI_ON;
-  RCC_OscInitStruct.MSIClockRange = RCC_MSIRANGE_0;
-  RCC_OscInitStruct.MSICalibrationValue=0x00;
-  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
-  if (HAL_RCC_OscConfig(&RCC_OscInitStruct)!= HAL_OK)
-  {
-    /* Initialization Error */
-    while(1);
-  }
+    /* Enable MSI Oscillator */
+    RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_MSI;
+    RCC_OscInitStruct.MSIState = RCC_MSI_ON;
+    RCC_OscInitStruct.MSIClockRange = RCC_MSIRANGE_0;
+    RCC_OscInitStruct.MSICalibrationValue = 0x00;
+    RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
 
-  /* Select MSI as system clock source and configure the HCLK, PCLK1 and PCLK2
-     clocks dividers */
-  RCC_ClkInitStruct.ClockType = (RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2);
-  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_MSI;
-  RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
-  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
-  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
-  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_0)!= HAL_OK)
-  {
-    /* Initialization Error */
-    while(1);
-  }
+    if( HAL_RCC_OscConfig( &RCC_OscInitStruct ) != HAL_OK )
+    {
+        /* Initialization Error */
+        while( 1 );
+    }
 
-  /* The voltage scaling allows optimizing the power consumption when the device is
-     clocked below the maximum system frequency, to update the voltage scaling value
-     regarding system frequency refer to product datasheet.  */
-  __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE2);
+    /* Select MSI as system clock source and configure the HCLK, PCLK1 and PCLK2
+       clocks dividers */
+    RCC_ClkInitStruct.ClockType = ( RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2 );
+    RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_MSI;
+    RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+    RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
+    RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
+
+    if( HAL_RCC_ClockConfig( &RCC_ClkInitStruct, FLASH_LATENCY_0 ) != HAL_OK )
+    {
+        /* Initialization Error */
+        while( 1 );
+    }
+
+    /* The voltage scaling allows optimizing the power consumption when the device is
+       clocked below the maximum system frequency, to update the voltage scaling value
+       regarding system frequency refer to product datasheet.  */
+    __HAL_PWR_VOLTAGESCALING_CONFIG( PWR_REGULATOR_VOLTAGE_SCALE2 );
 }
 
 /**
@@ -456,75 +469,77 @@ void SystemClock_Config_ForLowPower(void)
   * @retval None
   */
 
-void SystemClock_ConfigMSI(void)
+void SystemClock_ConfigMSI( void )
 {
- RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
-  RCC_OscInitTypeDef RCC_OscInitStruct = {0};
-  /* Enable Power Control clock */
-  __HAL_RCC_PWR_CLK_ENABLE();
+    RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
+    RCC_OscInitTypeDef RCC_OscInitStruct = {0};
+    /* Enable Power Control clock */
+    __HAL_RCC_PWR_CLK_ENABLE();
 
-  /* The voltage scaling allows optimizing the power consumption when the device is
-     clocked below the maximum system frequency, to update the voltage scaling value
-     regarding system frequency refer to product datasheet.
-     Low power sleep mode can only be entered when VCORE is in range 2. */
-  __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE2);
+    /* The voltage scaling allows optimizing the power consumption when the device is
+       clocked below the maximum system frequency, to update the voltage scaling value
+       regarding system frequency refer to product datasheet.
+       Low power sleep mode can only be entered when VCORE is in range 2. */
+    __HAL_PWR_VOLTAGESCALING_CONFIG( PWR_REGULATOR_VOLTAGE_SCALE2 );
 
-  /* Enable MSI Oscillator */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_MSI;
-  RCC_OscInitStruct.MSIState = RCC_MSI_ON;
-  RCC_OscInitStruct.MSIClockRange = RCC_MSIRANGE_5;
-  RCC_OscInitStruct.MSICalibrationValue = 0x00;
-  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
-  if (HAL_RCC_OscConfig(&RCC_OscInitStruct)!= HAL_OK)
-  {
-    /* Initialization Error */
-    while(1);
-  }
+    /* Enable MSI Oscillator */
+    RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_MSI;
+    RCC_OscInitStruct.MSIState = RCC_MSI_ON;
+    RCC_OscInitStruct.MSIClockRange = RCC_MSIRANGE_5;
+    RCC_OscInitStruct.MSICalibrationValue = 0x00;
+    RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
 
-  /* Select MSI as system clock source and configure the HCLK, PCLK1 and PCLK2
-     clocks dividers */
-  RCC_ClkInitStruct.ClockType = (RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2);
-  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_MSI;
-  RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV2;
-  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
-  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
-  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_0)!= HAL_OK)
-  {
-    /* Initialization Error */
-    while(1);
-  }
+    if( HAL_RCC_OscConfig( &RCC_OscInitStruct ) != HAL_OK )
+    {
+        /* Initialization Error */
+        while( 1 );
+    }
 
-  /* Disable the previous clock : System Clock source PLL (HSE) */
+    /* Select MSI as system clock source and configure the HCLK, PCLK1 and PCLK2
+       clocks dividers */
+    RCC_ClkInitStruct.ClockType = ( RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2 );
+    RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_MSI;
+    RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV2;
+    RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
+    RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
 
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
-  RCC_OscInitStruct.HSEState = RCC_HSE_OFF;
-  RCC_OscInitStruct.PLL.PLLSource   = RCC_PLLSOURCE_HSE;
-  RCC_OscInitStruct.PLL.PLLState    = RCC_PLL_OFF;
+    if( HAL_RCC_ClockConfig( &RCC_ClkInitStruct, FLASH_LATENCY_0 ) != HAL_OK )
+    {
+        /* Initialization Error */
+        while( 1 );
+    }
 
-  if(HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
-  {
-    /* Initialization Error */
-    Error_Handler();
-  }
+    /* Disable the previous clock : System Clock source PLL (HSE) */
 
-  /* Disable the previous clock : System Clock source HSI*/
+    RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
+    RCC_OscInitStruct.HSEState = RCC_HSE_OFF;
+    RCC_OscInitStruct.PLL.PLLSource   = RCC_PLLSOURCE_HSE;
+    RCC_OscInitStruct.PLL.PLLState    = RCC_PLL_OFF;
 
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
-  RCC_OscInitStruct.HSEState = RCC_HSI_OFF;
-  RCC_OscInitStruct.PLL.PLLSource   = RCC_PLLSOURCE_HSI;
-  RCC_OscInitStruct.PLL.PLLState    = RCC_PLL_OFF;
+    if( HAL_RCC_OscConfig( &RCC_OscInitStruct ) != HAL_OK )
+    {
+        /* Initialization Error */
+        Error_Handler();
+    }
 
-  if(HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
-  {
-    /* Initialization Error */
-    Error_Handler();
-  }
+    /* Disable the previous clock : System Clock source HSI*/
 
-  /* Set MSI range to 0 */
-  __HAL_RCC_MSI_RANGE_CONFIG(RCC_MSIRANGE_0);
+    RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
+    RCC_OscInitStruct.HSEState = RCC_HSI_OFF;
+    RCC_OscInitStruct.PLL.PLLSource   = RCC_PLLSOURCE_HSI;
+    RCC_OscInitStruct.PLL.PLLState    = RCC_PLL_OFF;
 
-  /* Configure the SysTick to have interrupt in 10 ms time basis*/
-  HAL_SYSTICK_Config(HAL_RCC_GetHCLKFreq()/100);
+    if( HAL_RCC_OscConfig( &RCC_OscInitStruct ) != HAL_OK )
+    {
+        /* Initialization Error */
+        Error_Handler();
+    }
+
+    /* Set MSI range to 0 */
+    __HAL_RCC_MSI_RANGE_CONFIG( RCC_MSIRANGE_0 );
+
+    /* Configure the SysTick to have interrupt in 10 ms time basis*/
+    HAL_SYSTICK_Config( HAL_RCC_GetHCLKFreq() / 100 );
 }
 
 /**
@@ -534,25 +549,26 @@ void SystemClock_ConfigMSI(void)
   * @retval None
   */
 
-void SystemClock_DisableMSI(void)
+void SystemClock_DisableMSI( void )
 {
 
 
-  RCC_OscInitTypeDef RCC_OscInitStruct = {0};
+    RCC_OscInitTypeDef RCC_OscInitStruct = {0};
 
-  /* Disable the previous clock : System Clock source MSI */
+    /* Disable the previous clock : System Clock source MSI */
 
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_MSI;
-  RCC_OscInitStruct.MSIState = RCC_MSI_OFF;
-  RCC_OscInitStruct.PLL.PLLState    = RCC_PLL_NONE;
+    RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_MSI;
+    RCC_OscInitStruct.MSIState = RCC_MSI_OFF;
+    RCC_OscInitStruct.PLL.PLLState    = RCC_PLL_NONE;
 
-  if(HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
-  {
-    /* Initialization Error */
-      Error_Handler();
-  }
-  /* Set the default value */
-  __HAL_RCC_MSI_RANGE_CONFIG(RCC_MSIRANGE_5);
+    if( HAL_RCC_OscConfig( &RCC_OscInitStruct ) != HAL_OK )
+    {
+        /* Initialization Error */
+        Error_Handler();
+    }
+
+    /* Set the default value */
+    __HAL_RCC_MSI_RANGE_CONFIG( RCC_MSIRANGE_5 );
 
 }
 
@@ -570,49 +586,51 @@ void SystemClock_DisableMSI(void)
   * @param  None
   * @retval None
   */
-void SystemClock_ConfigMSI_Slow(void)
+void SystemClock_ConfigMSI_Slow( void )
 {
-  RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
-  RCC_OscInitTypeDef RCC_OscInitStruct = {0};
-  /* Enable Power Control clock */
-  __HAL_RCC_PWR_CLK_ENABLE();
+    RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
+    RCC_OscInitTypeDef RCC_OscInitStruct = {0};
+    /* Enable Power Control clock */
+    __HAL_RCC_PWR_CLK_ENABLE();
 
-  /* The voltage scaling allows optimizing the power consumption when the device is
-     clocked below the maximum system frequency, to update the voltage scaling value
-     regarding system frequency refer to product datasheet.
-     Low power sleep mode can only be entered when VCORE is in range 2. */
-  __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE2);
+    /* The voltage scaling allows optimizing the power consumption when the device is
+       clocked below the maximum system frequency, to update the voltage scaling value
+       regarding system frequency refer to product datasheet.
+       Low power sleep mode can only be entered when VCORE is in range 2. */
+    __HAL_PWR_VOLTAGESCALING_CONFIG( PWR_REGULATOR_VOLTAGE_SCALE2 );
 
-  /* Enable MSI Oscillator */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_MSI;
-  RCC_OscInitStruct.MSIState = RCC_MSI_ON;
-  RCC_OscInitStruct.MSIClockRange = RCC_MSIRANGE_5;
-  RCC_OscInitStruct.MSICalibrationValue = 0x00;
-  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
-  if (HAL_RCC_OscConfig(&RCC_OscInitStruct)!= HAL_OK)
-  {
-    /* Initialization Error */
-    while(1);
-  }
+    /* Enable MSI Oscillator */
+    RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_MSI;
+    RCC_OscInitStruct.MSIState = RCC_MSI_ON;
+    RCC_OscInitStruct.MSIClockRange = RCC_MSIRANGE_5;
+    RCC_OscInitStruct.MSICalibrationValue = 0x00;
+    RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
 
-  /* Select MSI as system clock source and configure the HCLK, PCLK1 and PCLK2
-     clocks dividers */
-  RCC_ClkInitStruct.ClockType = (RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2);
-  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_MSI;
-  RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV2;
-  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
-  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
-  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_0)!= HAL_OK)
-  {
-    /* Initialization Error */
-    while(1);
-  }
+    if( HAL_RCC_OscConfig( &RCC_OscInitStruct ) != HAL_OK )
+    {
+        /* Initialization Error */
+        while( 1 );
+    }
 
-  /* Set MSI range to 0 */
-  __HAL_RCC_MSI_RANGE_CONFIG(RCC_MSIRANGE_0);
+    /* Select MSI as system clock source and configure the HCLK, PCLK1 and PCLK2
+       clocks dividers */
+    RCC_ClkInitStruct.ClockType = ( RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2 );
+    RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_MSI;
+    RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV2;
+    RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
+    RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
 
-  /* Configure the SysTick to have interrupt in 10 ms time basis*/
-  HAL_SYSTICK_Config(HAL_RCC_GetHCLKFreq()/100);
+    if( HAL_RCC_ClockConfig( &RCC_ClkInitStruct, FLASH_LATENCY_0 ) != HAL_OK )
+    {
+        /* Initialization Error */
+        while( 1 );
+    }
+
+    /* Set MSI range to 0 */
+    __HAL_RCC_MSI_RANGE_CONFIG( RCC_MSIRANGE_0 );
+
+    /* Configure the SysTick to have interrupt in 10 ms time basis*/
+    HAL_SYSTICK_Config( HAL_RCC_GetHCLKFreq() / 100 );
 }
 
 /**
@@ -620,16 +638,16 @@ void SystemClock_ConfigMSI_Slow(void)
   * @param None:
   * @retval None
   */
-void Error_Handler(void)
+void Error_Handler( void )
 {
-  while(1)
-  {
-    HAL_Delay(100);
-    BSP_LED_Toggle(LED1);
-    BSP_LED_Toggle(LED2);
-    BSP_LED_Toggle(LED3);
-    BSP_LED_Toggle(LED4);
-  }
+    while( 1 )
+    {
+        HAL_Delay( 100 );
+        BSP_LED_Toggle( LED1 );
+        BSP_LED_Toggle( LED2 );
+        BSP_LED_Toggle( LED3 );
+        BSP_LED_Toggle( LED4 );
+    }
 }
 
 /**
@@ -641,50 +659,50 @@ void Error_Handler(void)
   * @param hsmbus: SMBUS handle pointer
   * @retval None
   */
-void HAL_SMBUS_MspInit(SMBUS_HandleTypeDef *hsmbus)
+void HAL_SMBUS_MspInit( SMBUS_HandleTypeDef *hsmbus )
 {
-  GPIO_InitTypeDef  GPIO_InitStruct;
-  RCC_PeriphCLKInitTypeDef  RCC_PeriphCLKInitStruct;
+    GPIO_InitTypeDef  GPIO_InitStruct;
+    RCC_PeriphCLKInitTypeDef  RCC_PeriphCLKInitStruct;
 
-  /*##-1- Configure the SMBUS clock source. The clock is derived from the SYSCLK #*/
-  RCC_PeriphCLKInitStruct.PeriphClockSelection = SMBUSx_RCC_PERIPHCLK;
-  RCC_PeriphCLKInitStruct.I2c1ClockSelection = SMBUSx_CLKSOURCE_SYSCLK;
-  HAL_RCCEx_PeriphCLKConfig(&RCC_PeriphCLKInitStruct);
+    /*##-1- Configure the SMBUS clock source. The clock is derived from the SYSCLK #*/
+    RCC_PeriphCLKInitStruct.PeriphClockSelection = SMBUSx_RCC_PERIPHCLK;
+    RCC_PeriphCLKInitStruct.I2c1ClockSelection = SMBUSx_CLKSOURCE_SYSCLK;
+    HAL_RCCEx_PeriphCLKConfig( &RCC_PeriphCLKInitStruct );
 
-  /*##-2- Enable peripherals and GPIO Clocks #################################*/
-  /* Enable GPIO TX/RX clock */
-  SMBUSx_SCL_GPIO_CLK_ENABLE();
-  SMBUSx_SDA_GPIO_CLK_ENABLE();
+    /*##-2- Enable peripherals and GPIO Clocks #################################*/
+    /* Enable GPIO TX/RX clock */
+    SMBUSx_SCL_GPIO_CLK_ENABLE();
+    SMBUSx_SDA_GPIO_CLK_ENABLE();
 
-  /* Enable SMBUSx clock */
-  SMBUSx_CLK_ENABLE();
+    /* Enable SMBUSx clock */
+    SMBUSx_CLK_ENABLE();
 
-  /*##-3- Configure peripheral GPIO ##########################################*/
-  /* SMBUS TX GPIO pin configuration  */
-  GPIO_InitStruct.Pin              = SMBUSx_SCL_PIN;
-  GPIO_InitStruct.Mode             = GPIO_MODE_AF_OD;
-  GPIO_InitStruct.Pull             = GPIO_PULLUP;
-  GPIO_InitStruct.Speed            = GPIO_SPEED_FREQ_VERY_HIGH;
-  GPIO_InitStruct.Alternate        = SMBUSx_SCL_SDA_AF;
+    /*##-3- Configure peripheral GPIO ##########################################*/
+    /* SMBUS TX GPIO pin configuration  */
+    GPIO_InitStruct.Pin              = SMBUSx_SCL_PIN;
+    GPIO_InitStruct.Mode             = GPIO_MODE_AF_OD;
+    GPIO_InitStruct.Pull             = GPIO_PULLUP;
+    GPIO_InitStruct.Speed            = GPIO_SPEED_FREQ_VERY_HIGH;
+    GPIO_InitStruct.Alternate        = SMBUSx_SCL_SDA_AF;
 
-  HAL_GPIO_Init(SMBUSx_SCL_GPIO_PORT, &GPIO_InitStruct);
+    HAL_GPIO_Init( SMBUSx_SCL_GPIO_PORT, &GPIO_InitStruct );
 
-  /* SMBUS RX GPIO pin configuration  */
-  GPIO_InitStruct.Pin              = SMBUSx_SDA_PIN;
-  GPIO_InitStruct.Alternate        = SMBUSx_SCL_SDA_AF;
+    /* SMBUS RX GPIO pin configuration  */
+    GPIO_InitStruct.Pin              = SMBUSx_SDA_PIN;
+    GPIO_InitStruct.Alternate        = SMBUSx_SCL_SDA_AF;
 
-  HAL_GPIO_Init(SMBUSx_SDA_GPIO_PORT, &GPIO_InitStruct);
+    HAL_GPIO_Init( SMBUSx_SDA_GPIO_PORT, &GPIO_InitStruct );
 
-  /* SMBUS ALERT GPIO pin configuration  */
-  GPIO_InitStruct.Pin              = SMBUSx_ALERT_PIN;
-  GPIO_InitStruct.Alternate        = SMBUSx_ALERT_AF;
+    /* SMBUS ALERT GPIO pin configuration  */
+    GPIO_InitStruct.Pin              = SMBUSx_ALERT_PIN;
+    GPIO_InitStruct.Alternate        = SMBUSx_ALERT_AF;
 
-  HAL_GPIO_Init(SMBUSx_ALERT_GPIO_PORT, &GPIO_InitStruct);
+    HAL_GPIO_Init( SMBUSx_ALERT_GPIO_PORT, &GPIO_InitStruct );
 
-  /*##-4- Configure the NVIC for SMBUS ########################################*/
-  /* NVIC for SMBUSx */
-  HAL_NVIC_SetPriority(SMBUSx_IRQn, IT_PRIO_SMBUS, 0);
-  HAL_NVIC_EnableIRQ(SMBUSx_IRQn);
+    /*##-4- Configure the NVIC for SMBUS ########################################*/
+    /* NVIC for SMBUSx */
+    HAL_NVIC_SetPriority( SMBUSx_IRQn, IT_PRIO_SMBUS, 0 );
+    HAL_NVIC_EnableIRQ( SMBUSx_IRQn );
 }
 
 /**
@@ -695,10 +713,10 @@ void HAL_SMBUS_MspInit(SMBUS_HandleTypeDef *hsmbus)
   * @param hsmbus: SMBUS handle pointer
   * @retval None
   */
-void HAL_SMBUS_MspDeInit(SMBUS_HandleTypeDef *hsmbus)
+void HAL_SMBUS_MspDeInit( SMBUS_HandleTypeDef *hsmbus )
 {
-  /*Disable the NVIC for SMBUS */
-  HAL_NVIC_DisableIRQ(SMBUSx_IRQn);
+    /*Disable the NVIC for SMBUS */
+    HAL_NVIC_DisableIRQ( SMBUSx_IRQn );
 }
 
 /**
@@ -711,111 +729,114 @@ void HAL_SMBUS_MspDeInit(SMBUS_HandleTypeDef *hsmbus)
   * @param huart: UART handle pointer
   * @retval None
   */
-void HAL_UART_MspInit(UART_HandleTypeDef *huart)
+void HAL_UART_MspInit( UART_HandleTypeDef *huart )
 {
 
-  if(huart->Instance  == LPUART1) {
+    if( huart->Instance  == LPUART1 )
+    {
 
-  static DMA_HandleTypeDef hdma_tx;
-  static DMA_HandleTypeDef hdma_rx;
+        static DMA_HandleTypeDef hdma_tx;
+        static DMA_HandleTypeDef hdma_rx;
 
-  GPIO_InitTypeDef  GPIO_InitStruct;
+        GPIO_InitTypeDef  GPIO_InitStruct;
 
-  RCC_OscInitTypeDef RCC_OscInitStruct;
-  RCC_PeriphCLKInitTypeDef  PeriphClkInitStruct;
-
-
-  /*##- Configure LSE for LPUART ###################################*/
-  HAL_RCC_GetOscConfig(&RCC_OscInitStruct);
-
-  RCC_OscInitStruct.OscillatorType =  RCC_OSCILLATORTYPE_LSI | RCC_OSCILLATORTYPE_LSE;
-  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
-  RCC_OscInitStruct.LSIState = RCC_LSI_OFF;
-  RCC_OscInitStruct.LSEState = RCC_LSE_ON;
-  if(HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
-  {
-    Error_Handler();
-  }
-
-  PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_LPUART1;
-  PeriphClkInitStruct.Lpuart1ClockSelection = RCC_LPUART1CLKSOURCE_LSE;
-  if(HAL_RCCEx_PeriphCLKConfig(&PeriphClkInitStruct) != HAL_OK)
-  {
-    Error_Handler();
-  }
+        RCC_OscInitTypeDef RCC_OscInitStruct;
+        RCC_PeriphCLKInitTypeDef  PeriphClkInitStruct;
 
 
-  /*##-1- Enable peripherals and GPIO Clocks #################################*/
-  /* Enable GPIO clock */
-  USARTx_TX_GPIO_CLK_ENABLE();
-  USARTx_RX_GPIO_CLK_ENABLE();
+        /*##- Configure LSE for LPUART ###################################*/
+        HAL_RCC_GetOscConfig( &RCC_OscInitStruct );
 
-  /* Enable USARTx clock */
-  USARTx_CLK_ENABLE(); //__HAL_RCC_LPUART1_CLK_ENABLE();
+        RCC_OscInitStruct.OscillatorType =  RCC_OSCILLATORTYPE_LSI | RCC_OSCILLATORTYPE_LSE;
+        RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
+        RCC_OscInitStruct.LSIState = RCC_LSI_OFF;
+        RCC_OscInitStruct.LSEState = RCC_LSE_ON;
 
-  /* Enable DMA clock */
-  DMAx_CLK_ENABLE();
+        if( HAL_RCC_OscConfig( &RCC_OscInitStruct ) != HAL_OK )
+        {
+            Error_Handler();
+        }
+
+        PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_LPUART1;
+        PeriphClkInitStruct.Lpuart1ClockSelection = RCC_LPUART1CLKSOURCE_LSE;
+
+        if( HAL_RCCEx_PeriphCLKConfig( &PeriphClkInitStruct ) != HAL_OK )
+        {
+            Error_Handler();
+        }
 
 
-  /*##-2- Configure peripheral GPIO ##########################################*/
-  /* UART TX GPIO pin configuration  */
-  GPIO_InitStruct.Pin       = USARTx_TX_PIN;
-  GPIO_InitStruct.Mode      = GPIO_MODE_AF_PP;
-  GPIO_InitStruct.Pull      = GPIO_NOPULL; //GPIO_PULLUP;
-  GPIO_InitStruct.Speed     = GPIO_SPEED_FREQ_VERY_HIGH;
-  GPIO_InitStruct.Alternate = USARTx_TX_AF;
+        /*##-1- Enable peripherals and GPIO Clocks #################################*/
+        /* Enable GPIO clock */
+        USARTx_TX_GPIO_CLK_ENABLE();
+        USARTx_RX_GPIO_CLK_ENABLE();
 
-  HAL_GPIO_Init(USARTx_TX_GPIO_PORT, &GPIO_InitStruct);
+        /* Enable USARTx clock */
+        USARTx_CLK_ENABLE(); //__HAL_RCC_LPUART1_CLK_ENABLE();
 
-  /* UART RX GPIO pin configuration  */
-  GPIO_InitStruct.Pin = USARTx_RX_PIN;
-  GPIO_InitStruct.Alternate = USARTx_RX_AF;
+        /* Enable DMA clock */
+        DMAx_CLK_ENABLE();
 
-  HAL_GPIO_Init(USARTx_RX_GPIO_PORT, &GPIO_InitStruct);
 
-  /*##-3- Configure the DMA ##################################################*/
-  /* Configure the DMA handler for Transmission process */
-  hdma_tx.Instance                 = USARTx_TX_DMA_CHANNEL;
-  hdma_tx.Init.Direction           = DMA_MEMORY_TO_PERIPH;
-  hdma_tx.Init.PeriphInc           = DMA_PINC_DISABLE;
-  hdma_tx.Init.MemInc              = DMA_MINC_ENABLE;
-  hdma_tx.Init.PeriphDataAlignment = DMA_PDATAALIGN_BYTE;
-  hdma_tx.Init.MemDataAlignment    = DMA_MDATAALIGN_BYTE;
-  hdma_tx.Init.Mode                = DMA_NORMAL;
-  hdma_tx.Init.Priority            = DMA_PRIORITY_LOW;
-  hdma_tx.Init.Request             = USARTx_TX_DMA_REQUEST;
+        /*##-2- Configure peripheral GPIO ##########################################*/
+        /* UART TX GPIO pin configuration  */
+        GPIO_InitStruct.Pin       = USARTx_TX_PIN;
+        GPIO_InitStruct.Mode      = GPIO_MODE_AF_PP;
+        GPIO_InitStruct.Pull      = GPIO_NOPULL; //GPIO_PULLUP;
+        GPIO_InitStruct.Speed     = GPIO_SPEED_FREQ_VERY_HIGH;
+        GPIO_InitStruct.Alternate = USARTx_TX_AF;
 
-  HAL_DMA_Init(&hdma_tx);
+        HAL_GPIO_Init( USARTx_TX_GPIO_PORT, &GPIO_InitStruct );
 
-  /* Associate the initialized DMA handle to the UART handle */
-  __HAL_LINKDMA(huart, hdmatx, hdma_tx);
+        /* UART RX GPIO pin configuration  */
+        GPIO_InitStruct.Pin = USARTx_RX_PIN;
+        GPIO_InitStruct.Alternate = USARTx_RX_AF;
 
-  /* Configure the DMA handler for reception process */
-  hdma_rx.Instance                 = USARTx_RX_DMA_CHANNEL;
-  hdma_rx.Init.Direction           = DMA_PERIPH_TO_MEMORY;
-  hdma_rx.Init.PeriphInc           = DMA_PINC_DISABLE;
-  hdma_rx.Init.MemInc              = DMA_MINC_ENABLE;
-  hdma_rx.Init.PeriphDataAlignment = DMA_PDATAALIGN_BYTE;
-  hdma_rx.Init.MemDataAlignment    = DMA_MDATAALIGN_BYTE;
-  hdma_rx.Init.Mode                = DMA_NORMAL;
-  hdma_rx.Init.Priority            = DMA_PRIORITY_HIGH;
-  hdma_rx.Init.Request             = USARTx_RX_DMA_REQUEST;
+        HAL_GPIO_Init( USARTx_RX_GPIO_PORT, &GPIO_InitStruct );
 
-  HAL_DMA_Init(&hdma_rx);
+        /*##-3- Configure the DMA ##################################################*/
+        /* Configure the DMA handler for Transmission process */
+        hdma_tx.Instance                 = USARTx_TX_DMA_CHANNEL;
+        hdma_tx.Init.Direction           = DMA_MEMORY_TO_PERIPH;
+        hdma_tx.Init.PeriphInc           = DMA_PINC_DISABLE;
+        hdma_tx.Init.MemInc              = DMA_MINC_ENABLE;
+        hdma_tx.Init.PeriphDataAlignment = DMA_PDATAALIGN_BYTE;
+        hdma_tx.Init.MemDataAlignment    = DMA_MDATAALIGN_BYTE;
+        hdma_tx.Init.Mode                = DMA_NORMAL;
+        hdma_tx.Init.Priority            = DMA_PRIORITY_LOW;
+        hdma_tx.Init.Request             = USARTx_TX_DMA_REQUEST;
 
-  /* Associate the initialized DMA handle to the the UART handle */
-  __HAL_LINKDMA(huart, hdmarx, hdma_rx);
+        HAL_DMA_Init( &hdma_tx );
 
-  /*##-4- Configure the NVIC for DMA #########################################*/
-  /* NVIC configuration for DMA transfer complete interrupt (USARTx_TX and USARTx_RX) */
-  HAL_NVIC_SetPriority(USARTx_DMA_TX_RX_IRQn, IT_PRIO_DMA_LPUART1, 0);
-  HAL_NVIC_EnableIRQ(USARTx_DMA_TX_RX_IRQn);
+        /* Associate the initialized DMA handle to the UART handle */
+        __HAL_LINKDMA( huart, hdmatx, hdma_tx );
 
-  /* NVIC for USART, to catch the TX complete */
-  HAL_NVIC_SetPriority(USARTx_IRQn, IT_PRIO_LPUART1, 0);
-  HAL_NVIC_EnableIRQ(USARTx_IRQn);
+        /* Configure the DMA handler for reception process */
+        hdma_rx.Instance                 = USARTx_RX_DMA_CHANNEL;
+        hdma_rx.Init.Direction           = DMA_PERIPH_TO_MEMORY;
+        hdma_rx.Init.PeriphInc           = DMA_PINC_DISABLE;
+        hdma_rx.Init.MemInc              = DMA_MINC_ENABLE;
+        hdma_rx.Init.PeriphDataAlignment = DMA_PDATAALIGN_BYTE;
+        hdma_rx.Init.MemDataAlignment    = DMA_MDATAALIGN_BYTE;
+        hdma_rx.Init.Mode                = DMA_NORMAL;
+        hdma_rx.Init.Priority            = DMA_PRIORITY_HIGH;
+        hdma_rx.Init.Request             = USARTx_RX_DMA_REQUEST;
 
-  }
+        HAL_DMA_Init( &hdma_rx );
+
+        /* Associate the initialized DMA handle to the the UART handle */
+        __HAL_LINKDMA( huart, hdmarx, hdma_rx );
+
+        /*##-4- Configure the NVIC for DMA #########################################*/
+        /* NVIC configuration for DMA transfer complete interrupt (USARTx_TX and USARTx_RX) */
+        HAL_NVIC_SetPriority( USARTx_DMA_TX_RX_IRQn, IT_PRIO_DMA_LPUART1, 0 );
+        HAL_NVIC_EnableIRQ( USARTx_DMA_TX_RX_IRQn );
+
+        /* NVIC for USART, to catch the TX complete */
+        HAL_NVIC_SetPriority( USARTx_IRQn, IT_PRIO_LPUART1, 0 );
+        HAL_NVIC_EnableIRQ( USARTx_IRQn );
+
+    }
 }
 
 /**
@@ -826,40 +847,43 @@ void HAL_UART_MspInit(UART_HandleTypeDef *huart)
   * @param huart: UART handle pointer
   * @retval None
   */
-void HAL_UART_MspDeInit(UART_HandleTypeDef *huart)
+void HAL_UART_MspDeInit( UART_HandleTypeDef *huart )
 {
-  if(huart->Instance  == LPUART1) {
+    if( huart->Instance  == LPUART1 )
+    {
 
-  /*##-1- Reset peripherals ##################################################*/
-  USARTx_FORCE_RESET();
-  USARTx_RELEASE_RESET();
+        /*##-1- Reset peripherals ##################################################*/
+        USARTx_FORCE_RESET();
+        USARTx_RELEASE_RESET();
 
 
-  /*##-2- Disable peripherals and GPIO Clocks #################################*/
-  /* Configure UART Tx as alternate function  */
-  HAL_GPIO_DeInit(USARTx_TX_GPIO_PORT, USARTx_TX_PIN);
-  /* Configure UART Rx as alternate function  */
-  HAL_GPIO_DeInit(USARTx_RX_GPIO_PORT, USARTx_RX_PIN);
+        /*##-2- Disable peripherals and GPIO Clocks #################################*/
+        /* Configure UART Tx as alternate function  */
+        HAL_GPIO_DeInit( USARTx_TX_GPIO_PORT, USARTx_TX_PIN );
+        /* Configure UART Rx as alternate function  */
+        HAL_GPIO_DeInit( USARTx_RX_GPIO_PORT, USARTx_RX_PIN );
 
-  /*##-3- Disable the DMA Channels ###########################################*/
-  /* De-Initialize the DMA Channel associated to transmission process */
-  if(huart->hdmatx != NULL)
-  {
-    HAL_DMA_DeInit(huart->hdmatx);
-  }
-  /* De-Initialize the DMA Channel associated to reception process */
-  if(huart->hdmarx != NULL)
-  {
-    HAL_DMA_DeInit(huart->hdmarx);
-  }
-  /*##-4- Disable the NVIC for DMA ###########################################*/
-  HAL_NVIC_DisableIRQ(USARTx_DMA_TX_RX_IRQn);
+        /*##-3- Disable the DMA Channels ###########################################*/
+        /* De-Initialize the DMA Channel associated to transmission process */
+        if( huart->hdmatx != NULL )
+        {
+            HAL_DMA_DeInit( huart->hdmatx );
+        }
 
-  /*##-5- Disable the different clocks  ###########################################*/
-  __HAL_RCC_LPUART1_CLK_DISABLE();
-  __HAL_RCC_DMA1_CLK_DISABLE();
+        /* De-Initialize the DMA Channel associated to reception process */
+        if( huart->hdmarx != NULL )
+        {
+            HAL_DMA_DeInit( huart->hdmarx );
+        }
 
-  }
+        /*##-4- Disable the NVIC for DMA ###########################################*/
+        HAL_NVIC_DisableIRQ( USARTx_DMA_TX_RX_IRQn );
+
+        /*##-5- Disable the different clocks  ###########################################*/
+        __HAL_RCC_LPUART1_CLK_DISABLE();
+        __HAL_RCC_DMA1_CLK_DISABLE();
+
+    }
 }
 
 /**
@@ -867,71 +891,82 @@ void HAL_UART_MspDeInit(UART_HandleTypeDef *huart)
   * @param flag: (RCC_LSE_ON by default)
   * @retval None
   */
-static void  RtcClockSetup(rtcConfigClockEnum flag)
+static void  RtcClockSetup( rtcConfigClockEnum flag )
 {
-  RCC_OscInitTypeDef RCC_OscInitStruct;
-  RCC_PeriphCLKInitTypeDef  PeriphClkInitStruct;
+    RCC_OscInitTypeDef RCC_OscInitStruct;
+    RCC_PeriphCLKInitTypeDef  PeriphClkInitStruct;
 
 
-  switch(flag)
-  {
+    switch( flag )
+    {
     case RTC_CLOCK_NONE :   RCC_OscInitStruct.OscillatorType =  RCC_OSCILLATORTYPE_LSI | RCC_OSCILLATORTYPE_LSE;
-                            RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
-                            RCC_OscInitStruct.LSIState = RCC_LSI_OFF;
-                            RCC_OscInitStruct.LSEState = RCC_LSE_OFF;
-                            if(HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
-                            {
-                                while(1)
-                                  {
-                                   }
-                            }
-                            __HAL_RCC_RTC_DISABLE();
-                            break;
+        RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
+        RCC_OscInitStruct.LSIState = RCC_LSI_OFF;
+        RCC_OscInitStruct.LSEState = RCC_LSE_OFF;
+
+        if( HAL_RCC_OscConfig( &RCC_OscInitStruct ) != HAL_OK )
+        {
+            while( 1 )
+            {
+            }
+        }
+
+        __HAL_RCC_RTC_DISABLE();
+        break;
 
     case RTC_CLOCK_LSI :    RCC_OscInitStruct.OscillatorType =  RCC_OSCILLATORTYPE_LSI | RCC_OSCILLATORTYPE_LSE;
-                            RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
-                            RCC_OscInitStruct.LSIState = RCC_LSI_ON;
-                            RCC_OscInitStruct.LSEState = RCC_LSE_OFF;
-                            if(HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
-                            {
-                                while(1)
-                                {
-                                }
-                            }
-                            PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_RTC;
-                            PeriphClkInitStruct.RTCClockSelection = RCC_RTCCLKSOURCE_LSI;
-                            if(HAL_RCCEx_PeriphCLKConfig(&PeriphClkInitStruct) != HAL_OK)
-                            {
-                                 while(1)
-                                  {
-                                  }
-                             }
-                            __HAL_RCC_RTC_ENABLE();
-                            break;
+        RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
+        RCC_OscInitStruct.LSIState = RCC_LSI_ON;
+        RCC_OscInitStruct.LSEState = RCC_LSE_OFF;
 
-   case RTC_CLOCK_LSE :     RCC_OscInitStruct.OscillatorType =  RCC_OSCILLATORTYPE_LSI | RCC_OSCILLATORTYPE_LSE;
-                            RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
-                            RCC_OscInitStruct.LSIState = RCC_LSI_OFF;
-                            RCC_OscInitStruct.LSEState = RCC_LSE_ON;
-                            if(HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
-                            {
-                                while(1)
-                                {
-                                }
-                            }
-                            PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_RTC;
-                            PeriphClkInitStruct.RTCClockSelection = RCC_RTCCLKSOURCE_LSE;
-                            if(HAL_RCCEx_PeriphCLKConfig(&PeriphClkInitStruct) != HAL_OK)
-                            {
-                                 while(1)
-                                  {
-                                  }
-                             }
-                            __HAL_RCC_RTC_ENABLE();
-                            break;
-   default            :     break;
+        if( HAL_RCC_OscConfig( &RCC_OscInitStruct ) != HAL_OK )
+        {
+            while( 1 )
+            {
+            }
+        }
 
-  }
+        PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_RTC;
+        PeriphClkInitStruct.RTCClockSelection = RCC_RTCCLKSOURCE_LSI;
+
+        if( HAL_RCCEx_PeriphCLKConfig( &PeriphClkInitStruct ) != HAL_OK )
+        {
+            while( 1 )
+            {
+            }
+        }
+
+        __HAL_RCC_RTC_ENABLE();
+        break;
+
+    case RTC_CLOCK_LSE :     RCC_OscInitStruct.OscillatorType =  RCC_OSCILLATORTYPE_LSI | RCC_OSCILLATORTYPE_LSE;
+        RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
+        RCC_OscInitStruct.LSIState = RCC_LSI_OFF;
+        RCC_OscInitStruct.LSEState = RCC_LSE_ON;
+
+        if( HAL_RCC_OscConfig( &RCC_OscInitStruct ) != HAL_OK )
+        {
+            while( 1 )
+            {
+            }
+        }
+
+        PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_RTC;
+        PeriphClkInitStruct.RTCClockSelection = RCC_RTCCLKSOURCE_LSE;
+
+        if( HAL_RCCEx_PeriphCLKConfig( &PeriphClkInitStruct ) != HAL_OK )
+        {
+            while( 1 )
+            {
+            }
+        }
+
+        __HAL_RCC_RTC_ENABLE();
+        break;
+
+    default            :     break;
+
+    }
 
 }
 
@@ -946,17 +981,17 @@ static void  RtcClockSetup(rtcConfigClockEnum flag)
   *        the backup registers) and RCC_CSR register are set to their reset values.
   * @retval None
   */
-void HAL_RTC_MspInit(RTC_HandleTypeDef *hrtc)
+void HAL_RTC_MspInit( RTC_HandleTypeDef *hrtc )
 {
 
 
-   RtcClockSetup(RTC_CLOCK_LSE);
+    RtcClockSetup( RTC_CLOCK_LSE );
 
-  /* Configure the NVIC for RTC Alarm */
-  HAL_NVIC_SetPriority(RTC_IRQn, IT_PRIO_RTC, 0);
+    /* Configure the NVIC for RTC Alarm */
+    HAL_NVIC_SetPriority( RTC_IRQn, IT_PRIO_RTC, 0 );
 
-  /* Enable the RTC global Interrupt */
-  HAL_NVIC_EnableIRQ(RTC_IRQn);
+    /* Enable the RTC global Interrupt */
+    HAL_NVIC_EnableIRQ( RTC_IRQn );
 }
 
 /**
@@ -966,11 +1001,11 @@ void HAL_RTC_MspInit(RTC_HandleTypeDef *hrtc)
   * @param hrtc: RTC handle pointer
   * @retval None
   */
-void HAL_RTC_MspDeInit(RTC_HandleTypeDef *hrtc)
+void HAL_RTC_MspDeInit( RTC_HandleTypeDef *hrtc )
 {
 
 
-     RtcClockSetup(RTC_CLOCK_NONE);
+    RtcClockSetup( RTC_CLOCK_NONE );
 }
 
 #ifdef USE_FULL_ASSERT
@@ -982,15 +1017,15 @@ void HAL_RTC_MspDeInit(RTC_HandleTypeDef *hrtc)
 * @param  Line: assert_param error line source number
 * @retval None
 */
-void assert_failed(uint8_t *file, uint32_t line)
+void assert_failed( uint8_t *file, uint32_t line )
 {
-  /* User can add his own implementation to report the file name and line
-  number,ex: printf("Wrong parameters value: file %s on line %d\r\n",
-  file, line) */
+    /* User can add his own implementation to report the file name and line
+    number,ex: printf("Wrong parameters value: file %s on line %d\r\n",
+    file, line) */
 
-  /* Infinite loop */
-  while (1)
-  {}
+    /* Infinite loop */
+    while( 1 )
+    {}
 }
 
 #endif

@@ -50,17 +50,17 @@ __IO uint32_t     ubReceivedChar;
 uint8_t aTextInfo[] = "\r\nLPUART Example : MCU will now enter in Stop mode.\n\rEnter any character for waking up MCU.\r\n";
 
 /* Private function prototypes -----------------------------------------------*/
-void     SystemClock_Config(void);
-void     LED_Init(void);
-void     LED_On(void);
-void     LED_Off(void);
-void     LED_Blinking(uint32_t Period);
-void     LED_Blinking_3s(void);
-void     Configure_LPUART(void);
-void     Configure_PWR(void);
-void     PrepareLPUARTToStopMode(void);
-void     EnterStopMode(void);
-void     PrintInfo(void);
+void     SystemClock_Config( void );
+void     LED_Init( void );
+void     LED_On( void );
+void     LED_Off( void );
+void     LED_Blinking( uint32_t Period );
+void     LED_Blinking_3s( void );
+void     Configure_LPUART( void );
+void     Configure_PWR( void );
+void     PrepareLPUARTToStopMode( void );
+void     EnterStopMode( void );
+void     PrintInfo( void );
 
 /* Private functions ---------------------------------------------------------*/
 
@@ -69,46 +69,46 @@ void     PrintInfo(void);
   * @param  None
   * @retval None
   */
-int main(void)
+int main( void )
 {
-  /* Configure the system clock to 16 MHz */
-  SystemClock_Config();
+    /* Configure the system clock to 16 MHz */
+    SystemClock_Config();
 
-  /* Initialize LED2 */
-  LED_Init();
+    /* Initialize LED2 */
+    LED_Init();
 
-  /* Configure Power IP */
-  Configure_PWR();
+    /* Configure Power IP */
+    Configure_PWR();
 
-  /* Configure LPUART1 (LPUART IP configuration and related GPIO initialization) */
-  Configure_LPUART();
+    /* Configure LPUART1 (LPUART IP configuration and related GPIO initialization) */
+    Configure_LPUART();
 
-  /* Start main program loop :
-     - make LED blink during 3 sec
-     - Enter Stop mode (LED turned Off)
-     - Wait for any character received on LPUART RX line for waking up MCU
-  */
-  while (ubFinalCharReceived == 0)
-  {
-    /* LED blinks during 3 seconds */
-    LED_Blinking_3s();
-    
-    /* Send Text Information on LPUART TX to PC Com port */
-    PrintInfo();
+    /* Start main program loop :
+       - make LED blink during 3 sec
+       - Enter Stop mode (LED turned Off)
+       - Wait for any character received on LPUART RX line for waking up MCU
+    */
+    while( ubFinalCharReceived == 0 )
+    {
+        /* LED blinks during 3 seconds */
+        LED_Blinking_3s();
 
-    /* Prepare LPUART for entering Stop Mode */
-    PrepareLPUARTToStopMode();
-    
-    /* Enter Stop mode */
-    EnterStopMode();
-    
-    /* At this point, MCU just wakes up from Stop mode */
-  }
-  
-  /* Infinite loop */
-  while (1)
-  {
-  }
+        /* Send Text Information on LPUART TX to PC Com port */
+        PrintInfo();
+
+        /* Prepare LPUART for entering Stop Mode */
+        PrepareLPUARTToStopMode();
+
+        /* Enter Stop mode */
+        EnterStopMode();
+
+        /* At this point, MCU just wakes up from Stop mode */
+    }
+
+    /* Infinite loop */
+    while( 1 )
+    {
+    }
 }
 
 /**
@@ -122,70 +122,70 @@ int main(void)
   * @param  None
   * @retval None
   */
-void Configure_LPUART(void)
+void Configure_LPUART( void )
 {
-  LL_LPUART_InitTypeDef lpuart_initstruct;
+    LL_LPUART_InitTypeDef lpuart_initstruct;
 
-  /* (1) Enable GPIO clock and configures the LPUART1 pins *******************/
-  /*    (TX on PC.1, RX on PC.0)                        **********************/
+    /* (1) Enable GPIO clock and configures the LPUART1 pins *******************/
+    /*    (TX on PC.1, RX on PC.0)                        **********************/
 
-  /* Enable the peripheral clock of GPIOC */
-  LL_IOP_GRP1_EnableClock(LL_IOP_GRP1_PERIPH_GPIOC);
+    /* Enable the peripheral clock of GPIOC */
+    LL_IOP_GRP1_EnableClock( LL_IOP_GRP1_PERIPH_GPIOC );
 
-  /* Configure TX Pin as : Alternate function, High Speed, PushPull, Pull up */
-  LL_GPIO_SetPinMode(GPIOC, LL_GPIO_PIN_1, LL_GPIO_MODE_ALTERNATE);
-  LL_GPIO_SetAFPin_0_7(GPIOC, LL_GPIO_PIN_1, LL_GPIO_AF_6);
-  LL_GPIO_SetPinSpeed(GPIOC, LL_GPIO_PIN_1, LL_GPIO_SPEED_FREQ_HIGH);
-  LL_GPIO_SetPinOutputType(GPIOC, LL_GPIO_PIN_1, LL_GPIO_OUTPUT_PUSHPULL);
-  LL_GPIO_SetPinPull(GPIOC, LL_GPIO_PIN_1, LL_GPIO_PULL_NO);
+    /* Configure TX Pin as : Alternate function, High Speed, PushPull, Pull up */
+    LL_GPIO_SetPinMode( GPIOC, LL_GPIO_PIN_1, LL_GPIO_MODE_ALTERNATE );
+    LL_GPIO_SetAFPin_0_7( GPIOC, LL_GPIO_PIN_1, LL_GPIO_AF_6 );
+    LL_GPIO_SetPinSpeed( GPIOC, LL_GPIO_PIN_1, LL_GPIO_SPEED_FREQ_HIGH );
+    LL_GPIO_SetPinOutputType( GPIOC, LL_GPIO_PIN_1, LL_GPIO_OUTPUT_PUSHPULL );
+    LL_GPIO_SetPinPull( GPIOC, LL_GPIO_PIN_1, LL_GPIO_PULL_NO );
 
-  /* Configure RX Pin as : Alternate function, High Speed, PushPull, Pull up */
-  LL_GPIO_SetPinMode(GPIOC, LL_GPIO_PIN_0, LL_GPIO_MODE_ALTERNATE);
-  LL_GPIO_SetAFPin_0_7(GPIOC, LL_GPIO_PIN_0, LL_GPIO_AF_6);
-  LL_GPIO_SetPinSpeed(GPIOC, LL_GPIO_PIN_0, LL_GPIO_SPEED_FREQ_HIGH);
-  LL_GPIO_SetPinOutputType(GPIOC, LL_GPIO_PIN_0, LL_GPIO_OUTPUT_PUSHPULL);
-  LL_GPIO_SetPinPull(GPIOC, LL_GPIO_PIN_0, LL_GPIO_PULL_NO);
+    /* Configure RX Pin as : Alternate function, High Speed, PushPull, Pull up */
+    LL_GPIO_SetPinMode( GPIOC, LL_GPIO_PIN_0, LL_GPIO_MODE_ALTERNATE );
+    LL_GPIO_SetAFPin_0_7( GPIOC, LL_GPIO_PIN_0, LL_GPIO_AF_6 );
+    LL_GPIO_SetPinSpeed( GPIOC, LL_GPIO_PIN_0, LL_GPIO_SPEED_FREQ_HIGH );
+    LL_GPIO_SetPinOutputType( GPIOC, LL_GPIO_PIN_0, LL_GPIO_OUTPUT_PUSHPULL );
+    LL_GPIO_SetPinPull( GPIOC, LL_GPIO_PIN_0, LL_GPIO_PULL_NO );
 
-  /* (2) NVIC Configuration for LPUART1 interrupts */
-  /*  - Set priority for LPUART1_IRQn */
-  /*  - Enable LPUART1_IRQn           */
-  NVIC_SetPriority(LPUART1_IRQn, 0);  
-  NVIC_EnableIRQ(LPUART1_IRQn);
+    /* (2) NVIC Configuration for LPUART1 interrupts */
+    /*  - Set priority for LPUART1_IRQn */
+    /*  - Enable LPUART1_IRQn           */
+    NVIC_SetPriority( LPUART1_IRQn, 0 );
+    NVIC_EnableIRQ( LPUART1_IRQn );
 
-  /* (3) Enable the LPUART1 peripheral clock and clock source ****************/
-  LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_LPUART1);
+    /* (3) Enable the LPUART1 peripheral clock and clock source ****************/
+    LL_APB1_GRP1_EnableClock( LL_APB1_GRP1_PERIPH_LPUART1 );
 
-  /* Set LPUART1 clock source as HSI */
-  LL_RCC_SetLPUARTClockSource(LL_RCC_LPUART1_CLKSOURCE_HSI);
+    /* Set LPUART1 clock source as HSI */
+    LL_RCC_SetLPUARTClockSource( LL_RCC_LPUART1_CLKSOURCE_HSI );
 
-  /* (4) Configure LPUART1 functional parameters ********************************/
-  
-  /* Disable LPUART1 prior modifying configuration registers */
-  /* Note: Commented as corresponding to Reset value */
-  // LL_LPUART_Disable(LPUART1);
-  
-  /* Set fields of initialization structure                   */
-  /*  - BaudRate            : 9600                            */
-  /*  - DataWidth           : LL_LPUART_DATAWIDTH_8B          */
-  /*  - StopBits            : LL_LPUART_STOPBITS_1            */
-  /*  - Parity              : LL_LPUART_PARITY_NONE           */
-  /*  - TransferDirection   : LL_LPUART_DIRECTION_TX_RX       */
-  /*  - HardwareFlowControl : LL_LPUART_HWCONTROL_NONE        */
-  lpuart_initstruct.BaudRate            = 9600;
-  lpuart_initstruct.DataWidth           = LL_LPUART_DATAWIDTH_8B;
-  lpuart_initstruct.StopBits            = LL_LPUART_STOPBITS_1;
-  lpuart_initstruct.Parity              = LL_LPUART_PARITY_NONE;
-  lpuart_initstruct.TransferDirection   = LL_LPUART_DIRECTION_TX_RX;
-  lpuart_initstruct.HardwareFlowControl = LL_LPUART_HWCONTROL_NONE;
-  
-  /* Initialize LPUART instance according to parameters defined in initialization structure */
-  LL_LPUART_Init(LPUART1, &lpuart_initstruct);
+    /* (4) Configure LPUART1 functional parameters ********************************/
 
-  /* Set the wake-up event type : specify wake-up on RXNE flag */
-  LL_LPUART_SetWKUPType(LPUART1, LL_LPUART_WAKEUP_ON_RXNE);
+    /* Disable LPUART1 prior modifying configuration registers */
+    /* Note: Commented as corresponding to Reset value */
+    // LL_LPUART_Disable(LPUART1);
 
-  /* (5) Enable LPUART1 **********************************************************/
-  LL_LPUART_Enable(LPUART1);
+    /* Set fields of initialization structure                   */
+    /*  - BaudRate            : 9600                            */
+    /*  - DataWidth           : LL_LPUART_DATAWIDTH_8B          */
+    /*  - StopBits            : LL_LPUART_STOPBITS_1            */
+    /*  - Parity              : LL_LPUART_PARITY_NONE           */
+    /*  - TransferDirection   : LL_LPUART_DIRECTION_TX_RX       */
+    /*  - HardwareFlowControl : LL_LPUART_HWCONTROL_NONE        */
+    lpuart_initstruct.BaudRate            = 9600;
+    lpuart_initstruct.DataWidth           = LL_LPUART_DATAWIDTH_8B;
+    lpuart_initstruct.StopBits            = LL_LPUART_STOPBITS_1;
+    lpuart_initstruct.Parity              = LL_LPUART_PARITY_NONE;
+    lpuart_initstruct.TransferDirection   = LL_LPUART_DIRECTION_TX_RX;
+    lpuart_initstruct.HardwareFlowControl = LL_LPUART_HWCONTROL_NONE;
+
+    /* Initialize LPUART instance according to parameters defined in initialization structure */
+    LL_LPUART_Init( LPUART1, &lpuart_initstruct );
+
+    /* Set the wake-up event type : specify wake-up on RXNE flag */
+    LL_LPUART_SetWKUPType( LPUART1, LL_LPUART_WAKEUP_ON_RXNE );
+
+    /* (5) Enable LPUART1 **********************************************************/
+    LL_LPUART_Enable( LPUART1 );
 }
 
 /**
@@ -193,13 +193,13 @@ void Configure_LPUART(void)
   * @param  None
   * @retval None
   */
-void Configure_PWR(void)
+void Configure_PWR( void )
 {
-  /* Enable Power Clock */
-  LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_PWR);
+    /* Enable Power Clock */
+    LL_APB1_GRP1_EnableClock( LL_APB1_GRP1_PERIPH_PWR );
 
-  /* Ensure that HSI is wake-up system clock */ 
-  LL_RCC_SetClkAfterWakeFromStop(LL_RCC_STOP_WAKEUPCLOCK_HSI);
+    /* Ensure that HSI is wake-up system clock */
+    LL_RCC_SetClkAfterWakeFromStop( LL_RCC_STOP_WAKEUPCLOCK_HSI );
 }
 
 /**
@@ -207,39 +207,40 @@ void Configure_PWR(void)
   * @param  None
   * @retval None
   */
-void PrepareLPUARTToStopMode(void)
+void PrepareLPUARTToStopMode( void )
 {
 
-  /* Empty RX Fifo before entering Stop mode (Otherwise, characters already present in FIFO
-     will lead to immediate wake up */
-  while (LL_LPUART_IsActiveFlag_RXNE(LPUART1))
-  {
-    /* Read Received character. RXNE flag is cleared by reading of RDR register */
-    ubReceivedChar = LL_LPUART_ReceiveData8(LPUART1);
-  }
+    /* Empty RX Fifo before entering Stop mode (Otherwise, characters already present in FIFO
+       will lead to immediate wake up */
+    while( LL_LPUART_IsActiveFlag_RXNE( LPUART1 ) )
+    {
+        /* Read Received character. RXNE flag is cleared by reading of RDR register */
+        ubReceivedChar = LL_LPUART_ReceiveData8( LPUART1 );
+    }
 
-  /* Clear OVERRUN flag */
-  LL_LPUART_ClearFlag_ORE(LPUART1);
+    /* Clear OVERRUN flag */
+    LL_LPUART_ClearFlag_ORE( LPUART1 );
 
-  /* Make sure that no LPUART transfer is on-going */ 
-  while(LL_LPUART_IsActiveFlag_BUSY(LPUART1) == 1)
-  {
-  }
-  /* Make sure that LPUART is ready to receive */   
-  while(LL_LPUART_IsActiveFlag_REACK(LPUART1) == 0)
-  {
-  }
+    /* Make sure that no LPUART transfer is on-going */
+    while( LL_LPUART_IsActiveFlag_BUSY( LPUART1 ) == 1 )
+    {
+    }
 
-  /* About to enter stop mode: switch off LED */
-  LED_Off();
+    /* Make sure that LPUART is ready to receive */
+    while( LL_LPUART_IsActiveFlag_REACK( LPUART1 ) == 0 )
+    {
+    }
 
-  /* Configure LPUART1 transfer interrupts : */
-  /* Clear WUF flag and enable the UART Wake Up from stop mode Interrupt */
-  LL_LPUART_ClearFlag_WKUP(LPUART1);
-  LL_LPUART_EnableIT_WKUP(LPUART1);
+    /* About to enter stop mode: switch off LED */
+    LED_Off();
 
-  /* Enable Wake Up From Stop */
-  LL_LPUART_EnableInStopMode(LPUART1);
+    /* Configure LPUART1 transfer interrupts : */
+    /* Clear WUF flag and enable the UART Wake Up from stop mode Interrupt */
+    LL_LPUART_ClearFlag_WKUP( LPUART1 );
+    LL_LPUART_EnableIT_WKUP( LPUART1 );
+
+    /* Enable Wake Up From Stop */
+    LL_LPUART_EnableInStopMode( LPUART1 );
 }
 
 /**
@@ -247,24 +248,24 @@ void PrepareLPUARTToStopMode(void)
   * @param  None
   * @retval None
   */
-void EnterStopMode(void)
+void EnterStopMode( void )
 {
-  /** Request to enter Stop mode
-    * Following procedure describe in STM32L0xx Reference Manual
-    * See PWR part, section Low-power modes, Stop mode
-    */
-  /** Set the regulator to low power before setting MODE_STOP.   
-    * If the regulator remains in "main mode", it consumes   
-    * more power without providing any additional feature. */    
-  LL_PWR_SetRegulModeLP(LL_PWR_REGU_LPMODES_LOW_POWER);
-  /* Set STOP mode when CPU enters deepsleep */
-  LL_PWR_SetPowerMode(LL_PWR_MODE_STOP);
+    /** Request to enter Stop mode
+      * Following procedure describe in STM32L0xx Reference Manual
+      * See PWR part, section Low-power modes, Stop mode
+      */
+    /** Set the regulator to low power before setting MODE_STOP.
+      * If the regulator remains in "main mode", it consumes
+      * more power without providing any additional feature. */
+    LL_PWR_SetRegulModeLP( LL_PWR_REGU_LPMODES_LOW_POWER );
+    /* Set STOP mode when CPU enters deepsleep */
+    LL_PWR_SetPowerMode( LL_PWR_MODE_STOP );
 
-  /* Set SLEEPDEEP bit of Cortex System Control Register */
-  LL_LPM_EnableDeepSleep();
+    /* Set SLEEPDEEP bit of Cortex System Control Register */
+    LL_LPM_EnableDeepSleep();
 
-  /* Request Wait For Interrupt */
-  __WFI();
+    /* Request Wait For Interrupt */
+    __WFI();
 }
 
 /**
@@ -272,27 +273,27 @@ void EnterStopMode(void)
   * @param  None
   * @retval None
   */
-void PrintInfo(void)
+void PrintInfo( void )
 {
-  uint32_t index = 0;
-  
-  /* Send characters one per one, until last char to be sent */
-  for (index = 0; index < sizeof(aTextInfo); index++)
-  {
-    /* Wait for TXE flag to be raised */
-    while (!LL_LPUART_IsActiveFlag_TXE(LPUART1))
+    uint32_t index = 0;
+
+    /* Send characters one per one, until last char to be sent */
+    for( index = 0; index < sizeof( aTextInfo ); index++ )
     {
+        /* Wait for TXE flag to be raised */
+        while( !LL_LPUART_IsActiveFlag_TXE( LPUART1 ) )
+        {
+        }
+
+        /* Write character in Transmit Data register.
+           TXE flag is cleared by writing data in TDR register */
+        LL_LPUART_TransmitData8( LPUART1, aTextInfo[index] );
     }
 
-    /* Write character in Transmit Data register.
-       TXE flag is cleared by writing data in TDR register */
-    LL_LPUART_TransmitData8(LPUART1, aTextInfo[index]);
-  }
-
-  /* Wait for TC flag to be raised for last char */
-  while (!LL_LPUART_IsActiveFlag_TC(LPUART1))
-  {
-  }
+    /* Wait for TC flag to be raised for last char */
+    while( !LL_LPUART_IsActiveFlag_TC( LPUART1 ) )
+    {
+    }
 }
 
 /**
@@ -300,19 +301,19 @@ void PrintInfo(void)
   * @param  None
   * @retval None
   */
-void LED_Init(void)
+void LED_Init( void )
 {
-  /* Enable the LED2 Clock */
-  LED2_GPIO_CLK_ENABLE();
+    /* Enable the LED2 Clock */
+    LED2_GPIO_CLK_ENABLE();
 
-  /* Configure IO in output push-pull mode to drive external LED2 */
-  LL_GPIO_SetPinMode(LED2_GPIO_PORT, LED2_PIN, LL_GPIO_MODE_OUTPUT);
-  /* Reset value is LL_GPIO_OUTPUT_PUSHPULL */
-  //LL_GPIO_SetPinOutputType(LED2_GPIO_PORT, LED2_PIN, LL_GPIO_OUTPUT_PUSHPULL);
-  /* Reset value is LL_GPIO_SPEED_FREQ_LOW */
-  //LL_GPIO_SetPinSpeed(LED2_GPIO_PORT, LED2_PIN, LL_GPIO_SPEED_FREQ_LOW);
-  /* Reset value is LL_GPIO_PULL_NO */
-  //LL_GPIO_SetPinPull(LED2_GPIO_PORT, LED2_PIN, LL_GPIO_PULL_NO);
+    /* Configure IO in output push-pull mode to drive external LED2 */
+    LL_GPIO_SetPinMode( LED2_GPIO_PORT, LED2_PIN, LL_GPIO_MODE_OUTPUT );
+    /* Reset value is LL_GPIO_OUTPUT_PUSHPULL */
+    //LL_GPIO_SetPinOutputType(LED2_GPIO_PORT, LED2_PIN, LL_GPIO_OUTPUT_PUSHPULL);
+    /* Reset value is LL_GPIO_SPEED_FREQ_LOW */
+    //LL_GPIO_SetPinSpeed(LED2_GPIO_PORT, LED2_PIN, LL_GPIO_SPEED_FREQ_LOW);
+    /* Reset value is LL_GPIO_PULL_NO */
+    //LL_GPIO_SetPinPull(LED2_GPIO_PORT, LED2_PIN, LL_GPIO_PULL_NO);
 }
 
 /**
@@ -320,10 +321,10 @@ void LED_Init(void)
   * @param  None
   * @retval None
   */
-void LED_On(void)
+void LED_On( void )
 {
-  /* Turn LED2 on */
-  LL_GPIO_SetOutputPin(LED2_GPIO_PORT, LED2_PIN);
+    /* Turn LED2 on */
+    LL_GPIO_SetOutputPin( LED2_GPIO_PORT, LED2_PIN );
 }
 
 /**
@@ -331,10 +332,10 @@ void LED_On(void)
   * @param  None
   * @retval None
   */
-void LED_Off(void)
+void LED_Off( void )
 {
-  /* Turn LED2 off */
-  LL_GPIO_ResetOutputPin(LED2_GPIO_PORT, LED2_PIN);
+    /* Turn LED2 off */
+    LL_GPIO_ResetOutputPin( LED2_GPIO_PORT, LED2_PIN );
 }
 
 /**
@@ -346,14 +347,14 @@ void LED_Off(void)
   *     @arg LED_BLINK_ERROR : Error specific Blinking
   * @retval None
   */
-void LED_Blinking(uint32_t Period)
+void LED_Blinking( uint32_t Period )
 {
-  /* Toggle IO in an infinite loop */
-  while (1)
-  {
-    LL_GPIO_TogglePin(LED2_GPIO_PORT, LED2_PIN);  
-    LL_mDelay(Period);
-  }
+    /* Toggle IO in an infinite loop */
+    while( 1 )
+    {
+        LL_GPIO_TogglePin( LED2_GPIO_PORT, LED2_PIN );
+        LL_mDelay( Period );
+    }
 }
 
 /**
@@ -361,16 +362,16 @@ void LED_Blinking(uint32_t Period)
   * @param  None
   * @retval None
   */
-void LED_Blinking_3s(void)
+void LED_Blinking_3s( void )
 {
-  uint32_t index=0;
+    uint32_t index = 0;
 
-  /* Toggle IO in during 3s (15*200ms) */
-  for(index = 0; index < 15; index++)
-  {
-    LL_GPIO_TogglePin(LED2_GPIO_PORT, LED2_PIN);  
-    LL_mDelay(200);
-  }
+    /* Toggle IO in during 3s (15*200ms) */
+    for( index = 0; index < 15; index++ )
+    {
+        LL_GPIO_TogglePin( LED2_GPIO_PORT, LED2_PIN );
+        LL_mDelay( 200 );
+    }
 }
 
 
@@ -388,41 +389,46 @@ void LED_Blinking_3s(void)
   * @param  None
   * @retval None
   */
-void SystemClock_Config(void)
+void SystemClock_Config( void )
 {
     LL_RCC_PLL_Disable();
     /* Set new latency */
-    LL_FLASH_SetLatency(LL_FLASH_LATENCY_0);
- 
+    LL_FLASH_SetLatency( LL_FLASH_LATENCY_0 );
+
     /* HSI configuration and activation */
     LL_RCC_HSI_Enable();
     LL_RCC_HSI_DisableDivider();
-    while(LL_RCC_HSI_IsReady() != 1) 
+
+    while( LL_RCC_HSI_IsReady() != 1 )
     {
     };
-    
-  /* Sysclk activation on the HSI */
-  LL_RCC_SetSysClkSource(LL_RCC_SYS_CLKSOURCE_HSI);
-  while(LL_RCC_GetSysClkSource() != LL_RCC_SYS_CLKSOURCE_STATUS_HSI) 
-  {
-  };
-  
-  /* Set AHB & APB1 & APB2 prescaler*/
-  LL_RCC_SetAHBPrescaler(LL_RCC_SYSCLK_DIV_1);
-  LL_RCC_SetAPB1Prescaler(LL_RCC_APB1_DIV_1);
-  LL_RCC_SetAPB2Prescaler(LL_RCC_APB2_DIV_1);
 
-  /* Disable MSI */
-  LL_RCC_MSI_Disable();
-  while(LL_RCC_MSI_IsReady() != 0) 
-  {
-  };
+    /* Sysclk activation on the HSI */
+    LL_RCC_SetSysClkSource( LL_RCC_SYS_CLKSOURCE_HSI );
 
-  /* Set systick to 1ms in using frequency set to 16MHz */
-  LL_Init1msTick(16000000);
-  
-  /* Update CMSIS variable (which can be updated also through SystemCoreClockUpdate function) */
-  LL_SetSystemCoreClock(16000000);
+    while( LL_RCC_GetSysClkSource() != LL_RCC_SYS_CLKSOURCE_STATUS_HSI )
+    {
+    };
+
+    /* Set AHB & APB1 & APB2 prescaler*/
+    LL_RCC_SetAHBPrescaler( LL_RCC_SYSCLK_DIV_1 );
+
+    LL_RCC_SetAPB1Prescaler( LL_RCC_APB1_DIV_1 );
+
+    LL_RCC_SetAPB2Prescaler( LL_RCC_APB2_DIV_1 );
+
+    /* Disable MSI */
+    LL_RCC_MSI_Disable();
+
+    while( LL_RCC_MSI_IsReady() != 0 )
+    {
+    };
+
+    /* Set systick to 1ms in using frequency set to 16MHz */
+    LL_Init1msTick( 16000000 );
+
+    /* Update CMSIS variable (which can be updated also through SystemCoreClockUpdate function) */
+    LL_SetSystemCoreClock( 16000000 );
 }
 
 /******************************************************************************/
@@ -435,23 +441,23 @@ void SystemClock_Config(void)
   * @param  None
   * @retval None
   */
-void LPUART_CharReception_Callback(void)
+void LPUART_CharReception_Callback( void )
 {
-  /* Read Received character. RXNE flag is cleared by reading of RDR register */
-  ubReceivedChar = LL_LPUART_ReceiveData8(LPUART1);
+    /* Read Received character. RXNE flag is cleared by reading of RDR register */
+    ubReceivedChar = LL_LPUART_ReceiveData8( LPUART1 );
 
-  /* Check if received value is corresponding to specific one : S or s */
-  if ((ubReceivedChar == 'S') || (ubReceivedChar == 's'))
-  {
-    /* Turn LED2 On : Expected character has been received */
-    LED_On();
+    /* Check if received value is corresponding to specific one : S or s */
+    if( ( ubReceivedChar == 'S' ) || ( ubReceivedChar == 's' ) )
+    {
+        /* Turn LED2 On : Expected character has been received */
+        LED_On();
 
-    /* End of program : set boolean for main loop exit */
-    ubFinalCharReceived = 1;
-  }
+        /* End of program : set boolean for main loop exit */
+        ubFinalCharReceived = 1;
+    }
 
-  /* Echo received character on TX */
-  LL_LPUART_TransmitData8(LPUART1, ubReceivedChar);
+    /* Echo received character on TX */
+    LL_LPUART_TransmitData8( LPUART1, ubReceivedChar );
 }
 
 /**
@@ -459,13 +465,13 @@ void LPUART_CharReception_Callback(void)
   * @param  None
   * @retval None
   */
-void Error_Callback(void)
+void Error_Callback( void )
 {
-  /* Disable LPUART1_IRQn */
-  NVIC_DisableIRQ(LPUART1_IRQn);
-  
-  /* Unexpected event : Set LED2 to Blinking mode to indicate error occurs */
-  LED_Blinking(LED_BLINK_ERROR);
+    /* Disable LPUART1_IRQn */
+    NVIC_DisableIRQ( LPUART1_IRQn );
+
+    /* Unexpected event : Set LED2 to Blinking mode to indicate error occurs */
+    LED_Blinking( LED_BLINK_ERROR );
 }
 
 #ifdef  USE_FULL_ASSERT
@@ -477,15 +483,15 @@ void Error_Callback(void)
   * @param  line: assert_param error line source number
   * @retval None
   */
-void assert_failed(uint8_t *file, uint32_t line)
+void assert_failed( uint8_t *file, uint32_t line )
 {
-  /* User can add his own implementation to report the file name and line number,
-     ex: printf("Wrong parameters value: file %s on line %d", file, line) */
+    /* User can add his own implementation to report the file name and line number,
+       ex: printf("Wrong parameters value: file %s on line %d", file, line) */
 
-  /* Infinite loop */
-  while (1)
-  {
-  }
+    /* Infinite loop */
+    while( 1 )
+    {
+    }
 }
 #endif
 

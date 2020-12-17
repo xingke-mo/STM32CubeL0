@@ -1,6 +1,6 @@
 /**
   ******************************************************************************
-  * @file    AES/AES_Modes/Inc/main.h 
+  * @file    AES/AES_Modes/Inc/main.h
   * @author  MCD Application Team
   * @brief   Header for main.c module
   ******************************************************************************
@@ -16,7 +16,7 @@
   *
   ******************************************************************************
   */
-  
+
 /* Define to prevent recursive inclusion -------------------------------------*/
 #ifndef __MAIN_H
 #define __MAIN_H
@@ -30,14 +30,14 @@
 /* Exported constants --------------------------------------------------------*/
 /* Define AES MODE  ----------------------------------------------------------*/
 /* Uncomment the line below if you will use the ECB Mode */
-#define AES_ECB 
+#define AES_ECB
 /* Uncomment the line below if you will use the CBC Mode */
 #define AES_CBC
 /* Uncomment the line below if you will use the CTR Mode */
 #define AES_CTR
 
 #if !defined (AES_ECB) && !defined (AES_CBC) && !defined (AES_CTR)
- #error "Please select first the AES MODE"
+    #error "Please select first the AES MODE"
 #endif
 
 /* Set the timeout value */

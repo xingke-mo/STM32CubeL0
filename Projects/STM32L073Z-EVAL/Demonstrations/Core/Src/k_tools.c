@@ -1,7 +1,7 @@
 /**
   ******************************************************************************
   * @file    k_tools.c
-  * @author  MCD Application Team   
+  * @author  MCD Application Team
   * @brief   This file contains the Hex dumps of the images available
   ******************************************************************************
   * @attention
@@ -26,7 +26,7 @@
   */
 
 /** @defgroup KERNEL_RES
-  * @brief Kernel resources 
+  * @brief Kernel resources
   * @{
   */
 
@@ -46,19 +46,20 @@
   * @retval 0  : pBuffer1 identical to pBuffer2
   *         >0 : pBuffer1 differs from pBuffer2
   */
-uint16_t kTools_Buffercmp(uint8_t* pBuffer1, uint8_t* pBuffer2, uint16_t BufferLength)
+uint16_t kTools_Buffercmp( uint8_t *pBuffer1, uint8_t *pBuffer2, uint16_t BufferLength )
 {
-  while (BufferLength--)
-  {
-    if ((*pBuffer1) != *pBuffer2)
+    while( BufferLength-- )
     {
-      return BufferLength;
-    }
-    pBuffer1++;
-    pBuffer2++;
-  }
+        if( ( *pBuffer1 ) != *pBuffer2 )
+        {
+            return BufferLength;
+        }
 
-  return 0;
+        pBuffer1++;
+        pBuffer2++;
+    }
+
+    return 0;
 }
 
 
@@ -69,5 +70,5 @@ uint16_t kTools_Buffercmp(uint8_t* pBuffer1, uint8_t* pBuffer2, uint16_t BufferL
 /**
   * @}
   */
-  
+
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

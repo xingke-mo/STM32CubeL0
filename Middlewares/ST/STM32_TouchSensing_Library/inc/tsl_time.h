@@ -26,10 +26,10 @@
 
 /* Exported functions ------------------------------------------------------- */
 
-void TSL_tim_ProcessIT(void);
-TSL_Status_enum_T TSL_tim_CheckDelay_ms(TSL_tTick_ms_T delay_ms, __IO TSL_tTick_ms_T *last_tick);
-TSL_Status_enum_T TSL_tim_CheckDelay_sec(TSL_tTick_sec_T delay_sec, __IO TSL_tTick_sec_T *last_tick);
-void TSL_CallBack_TimerTick(void);
+void TSL_tim_ProcessIT( void );
+TSL_Status_enum_T TSL_tim_CheckDelay_ms( TSL_tTick_ms_T delay_ms, __IO TSL_tTick_ms_T *last_tick );
+TSL_Status_enum_T TSL_tim_CheckDelay_sec( TSL_tTick_sec_T delay_sec, __IO TSL_tTick_sec_T *last_tick );
+void TSL_CallBack_TimerTick( void );
 
 #endif /* __TSL_TIME_H */
 

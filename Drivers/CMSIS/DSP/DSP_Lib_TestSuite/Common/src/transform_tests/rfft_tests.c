@@ -74,21 +74,21 @@
             return JTEST_TEST_PASSED;                                   \
     }
 
-RFFT_DEFINE_TEST(q31, forward, 0U, TYPE_FROM_ABBREV(q31), TYPE_FROM_ABBREV(q31));
-RFFT_DEFINE_TEST(q15, forward, 0U, TYPE_FROM_ABBREV(q15), TYPE_FROM_ABBREV(q15));
+RFFT_DEFINE_TEST( q31, forward, 0U, TYPE_FROM_ABBREV( q31 ), TYPE_FROM_ABBREV( q31 ) );
+RFFT_DEFINE_TEST( q15, forward, 0U, TYPE_FROM_ABBREV( q15 ), TYPE_FROM_ABBREV( q15 ) );
 //RFFT_DEFINE_TEST(f32, inverse, 1U, TYPE_FROM_ABBREV(f32), TYPE_FROM_ABBREV(f32));
-RFFT_DEFINE_TEST(q31, inverse, 1U, TYPE_FROM_ABBREV(q31), TYPE_FROM_ABBREV(q31));
-RFFT_DEFINE_TEST(q15, inverse, 1U, TYPE_FROM_ABBREV(q15), TYPE_FROM_ABBREV(q15));
+RFFT_DEFINE_TEST( q31, inverse, 1U, TYPE_FROM_ABBREV( q31 ), TYPE_FROM_ABBREV( q31 ) );
+RFFT_DEFINE_TEST( q15, inverse, 1U, TYPE_FROM_ABBREV( q15 ), TYPE_FROM_ABBREV( q15 ) );
 
 /*--------------------------------------------------------------------------------*/
 /* Collect all tests in a group */
 /*--------------------------------------------------------------------------------*/
 
-JTEST_DEFINE_GROUP(rfft_tests)
+JTEST_DEFINE_GROUP( rfft_tests )
 {
-    JTEST_TEST_CALL(arm_rfft_q31_forward_test);
-    JTEST_TEST_CALL(arm_rfft_q15_forward_test);
+    JTEST_TEST_CALL( arm_rfft_q31_forward_test );
+    JTEST_TEST_CALL( arm_rfft_q15_forward_test );
     //JTEST_TEST_CALL(arm_rfft_f32_inverse_test);
-    JTEST_TEST_CALL(arm_rfft_q31_inverse_test);
-    JTEST_TEST_CALL(arm_rfft_q15_inverse_test);
+    JTEST_TEST_CALL( arm_rfft_q31_inverse_test );
+    JTEST_TEST_CALL( arm_rfft_q15_inverse_test );
 }

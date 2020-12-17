@@ -1,7 +1,7 @@
 /**
   ******************************************************************************
   * @file    usbdapp.c
-  * @author  MCD Application Team   
+  * @author  MCD Application Team
   * @brief   This file provides the USBD application method.
   ******************************************************************************
   * @attention
@@ -16,7 +16,7 @@
   *
   ******************************************************************************
   */
-  
+
 /* Includes ------------------------------------------------------------------*/
 #include "usbdapp.h"
 
@@ -25,7 +25,7 @@
   */
 
 /** @defgroup USB_APPLICATION
-  * @brief usb application routines 
+  * @brief usb application routines
   * @{
   */
 
@@ -48,36 +48,36 @@ uint8_t HID_Buffer[4];
   * @param  pbuf: Pointer to report
   * @retval None
   */
-void GetPointerData(uint8_t *pbuf)
+void GetPointerData( uint8_t *pbuf )
 {
-  int8_t  x = 0, y = 0 ;
+    int8_t  x = 0, y = 0 ;
 
-  if (LINEAR_POSITION < 64)
-  {
-    /* Mouse Cursor move to the LEFT*/
-    x -= CURSOR_STEP;
-  }
+    if( LINEAR_POSITION < 64 )
+    {
+        /* Mouse Cursor move to the LEFT*/
+        x -= CURSOR_STEP;
+    }
 
-  else if (LINEAR_POSITION < 128)
-  {
-    /* Mouse Cursor move to the RIGHT*/
-    x += CURSOR_STEP;
-  }
-  else if (LINEAR_POSITION < 192)
-  {
-    /* Mouse Cursor move to the UP*/
-    y -= CURSOR_STEP;
-  }
-  else
-  {
-    /* Mouse Cursor move to the DOWN*/
-    y += CURSOR_STEP;
-  }
+    else if( LINEAR_POSITION < 128 )
+    {
+        /* Mouse Cursor move to the RIGHT*/
+        x += CURSOR_STEP;
+    }
+    else if( LINEAR_POSITION < 192 )
+    {
+        /* Mouse Cursor move to the UP*/
+        y -= CURSOR_STEP;
+    }
+    else
+    {
+        /* Mouse Cursor move to the DOWN*/
+        y += CURSOR_STEP;
+    }
 
-  pbuf[0] = 0;
-  pbuf[1] = x;
-  pbuf[2] = y;
-  pbuf[3] = 0;
+    pbuf[0] = 0;
+    pbuf[1] = x;
+    pbuf[2] = y;
+    pbuf[3] = 0;
 }
 
 /**
@@ -85,17 +85,18 @@ void GetPointerData(uint8_t *pbuf)
   * @param  status TSL user status
   * @retval None
   */
-void USB_process(tsl_user_status_t status)
+void USB_process( tsl_user_status_t status )
 {
-  if (LINEAR_DETECT)
-  {
-    GetPointerData(HID_Buffer);
-    /* send data though IN endpoint*/
-    if((HID_Buffer[1] != 0) || (HID_Buffer[2] != 0))
+    if( LINEAR_DETECT )
     {
-      USBD_HID_SendReport(&USBD_Device, HID_Buffer, 4);
+        GetPointerData( HID_Buffer );
+
+        /* send data though IN endpoint*/
+        if( ( HID_Buffer[1] != 0 ) || ( HID_Buffer[2] != 0 ) )
+        {
+            USBD_HID_SendReport( &USBD_Device, HID_Buffer, 4 );
+        }
     }
-  }
 }
 
 /**

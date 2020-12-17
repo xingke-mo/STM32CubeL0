@@ -102,8 +102,8 @@ extern "C" {
   * @{
   */
 #if  (defined(SYSCFG_CFGR2_I2C_PB6_FMP) || defined(SYSCFG_CFGR2_I2C_PB7_FMP)) || (defined(SYSCFG_CFGR2_I2C_PB8_FMP) || defined(SYSCFG_CFGR2_I2C_PB9_FMP)) || (defined(SYSCFG_CFGR2_I2C1_FMP)) || defined(SYSCFG_CFGR2_I2C2_FMP) || defined(SYSCFG_CFGR2_I2C3_FMP)
-void HAL_SMBUSEx_EnableFastModePlus(uint32_t ConfigFastModePlus);
-void HAL_SMBUSEx_DisableFastModePlus(uint32_t ConfigFastModePlus);
+void HAL_SMBUSEx_EnableFastModePlus( uint32_t ConfigFastModePlus );
+void HAL_SMBUSEx_DisableFastModePlus( uint32_t ConfigFastModePlus );
 #endif
 /**
   * @}

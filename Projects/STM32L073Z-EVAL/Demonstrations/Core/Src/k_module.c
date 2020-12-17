@@ -1,8 +1,8 @@
 /**
   ******************************************************************************
   * @file    k_module.c
-  * @author  MCD Application Team   
-  * @brief   This file provides the kernel module functions 
+  * @author  MCD Application Team
+  * @brief   This file provides the kernel module functions
   ******************************************************************************
   * @attention
   *
@@ -43,75 +43,76 @@ static K_ModuleItem_Typedef    kmodule_info[MODULE_MAX];
 /* Private functions ---------------------------------------------------------*/
 
 /**
-  * @brief  Add module inside the module list 
+  * @brief  Add module inside the module list
   * @param  kModuleId:   module id
-            kModuleInfo: module information 
+            kModuleInfo: module information
   * @retval none
   */
-void kModule_Add(uint8_t kModuleId, K_ModuleItem_Typedef kModuleInfo)
+void kModule_Add( uint8_t kModuleId, K_ModuleItem_Typedef kModuleInfo )
 {
-  kmodule_info[kModuleId] = kModuleInfo;
+    kmodule_info[kModuleId] = kModuleInfo;
 }
 
 /**
-  * @brief  Check if the ressouce associated to a module are present 
+  * @brief  Check if the ressouce associated to a module are present
   * @param  kModuleId:   module id
-            kModuleInfo: module information 
+            kModuleInfo: module information
   * @retval none
   */
-KMODULE_RETURN kModule_CheckRessource(void)
+KMODULE_RETURN kModule_CheckRessource( void )
 {
-uint8_t index;
+    uint8_t index;
 
-  for(index = 0; index <  MODULE_MAX; index++)
-  {
-    if(kmodule_info[index].kModuleRessouceCheck != NULL)
+    for( index = 0; index <  MODULE_MAX; index++ )
     {
-      if(kmodule_info[index].kModuleRessouceCheck() != KMODULE_OK)
-      {
-        return KMODULE_RESMISSIG;
-      }
+        if( kmodule_info[index].kModuleRessouceCheck != NULL )
+        {
+            if( kmodule_info[index].kModuleRessouceCheck() != KMODULE_OK )
+            {
+                return KMODULE_RESMISSIG;
+            }
+        }
     }
-  }
-  return KMODULE_OK;
+
+    return KMODULE_OK;
 }
 
 /**
   * @brief  Execute a module
   * @param  moduleid : id of the module
-  * @retval Execution status 
+  * @retval Execution status
   */
-KMODULE_RETURN kModule_Execute(uint8_t moduleid) 
+KMODULE_RETURN kModule_Execute( uint8_t moduleid )
 {
-  
-  /* Module Preprocessing  */
-  if(kmodule_info[moduleid].kModulePreExec != NULL)
-  {
-    if(kmodule_info[moduleid].kModulePreExec() != KMODULE_OK)
+
+    /* Module Preprocessing  */
+    if( kmodule_info[moduleid].kModulePreExec != NULL )
     {
-      return KMODULE_ERROR_PRE;
+        if( kmodule_info[moduleid].kModulePreExec() != KMODULE_OK )
+        {
+            return KMODULE_ERROR_PRE;
+        }
     }
-  }
-  
-  /* Module Execution      */
-  if(kmodule_info[moduleid].kModuleExec != NULL)
-  {
-    if(kmodule_info[moduleid].kModuleExec() != KMODULE_OK)
+
+    /* Module Execution      */
+    if( kmodule_info[moduleid].kModuleExec != NULL )
     {
-      return KMODULE_ERROR_EXEC;
+        if( kmodule_info[moduleid].kModuleExec() != KMODULE_OK )
+        {
+            return KMODULE_ERROR_EXEC;
+        }
     }
-  }
-  
-  /* Module Postprocessing */
-  if(kmodule_info[moduleid].kModulePostExec != NULL)
-  {
-    if(kmodule_info[moduleid].kModulePostExec() != KMODULE_OK)
+
+    /* Module Postprocessing */
+    if( kmodule_info[moduleid].kModulePostExec != NULL )
     {
-      return KMODULE_ERROR_POST;
+        if( kmodule_info[moduleid].kModulePostExec() != KMODULE_OK )
+        {
+            return KMODULE_ERROR_POST;
+        }
     }
-  }
-  
-  return KMODULE_OK;
+
+    return KMODULE_OK;
 }
 /**
   * @}

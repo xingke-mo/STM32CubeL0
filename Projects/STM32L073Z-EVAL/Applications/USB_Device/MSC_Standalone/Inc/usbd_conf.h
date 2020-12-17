@@ -45,8 +45,8 @@
 /* For footprint reasons and since only one allocation is handled in the MSC class
    driver, the malloc/free is changed into a static allocation method */
 
-void *USBD_static_malloc(uint32_t size);
-void USBD_static_free(void *p);
+void *USBD_static_malloc( uint32_t size );
+void USBD_static_free( void *p );
 
 #define MAX_STATIC_ALLOC_SIZE     155 /* MSC Class Driver Structure size */
 

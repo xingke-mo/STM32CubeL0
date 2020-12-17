@@ -35,7 +35,7 @@
 /* ... */
 #define ADDR_FLASH_PAGE_254   ((uint32_t)0x08007F00) /* Base @ of Page 254, 128 bytes */
 #define ADDR_FLASH_PAGE_255   ((uint32_t)0x08007F80) /* Base @ of Page 255, 128 bytes */
-    
+
 /* Exported macro ------------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */
 

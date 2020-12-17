@@ -55,7 +55,7 @@
 /* Private variables ---------------------------------------------------------*/
 TIM_HandleTypeDef        TimHandle;
 /* Private function prototypes -----------------------------------------------*/
-void TIM21_IRQHandler(void);
+void TIM21_IRQHandler( void );
 /* Private functions ---------------------------------------------------------*/
 
 /**
@@ -67,79 +67,81 @@ void TIM21_IRQHandler(void);
   * @param  TickPriority: Tick interrupt priority.
   * @retval HAL status
   */
-HAL_StatusTypeDef HAL_InitTick(uint32_t TickPriority)
+HAL_StatusTypeDef HAL_InitTick( uint32_t TickPriority )
 {
-  RCC_ClkInitTypeDef    clkconfig;
-  uint32_t              uwTimclock;
-  uint32_t              uwAPB2Prescaler;
-  uint32_t              uwPrescalerValue;
-  uint32_t              pFLatency;
-  HAL_StatusTypeDef     status;
+    RCC_ClkInitTypeDef    clkconfig;
+    uint32_t              uwTimclock;
+    uint32_t              uwAPB2Prescaler;
+    uint32_t              uwPrescalerValue;
+    uint32_t              pFLatency;
+    HAL_StatusTypeDef     status;
 
-  /* Configure the TIM21 IRQ priority */
-  HAL_NVIC_SetPriority(TIM21_IRQn, TickPriority, 0U);
+    /* Configure the TIM21 IRQ priority */
+    HAL_NVIC_SetPriority( TIM21_IRQn, TickPriority, 0U );
 
-  /* Enable the TIM21 global Interrupt */
-  HAL_NVIC_EnableIRQ(TIM21_IRQn);
+    /* Enable the TIM21 global Interrupt */
+    HAL_NVIC_EnableIRQ( TIM21_IRQn );
 
-  /* Enable TIM21 clock */
-  __HAL_RCC_TIM21_CLK_ENABLE();
+    /* Enable TIM21 clock */
+    __HAL_RCC_TIM21_CLK_ENABLE();
 
-  /* Get clock configuration */
-  HAL_RCC_GetClockConfig(&clkconfig, &pFLatency);
+    /* Get clock configuration */
+    HAL_RCC_GetClockConfig( &clkconfig, &pFLatency );
 
-  /* Get APB2 prescaler */
-  uwAPB2Prescaler = clkconfig.APB2CLKDivider;
+    /* Get APB2 prescaler */
+    uwAPB2Prescaler = clkconfig.APB2CLKDivider;
 
-  /* Compute TIM21 clock */
-  if (uwAPB2Prescaler == RCC_HCLK_DIV1)
-  {
-    uwTimclock = HAL_RCC_GetPCLK2Freq();
-  }
-  else
-  {
-    uwTimclock = 2U * HAL_RCC_GetPCLK2Freq();
-  }
-
-  /* Compute the prescaler value to have TIM21 counter clock equal to 1MHz */
-  uwPrescalerValue = (uint32_t)((uwTimclock / 1000000U) - 1U);
-
-  /* Initialize TIM21 */
-  TimHandle.Instance = TIM21;
-
-  /* Initialize TIMx peripheral as follow:
-  + Period = [(TIM21CLK/1000) - 1]. to have a (1/1000) s time base.
-  + Prescaler = (uwTimclock/1000000 - 1) to have a 1MHz counter clock.
-  + ClockDivision = 0
-  + Counter direction = Up
-  */
-  TimHandle.Init.Period = (1000000U / 1000U) - 1U;
-  TimHandle.Init.Prescaler = uwPrescalerValue;
-  TimHandle.Init.ClockDivision = 0;
-  TimHandle.Init.CounterMode = TIM_COUNTERMODE_UP;
-  status = HAL_TIM_Base_Init(&TimHandle);
-  if (status == HAL_OK)
-  {
-    /* Start the TIM time Base generation in interrupt mode */
-    status = HAL_TIM_Base_Start_IT(&TimHandle);
-    if (status == HAL_OK)
+    /* Compute TIM21 clock */
+    if( uwAPB2Prescaler == RCC_HCLK_DIV1 )
     {
-      /* Configure the SysTick IRQ priority */
-      if (TickPriority < (1UL << __NVIC_PRIO_BITS))
-      {
-        /* Configure the TIM IRQ priority */
-        HAL_NVIC_SetPriority(TIM21_IRQn, TickPriority, 0U);
-        uwTickPrio = TickPriority;
-      }
-      else
-      {
-        status = HAL_ERROR;
-      }
+        uwTimclock = HAL_RCC_GetPCLK2Freq();
     }
-  }
+    else
+    {
+        uwTimclock = 2U * HAL_RCC_GetPCLK2Freq();
+    }
 
-  /* Return function status */
-  return status;
+    /* Compute the prescaler value to have TIM21 counter clock equal to 1MHz */
+    uwPrescalerValue = ( uint32_t )( ( uwTimclock / 1000000U ) - 1U );
+
+    /* Initialize TIM21 */
+    TimHandle.Instance = TIM21;
+
+    /* Initialize TIMx peripheral as follow:
+    + Period = [(TIM21CLK/1000) - 1]. to have a (1/1000) s time base.
+    + Prescaler = (uwTimclock/1000000 - 1) to have a 1MHz counter clock.
+    + ClockDivision = 0
+    + Counter direction = Up
+    */
+    TimHandle.Init.Period = ( 1000000U / 1000U ) - 1U;
+    TimHandle.Init.Prescaler = uwPrescalerValue;
+    TimHandle.Init.ClockDivision = 0;
+    TimHandle.Init.CounterMode = TIM_COUNTERMODE_UP;
+    status = HAL_TIM_Base_Init( &TimHandle );
+
+    if( status == HAL_OK )
+    {
+        /* Start the TIM time Base generation in interrupt mode */
+        status = HAL_TIM_Base_Start_IT( &TimHandle );
+
+        if( status == HAL_OK )
+        {
+            /* Configure the SysTick IRQ priority */
+            if( TickPriority < ( 1UL << __NVIC_PRIO_BITS ) )
+            {
+                /* Configure the TIM IRQ priority */
+                HAL_NVIC_SetPriority( TIM21_IRQn, TickPriority, 0U );
+                uwTickPrio = TickPriority;
+            }
+            else
+            {
+                status = HAL_ERROR;
+            }
+        }
+    }
+
+    /* Return function status */
+    return status;
 }
 
 /**
@@ -148,10 +150,10 @@ HAL_StatusTypeDef HAL_InitTick(uint32_t TickPriority)
   * @param  None
   * @retval None
   */
-void HAL_SuspendTick(void)
+void HAL_SuspendTick( void )
 {
-  /* Disable TIM21 update interrupt */
-  __HAL_TIM_DISABLE_IT(&TimHandle, TIM_IT_UPDATE);
+    /* Disable TIM21 update interrupt */
+    __HAL_TIM_DISABLE_IT( &TimHandle, TIM_IT_UPDATE );
 }
 
 /**
@@ -160,10 +162,10 @@ void HAL_SuspendTick(void)
   * @param  None
   * @retval None
   */
-void HAL_ResumeTick(void)
+void HAL_ResumeTick( void )
 {
-  /* Enable TIM21 update interrupt */
-  __HAL_TIM_ENABLE_IT(&TimHandle, TIM_IT_UPDATE);
+    /* Enable TIM21 update interrupt */
+    __HAL_TIM_ENABLE_IT( &TimHandle, TIM_IT_UPDATE );
 }
 
 /**
@@ -174,9 +176,9 @@ void HAL_ResumeTick(void)
   * @param  htim : TIM handle
   * @retval None
   */
-void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+void HAL_TIM_PeriodElapsedCallback( TIM_HandleTypeDef *htim )
 {
-  HAL_IncTick();
+    HAL_IncTick();
 }
 
 /**
@@ -184,9 +186,9 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
   * @param  None
   * @retval None
   */
-void TIM21_IRQHandler(void)
+void TIM21_IRQHandler( void )
 {
-  HAL_TIM_IRQHandler(&TimHandle);
+    HAL_TIM_IRQHandler( &TimHandle );
 }
 
 /**

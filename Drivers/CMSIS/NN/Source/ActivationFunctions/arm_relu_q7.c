@@ -40,19 +40,19 @@
  * @{
  */
 
-  /**
-   * @brief Q7 RELU function
-   * @param[in,out]   data        pointer to input
-   * @param[in]       size        number of elements
-   * @return none.
-   * 
-   * @details
-   *
-   * Optimized relu with QSUB instructions.
-   *
-   */
+/**
+ * @brief Q7 RELU function
+ * @param[in,out]   data        pointer to input
+ * @param[in]       size        number of elements
+ * @return none.
+ *
+ * @details
+ *
+ * Optimized relu with QSUB instructions.
+ *
+ */
 
-void arm_relu_q7(q7_t * data, uint16_t size)
+void arm_relu_q7( q7_t *data, uint16_t size )
 {
 
 #if defined (ARM_MATH_DSP)
@@ -65,27 +65,29 @@ void arm_relu_q7(q7_t * data, uint16_t size)
     q31_t     buf;
     q31_t     mask;
 
-    while (i)
+    while( i )
     {
-        in = *__SIMD32(pIn)++;
+        in = *__SIMD32( pIn )++;
 
         /* extract the first bit */
-        buf = __ROR(in & 0x80808080, 7);
+        buf = __ROR( in & 0x80808080, 7 );
 
         /* if MSB=1, mask will be 0xFF, 0x0 otherwise */
-        mask = __QSUB8(0x00000000, buf);
+        mask = __QSUB8( 0x00000000, buf );
 
-        *__SIMD32(pOut)++ = in & (~mask);
+        *__SIMD32( pOut )++ = in & ( ~mask );
         i--;
     }
 
     i = size & 0x3;
-    while (i)
+
+    while( i )
     {
-        if (*pIn < 0)
+        if( *pIn < 0 )
         {
             *pIn = 0;
         }
+
         pIn++;
         i--;
     }
@@ -95,10 +97,12 @@ void arm_relu_q7(q7_t * data, uint16_t size)
 
     uint16_t  i;
 
-    for (i = 0; i < size; i++)
+    for( i = 0; i < size; i++ )
     {
-        if (data[i] < 0)
+        if( data[i] < 0 )
+        {
             data[i] = 0;
+        }
     }
 
 #endif                          /* ARM_MATH_DSP */

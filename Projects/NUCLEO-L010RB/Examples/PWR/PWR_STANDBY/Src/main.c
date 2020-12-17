@@ -38,7 +38,7 @@
 static uint32_t TimingDelay = LED_TOGGLE_DELAY;
 
 /* Private function prototypes -----------------------------------------------*/
-void SystemClock_Config(void);
+void SystemClock_Config( void );
 
 /* Private functions ---------------------------------------------------------*/
 
@@ -47,67 +47,68 @@ void SystemClock_Config(void);
   * @param  None
   * @retval None
   */
-int main(void)
+int main( void )
 {
-  /* STM32L0xx HAL library initialization:
-       - Configure the Flash prefetch, Flash preread and Buffer caches
-       - Systick timer is configured by default as source of time base, but user
-             can eventually implement his proper time base source (a general purpose
-             timer for example or other time source), keeping in mind that Time base
-             duration should be kept 1ms since PPP_TIMEOUT_VALUEs are defined and
-             handled in milliseconds basis.
-       - Low Level Initialization
-     */
-  HAL_Init();
+    /* STM32L0xx HAL library initialization:
+         - Configure the Flash prefetch, Flash preread and Buffer caches
+         - Systick timer is configured by default as source of time base, but user
+               can eventually implement his proper time base source (a general purpose
+               timer for example or other time source), keeping in mind that Time base
+               duration should be kept 1ms since PPP_TIMEOUT_VALUEs are defined and
+               handled in milliseconds basis.
+         - Low Level Initialization
+       */
+    HAL_Init();
 
-  /* Configure the system clock to 2 MHz */
-  SystemClock_Config();
+    /* Configure the system clock to 2 MHz */
+    SystemClock_Config();
 
-  /* Configure LED2 */
-  BSP_LED_Init(LED2);
+    /* Configure LED2 */
+    BSP_LED_Init( LED2 );
 
-  /* Enable Power Control clock */
-  __HAL_RCC_PWR_CLK_ENABLE();
+    /* Enable Power Control clock */
+    __HAL_RCC_PWR_CLK_ENABLE();
 
-  /* Check if the system was resumed from Standby mode */
-  if (__HAL_PWR_GET_FLAG(PWR_FLAG_SB) != RESET)
-  {
-    /* Clear Standby flag */
-    __HAL_PWR_CLEAR_FLAG(PWR_FLAG_SB);
+    /* Check if the system was resumed from Standby mode */
+    if( __HAL_PWR_GET_FLAG( PWR_FLAG_SB ) != RESET )
+    {
+        /* Clear Standby flag */
+        __HAL_PWR_CLEAR_FLAG( PWR_FLAG_SB );
 
 
-    /* Wait that user release the User push-button */
-    BSP_PB_Init(BUTTON_KEY, BUTTON_MODE_GPIO);
-    while(BSP_PB_GetState(BUTTON_KEY) == GPIO_PIN_RESET){}
-  }
+        /* Wait that user release the User push-button */
+        BSP_PB_Init( BUTTON_KEY, BUTTON_MODE_GPIO );
 
-  /* Insert 5 seconds delay */
-  HAL_Delay(5000);
+        while( BSP_PB_GetState( BUTTON_KEY ) == GPIO_PIN_RESET ) {}
+    }
 
-  /* The Following Wakeup sequence is highly recommended prior to each Standby mode entry
-     mainly when using more than one wakeup source this is to not miss any wakeup event.
-     - Disable all used wakeup sources,
-     - Clear all related wakeup flags,
-     - Re-enable all used wakeup sources,
-     - Enter the Standby mode.
-  */
+    /* Insert 5 seconds delay */
+    HAL_Delay( 5000 );
 
-  /* Disable all used wakeup sources: PWR_WAKEUP_PIN1 */
-  HAL_PWR_DisableWakeUpPin(PWR_WAKEUP_PIN1);
+    /* The Following Wakeup sequence is highly recommended prior to each Standby mode entry
+       mainly when using more than one wakeup source this is to not miss any wakeup event.
+       - Disable all used wakeup sources,
+       - Clear all related wakeup flags,
+       - Re-enable all used wakeup sources,
+       - Enter the Standby mode.
+    */
 
-  /* Clear all related wakeup flags*/
-  __HAL_PWR_CLEAR_FLAG(PWR_FLAG_WU);
+    /* Disable all used wakeup sources: PWR_WAKEUP_PIN1 */
+    HAL_PWR_DisableWakeUpPin( PWR_WAKEUP_PIN1 );
 
-  /* Enable WakeUp Pin PWR_WAKEUP_PIN1 connected to PA.00 */
-  HAL_PWR_EnableWakeUpPin(PWR_WAKEUP_PIN1);
+    /* Clear all related wakeup flags*/
+    __HAL_PWR_CLEAR_FLAG( PWR_FLAG_WU );
 
-  /* Enter the Standby mode */
-  HAL_PWR_EnterSTANDBYMode();
+    /* Enable WakeUp Pin PWR_WAKEUP_PIN1 connected to PA.00 */
+    HAL_PWR_EnableWakeUpPin( PWR_WAKEUP_PIN1 );
 
-  /* This code will never be reached! */
-  while (1)
-  {
-  }
+    /* Enter the Standby mode */
+    HAL_PWR_EnterSTANDBYMode();
+
+    /* This code will never be reached! */
+    while( 1 )
+    {
+    }
 }
 
 /**
@@ -123,42 +124,45 @@ int main(void)
   *            Main regulator output voltage  = Scale3 mode
   * @retval None
   */
-void SystemClock_Config(void)
+void SystemClock_Config( void )
 {
-  RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
-  RCC_OscInitTypeDef RCC_OscInitStruct = {0};
+    RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
+    RCC_OscInitTypeDef RCC_OscInitStruct = {0};
 
-  /* Enable MSI Oscillator */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_MSI;
-  RCC_OscInitStruct.MSIState = RCC_MSI_ON;
-  RCC_OscInitStruct.MSIClockRange = RCC_MSIRANGE_5;
-  RCC_OscInitStruct.MSICalibrationValue=0x00;
-  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
-  if (HAL_RCC_OscConfig(&RCC_OscInitStruct)!= HAL_OK)
-  {
-    /* Initialization Error */
-    while(1);
-  }
+    /* Enable MSI Oscillator */
+    RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_MSI;
+    RCC_OscInitStruct.MSIState = RCC_MSI_ON;
+    RCC_OscInitStruct.MSIClockRange = RCC_MSIRANGE_5;
+    RCC_OscInitStruct.MSICalibrationValue = 0x00;
+    RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
 
-  /* Select MSI as system clock source and configure the HCLK, PCLK1 and PCLK2
-     clocks dividers */
-  RCC_ClkInitStruct.ClockType = (RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2);
-  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_MSI;
-  RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
-  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
-  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
-  if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_0)!= HAL_OK)
-  {
-    /* Initialization Error */
-    while(1);
-  }
-  /* Enable Power Control clock */
-  __HAL_RCC_PWR_CLK_ENABLE();
+    if( HAL_RCC_OscConfig( &RCC_OscInitStruct ) != HAL_OK )
+    {
+        /* Initialization Error */
+        while( 1 );
+    }
 
-  /* The voltage scaling allows optimizing the power consumption when the device is
-     clocked below the maximum system frequency, to update the voltage scaling value
-     regarding system frequency refer to product datasheet.  */
-  __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE3);
+    /* Select MSI as system clock source and configure the HCLK, PCLK1 and PCLK2
+       clocks dividers */
+    RCC_ClkInitStruct.ClockType = ( RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2 );
+    RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_MSI;
+    RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+    RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
+    RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
+
+    if( HAL_RCC_ClockConfig( &RCC_ClkInitStruct, FLASH_LATENCY_0 ) != HAL_OK )
+    {
+        /* Initialization Error */
+        while( 1 );
+    }
+
+    /* Enable Power Control clock */
+    __HAL_RCC_PWR_CLK_ENABLE();
+
+    /* The voltage scaling allows optimizing the power consumption when the device is
+       clocked below the maximum system frequency, to update the voltage scaling value
+       regarding system frequency refer to product datasheet.  */
+    __HAL_PWR_VOLTAGESCALING_CONFIG( PWR_REGULATOR_VOLTAGE_SCALE3 );
 
 }
 
@@ -167,19 +171,20 @@ void SystemClock_Config(void)
   * @param None
   * @retval None
   */
-void HAL_SYSTICK_Callback(void)
+void HAL_SYSTICK_Callback( void )
 {
-  HAL_IncTick();
-  if (TimingDelay != 0)
-  {
-    TimingDelay--;
-}
-  else
-  {
-    /* Toggle LED2 */
-    BSP_LED_Toggle(LED2);
-    TimingDelay = LED_TOGGLE_DELAY;
-  }
+    HAL_IncTick();
+
+    if( TimingDelay != 0 )
+    {
+        TimingDelay--;
+    }
+    else
+    {
+        /* Toggle LED2 */
+        BSP_LED_Toggle( LED2 );
+        TimingDelay = LED_TOGGLE_DELAY;
+    }
 }
 
 
@@ -191,15 +196,15 @@ void HAL_SYSTICK_Callback(void)
   * @param  line: assert_param error line source number
   * @retval None
   */
-void assert_failed(uint8_t *file, uint32_t line)
+void assert_failed( uint8_t *file, uint32_t line )
 {
-  /* User can add his own implementation to report the file name and line number,
-     ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
+    /* User can add his own implementation to report the file name and line number,
+       ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
 
-  /* Infinite loop */
-  while (1)
-  {
-  }
+    /* Infinite loop */
+    while( 1 )
+    {
+    }
 }
 #endif
 

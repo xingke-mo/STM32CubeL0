@@ -16,7 +16,7 @@
   *
   ******************************************************************************
   */
-  
+
 /* Define to prevent recursive inclusion -------------------------------------*/
 #ifndef __MAIN_H
 #define __MAIN_H
@@ -30,38 +30,38 @@
 
 /* Exported types ------------------------------------------------------------*/
 /* Exported constants --------------------------------------------------------*/
-/* Define used to enable Virtual Com Port use : 
+/* Define used to enable Virtual Com Port use :
      USE_VCP_CONNECTION == 0
        IDE output print is used to print Command Code of this example. See readme.txt for more details.
      USE_VCP_CONNECTION == 1
        USART2 instance is used to print Command Code of this example. (TX on PA.2, RX on PA.3)
-       (please ensure that USART communication between the target MCU and ST-LINK MCU is properly enabled 
+       (please ensure that USART communication between the target MCU and ST-LINK MCU is properly enabled
        on HW board in order to support Virtual Com Port)
 */
 #define USE_VCP_CONNECTION       0
 
-/* Private definitions covering GPIO clock and USART pins 
+/* Private definitions covering GPIO clock and USART pins
    depending on selected USART instance. */
-#if (USE_VCP_CONNECTION == 1) 
-/* USART2 instance is used. (TX on PA.2, RX on PA.3)
-   (please ensure that USART communication between the target MCU and ST-LINK MCU is properly enabled 
+#if (USE_VCP_CONNECTION == 1)
+    /* USART2 instance is used. (TX on PA.2, RX on PA.3)
+    (please ensure that USART communication between the target MCU and ST-LINK MCU is properly enabled
     on HW board in order to support Virtual Com Port) */
-/* Definition for USARTx clock resources */
-#define USARTx                           USART2
-#define USARTx_CLK_ENABLE()              __HAL_RCC_USART2_CLK_ENABLE()
-#define USARTx_RX_GPIO_CLK_ENABLE()      __HAL_RCC_GPIOA_CLK_ENABLE()
-#define USARTx_TX_GPIO_CLK_ENABLE()      __HAL_RCC_GPIOA_CLK_ENABLE()
+    /* Definition for USARTx clock resources */
+    #define USARTx                           USART2
+    #define USARTx_CLK_ENABLE()              __HAL_RCC_USART2_CLK_ENABLE()
+    #define USARTx_RX_GPIO_CLK_ENABLE()      __HAL_RCC_GPIOA_CLK_ENABLE()
+    #define USARTx_TX_GPIO_CLK_ENABLE()      __HAL_RCC_GPIOA_CLK_ENABLE()
 
-#define USARTx_FORCE_RESET()             __HAL_RCC_USART2_FORCE_RESET()
-#define USARTx_RELEASE_RESET()           __HAL_RCC_USART2_RELEASE_RESET()
+    #define USARTx_FORCE_RESET()             __HAL_RCC_USART2_FORCE_RESET()
+    #define USARTx_RELEASE_RESET()           __HAL_RCC_USART2_RELEASE_RESET()
 
-/* Definition for USARTx Pins */
-#define USARTx_TX_PIN                    GPIO_PIN_2
-#define USARTx_TX_GPIO_PORT              GPIOA
-#define USARTx_TX_AF                     GPIO_AF4_USART2
-#define USARTx_RX_PIN                    GPIO_PIN_3
-#define USARTx_RX_GPIO_PORT              GPIOA
-#define USARTx_RX_AF                     GPIO_AF4_USART2
+    /* Definition for USARTx Pins */
+    #define USARTx_TX_PIN                    GPIO_PIN_2
+    #define USARTx_TX_GPIO_PORT              GPIOA
+    #define USARTx_TX_AF                     GPIO_AF4_USART2
+    #define USARTx_RX_PIN                    GPIO_PIN_3
+    #define USARTx_RX_GPIO_PORT              GPIOA
+    #define USARTx_RX_AF                     GPIO_AF4_USART2
 
 #endif /* (USE_VCP_CONNECTION == 0) */
 
@@ -73,7 +73,7 @@
 #define RCC_I2CxCLKSOURCE_SYSCLK        RCC_I2C1CLKSOURCE_SYSCLK
 #define I2Cx_CLK_ENABLE()               __HAL_RCC_I2C1_CLK_ENABLE()
 #define I2Cx_SDA_GPIO_CLK_ENABLE()      __HAL_RCC_GPIOB_CLK_ENABLE()
-#define I2Cx_SCL_GPIO_CLK_ENABLE()      __HAL_RCC_GPIOB_CLK_ENABLE() 
+#define I2Cx_SCL_GPIO_CLK_ENABLE()      __HAL_RCC_GPIOB_CLK_ENABLE()
 
 #define I2Cx_FORCE_RESET()              __HAL_RCC_I2C1_FORCE_RESET()
 #define I2Cx_RELEASE_RESET()            __HAL_RCC_I2C1_RELEASE_RESET()

@@ -33,22 +33,22 @@ EndBSPDependencies */
 /* Private function prototypes -----------------------------------------------*/
 /* Extern function prototypes ------------------------------------------------*/
 /* Private functions ---------------------------------------------------------*/
-uint16_t MEM_If_Init(void);
-uint16_t MEM_If_Erase(uint32_t Add);
-uint16_t MEM_If_Write(uint8_t *src, uint8_t *dest, uint32_t Len);
-uint8_t *MEM_If_Read(uint8_t *src, uint8_t *dest, uint32_t Len);
-uint16_t MEM_If_DeInit(void);
-uint16_t MEM_If_GetStatus(uint32_t Add, uint8_t Cmd, uint8_t *buffer);
+uint16_t MEM_If_Init( void );
+uint16_t MEM_If_Erase( uint32_t Add );
+uint16_t MEM_If_Write( uint8_t *src, uint8_t *dest, uint32_t Len );
+uint8_t *MEM_If_Read( uint8_t *src, uint8_t *dest, uint32_t Len );
+uint16_t MEM_If_DeInit( void );
+uint16_t MEM_If_GetStatus( uint32_t Add, uint8_t Cmd, uint8_t *buffer );
 
 USBD_DFU_MediaTypeDef USBD_DFU_MEDIA_Template_fops =
 {
-  (uint8_t *)"DFU MEDIA",
-  MEM_If_Init,
-  MEM_If_DeInit,
-  MEM_If_Erase,
-  MEM_If_Write,
-  MEM_If_Read,
-  MEM_If_GetStatus,
+    ( uint8_t * )"DFU MEDIA",
+    MEM_If_Init,
+    MEM_If_DeInit,
+    MEM_If_Erase,
+    MEM_If_Write,
+    MEM_If_Read,
+    MEM_If_GetStatus,
 
 };
 /**
@@ -57,9 +57,9 @@ USBD_DFU_MediaTypeDef USBD_DFU_MEDIA_Template_fops =
   * @param  None
   * @retval 0 if operation is successful, MAL_FAIL else.
   */
-uint16_t MEM_If_Init(void)
+uint16_t MEM_If_Init( void )
 {
-  return 0;
+    return 0;
 }
 
 /**
@@ -68,9 +68,9 @@ uint16_t MEM_If_Init(void)
   * @param  None
   * @retval 0 if operation is successful, MAL_FAIL else.
   */
-uint16_t MEM_If_DeInit(void)
+uint16_t MEM_If_DeInit( void )
 {
-  return 0;
+    return 0;
 }
 
 /**
@@ -79,9 +79,9 @@ uint16_t MEM_If_DeInit(void)
   * @param  Add: Address of sector to be erased.
   * @retval 0 if operation is successful, MAL_FAIL else.
   */
-uint16_t MEM_If_Erase(uint32_t Add)
+uint16_t MEM_If_Erase( uint32_t Add )
 {
-  return 0;
+    return 0;
 }
 
 /**
@@ -91,9 +91,9 @@ uint16_t MEM_If_Erase(uint32_t Add)
   * @param  Len: Number of data to be written (in bytes).
   * @retval 0 if operation is successful, MAL_FAIL else.
   */
-uint16_t MEM_If_Write(uint8_t *src, uint8_t *dest, uint32_t Len)
+uint16_t MEM_If_Write( uint8_t *src, uint8_t *dest, uint32_t Len )
 {
-  return 0;
+    return 0;
 }
 
 /**
@@ -103,10 +103,10 @@ uint16_t MEM_If_Write(uint8_t *src, uint8_t *dest, uint32_t Len)
   * @param  Len: Number of data to be read (in bytes).
   * @retval Pointer to the physical address where data should be read.
   */
-uint8_t *MEM_If_Read(uint8_t *src, uint8_t *dest, uint32_t Len)
+uint8_t *MEM_If_Read( uint8_t *src, uint8_t *dest, uint32_t Len )
 {
-  /* Return a valid address to avoid HardFault */
-  return (uint8_t *)(0);
+    /* Return a valid address to avoid HardFault */
+    return ( uint8_t * )( 0 );
 }
 
 /**
@@ -116,20 +116,21 @@ uint8_t *MEM_If_Read(uint8_t *src, uint8_t *dest, uint32_t Len)
   * @param  cmd: Number of data to be read (in bytes).
   * @retval Pointer to the physical address where data should be read.
   */
-uint16_t MEM_If_GetStatus(uint32_t Add, uint8_t Cmd, uint8_t *buffer)
+uint16_t MEM_If_GetStatus( uint32_t Add, uint8_t Cmd, uint8_t *buffer )
 {
-  switch (Cmd)
-  {
+    switch( Cmd )
+    {
     case DFU_MEDIA_PROGRAM:
 
-      break;
+        break;
 
     case DFU_MEDIA_ERASE:
     default:
 
-      break;
-  }
-  return (0);
+        break;
+    }
+
+    return ( 0 );
 }
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
 

@@ -47,7 +47,7 @@
 /* ... */
 #define ADDR_FLASH_PAGE_126   ((uint32_t)0x08003F00) /* Base @ of Page 126, 128 bytes */
 #define ADDR_FLASH_PAGE_127   ((uint32_t)0x08003F80) /* Base @ of Page 127, 128 bytes */
-    
+
 
 /* Exported functions ------------------------------------------------------- */
 

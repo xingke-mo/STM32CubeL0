@@ -46,13 +46,13 @@ extern "C" {
   */
 typedef struct
 {
-  uint32_t Prescaler;  /*!< Select the prescaler of the IWDG.
+    uint32_t Prescaler;  /*!< Select the prescaler of the IWDG.
                             This parameter can be a value of @ref IWDG_Prescaler */
 
-  uint32_t Reload;     /*!< Specifies the IWDG down-counter reload value.
+    uint32_t Reload;     /*!< Specifies the IWDG down-counter reload value.
                             This parameter must be a number between Min_Data = 0 and Max_Data = 0x0FFF */
 
-  uint32_t Window;     /*!< Specifies the window value to be compared to the down-counter.
+    uint32_t Window;     /*!< Specifies the window value to be compared to the down-counter.
                             This parameter must be a number between Min_Data = 0 and Max_Data = 0x0FFF */
 
 } IWDG_InitTypeDef;
@@ -62,9 +62,9 @@ typedef struct
   */
 typedef struct
 {
-  IWDG_TypeDef                 *Instance;  /*!< Register base address    */
+    IWDG_TypeDef                 *Instance;  /*!< Register base address    */
 
-  IWDG_InitTypeDef             Init;       /*!< IWDG required parameters */
+    IWDG_InitTypeDef             Init;       /*!< IWDG required parameters */
 } IWDG_HandleTypeDef;
 
 
@@ -138,7 +138,7 @@ typedef struct
   * @{
   */
 /* Initialization/Start functions  ********************************************/
-HAL_StatusTypeDef HAL_IWDG_Init(IWDG_HandleTypeDef *hiwdg);
+HAL_StatusTypeDef HAL_IWDG_Init( IWDG_HandleTypeDef *hiwdg );
 /**
   * @}
   */
@@ -147,7 +147,7 @@ HAL_StatusTypeDef HAL_IWDG_Init(IWDG_HandleTypeDef *hiwdg);
   * @{
   */
 /* I/O operation functions ****************************************************/
-HAL_StatusTypeDef HAL_IWDG_Refresh(IWDG_HandleTypeDef *hiwdg);
+HAL_StatusTypeDef HAL_IWDG_Refresh( IWDG_HandleTypeDef *hiwdg );
 /**
   * @}
   */

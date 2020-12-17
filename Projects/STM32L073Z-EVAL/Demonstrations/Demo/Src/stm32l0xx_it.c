@@ -19,16 +19,16 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "k_config.h"    
-#include "k_module.h"    
+#include "k_config.h"
+#include "k_module.h"
 
 
 /** @addtogroup CORE
 * @{
 */
 
-/** @defgroup 
-* @brief  
+/** @defgroup
+* @brief
 * @{
 */
 
@@ -56,7 +56,7 @@ extern LPTIM_HandleTypeDef  LptimHandle;
 * @retval None
 */
 
-void NMI_Handler(void)
+void NMI_Handler( void )
 {
 }
 
@@ -66,12 +66,12 @@ void NMI_Handler(void)
 * @param  None
 * @retval None
 */
-void HardFault_Handler(void)
+void HardFault_Handler( void )
 {
-  /* Go to infinite loop when Hard Fault exception occurs */
-  while (1)
-  {
-  }
+    /* Go to infinite loop when Hard Fault exception occurs */
+    while( 1 )
+    {
+    }
 }
 
 /******************************************************************************/
@@ -80,9 +80,9 @@ void HardFault_Handler(void)
 /*  available peripheral interrupt handler's name please refer to the startup */
 /*  file .                                                                    */
 /******************************************************************************/
-void SysTick_Handler (void)
+void SysTick_Handler( void )
 {
-  HAL_IncTick(); 
+    HAL_IncTick();
 }
 
 /**
@@ -90,10 +90,10 @@ void SysTick_Handler (void)
 * @param  None
 * @retval None
 */
-void LPTIM1_IRQHandler(void)
+void LPTIM1_IRQHandler( void )
 {
-  /* LPTIM in time Base mode */
-  HAL_LPTIM_IRQHandler(&LptimHandle);
+    /* LPTIM in time Base mode */
+    HAL_LPTIM_IRQHandler( &LptimHandle );
 }
 /**
 * @brief  This function handles External lines 4_15 interrupt request.
@@ -101,12 +101,12 @@ void LPTIM1_IRQHandler(void)
 * @retval None
 */
 
-void EXTI4_15_IRQHandler(void)
+void EXTI4_15_IRQHandler( void )
 {
-  HAL_GPIO_EXTI_IRQHandler(SD_DETECT_PIN);
-  HAL_GPIO_EXTI_IRQHandler(TAMPER_BUTTON_PIN);
-  HAL_GPIO_EXTI_IRQHandler(MFX_IRQOUT_PIN);  
-  
+    HAL_GPIO_EXTI_IRQHandler( SD_DETECT_PIN );
+    HAL_GPIO_EXTI_IRQHandler( TAMPER_BUTTON_PIN );
+    HAL_GPIO_EXTI_IRQHandler( MFX_IRQOUT_PIN );
+
 }
 
 /**
@@ -114,7 +114,7 @@ void EXTI4_15_IRQHandler(void)
 * @param  None
 * @retval None
 */
-void EXTI2_3_IRQHandler(void)
+void EXTI2_3_IRQHandler( void )
 {
 }
 
@@ -123,7 +123,7 @@ void EXTI2_3_IRQHandler(void)
 * @param  None
 * @retval None
 */
-void EXTI0_1_IRQHandler(void)
+void EXTI0_1_IRQHandler( void )
 {
 }
 
@@ -133,71 +133,71 @@ void EXTI0_1_IRQHandler(void)
 * @retval None
 * @Note   Used for RTC interrupt
 */
-void RTC_IRQHandler(void)
+void RTC_IRQHandler( void )
 {
-  if(LCSensorMode == CONFIG_LC_SENSOR_LOW_POWER)
-  {
-    /* Clear the WAKEUPTIMER interrupt pending bit */
-    RTC->ISR &= ~RTC_FLAG_WUTF; 
-    /* Clear the EXTI's line Flag for RTC WakeUpTimer */
-    __HAL_RTC_WAKEUPTIMER_EXTI_CLEAR_FLAG();
-    
-    /* Enable the selected comparator */
-    COMP2->CSR |= (COMP_CSR_COMPxEN);
-    
-    /* Enable DAC1 to feed COMP2 threshold */
-    DAC->CR |= DAC_CR_EN1;
+    if( LCSensorMode == CONFIG_LC_SENSOR_LOW_POWER )
+    {
+        /* Clear the WAKEUPTIMER interrupt pending bit */
+        RTC->ISR &= ~RTC_FLAG_WUTF;
+        /* Clear the EXTI's line Flag for RTC WakeUpTimer */
+        __HAL_RTC_WAKEUPTIMER_EXTI_CLEAR_FLAG();
 
-    /* Insert waiting time for COMP2 fast mode and DAC initialization time based on DSB assembler instruction */    
-    __DSB(); __DSB(); __DSB();
-    
-    /* Re-configure all used pins in applicative conditions */
-    /* Re-Enable PD7 VDD/2 reference power supply from Analog state to Output */
-    GPIOD->MODER = 0xFFFF7FFF; 
-    
-    /* PA4 PA7 DAC + Comparator output */
-    GPIOA->MODER &= 0xFFFFBFFF;
-    
-    /* Set PB4 AF + PP no pull to drive LC sensor*/
-    GPIOB->MODER = 0xFFFFFDFF;
-    
-    /* then PB4 is back to Analog state */
-    GPIOB->MODER = 0xFFFFFFFF;
-    
-    /* MSI time capture corresponding to 75µs while LC pulses are emitted. Based on DSB assembler instruction */
-    /* DSB instruction is one clock cycle */
-    __DSB(); __DSB(); __DSB(); __DSB(); __DSB(); __DSB(); __DSB(); __DSB(); __DSB(); __DSB(); __DSB(); __DSB();
-    __DSB(); __DSB(); __DSB(); __DSB(); __DSB(); __DSB(); __DSB(); __DSB(); __DSB(); __DSB(); __DSB(); __DSB();
-    __DSB(); __DSB(); __DSB(); __DSB(); __DSB(); __DSB(); __DSB(); __DSB(); __DSB(); __DSB(); __DSB(); __DSB();
-    __DSB(); __DSB(); __DSB();
-    
-    /* Switch back PD7 VDD/2 reference power supply from Output state to Analog */
-    GPIOD->MODER = 0xFFFFFFFF; 
-    
-    /* Disable DAC1 */
-    DAC->CR &= ~(DAC_CR_EN1);
-    
-    /* Disable the selected comparator */
-    COMP2->CSR &= ~(COMP_CSR_COMPxEN);
-    
-  }
-  else
-  {
-    HAL_RTC_AlarmIRQHandler(&RtcHandle);
-    HAL_RTCEx_WakeUpTimerIRQHandler(&RtcHandle);
-  }
+        /* Enable the selected comparator */
+        COMP2->CSR |= ( COMP_CSR_COMPxEN );
+
+        /* Enable DAC1 to feed COMP2 threshold */
+        DAC->CR |= DAC_CR_EN1;
+
+        /* Insert waiting time for COMP2 fast mode and DAC initialization time based on DSB assembler instruction */
+        __DSB(); __DSB(); __DSB();
+
+        /* Re-configure all used pins in applicative conditions */
+        /* Re-Enable PD7 VDD/2 reference power supply from Analog state to Output */
+        GPIOD->MODER = 0xFFFF7FFF;
+
+        /* PA4 PA7 DAC + Comparator output */
+        GPIOA->MODER &= 0xFFFFBFFF;
+
+        /* Set PB4 AF + PP no pull to drive LC sensor*/
+        GPIOB->MODER = 0xFFFFFDFF;
+
+        /* then PB4 is back to Analog state */
+        GPIOB->MODER = 0xFFFFFFFF;
+
+        /* MSI time capture corresponding to 75µs while LC pulses are emitted. Based on DSB assembler instruction */
+        /* DSB instruction is one clock cycle */
+        __DSB(); __DSB(); __DSB(); __DSB(); __DSB(); __DSB(); __DSB(); __DSB(); __DSB(); __DSB(); __DSB(); __DSB();
+        __DSB(); __DSB(); __DSB(); __DSB(); __DSB(); __DSB(); __DSB(); __DSB(); __DSB(); __DSB(); __DSB(); __DSB();
+        __DSB(); __DSB(); __DSB(); __DSB(); __DSB(); __DSB(); __DSB(); __DSB(); __DSB(); __DSB(); __DSB(); __DSB();
+        __DSB(); __DSB(); __DSB();
+
+        /* Switch back PD7 VDD/2 reference power supply from Output state to Analog */
+        GPIOD->MODER = 0xFFFFFFFF;
+
+        /* Disable DAC1 */
+        DAC->CR &= ~( DAC_CR_EN1 );
+
+        /* Disable the selected comparator */
+        COMP2->CSR &= ~( COMP_CSR_COMPxEN );
+
+    }
+    else
+    {
+        HAL_RTC_AlarmIRQHandler( &RtcHandle );
+        HAL_RTCEx_WakeUpTimerIRQHandler( &RtcHandle );
+    }
 }
 
 /**
-* @brief  This function handles SMBUS event interrupt request.  
+* @brief  This function handles SMBUS event interrupt request.
 * @param  None
 * @retval None
-* @Note   This function is redefined in "main.h" and related to SMBUS data transmission     
+* @Note   This function is redefined in "main.h" and related to SMBUS data transmission
 */
-void SMBUSx_IRQHandler(void)
+void SMBUSx_IRQHandler( void )
 {
-  HAL_SMBUS_EV_IRQHandler(&SmbusHandle);
-  HAL_SMBUS_ER_IRQHandler(&SmbusHandle);
+    HAL_SMBUS_EV_IRQHandler( &SmbusHandle );
+    HAL_SMBUS_ER_IRQHandler( &SmbusHandle );
 }
 
 /**
@@ -207,22 +207,22 @@ void SMBUSx_IRQHandler(void)
 * @Note   This function is redefined in "main.h" and related to DMA stream
 *         used for USART data transmission and reception
 */
-void USARTx_DMA_TX_RX_IRQHandler(void)
+void USARTx_DMA_TX_RX_IRQHandler( void )
 {
-  HAL_DMA_IRQHandler(UartHandle.hdmarx);
-  HAL_DMA_IRQHandler(UartHandle.hdmatx);
+    HAL_DMA_IRQHandler( UartHandle.hdmarx );
+    HAL_DMA_IRQHandler( UartHandle.hdmatx );
 }
 
 /**
-* @brief  This function handles UART interrupt request.  
+* @brief  This function handles UART interrupt request.
 * @param  None
 * @retval None
-* @Note   This function is redefined in "main.h" and related to DMA  
-*         used for USART data transmission     
+* @Note   This function is redefined in "main.h" and related to DMA
+*         used for USART data transmission
 */
-void USARTx_IRQHandler(void)
+void USARTx_IRQHandler( void )
 {
-  HAL_UART_IRQHandler(&UartHandle);
+    HAL_UART_IRQHandler( &UartHandle );
 }
 
 /**

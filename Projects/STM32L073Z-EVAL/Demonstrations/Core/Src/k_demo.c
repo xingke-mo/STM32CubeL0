@@ -1,8 +1,8 @@
 /**
   ******************************************************************************
   * @file    k_demo.c
-  * @author  MCD Application Team   
-  * @brief   This file provides the kernel demo functions 
+  * @author  MCD Application Team
+  * @brief   This file provides the kernel demo functions
   ******************************************************************************
   * @attention
   *
@@ -16,7 +16,7 @@
   *
   ******************************************************************************
   */
-  
+
 /* Includes ------------------------------------------------------------------*/
 #include "k_config.h"
 #include "k_demo.h"
@@ -36,11 +36,12 @@
 /* External variables --------------------------------------------------------*/
 /* Private typedef -----------------------------------------------------------*/
 /* Private defines -----------------------------------------------------------*/
-typedef enum {
-  DEMO_INIT,
-  DEMO_RUN,
-  DEMO_DEINIT,
-  DEMO_EXIT
+typedef enum
+{
+    DEMO_INIT,
+    DEMO_RUN,
+    DEMO_DEINIT,
+    DEMO_EXIT
 } kDEMO_STATE;
 
 /* Private macros ------------------------------------------------------------*/
@@ -54,31 +55,34 @@ typedef enum {
   * @param  None
   * @retval None
   */
-void kDemo_Start(void) 
+void kDemo_Start( void )
 {
-  kDEMO_STATE  demo_stat =  DEMO_INIT;
-  
-  do {
-    switch (demo_stat) 
+    kDEMO_STATE  demo_stat =  DEMO_INIT;
+
+    do
     {
-    case DEMO_INIT:
-      kDemo_Initialization();
-      demo_stat = DEMO_RUN;
-      break;
-    case DEMO_RUN :
-      kMenu_Init();
-      kModule_Execute(MODULE_MAIN_APP);
-      demo_stat = DEMO_DEINIT;
-      break;
-    case DEMO_DEINIT :
-      kDemo_UnInitialization();
-      demo_stat = DEMO_EXIT;
-      break;
-    default:
-      break;
-    }
-  }
-  while(demo_stat != DEMO_EXIT);
+        switch( demo_stat )
+        {
+        case DEMO_INIT:
+            kDemo_Initialization();
+            demo_stat = DEMO_RUN;
+            break;
+
+        case DEMO_RUN :
+            kMenu_Init();
+            kModule_Execute( MODULE_MAIN_APP );
+            demo_stat = DEMO_DEINIT;
+            break;
+
+        case DEMO_DEINIT :
+            kDemo_UnInitialization();
+            demo_stat = DEMO_EXIT;
+            break;
+
+        default:
+            break;
+        }
+    } while( demo_stat != DEMO_EXIT );
 }
 
 /**

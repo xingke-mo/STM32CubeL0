@@ -81,8 +81,8 @@
 
 /* Ensure stdint is only used by the compiler, and not the assembler. */
 #if defined(__ICCARM__) || defined(__CC_ARM) || defined(__GNUC__)
- #include <stdint.h>
- extern uint32_t SystemCoreClock;
+    #include <stdint.h>
+    extern uint32_t SystemCoreClock;
 #endif
 
 
@@ -140,25 +140,25 @@ to exclude the API function. */
 #endif
 
 #ifdef STM32F072xB
-/* The lowest interrupt priority that can be used in a call to a "set priority"
-function. */
-#define configLIBRARY_LOWEST_INTERRUPT_PRIORITY       3
+    /* The lowest interrupt priority that can be used in a call to a "set priority"
+    function. */
+    #define configLIBRARY_LOWEST_INTERRUPT_PRIORITY       3
 
-/* The highest interrupt priority that can be used by any interrupt service
-routine that makes calls to interrupt safe FreeRTOS API functions.  DO NOT CALL
-INTERRUPT SAFE FREERTOS API FUNCTIONS FROM ANY INTERRUPT THAT HAS A HIGHER
-PRIORITY THAN THIS! (higher priorities are lower numeric values. */
-#define configLIBRARY_MAX_SYSCALL_INTERRUPT_PRIORITY  3
+    /* The highest interrupt priority that can be used by any interrupt service
+    routine that makes calls to interrupt safe FreeRTOS API functions.  DO NOT CALL
+    INTERRUPT SAFE FREERTOS API FUNCTIONS FROM ANY INTERRUPT THAT HAS A HIGHER
+    PRIORITY THAN THIS! (higher priorities are lower numeric values. */
+    #define configLIBRARY_MAX_SYSCALL_INTERRUPT_PRIORITY  3
 #else
-/* The lowest interrupt priority that can be used in a call to a "set priority"
-function. */
-#define configLIBRARY_LOWEST_INTERRUPT_PRIORITY         0xf
+    /* The lowest interrupt priority that can be used in a call to a "set priority"
+    function. */
+    #define configLIBRARY_LOWEST_INTERRUPT_PRIORITY         0xf
 
-/* The highest interrupt priority that can be used by any interrupt service
-routine that makes calls to interrupt safe FreeRTOS API functions.  DO NOT CALL
-INTERRUPT SAFE FREERTOS API FUNCTIONS FROM ANY INTERRUPT THAT HAS A HIGHER
-PRIORITY THAN THIS! (higher priorities are lower numeric values. */
-#define configLIBRARY_MAX_SYSCALL_INTERRUPT_PRIORITY    5
+    /* The highest interrupt priority that can be used by any interrupt service
+    routine that makes calls to interrupt safe FreeRTOS API functions.  DO NOT CALL
+    INTERRUPT SAFE FREERTOS API FUNCTIONS FROM ANY INTERRUPT THAT HAS A HIGHER
+    PRIORITY THAN THIS! (higher priorities are lower numeric values. */
+    #define configLIBRARY_MAX_SYSCALL_INTERRUPT_PRIORITY    5
 #endif /* STM32F072xB */
 
 /* Interrupt priorities used by the kernel port layer itself.  These are generic
@@ -177,7 +177,7 @@ standard names. */
 #define vPortSVCHandler SVC_Handler
 #define xPortPendSVHandler PendSV_Handler
 
-/* IMPORTANT: This define MUST be commented when used with STM32Cube firmware, 
+/* IMPORTANT: This define MUST be commented when used with STM32Cube firmware,
               to prevent overwriting SysTick_Handler defined within STM32Cube HAL */
 /* #define xPortSysTickHandler SysTick_Handler */
 

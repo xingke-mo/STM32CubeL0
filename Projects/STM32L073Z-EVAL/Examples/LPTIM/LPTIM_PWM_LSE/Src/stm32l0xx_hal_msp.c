@@ -46,36 +46,36 @@
 * @param  hlptim : LPTIM handle
 * @retval None
 */
-void HAL_LPTIM_MspInit(LPTIM_HandleTypeDef *hlptim)
+void HAL_LPTIM_MspInit( LPTIM_HandleTypeDef *hlptim )
 {
-  GPIO_InitTypeDef     GPIO_InitStruct;
-    
-  /* ## - 1 - Enable LPTIM clock ############################################ */
-  __HAL_RCC_LPTIM1_CLK_ENABLE();
-  
-  /* ## - 2 - Force & Release the LPTIM Periheral Clock Reset ############### */  
-  /* Force the LPTIM Periheral Clock Reset */
-  __HAL_RCC_LPTIM1_FORCE_RESET();
-  
-  /* Release the LPTIM Periheral Clock Reset */  
-  __HAL_RCC_LPTIM1_RELEASE_RESET();
-  
-  /* ## - 3 - Enable & Configure LPTIM Ultra Low Power ################# */
-  /* Configure PB.02 (LPTIM1_OUT) in alternate function (AF2), Low speed
-  push-pull mode and pull-up enabled.
-  Note: In order to reduce power consumption: GPIO Speed is configured in
-  LowSpeed */
-  
-  /* Enable GPIO PORT */
-  __HAL_RCC_GPIOB_CLK_ENABLE();
-  
-  /* Configure PB.02 */
-  GPIO_InitStruct.Pin = GPIO_PIN_2;
-  GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-  GPIO_InitStruct.Pull = GPIO_PULLUP;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW     ;
-  GPIO_InitStruct.Alternate = GPIO_AF2_LPTIM1;  
-  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);  
+    GPIO_InitTypeDef     GPIO_InitStruct;
+
+    /* ## - 1 - Enable LPTIM clock ############################################ */
+    __HAL_RCC_LPTIM1_CLK_ENABLE();
+
+    /* ## - 2 - Force & Release the LPTIM Periheral Clock Reset ############### */
+    /* Force the LPTIM Periheral Clock Reset */
+    __HAL_RCC_LPTIM1_FORCE_RESET();
+
+    /* Release the LPTIM Periheral Clock Reset */
+    __HAL_RCC_LPTIM1_RELEASE_RESET();
+
+    /* ## - 3 - Enable & Configure LPTIM Ultra Low Power ################# */
+    /* Configure PB.02 (LPTIM1_OUT) in alternate function (AF2), Low speed
+    push-pull mode and pull-up enabled.
+    Note: In order to reduce power consumption: GPIO Speed is configured in
+    LowSpeed */
+
+    /* Enable GPIO PORT */
+    __HAL_RCC_GPIOB_CLK_ENABLE();
+
+    /* Configure PB.02 */
+    GPIO_InitStruct.Pin = GPIO_PIN_2;
+    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+    GPIO_InitStruct.Pull = GPIO_PULLUP;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW     ;
+    GPIO_InitStruct.Alternate = GPIO_AF2_LPTIM1;
+    HAL_GPIO_Init( GPIOB, &GPIO_InitStruct );
 }
 
 

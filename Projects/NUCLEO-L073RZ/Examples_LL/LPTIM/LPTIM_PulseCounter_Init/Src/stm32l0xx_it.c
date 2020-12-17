@@ -1,4 +1,4 @@
-/** 
+/**
   ******************************************************************************
   * @file    Examples_LL/LPTIM/LPTIM_PulseCounter_Init/Src/stm32l0xx_it.c
   * @author  MCD Application Team
@@ -47,7 +47,7 @@
   * @param  None
   * @retval None
   */
-void NMI_Handler(void)
+void NMI_Handler( void )
 {
 }
 
@@ -56,12 +56,12 @@ void NMI_Handler(void)
   * @param  None
   * @retval None
   */
-void HardFault_Handler(void)
+void HardFault_Handler( void )
 {
-  /* Go to infinite loop when Hard Fault exception occurs */
-  while (1)
-  {
-  }
+    /* Go to infinite loop when Hard Fault exception occurs */
+    while( 1 )
+    {
+    }
 }
 
 /**
@@ -69,7 +69,7 @@ void HardFault_Handler(void)
   * @param  None
   * @retval None
   */
-void SVC_Handler(void)
+void SVC_Handler( void )
 {
 }
 
@@ -78,7 +78,7 @@ void SVC_Handler(void)
   * @param  None
   * @retval None
   */
-void PendSV_Handler(void)
+void PendSV_Handler( void )
 {
 }
 
@@ -87,7 +87,7 @@ void PendSV_Handler(void)
   * @param  None
   * @retval None
   */
-void SysTick_Handler(void)
+void SysTick_Handler( void )
 {
 }
 
@@ -103,18 +103,18 @@ void SysTick_Handler(void)
 * @param  None
 * @retval None
 */
-void LPTIM1_IRQHandler(void)
+void LPTIM1_IRQHandler( void )
 {
-  /* Check whether Autoreload match interrupt is pending */
-  if(LL_LPTIM_IsActiveFlag_ARRM(LPTIM1) == 1)
-  {
-    /* Clear the Autoreload match interrupt flag */
-    LL_LPTIM_ClearFLAG_ARRM(LPTIM1);
-    
-    /* LPTIM1 Autoreload match interrupt processing */
-    LPTimerAutoreloadMatch_Callback();
-  }
-  
+    /* Check whether Autoreload match interrupt is pending */
+    if( LL_LPTIM_IsActiveFlag_ARRM( LPTIM1 ) == 1 )
+    {
+        /* Clear the Autoreload match interrupt flag */
+        LL_LPTIM_ClearFLAG_ARRM( LPTIM1 );
+
+        /* LPTIM1 Autoreload match interrupt processing */
+        LPTimerAutoreloadMatch_Callback();
+    }
+
 }
 /**
   * @}

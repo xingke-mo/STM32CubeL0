@@ -1,6 +1,6 @@
 /**
   ******************************************************************************
-  * @file    COMP/COMP_Interrupt/Inc/main.h 
+  * @file    COMP/COMP_Interrupt/Inc/main.h
   * @author  MCD Application Team
   * @brief   Header for main.c module
   ******************************************************************************

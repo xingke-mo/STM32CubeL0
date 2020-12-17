@@ -2,7 +2,7 @@
   ******************************************************************************
   * @file    PWR/PWR_LPRUN/Src/stm32l0xx_hal_msp.c
   * @author  MCD Application Team
-  * @brief   HAL MSP module.    
+  * @brief   HAL MSP module.
   ******************************************************************************
   * @attention
   *

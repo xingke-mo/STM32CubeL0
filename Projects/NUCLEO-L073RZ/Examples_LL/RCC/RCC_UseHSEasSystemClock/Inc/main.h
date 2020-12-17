@@ -29,7 +29,7 @@
 #include "stm32l0xx_ll_cortex.h"
 #include "stm32l0xx_ll_gpio.h"
 #if defined(USE_FULL_ASSERT)
-#include "stm32_assert.h"
+    #include "stm32_assert.h"
 #endif /* USE_FULL_ASSERT */
 
 /* Exported types ------------------------------------------------------------*/
@@ -46,11 +46,11 @@
   *        (when HSE is used as system clock source, directly or through the PLL).
   */
 #if !defined  (HSE_VALUE)
-  #define HSE_VALUE    ((uint32_t)8000000) /*!< Value of the External oscillator in Hz */
+    #define HSE_VALUE    ((uint32_t)8000000) /*!< Value of the External oscillator in Hz */
 #endif /* HSE_VALUE */
 
 /**
-  * @brief LED2 
+  * @brief LED2
   */
 
 #define LED2_PIN                           LL_GPIO_PIN_5
@@ -64,11 +64,11 @@
 #define LED_BLINK_FAST  200
 #define LED_BLINK_SLOW 500
 #define LED_BLINK_ERROR 1000
-  
+
 /* Exported macro ------------------------------------------------------------*/
 /* Exported functions ------------------------------------------------------- */
-void HSEReady_Callback(void);
-void HSEFailureDetection_Callback(void);
+void HSEReady_Callback( void );
+void HSEFailureDetection_Callback( void );
 
 #endif /* __MAIN_H */
 

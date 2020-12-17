@@ -28,35 +28,35 @@
 //------------------------------------------------------------------------------
 
 #if ((TSLPRM_TOTAL_CHANNELS < 1) || (TSLPRM_TOTAL_CHANNELS > 24))
-#error "TSLPRM_TOTAL_CHANNELS is out of range (1 .. 24)."
+    #error "TSLPRM_TOTAL_CHANNELS is out of range (1 .. 24)."
 #endif
 
 #if ((TSLPRM_TOTAL_BANKS < 1) || (TSLPRM_TOTAL_BANKS > 8))
-#error "TSLPRM_TOTAL_BANKS is out of range (1 .. 8)."
+    #error "TSLPRM_TOTAL_BANKS is out of range (1 .. 8)."
 #endif
 
 #if ((TSLPRM_TOTAL_TOUCHKEYS < 0) || (TSLPRM_TOTAL_TOUCHKEYS > 24))
-#error "TSLPRM_TOTAL_TOUCHKEYS is out of range (0 .. 24)."
+    #error "TSLPRM_TOTAL_TOUCHKEYS is out of range (0 .. 24)."
 #endif
 
 #if ((TSLPRM_TOTAL_TOUCHKEYS_B < 0) || (TSLPRM_TOTAL_TOUCHKEYS_B > 24))
-#error "TSLPRM_TOTAL_TOUCHKEYS_B is out of range (0 .. 24)."
+    #error "TSLPRM_TOTAL_TOUCHKEYS_B is out of range (0 .. 24)."
 #endif
 
 #if ((TSLPRM_TOTAL_LINROTS < 0) || (TSLPRM_TOTAL_LINROTS > 24))
-#error "TSLPRM_TOTAL_LINROTS is out of range (0 .. 24)."
+    #error "TSLPRM_TOTAL_LINROTS is out of range (0 .. 24)."
 #endif
 
 #if ((TSLPRM_TOTAL_LINROTS_B < 0) || (TSLPRM_TOTAL_LINROTS_B > 24))
-#error "TSLPRM_TOTAL_LINROTS_B is out of range (0 .. 24)."
+    #error "TSLPRM_TOTAL_LINROTS_B is out of range (0 .. 24)."
 #endif
 
 #if ((TSLPRM_TOTAL_OBJECTS < 1) || (TSLPRM_TOTAL_OBJECTS > 24))
-#error "TSLPRM_TOTAL_OBJECTS is out of range (1 .. 24)."
+    #error "TSLPRM_TOTAL_OBJECTS is out of range (1 .. 24)."
 #endif
 
 #if ((TSLPRM_TOTAL_TKEYS + TSLPRM_TOTAL_LNRTS) > 24)
-#error "The Sum of TouchKeys and Linear/Rotary sensors exceeds 24."
+    #error "The Sum of TouchKeys and Linear/Rotary sensors exceeds 24."
 #endif
 
 #endif /* __TSL_CHECK_CONFIG_TSC_H */

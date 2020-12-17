@@ -77,18 +77,18 @@ extern "C" {
   */
 typedef enum
 {
-  HID_IDLE = 0,
-  HID_BUSY,
+    HID_IDLE = 0,
+    HID_BUSY,
 }
 HID_StateTypeDef;
 
 
 typedef struct
 {
-  uint32_t             Protocol;
-  uint32_t             IdleState;
-  uint32_t             AltSetting;
-  HID_StateTypeDef     state;
+    uint32_t             Protocol;
+    uint32_t             IdleState;
+    uint32_t             AltSetting;
+    HID_StateTypeDef     state;
 }
 USBD_HID_HandleTypeDef;
 /**
@@ -118,11 +118,11 @@ extern USBD_ClassTypeDef  USBD_HID;
 /** @defgroup USB_CORE_Exported_Functions
   * @{
   */
-uint8_t USBD_HID_SendReport(USBD_HandleTypeDef *pdev,
-                            uint8_t *report,
-                            uint16_t len);
+uint8_t USBD_HID_SendReport( USBD_HandleTypeDef *pdev,
+                             uint8_t *report,
+                             uint16_t len );
 
-uint32_t USBD_HID_GetPollingInterval(USBD_HandleTypeDef *pdev);
+uint32_t USBD_HID_GetPollingInterval( USBD_HandleTypeDef *pdev );
 
 /**
   * @}

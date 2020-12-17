@@ -30,20 +30,20 @@
 #define USE_STMSTUDIO (0)
 
 #if USE_STMSTUDIO > 0
-#include "stmCriticalSection.h"
-#define STMSTUDIO_LOCK {enterLock();}
-#define STMSTUDIO_UNLOCK {exitLock();}
+    #include "stmCriticalSection.h"
+    #define STMSTUDIO_LOCK {enterLock();}
+    #define STMSTUDIO_UNLOCK {exitLock();}
 #else
-#define STMSTUDIO_LOCK
-#define STMSTUDIO_UNLOCK
+    #define STMSTUDIO_LOCK
+    #define STMSTUDIO_UNLOCK
 #endif
 
 typedef enum
 {
-  TSL_USER_STATUS_BUSY       = 0, /**< The bank acquisition is on-going */
-  TSL_USER_STATUS_OK_NO_ECS  = 1, /**< The bank acquisition is ok, no time for ECS */
-  TSL_USER_STATUS_OK_ECS_ON  = 2, /**< The bank acquisition is ok, ECS finished */
-  TSL_USER_STATUS_OK_ECS_OFF = 3  /**< The bank acquisition is ok, ECS not executed */
+    TSL_USER_STATUS_BUSY       = 0, /**< The bank acquisition is on-going */
+    TSL_USER_STATUS_OK_NO_ECS  = 1, /**< The bank acquisition is ok, no time for ECS */
+    TSL_USER_STATUS_OK_ECS_ON  = 2, /**< The bank acquisition is ok, ECS finished */
+    TSL_USER_STATUS_OK_ECS_OFF = 3  /**< The bank acquisition is ok, ECS not executed */
 } tsl_user_status_t;
 
 /* Channel IOs definition */
@@ -69,16 +69,16 @@ typedef enum
 #define BANK_0_NBCHANNELS    (3)
 #define BANK_0_MSK_CHANNELS  (CHANNEL_0_IO_MSK | CHANNEL_1_IO_MSK | CHANNEL_2_IO_MSK | SHIELD_IO_MSK)
 #define BANK_0_MSK_GROUPS    (CHANNEL_0_GRP_MSK | CHANNEL_1_GRP_MSK | CHANNEL_2_GRP_MSK)
-                      
+
 /* User Parameters */
 extern CONST TSL_Bank_T MyBanks[];
 extern CONST TSL_LinRot_T MyLinRots[];
 extern CONST TSL_Object_T MyObjects[];
 extern TSL_ObjectGroup_T MyObjGroup;
 
-void tsl_user_Init(void);
-tsl_user_status_t tsl_user_Exec(void);
-void tsl_user_SetThresholds(void);
+void tsl_user_Init( void );
+tsl_user_status_t tsl_user_Exec( void );
+void tsl_user_SetThresholds( void );
 
 #endif /* __TSL_USER_H */
 

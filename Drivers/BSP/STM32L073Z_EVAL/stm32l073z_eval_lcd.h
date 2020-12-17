@@ -2,7 +2,7 @@
   ******************************************************************************
   * @file    stm32l073z_eval_lcd.h
   * @author  MCD Application Team
-  * @brief   This file contains all the functions prototypes for the 
+  * @brief   This file contains all the functions prototypes for the
   *          stm32l073z_eval_lcd.c driver.
   ******************************************************************************
   * @attention
@@ -16,21 +16,21 @@
   *                        opensource.org/licenses/BSD-3-Clause
   *
   ******************************************************************************
-  */ 
+  */
 
 /* Define to prevent recursive inclusion -------------------------------------*/
 #ifndef __STM32L073Z_EVAL_LCD_H
 #define __STM32L073Z_EVAL_LCD_H
 
 #ifdef __cplusplus
- extern "C" {
-#endif 
+extern "C" {
+#endif
 
 /* Includes ------------------------------------------------------------------*/
-#include "stm32l073z_eval.h" 
+#include "stm32l073z_eval.h"
 /* Include LCD component Driver */
-#include "../Components/hx8347d/hx8347d.h"   
-#include "../../../Utilities/Fonts/fonts.h"   
+#include "../Components/hx8347d/hx8347d.h"
+#include "../../../Utilities/Fonts/fonts.h"
 
 /** @addtogroup BSP
   * @{
@@ -47,48 +47,48 @@
 /** @defgroup STM32L073Z_EVAL_LCD_Exported_Types
   * @{
   */
-typedef struct 
-{ 
-  uint32_t TextColor; 
-  uint32_t BackColor;  
-  sFONT    *pFont; 
+typedef struct
+{
+    uint32_t TextColor;
+    uint32_t BackColor;
+    sFONT    *pFont;
 
-}LCD_DrawPropTypeDef;   
+} LCD_DrawPropTypeDef;
 /**
   * @}
-  */ 
+  */
 
 /** @defgroup STM32L073Z_EVAL_LCD_Exported_Constants
   * @{
   */
-/** 
-  * @brief  LCD status structure definition  
-  */     
+/**
+  * @brief  LCD status structure definition
+  */
 #define   LCD_OK         0x00
 #define   LCD_ERROR      0x01
 #define   LCD_TIMEOUT    0x02
-    
-typedef struct 
+
+typedef struct
 {
-  int16_t X;
-  int16_t Y;
+    int16_t X;
+    int16_t Y;
 
-}Point, * pPoint; 
+} Point, * pPoint;
 
-/** 
-  * @brief  Line mode structures definition  
-  */ 
+/**
+  * @brief  Line mode structures definition
+  */
 typedef enum
 {
-  CENTER_MODE             = 0x01,    /*!< Center mode */
-  RIGHT_MODE              = 0x02,    /*!< Right mode  */     
-  LEFT_MODE               = 0x03,    /*!< Left mode   */                                                                              
-  NO_MODE
-}Line_ModeTypdef;
+    CENTER_MODE             = 0x01,    /*!< Center mode */
+    RIGHT_MODE              = 0x02,    /*!< Right mode  */
+    LEFT_MODE               = 0x03,    /*!< Left mode   */
+    NO_MODE
+} Line_ModeTypdef;
 
-/** 
-  * @brief  LCD color  
-  */ 
+/**
+  * @brief  LCD color
+  */
 #define LCD_COLOR_BLUE          0x001F
 #define LCD_COLOR_GREEN         0x07E0
 #define LCD_COLOR_RED           0xF800
@@ -115,9 +115,9 @@ typedef enum
 #define LCD_COLOR_BROWN         0xA145
 #define LCD_COLOR_ORANGE        0xFD20
 
-/** 
-  * @brief LCD default font 
-  */ 
+/**
+  * @brief LCD default font
+  */
 #define LCD_DEFAULT_FONT         Font24
 
 /**
@@ -126,41 +126,41 @@ typedef enum
 
 /** @defgroup STM32L073Z_EVAL_LCD_Exported_Functions
   * @{
-  */   
-uint8_t  BSP_LCD_Init(void);
-uint32_t BSP_LCD_GetXSize(void);
-uint32_t BSP_LCD_GetYSize(void);
- 
-uint16_t BSP_LCD_GetTextColor(void);
-uint16_t BSP_LCD_GetBackColor(void);
-void     BSP_LCD_SetTextColor(__IO uint16_t Color);
-void     BSP_LCD_SetBackColor(__IO uint16_t Color);
-void     BSP_LCD_SetFont(sFONT *pFonts);
-sFONT    *BSP_LCD_GetFont(void);
+  */
+uint8_t  BSP_LCD_Init( void );
+uint32_t BSP_LCD_GetXSize( void );
+uint32_t BSP_LCD_GetYSize( void );
 
-void     BSP_LCD_Clear(uint16_t Color);
-void     BSP_LCD_ClearStringLine(uint16_t Line);
-void     BSP_LCD_DisplayStringAtLine(uint16_t Line, uint8_t *pText);
-void     BSP_LCD_DisplayStringAt(uint16_t Xpos, uint16_t Ypos, uint8_t *pText, Line_ModeTypdef Mode);
-void     BSP_LCD_DisplayChar(uint16_t Xpos, uint16_t Ypos, uint8_t Ascii);
+uint16_t BSP_LCD_GetTextColor( void );
+uint16_t BSP_LCD_GetBackColor( void );
+void     BSP_LCD_SetTextColor( __IO uint16_t Color );
+void     BSP_LCD_SetBackColor( __IO uint16_t Color );
+void     BSP_LCD_SetFont( sFONT *pFonts );
+sFONT    *BSP_LCD_GetFont( void );
 
-uint16_t BSP_LCD_ReadPixel(uint16_t Xpos, uint16_t Ypos);
-void     BSP_LCD_DrawPixel(uint16_t Xpos, uint16_t Ypos);
-void     BSP_LCD_DrawHLine(uint16_t Xpos, uint16_t Ypos, uint16_t Length);
-void     BSP_LCD_DrawVLine(uint16_t Xpos, uint16_t Ypos, uint16_t Length);
-void     BSP_LCD_DrawLine(uint16_t X1, uint16_t Y1, uint16_t X2, uint16_t Y2);
-void     BSP_LCD_DrawRect(uint16_t Xpos, uint16_t Ypos, uint16_t Width, uint16_t Height);
-void     BSP_LCD_DrawCircle(uint16_t Xpos, uint16_t Ypos, uint16_t Radius);
-void     BSP_LCD_DrawPolygon(pPoint pPoints, uint16_t PointCount);
-void     BSP_LCD_DrawEllipse(int Xpos, int Ypos, int XRadius, int YRadius);
-void     BSP_LCD_DrawBitmap(uint16_t Xpos, uint16_t Ypos, uint8_t *pBmp);
+void     BSP_LCD_Clear( uint16_t Color );
+void     BSP_LCD_ClearStringLine( uint16_t Line );
+void     BSP_LCD_DisplayStringAtLine( uint16_t Line, uint8_t *pText );
+void     BSP_LCD_DisplayStringAt( uint16_t Xpos, uint16_t Ypos, uint8_t *pText, Line_ModeTypdef Mode );
+void     BSP_LCD_DisplayChar( uint16_t Xpos, uint16_t Ypos, uint8_t Ascii );
 
-void     BSP_LCD_FillRect(uint16_t Xpos, uint16_t Ypos, uint16_t Width, uint16_t Height);
-void     BSP_LCD_FillCircle(uint16_t Xpos, uint16_t Ypos, uint16_t Radius);
-void     BSP_LCD_FillEllipse(int Xpos, int Ypos, int XRadius, int YRadius);
+uint16_t BSP_LCD_ReadPixel( uint16_t Xpos, uint16_t Ypos );
+void     BSP_LCD_DrawPixel( uint16_t Xpos, uint16_t Ypos );
+void     BSP_LCD_DrawHLine( uint16_t Xpos, uint16_t Ypos, uint16_t Length );
+void     BSP_LCD_DrawVLine( uint16_t Xpos, uint16_t Ypos, uint16_t Length );
+void     BSP_LCD_DrawLine( uint16_t X1, uint16_t Y1, uint16_t X2, uint16_t Y2 );
+void     BSP_LCD_DrawRect( uint16_t Xpos, uint16_t Ypos, uint16_t Width, uint16_t Height );
+void     BSP_LCD_DrawCircle( uint16_t Xpos, uint16_t Ypos, uint16_t Radius );
+void     BSP_LCD_DrawPolygon( pPoint pPoints, uint16_t PointCount );
+void     BSP_LCD_DrawEllipse( int Xpos, int Ypos, int XRadius, int YRadius );
+void     BSP_LCD_DrawBitmap( uint16_t Xpos, uint16_t Ypos, uint8_t *pBmp );
 
-void     BSP_LCD_DisplayOff(void);
-void     BSP_LCD_DisplayOn(void);
+void     BSP_LCD_FillRect( uint16_t Xpos, uint16_t Ypos, uint16_t Width, uint16_t Height );
+void     BSP_LCD_FillCircle( uint16_t Xpos, uint16_t Ypos, uint16_t Radius );
+void     BSP_LCD_FillEllipse( int Xpos, int Ypos, int XRadius, int YRadius );
+
+void     BSP_LCD_DisplayOff( void );
+void     BSP_LCD_DisplayOn( void );
 
 /**
   * @}

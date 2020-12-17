@@ -38,7 +38,7 @@
 #define ADDR_FLASH_PAGE_1533  ((uint32_t)0x0802FE80) /* Base @ of Page 1533, 128 bytes */
 #define ADDR_FLASH_PAGE_1534  ((uint32_t)0x0802FF00) /* Base @ of Page 1534, 128 bytes */
 #define ADDR_FLASH_PAGE_1535  ((uint32_t)0x0802FF80) /* Base @ of Page 1535, 128 bytes */
-    
+
 
 /* Exported functions ------------------------------------------------------- */
 

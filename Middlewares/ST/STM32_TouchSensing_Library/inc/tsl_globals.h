@@ -31,17 +31,17 @@
   */
 typedef struct
 {
-  TSL_tTick_ms_T       Tick_ms;     /**< Incremented each 0.5ms by timing interrupt routine */
-  TSL_tTick_sec_T      Tick_sec;    /**< Incremented each second by timing interrupt routine */
-  CONST TSL_Bank_T     *Bank_Array; /**< Pointer to the array containing all Banks */
-  TSL_tIndex_T         This_Bank;   /**< Pointer to the current Bank */
-  CONST TSL_Object_T   *This_Obj;   /**< Pointer to the current Object */
-  uint32_t             DelayDischarge; /**< Delay used to discharge all capacitors */
+    TSL_tTick_ms_T       Tick_ms;     /**< Incremented each 0.5ms by timing interrupt routine */
+    TSL_tTick_sec_T      Tick_sec;    /**< Incremented each second by timing interrupt routine */
+    CONST TSL_Bank_T     *Bank_Array; /**< Pointer to the array containing all Banks */
+    TSL_tIndex_T         This_Bank;   /**< Pointer to the current Bank */
+    CONST TSL_Object_T   *This_Obj;   /**< Pointer to the current Object */
+    uint32_t             DelayDischarge; /**< Delay used to discharge all capacitors */
 #if TSLPRM_TOTAL_TKEYS > 0
-  CONST TSL_TouchKey_T *This_TKey; /**< Pointer to the current TKey */
+    CONST TSL_TouchKey_T *This_TKey; /**< Pointer to the current TKey */
 #endif
 #if TSLPRM_TOTAL_LNRTS > 0
-  CONST TSL_LinRot_T   *This_LinRot; /**< Pointer to the current Linear or Rotary sensor */
+    CONST TSL_LinRot_T   *This_LinRot; /**< Pointer to the current Linear or Rotary sensor */
 #endif
 }
 TSL_Globals_T;
@@ -52,17 +52,17 @@ TSL_Globals_T;
   */
 typedef struct
 {
-  TSL_tMeas_T       AcqMin;         /**< Acquisition minimum limit */
-  TSL_tMeas_T       AcqMax;         /**< Acquisition maximum limit */
-  TSL_tNb_T         NbCalibSamples; /**< Number of Calibration samples */
-  TSL_tTick_sec_T   DTO;            /**< Detection Time Out */
+    TSL_tMeas_T       AcqMin;         /**< Acquisition minimum limit */
+    TSL_tMeas_T       AcqMax;         /**< Acquisition maximum limit */
+    TSL_tNb_T         NbCalibSamples; /**< Number of Calibration samples */
+    TSL_tTick_sec_T   DTO;            /**< Detection Time Out */
 #if TSLPRM_TOTAL_TKEYS > 0
-  CONST TSL_State_T           *p_TKeySM; /**< Default state machine for TouchKey sensors */
-  CONST TSL_TouchKeyMethods_T *p_TKeyMT; /**< Default methods for TouchKey sensors */
+    CONST TSL_State_T           *p_TKeySM; /**< Default state machine for TouchKey sensors */
+    CONST TSL_TouchKeyMethods_T *p_TKeyMT; /**< Default methods for TouchKey sensors */
 #endif
 #if TSLPRM_TOTAL_LNRTS > 0
-  CONST TSL_State_T         *p_LinRotSM; /**< Default state machine for Linear/Rotary sensors */
-  CONST TSL_LinRotMethods_T *p_LinRotMT; /**< Default methods for Linear/Rotary sensors */
+    CONST TSL_State_T         *p_LinRotSM; /**< Default state machine for Linear/Rotary sensors */
+    CONST TSL_LinRotMethods_T *p_LinRotMT; /**< Default methods for Linear/Rotary sensors */
 #endif
 }
 TSL_Params_T;

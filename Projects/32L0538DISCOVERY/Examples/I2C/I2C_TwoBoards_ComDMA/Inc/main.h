@@ -1,6 +1,6 @@
 /**
   ******************************************************************************
-  * @file    I2C/I2C_TwoBoards_ComDMA/Inc/main.h 
+  * @file    I2C/I2C_TwoBoards_ComDMA/Inc/main.h
   * @author  MCD Application Team
   * @brief   Header for main.c module
   ******************************************************************************
@@ -16,7 +16,7 @@
   *
   ******************************************************************************
   */
-  
+
 /* Define to prevent recursive inclusion -------------------------------------*/
 #ifndef __MAIN_H
 #define __MAIN_H
@@ -35,7 +35,7 @@
 #define RCC_I2CxCLKSOURCE_SYSCLK        RCC_I2C1CLKSOURCE_SYSCLK
 #define I2Cx_CLK_ENABLE()               __HAL_RCC_I2C1_CLK_ENABLE()
 #define I2Cx_SDA_GPIO_CLK_ENABLE()      __HAL_RCC_GPIOB_CLK_ENABLE()
-#define I2Cx_SCL_GPIO_CLK_ENABLE()      __HAL_RCC_GPIOB_CLK_ENABLE() 
+#define I2Cx_SCL_GPIO_CLK_ENABLE()      __HAL_RCC_GPIOB_CLK_ENABLE()
 #define I2Cx_DMA_CLK_ENABLE()           __HAL_RCC_DMA1_CLK_ENABLE()
 
 #define I2Cx_FORCE_RESET()              __HAL_RCC_I2C1_FORCE_RESET()
@@ -53,7 +53,7 @@
 #define I2Cx_IRQHandler                 I2C1_IRQHandler
 
 /* Definition for I2Cx's DMA */
-#define I2Cx_DMA                        DMA1   
+#define I2Cx_DMA                        DMA1
 #define I2Cx_DMA_INSTANCE_TX            DMA1_Channel6
 #define I2Cx_DMA_INSTANCE_RX            DMA1_Channel7
 #define I2Cx_DMA_REQUEST_TX             DMA_REQUEST_6

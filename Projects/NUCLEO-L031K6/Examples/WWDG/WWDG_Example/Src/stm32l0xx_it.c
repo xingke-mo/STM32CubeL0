@@ -47,7 +47,7 @@
   * @param  None
   * @retval None
   */
-void NMI_Handler(void)
+void NMI_Handler( void )
 {
 }
 
@@ -56,12 +56,12 @@ void NMI_Handler(void)
   * @param  None
   * @retval None
   */
-void HardFault_Handler(void)
+void HardFault_Handler( void )
 {
-  /* Go to infinite loop when Hard Fault exception occurs */
-  while (1)
-  {
-  }
+    /* Go to infinite loop when Hard Fault exception occurs */
+    while( 1 )
+    {
+    }
 }
 
 /**
@@ -69,7 +69,7 @@ void HardFault_Handler(void)
   * @param  None
   * @retval None
   */
-void SVC_Handler(void)
+void SVC_Handler( void )
 {
 }
 
@@ -78,7 +78,7 @@ void SVC_Handler(void)
   * @param  None
   * @retval None
   */
-void PendSV_Handler(void)
+void PendSV_Handler( void )
 {
 }
 
@@ -87,9 +87,9 @@ void PendSV_Handler(void)
   * @param  None
   * @retval None
   */
-void SysTick_Handler(void)
+void SysTick_Handler( void )
 {
-  HAL_IncTick();
+    HAL_IncTick();
 }
 
 /******************************************************************************/
@@ -104,12 +104,12 @@ void SysTick_Handler(void)
   * @param  None
   * @retval None
   */
-void EXTI4_15_IRQHandler(void)
+void EXTI4_15_IRQHandler( void )
 {
-  /* As the following address is invalid (not mapped), a Hardfault exception
-  will be generated with an infinite loop and when the WWDG counter falls to 63
-  the WWDG reset occurs */
-  *(__IO uint32_t *) 0xA0003000 = 0xFF;
+    /* As the following address is invalid (not mapped), a Hardfault exception
+    will be generated with an infinite loop and when the WWDG counter falls to 63
+    the WWDG reset occurs */
+    *( __IO uint32_t * ) 0xA0003000 = 0xFF;
 
 }
 /**

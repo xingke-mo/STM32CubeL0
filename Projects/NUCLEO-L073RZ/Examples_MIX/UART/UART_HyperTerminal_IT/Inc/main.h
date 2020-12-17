@@ -69,10 +69,10 @@
 #define COUNTOF(__BUFFER__)   (sizeof(__BUFFER__) / sizeof(*(__BUFFER__)))
 /* Exported functions ------------------------------------------------------- */
 /* IRQ Handler treatment functions */
-void UART_CharReception_Callback(void); 
-void UART_TXEmpty_Callback(void); 
-void UART_CharTransmitComplete_Callback(void); 
-void UART_Error_Callback(void); 
+void UART_CharReception_Callback( void );
+void UART_TXEmpty_Callback( void );
+void UART_CharTransmitComplete_Callback( void );
+void UART_Error_Callback( void );
 
 #endif /* __MAIN_H */
 

@@ -25,8 +25,8 @@
 #include "tsl_acq.h"
 
 /* Exported types ------------------------------------------------------------*/
-TSL_tMeas_T TSL_filt_MeasFilter(TSL_tMeas_T measn1, TSL_tMeas_T measn);
-TSL_tDelta_T TSL_filt_DeltaFilter(TSL_tDelta_T delta);
+TSL_tMeas_T TSL_filt_MeasFilter( TSL_tMeas_T measn1, TSL_tMeas_T measn );
+TSL_tDelta_T TSL_filt_DeltaFilter( TSL_tDelta_T delta );
 
 #endif /* __TSL_FILTER_H */
 

@@ -50,54 +50,54 @@
   * @param htim: TIM handle pointer
   * @retval None
   */
-void HAL_TIM_PWM_MspInit(TIM_HandleTypeDef *htim)
+void HAL_TIM_PWM_MspInit( TIM_HandleTypeDef *htim )
 {
-  GPIO_InitTypeDef   GPIO_InitStruct;
-  static DMA_HandleTypeDef  hdma_tim;
+    GPIO_InitTypeDef   GPIO_InitStruct;
+    static DMA_HandleTypeDef  hdma_tim;
 
-  /*##-1- Enable peripherals and GPIO Clocks #################################*/
-  /* TIMx clock enable */
-  TIMx_CLK_ENABLE();
+    /*##-1- Enable peripherals and GPIO Clocks #################################*/
+    /* TIMx clock enable */
+    TIMx_CLK_ENABLE();
 
-  /* Enable GPIO Channel3/3N Clocks */
-  TIMx_CHANNEL3_GPIO_CLK_ENABLE();
+    /* Enable GPIO Channel3/3N Clocks */
+    TIMx_CHANNEL3_GPIO_CLK_ENABLE();
 
-  /* Enable DMA clock */
-  DMAx_CLK_ENABLE();
-
-
-  /* Configure TIM2_Channel3 in output, push-pull & alternate function mode */
-  GPIO_InitStruct.Pin = GPIO_PIN_CHANNEL3;
-  GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-  GPIO_InitStruct.Pull = GPIO_PULLUP;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-  GPIO_InitStruct.Alternate = GPIO_AF_TIMx;
-  HAL_GPIO_Init(TIMx_GPIO_CHANNEL3_PORT, &GPIO_InitStruct);
+    /* Enable DMA clock */
+    DMAx_CLK_ENABLE();
 
 
-  /* Set the parameters to be configured */
-  hdma_tim.Init.Request  = TIMx_CC3_DMA_REQUEST;
-  hdma_tim.Init.Direction = DMA_MEMORY_TO_PERIPH;
-  hdma_tim.Init.PeriphInc = DMA_PINC_DISABLE;
-  hdma_tim.Init.MemInc = DMA_MINC_ENABLE;
-  hdma_tim.Init.PeriphDataAlignment = DMA_PDATAALIGN_WORD ;
-  hdma_tim.Init.MemDataAlignment = DMA_MDATAALIGN_WORD ;
-  hdma_tim.Init.Mode = DMA_CIRCULAR;
-  hdma_tim.Init.Priority = DMA_PRIORITY_HIGH;
+    /* Configure TIM2_Channel3 in output, push-pull & alternate function mode */
+    GPIO_InitStruct.Pin = GPIO_PIN_CHANNEL3;
+    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+    GPIO_InitStruct.Pull = GPIO_PULLUP;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+    GPIO_InitStruct.Alternate = GPIO_AF_TIMx;
+    HAL_GPIO_Init( TIMx_GPIO_CHANNEL3_PORT, &GPIO_InitStruct );
 
-  /* Set hdma_tim instance */
-  hdma_tim.Instance = TIMx_CC3_DMA_INST;
 
-  /* Link hdma_tim to hdma[TIM_DMA_ID_CC3] (channel3) */
-  __HAL_LINKDMA(htim, hdma[TIM_DMA_ID_CC3], hdma_tim);
+    /* Set the parameters to be configured */
+    hdma_tim.Init.Request  = TIMx_CC3_DMA_REQUEST;
+    hdma_tim.Init.Direction = DMA_MEMORY_TO_PERIPH;
+    hdma_tim.Init.PeriphInc = DMA_PINC_DISABLE;
+    hdma_tim.Init.MemInc = DMA_MINC_ENABLE;
+    hdma_tim.Init.PeriphDataAlignment = DMA_PDATAALIGN_WORD ;
+    hdma_tim.Init.MemDataAlignment = DMA_MDATAALIGN_WORD ;
+    hdma_tim.Init.Mode = DMA_CIRCULAR;
+    hdma_tim.Init.Priority = DMA_PRIORITY_HIGH;
 
-  /* Initialize TIMx DMA handle */
-  HAL_DMA_Init(htim->hdma[TIM_DMA_ID_CC3]);
+    /* Set hdma_tim instance */
+    hdma_tim.Instance = TIMx_CC3_DMA_INST;
 
-  /*##-2- Configure the NVIC for DMA #########################################*/
-  /* NVIC configuration for DMA transfer complete interrupt */
-  HAL_NVIC_SetPriority(TIMx_DMA_IRQn, 0, 0);
-  HAL_NVIC_EnableIRQ(TIMx_DMA_IRQn);
+    /* Link hdma_tim to hdma[TIM_DMA_ID_CC3] (channel3) */
+    __HAL_LINKDMA( htim, hdma[TIM_DMA_ID_CC3], hdma_tim );
+
+    /* Initialize TIMx DMA handle */
+    HAL_DMA_Init( htim->hdma[TIM_DMA_ID_CC3] );
+
+    /*##-2- Configure the NVIC for DMA #########################################*/
+    /* NVIC configuration for DMA transfer complete interrupt */
+    HAL_NVIC_SetPriority( TIMx_DMA_IRQn, 0, 0 );
+    HAL_NVIC_EnableIRQ( TIMx_DMA_IRQn );
 }
 
 

@@ -1,6 +1,6 @@
 /**
   ******************************************************************************
-  * @file    tsl_config.h 
+  * @file    tsl_config.h
   * @author  MCD Application Team
   * @brief   Header for main.c module
   ******************************************************************************
@@ -26,7 +26,7 @@
 #include "tsl_user.h"
 
 /* Private define ------------------------------------------------------------*/
-  /* Defines for Lilnear Touch */
+/* Defines for Lilnear Touch */
 #define LINEAR_DETECT ((MyLinRots[0].p_Data->StateId == TSL_STATEID_DETECT) || \
                        (MyLinRots[0].p_Data->StateId == TSL_STATEID_DEB_RELEASE_DETECT))
 #define LINEAR_POSITION (MyLinRots[0].p_Data->Position)
@@ -37,8 +37,8 @@
 /* Private variables ---------------------------------------------------------*/
 /* Exported types ------------------------------------------------------------*/
 /* Exported constants --------------------------------------------------------*/
-/* Exported functions ------------------------------------------------------- */ 
-void TSL_Config(void);
+/* Exported functions ------------------------------------------------------- */
+void TSL_Config( void );
 
 #endif /* __MAIN_H */
 

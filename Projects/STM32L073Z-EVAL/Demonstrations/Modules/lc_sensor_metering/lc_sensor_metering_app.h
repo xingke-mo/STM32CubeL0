@@ -1,7 +1,7 @@
 /**
   ******************************************************************************
   * @file    lc_sensor_metering_app.h
-  * @author  MCD Application Team   
+  * @author  MCD Application Team
   * @brief   System information functions
   ******************************************************************************
   * @attention
@@ -19,9 +19,9 @@
 
 #undef GLOBAL
 #ifdef MODULE_LC_SENSOR_METERING
-#define GLOBAL
+    #define GLOBAL
 #else
-#define GLOBAL extern
+    #define GLOBAL extern
 #endif
 
 
@@ -33,7 +33,7 @@
   */
 
 /** @defgroup LC_SENSOR_INFO
-  * @brief system info routines 
+  * @brief system info routines
   * @{
   */
 

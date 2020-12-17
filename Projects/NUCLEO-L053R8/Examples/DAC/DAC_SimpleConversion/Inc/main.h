@@ -1,6 +1,6 @@
 /**
   ******************************************************************************
-  * @file    DAC/DAC_SimpleConversion/Inc/main.h 
+  * @file    DAC/DAC_SimpleConversion/Inc/main.h
   * @author  MCD Application Team
   * @brief   Header for main.c module
   ******************************************************************************
@@ -27,7 +27,7 @@
 
 /* Exported types ------------------------------------------------------------*/
 /* Exported constants --------------------------------------------------------*/
-/* User can use this section to tailor DACx instance used and associated 
+/* User can use this section to tailor DACx instance used and associated
    resources */
 /* Definition for DACx clock resources */
 #define DACx                            DAC
@@ -36,10 +36,10 @@
 
 #define DACx_FORCE_RESET()              __HAL_RCC_DAC_FORCE_RESET()
 #define DACx_RELEASE_RESET()            __HAL_RCC_DAC_RELEASE_RESET()
-     
+
 /* Definition for DACx Channel Pin */
 #define DACx_CHANNEL_PIN                GPIO_PIN_4
-#define DACx_CHANNEL_GPIO_PORT          GPIOA 
+#define DACx_CHANNEL_GPIO_PORT          GPIOA
 
 /* Definition for DACx's Channel */
 #define DACx_CHANNEL                    DAC_CHANNEL_1

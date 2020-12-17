@@ -22,7 +22,7 @@
 #define __STM32L0xx_HAL_FLASH_H
 
 #ifdef __cplusplus
- extern "C" {
+extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
@@ -68,9 +68,9 @@
   */
 typedef enum
 {
-  FLASH_PROC_NONE              = 0,
-  FLASH_PROC_PAGEERASE         = 1,
-  FLASH_PROC_PROGRAM           = 2,
+    FLASH_PROC_NONE              = 0,
+    FLASH_PROC_PAGEERASE         = 1,
+    FLASH_PROC_PROGRAM           = 2,
 } FLASH_ProcedureTypeDef;
 
 /**
@@ -78,17 +78,17 @@ typedef enum
   */
 typedef struct
 {
-  __IO FLASH_ProcedureTypeDef ProcedureOnGoing; /*!< Internal variable to indicate which procedure is ongoing or not in IT context */
+    __IO FLASH_ProcedureTypeDef ProcedureOnGoing; /*!< Internal variable to indicate which procedure is ongoing or not in IT context */
 
-  __IO uint32_t               NbPagesToErase;   /*!< Internal variable to save the remaining sectors to erase in IT context*/
+    __IO uint32_t               NbPagesToErase;   /*!< Internal variable to save the remaining sectors to erase in IT context*/
 
-  __IO uint32_t               Address;          /*!< Internal variable to save address selected for program or erase */
+    __IO uint32_t               Address;          /*!< Internal variable to save address selected for program or erase */
 
-  __IO uint32_t               Page;             /*!< Internal variable to define the current page which is erasing */
+    __IO uint32_t               Page;             /*!< Internal variable to define the current page which is erasing */
 
-  HAL_LockTypeDef             Lock;             /*!< FLASH locking object                */
+    HAL_LockTypeDef             Lock;             /*!< FLASH locking object                */
 
-  __IO uint32_t               ErrorCode;        /*!< FLASH error code
+    __IO uint32_t               ErrorCode;        /*!< FLASH error code
                                                      This parameter can be a value of @ref FLASH_Error_Codes  */
 } FLASH_ProcessTypeDef;
 
@@ -309,14 +309,14 @@ typedef struct
   * @{
   */
 /* IO operation functions *****************************************************/
-HAL_StatusTypeDef HAL_FLASH_Program(uint32_t TypeProgram, uint32_t Address, uint32_t Data);
-HAL_StatusTypeDef HAL_FLASH_Program_IT(uint32_t TypeProgram, uint32_t Address, uint32_t Data);
+HAL_StatusTypeDef HAL_FLASH_Program( uint32_t TypeProgram, uint32_t Address, uint32_t Data );
+HAL_StatusTypeDef HAL_FLASH_Program_IT( uint32_t TypeProgram, uint32_t Address, uint32_t Data );
 
 /* FLASH IRQ handler function */
-void       HAL_FLASH_IRQHandler(void);
+void       HAL_FLASH_IRQHandler( void );
 /* Callbacks in non blocking modes */
-void       HAL_FLASH_EndOfOperationCallback(uint32_t ReturnValue);
-void       HAL_FLASH_OperationErrorCallback(uint32_t ReturnValue);
+void       HAL_FLASH_EndOfOperationCallback( uint32_t ReturnValue );
+void       HAL_FLASH_OperationErrorCallback( uint32_t ReturnValue );
 
 /**
   * @}
@@ -326,11 +326,11 @@ void       HAL_FLASH_OperationErrorCallback(uint32_t ReturnValue);
   * @{
   */
 /* Peripheral Control functions ***********************************************/
-HAL_StatusTypeDef HAL_FLASH_Unlock(void);
-HAL_StatusTypeDef HAL_FLASH_Lock(void);
-HAL_StatusTypeDef HAL_FLASH_OB_Unlock(void);
-HAL_StatusTypeDef HAL_FLASH_OB_Lock(void);
-HAL_StatusTypeDef HAL_FLASH_OB_Launch(void);
+HAL_StatusTypeDef HAL_FLASH_Unlock( void );
+HAL_StatusTypeDef HAL_FLASH_Lock( void );
+HAL_StatusTypeDef HAL_FLASH_OB_Unlock( void );
+HAL_StatusTypeDef HAL_FLASH_OB_Lock( void );
+HAL_StatusTypeDef HAL_FLASH_OB_Launch( void );
 
 /**
   * @}
@@ -340,7 +340,7 @@ HAL_StatusTypeDef HAL_FLASH_OB_Launch(void);
   * @{
   */
 /* Peripheral State and Error functions ***************************************/
-uint32_t HAL_FLASH_GetError(void);
+uint32_t HAL_FLASH_GetError( void );
 
 /**
   * @}
@@ -354,7 +354,7 @@ uint32_t HAL_FLASH_GetError(void);
 /** @addtogroup FLASH_Private_Functions
  * @{
  */
-HAL_StatusTypeDef       FLASH_WaitForLastOperation(uint32_t Timeout);
+HAL_StatusTypeDef       FLASH_WaitForLastOperation( uint32_t Timeout );
 
 /**
   * @}

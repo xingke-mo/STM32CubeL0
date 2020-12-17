@@ -17,14 +17,14 @@
   *
   ******************************************************************************
   */
-  
+
 
 /* Define to prevent recursive inclusion -------------------------------------*/
 #ifndef __STLM75_H
 #define __STLM75_H
 
 #ifdef __cplusplus
- extern "C" {
+extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
@@ -41,7 +41,7 @@
 /** @addtogroup STLM75
   * @{
   */
-  
+
 /** @defgroup STLM75_Exported_Constants
   * @{
   */
@@ -60,7 +60,7 @@
 /******************************************************************************/
 /**************************** END REGISTER MAPPING  ***************************/
 /******************************************************************************/
-/** @defgroup Conversion_Mode_Selection 
+/** @defgroup Conversion_Mode_Selection
   * @{
   */
 #define STLM75_CONTINUOUS_MODE                  ((uint8_t)0x00)
@@ -69,7 +69,7 @@
   * @}
   */
 
-/** @defgroup Operation_Mode 
+/** @defgroup Operation_Mode
   * @{
   */
 #define STLM75_COMPARATOR_MODE                  ((uint8_t)0x00)
@@ -81,25 +81,25 @@
 /**
   * @}
   */
- 
+
 /** @defgroup STLM75_Exported_Functions
   * @{
   */
-/* Sensor Configuration Functions */ 
-void                      STLM75_Init(uint16_t DeviceAddr, TSENSOR_InitTypeDef *pInitStruct);
-uint8_t                   STLM75_IsReady(uint16_t DeviceAddr, uint32_t Trials);
+/* Sensor Configuration Functions */
+void                      STLM75_Init( uint16_t DeviceAddr, TSENSOR_InitTypeDef *pInitStruct );
+uint8_t                   STLM75_IsReady( uint16_t DeviceAddr, uint32_t Trials );
 /* Sensor Request Functions */
-uint8_t                   STLM75_ReadStatus(uint16_t DeviceAddr);
-float                     STLM75_ReadTemp(uint16_t DeviceAddr);
+uint8_t                   STLM75_ReadStatus( uint16_t DeviceAddr );
+float                     STLM75_ReadTemp( uint16_t DeviceAddr );
 
 /* Temperature Sensor driver structure */
 extern TSENSOR_DrvTypeDef Stlm75Drv;
 
 /* Temperature Sensor IO functions */
-void                      TSENSOR_IO_Init(void);
-void                      TSENSOR_IO_Write(uint16_t DevAddress, uint8_t* pBuffer, uint8_t WriteAddr, uint16_t Length);
-void                      TSENSOR_IO_Read(uint16_t DevAddress, uint8_t* pBuffer, uint8_t ReadAddr, uint16_t Length);
-uint16_t                  TSENSOR_IO_IsDeviceReady(uint16_t DevAddress, uint32_t Trials);
+void                      TSENSOR_IO_Init( void );
+void                      TSENSOR_IO_Write( uint16_t DevAddress, uint8_t *pBuffer, uint8_t WriteAddr, uint16_t Length );
+void                      TSENSOR_IO_Read( uint16_t DevAddress, uint8_t *pBuffer, uint8_t ReadAddr, uint16_t Length );
+uint16_t                  TSENSOR_IO_IsDeviceReady( uint16_t DevAddress, uint32_t Trials );
 /**
   * @}
   */
@@ -117,10 +117,10 @@ uint16_t                  TSENSOR_IO_IsDeviceReady(uint16_t DevAddress, uint32_t
   */
 
 #ifdef __cplusplus
- }
+}
 #endif
-  
+
 #endif /* __STTS751_H */
 
 
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/ 
+/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

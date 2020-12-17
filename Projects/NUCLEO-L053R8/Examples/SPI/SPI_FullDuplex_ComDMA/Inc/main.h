@@ -1,6 +1,6 @@
 /**
   ******************************************************************************
-  * @file    SPI/SPI_FullDuplex_ComDMA/Inc/main.h 
+  * @file    SPI/SPI_FullDuplex_ComDMA/Inc/main.h
   * @author  MCD Application Team
   * @brief   Header for main.c module
   ******************************************************************************
@@ -26,15 +26,15 @@
 
 /* Exported types ------------------------------------------------------------*/
 /* Exported constants --------------------------------------------------------*/
-/* User can use this section to tailor SPIx instance used and associated 
+/* User can use this section to tailor SPIx instance used and associated
    resources */
 /* Definition for SPIx clock resources */
 #define SPIx                             SPI2
 #define SPIx_CLK_ENABLE()                __HAL_RCC_SPI2_CLK_ENABLE()
 #define DMAx_CLK_ENABLE()                __HAL_RCC_DMA1_CLK_ENABLE()
 #define SPIx_SCK_GPIO_CLK_ENABLE()       __HAL_RCC_GPIOB_CLK_ENABLE()
-#define SPIx_MISO_GPIO_CLK_ENABLE()      __HAL_RCC_GPIOB_CLK_ENABLE() 
-#define SPIx_MOSI_GPIO_CLK_ENABLE()      __HAL_RCC_GPIOB_CLK_ENABLE() 
+#define SPIx_MISO_GPIO_CLK_ENABLE()      __HAL_RCC_GPIOB_CLK_ENABLE()
+#define SPIx_MOSI_GPIO_CLK_ENABLE()      __HAL_RCC_GPIOB_CLK_ENABLE()
 
 #define SPIx_FORCE_RESET()               __HAL_RCC_SPI2_FORCE_RESET()
 #define SPIx_RELEASE_RESET()             __HAL_RCC_SPI2_RELEASE_RESET()

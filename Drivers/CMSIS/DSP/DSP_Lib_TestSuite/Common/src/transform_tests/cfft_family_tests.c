@@ -137,40 +137,40 @@
                             TRANSFORM_SNR_COMPARE_CMPLX_INTERFACE,  \
                             TYPE_FROM_ABBREV(q15),                  \
                             ifft_flag)
-    /* /\* Mag tests*\/                                                  \ */
-    /* CFFT_FAMILY_DEFINE_TEST(mag, f32, config_suffix,                \ */
-    /*                         TRANSFORM_SNR_COMPARE_INTERFACE,        \ */
-    /*                         TYPE_FROM_ABBREV(f32),                  \ */
-    /*                         ifft_flag);                             \ */
-    /* CFFT_FAMILY_DEFINE_TEST(mag, q31, config_suffix,                \ */
-    /*                         TRANSFORM_SNR_COMPARE_INTERFACE,        \ */
-    /*                         TYPE_FROM_ABBREV(q31),                  \ */
-    /*                         ifft_flag);                             \ */
-    /* CFFT_FAMILY_DEFINE_TEST(mag, q15, config_suffix,                \ */
-    /*                         TRANSFORM_SNR_COMPARE_INTERFACE,        \ */
-    /*                         TYPE_FROM_ABBREV(q15),                  \ */
-    /*                         ifft_flag) */
+/* /\* Mag tests*\/                                                  \ */
+/* CFFT_FAMILY_DEFINE_TEST(mag, f32, config_suffix,                \ */
+/*                         TRANSFORM_SNR_COMPARE_INTERFACE,        \ */
+/*                         TYPE_FROM_ABBREV(f32),                  \ */
+/*                         ifft_flag);                             \ */
+/* CFFT_FAMILY_DEFINE_TEST(mag, q31, config_suffix,                \ */
+/*                         TRANSFORM_SNR_COMPARE_INTERFACE,        \ */
+/*                         TYPE_FROM_ABBREV(q31),                  \ */
+/*                         ifft_flag);                             \ */
+/* CFFT_FAMILY_DEFINE_TEST(mag, q15, config_suffix,                \ */
+/*                         TRANSFORM_SNR_COMPARE_INTERFACE,        \ */
+/*                         TYPE_FROM_ABBREV(q15),                  \ */
+/*                         ifft_flag) */
 
-CFFT_FAMILY_DEFINE_ALL_TESTS(forward, 0U);
-CFFT_FAMILY_DEFINE_ALL_TESTS(inverse, 1U);
+CFFT_FAMILY_DEFINE_ALL_TESTS( forward, 0U );
+CFFT_FAMILY_DEFINE_ALL_TESTS( inverse, 1U );
 
 /*--------------------------------------------------------------------------------*/
 /* Collect all tests in a group */
 /*--------------------------------------------------------------------------------*/
 
-JTEST_DEFINE_GROUP(cfft_family_tests)
+JTEST_DEFINE_GROUP( cfft_family_tests )
 {
     /* Forward FFT tests */
-    JTEST_TEST_CALL(arm_cfft_radix2_q31_forward_test);
-    JTEST_TEST_CALL(arm_cfft_radix2_q15_forward_test);
-    JTEST_TEST_CALL(arm_cfft_radix4_q31_forward_test);
-    JTEST_TEST_CALL(arm_cfft_radix4_q15_forward_test);
+    JTEST_TEST_CALL( arm_cfft_radix2_q31_forward_test );
+    JTEST_TEST_CALL( arm_cfft_radix2_q15_forward_test );
+    JTEST_TEST_CALL( arm_cfft_radix4_q31_forward_test );
+    JTEST_TEST_CALL( arm_cfft_radix4_q15_forward_test );
 
     /* Inverse FFT Tests */
-    JTEST_TEST_CALL(arm_cfft_radix2_q31_inverse_test);
-    JTEST_TEST_CALL(arm_cfft_radix2_q15_inverse_test);
-    JTEST_TEST_CALL(arm_cfft_radix4_q31_inverse_test);
-    JTEST_TEST_CALL(arm_cfft_radix4_q15_inverse_test);
+    JTEST_TEST_CALL( arm_cfft_radix2_q31_inverse_test );
+    JTEST_TEST_CALL( arm_cfft_radix2_q15_inverse_test );
+    JTEST_TEST_CALL( arm_cfft_radix4_q31_inverse_test );
+    JTEST_TEST_CALL( arm_cfft_radix4_q15_inverse_test );
 
     /* Magnitude tests removed from the DSP Library. Keeping them here in case
        minds are changed. */

@@ -19,8 +19,8 @@
 /*--------------------------------------------------------------------------------*/
 
 /* Input/Output Buffers */
-ARR_DESC_DECLARE(basic_math_output_fut);
-ARR_DESC_DECLARE(basic_math_output_ref);
+ARR_DESC_DECLARE( basic_math_output_fut );
+ARR_DESC_DECLARE( basic_math_output_ref );
 
 extern BASIC_MATH_BIGGEST_INPUT_TYPE
 basic_math_output_f32_ref[BASIC_MATH_MAX_INPUT_ELEMENTS];
@@ -29,18 +29,18 @@ extern BASIC_MATH_BIGGEST_INPUT_TYPE
 basic_math_output_f32_fut[BASIC_MATH_MAX_INPUT_ELEMENTS];
 
 /* Block Sizes*/
-ARR_DESC_DECLARE(basic_math_block_sizes);
+ARR_DESC_DECLARE( basic_math_block_sizes );
 
 /* Numbers */
-ARR_DESC_DECLARE(basic_math_elts);
-ARR_DESC_DECLARE(basic_math_elts2);
-ARR_DESC_DECLARE(basic_math_eltsf);
+ARR_DESC_DECLARE( basic_math_elts );
+ARR_DESC_DECLARE( basic_math_elts2 );
+ARR_DESC_DECLARE( basic_math_eltsf );
 
 /* Float Inputs */
-ARR_DESC_DECLARE(basic_math_zeros);
-ARR_DESC_DECLARE(basic_math_f_2);
-ARR_DESC_DECLARE(basic_math_f_15);
-ARR_DESC_DECLARE(basic_math_f_32);
-ARR_DESC_DECLARE(basic_math_f_all);
+ARR_DESC_DECLARE( basic_math_zeros );
+ARR_DESC_DECLARE( basic_math_f_2 );
+ARR_DESC_DECLARE( basic_math_f_15 );
+ARR_DESC_DECLARE( basic_math_f_32 );
+ARR_DESC_DECLARE( basic_math_f_all );
 
 #endif

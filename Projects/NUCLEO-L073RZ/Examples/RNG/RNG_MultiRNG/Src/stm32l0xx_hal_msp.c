@@ -46,33 +46,35 @@
   * @param hrng: RNG handle pointer
   * @retval None
   */
-void HAL_RNG_MspInit(RNG_HandleTypeDef *hrng)
-{  
+void HAL_RNG_MspInit( RNG_HandleTypeDef *hrng )
+{
 
-  RCC_OscInitTypeDef RCC_OscInitStruct = {0};
-  RCC_PeriphCLKInitTypeDef  PeriphClkInitStruct = {0};
-  
-  /* Enable HSI48 Oscillator for USB/RNG */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI48;
-  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
-  RCC_OscInitStruct.HSI48State = RCC_HSI48_ON;
-  if(HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
-  {
-    /* Initialization Error */
-    while(1); 
-  }
-  
-  /* configure RNG clock for USB or RNG analog part */
-  PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_USB;
-  PeriphClkInitStruct.UsbClockSelection = RCC_USBCLKSOURCE_HSI48;
-  if(HAL_RCCEx_PeriphCLKConfig(&PeriphClkInitStruct)!= HAL_OK)
-  {
-    /* Initialization Error */
-    while(1); 
-  }
+    RCC_OscInitTypeDef RCC_OscInitStruct = {0};
+    RCC_PeriphCLKInitTypeDef  PeriphClkInitStruct = {0};
 
-  /* RNG Peripheral clock enable */
-  __HAL_RCC_RNG_CLK_ENABLE();
+    /* Enable HSI48 Oscillator for USB/RNG */
+    RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI48;
+    RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
+    RCC_OscInitStruct.HSI48State = RCC_HSI48_ON;
+
+    if( HAL_RCC_OscConfig( &RCC_OscInitStruct ) != HAL_OK )
+    {
+        /* Initialization Error */
+        while( 1 );
+    }
+
+    /* configure RNG clock for USB or RNG analog part */
+    PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_USB;
+    PeriphClkInitStruct.UsbClockSelection = RCC_USBCLKSOURCE_HSI48;
+
+    if( HAL_RCCEx_PeriphCLKConfig( &PeriphClkInitStruct ) != HAL_OK )
+    {
+        /* Initialization Error */
+        while( 1 );
+    }
+
+    /* RNG Peripheral clock enable */
+    __HAL_RCC_RNG_CLK_ENABLE();
 
 }
 
@@ -83,14 +85,14 @@ void HAL_RNG_MspInit(RNG_HandleTypeDef *hrng)
   * @param hrng: RNG handle pointer
   * @retval None
   */
-void HAL_RNG_MspDeInit(RNG_HandleTypeDef *hrng)
+void HAL_RNG_MspDeInit( RNG_HandleTypeDef *hrng )
 {
-  /* Enable RNG reset state */
-  __HAL_RCC_RNG_FORCE_RESET();
+    /* Enable RNG reset state */
+    __HAL_RCC_RNG_FORCE_RESET();
 
-  /* Release RNG from reset state */
-  __HAL_RCC_RNG_RELEASE_RESET();
-} 
+    /* Release RNG from reset state */
+    __HAL_RCC_RNG_RELEASE_RESET();
+}
 
 /**
   * @}

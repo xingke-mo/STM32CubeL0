@@ -219,7 +219,8 @@ int test_diskio(
 
         /* Multiple sector write test */
         printf( "**** Multiple sector write test ****\n" );
-        lba = 1; ns = sz_buff / sz_sect;
+        lba = 1;
+        ns = sz_buff / sz_sect;
 
         if( ns > 4 )
         {
@@ -353,7 +354,8 @@ int test_diskio(
 
         if( sz_drv >= 128 + 0x80000000 / ( sz_sect / 2 ) )
         {
-            lba = 6; lba2 = lba + 0x80000000 / ( sz_sect / 2 );
+            lba = 6;
+            lba2 = lba + 0x80000000 / ( sz_sect / 2 );
 
             for( n = 0, pn( pns ); n < ( UINT )( sz_sect * 2 ); n++ )
             {

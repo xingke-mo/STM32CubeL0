@@ -537,7 +537,9 @@ uint8_t BSP_SD_Erase( uint32_t StartAddr, uint32_t EndAddr )
     /* Send CMD32 (Erase group start) and check if the SD acknowledged the erase command: R1 response (0x00: no errors) */
     response = SD_SendCmd( SD_CMD_SD_ERASE_GRP_START, ( StartAddr ) * ( flag_SDHC == 1 ? 1 : BlockSize ), 0xFF, SD_ANSWER_R1_EXPECTED );
     SD_IO_CSState( 1 );
-    SD_IO_WriteByte( SD_DUMMY_BYTE );  if( response.r1 == SD_R1_NO_ERROR )
+    SD_IO_WriteByte( SD_DUMMY_BYTE );
+
+    if( response.r1 == SD_R1_NO_ERROR )
     {
         /* Send CMD33 (Erase group end) and Check if the SD acknowledged the erase command: R1 response (0x00: no errors) */
         response = SD_SendCmd( SD_CMD_SD_ERASE_GRP_END, ( EndAddr * 512 ) * ( flag_SDHC == 1 ? 1 : BlockSize ), 0xFF, SD_ANSWER_R1_EXPECTED );

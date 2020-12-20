@@ -449,7 +449,9 @@ void HAL_RTCEx_WakeUpTimerEventCallback( RTC_HandleTypeDef *hrtc )
     GPIOB->BSRR = GPIO_PIN_4;
 
     /* Set pulse width during HSI execution approx. 1.5µs */
-    __DSB(); __DSB(); __DSB();
+    __DSB();
+    __DSB();
+    __DSB();
 
     /* back to Analog state */
     GPIOB->MODER |= 0x00000200;

@@ -275,11 +275,13 @@ static void prvSVCHandler( uint32_t *pulParam )
 
     switch( ucSVCNumber )
     {
-    case portSVC_START_SCHEDULER    :   portNVIC_SYSPRI1_REG |= portNVIC_SVC_PRI;
+    case portSVC_START_SCHEDULER    :
+        portNVIC_SYSPRI1_REG |= portNVIC_SVC_PRI;
         prvRestoreContextOfFirstTask();
         break;
 
-    case portSVC_YIELD              :   portNVIC_INT_CTRL_REG = portNVIC_PENDSVSET_BIT;
+    case portSVC_YIELD              :
+        portNVIC_INT_CTRL_REG = portNVIC_PENDSVSET_BIT;
         /* Barriers are normally not required
         but do ensure the code is completely
         within the specified behaviour for the
@@ -289,7 +291,8 @@ static void prvSVCHandler( uint32_t *pulParam )
 
         break;
 
-    case portSVC_RAISE_PRIVILEGE    :   __asm volatile
+    case portSVC_RAISE_PRIVILEGE    :
+        __asm volatile
         (
             "	mrs r1, control		\n" /* Obtain current control value. */
             "	bic r1, #1			\n" /* Set privilege bit. */

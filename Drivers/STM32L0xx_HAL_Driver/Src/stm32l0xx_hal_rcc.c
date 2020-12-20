@@ -282,7 +282,8 @@ HAL_StatusTypeDef HAL_RCC_DeInit( void )
 #endif
 
     /* Delay after an RCC peripheral clock */ \
-    tmpreg = READ_BIT( RCC->CR, RCC_CR_HSEON );      \
+    tmpreg = READ_BIT( RCC->CR, RCC_CR_HSEON );
+    \
     UNUSED( tmpreg );
 
     /* Reset HSEBYP bit */

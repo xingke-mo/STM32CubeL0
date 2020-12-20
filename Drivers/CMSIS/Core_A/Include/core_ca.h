@@ -1000,11 +1000,17 @@ __STATIC_FORCEINLINE void __L1C_MaintainDCacheSetWay( uint32_t level, uint32_t m
 
             switch( maint )
             {
-            case 0U: __set_DCISW( Dummy );  break;
+            case 0U:
+                __set_DCISW( Dummy );
+                break;
 
-            case 1U: __set_DCCSW( Dummy );  break;
+            case 1U:
+                __set_DCCSW( Dummy );
+                break;
 
-            default: __set_DCCISW( Dummy ); break;
+            default:
+                __set_DCCISW( Dummy );
+                break;
             }
         }
     }

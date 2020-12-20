@@ -149,7 +149,9 @@ void RTC_IRQHandler( void )
         DAC->CR |= DAC_CR_EN1;
 
         /* Insert waiting time for COMP2 fast mode and DAC initialization time based on DSB assembler instruction */
-        __DSB(); __DSB(); __DSB();
+        __DSB();
+        __DSB();
+        __DSB();
 
         /* Re-configure all used pins in applicative conditions */
         /* Re-Enable PD7 VDD/2 reference power supply from Analog state to Output */
@@ -166,10 +168,45 @@ void RTC_IRQHandler( void )
 
         /* MSI time capture corresponding to 75µs while LC pulses are emitted. Based on DSB assembler instruction */
         /* DSB instruction is one clock cycle */
-        __DSB(); __DSB(); __DSB(); __DSB(); __DSB(); __DSB(); __DSB(); __DSB(); __DSB(); __DSB(); __DSB(); __DSB();
-        __DSB(); __DSB(); __DSB(); __DSB(); __DSB(); __DSB(); __DSB(); __DSB(); __DSB(); __DSB(); __DSB(); __DSB();
-        __DSB(); __DSB(); __DSB(); __DSB(); __DSB(); __DSB(); __DSB(); __DSB(); __DSB(); __DSB(); __DSB(); __DSB();
-        __DSB(); __DSB(); __DSB();
+        __DSB();
+        __DSB();
+        __DSB();
+        __DSB();
+        __DSB();
+        __DSB();
+        __DSB();
+        __DSB();
+        __DSB();
+        __DSB();
+        __DSB();
+        __DSB();
+        __DSB();
+        __DSB();
+        __DSB();
+        __DSB();
+        __DSB();
+        __DSB();
+        __DSB();
+        __DSB();
+        __DSB();
+        __DSB();
+        __DSB();
+        __DSB();
+        __DSB();
+        __DSB();
+        __DSB();
+        __DSB();
+        __DSB();
+        __DSB();
+        __DSB();
+        __DSB();
+        __DSB();
+        __DSB();
+        __DSB();
+        __DSB();
+        __DSB();
+        __DSB();
+        __DSB();
 
         /* Switch back PD7 VDD/2 reference power supply from Output state to Analog */
         GPIOD->MODER = 0xFFFFFFFF;

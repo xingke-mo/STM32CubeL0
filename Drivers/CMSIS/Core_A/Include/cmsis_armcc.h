@@ -400,9 +400,11 @@ __STATIC_INLINE __ASM uint32_t __get_SP_usr( void )
     PRESERVE8
 
     MRS     R1, CPSR
-    CPS     #0x1F       ; no effect in USR mode
+    CPS     #0x1F       ;
+    no effect in USR mode
     MOV     R0, SP
-    MSR     CPSR_c, R1  ; no effect in USR mode
+    MSR     CPSR_c, R1  ;
+    no effect in USR mode
     ISB
     BX      LR
 }
@@ -416,9 +418,11 @@ __STATIC_INLINE __ASM void __set_SP_usr( uint32_t topOfProcStack )
     PRESERVE8
 
     MRS     R1, CPSR
-    CPS     #0x1F       ; no effect in USR mode
+    CPS     #0x1F       ;
+    no effect in USR mode
     MOV     SP, R0
-    MSR     CPSR_c, R1  ; no effect in USR mode
+    MSR     CPSR_c, R1  ;
+    no effect in USR mode
     ISB
     BX      LR
 }

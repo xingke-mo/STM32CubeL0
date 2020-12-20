@@ -91,19 +91,26 @@ void Idd_Run_process( void )
     }
 
     /* SH0 1000 mohm */
-    param[0] = 0x03; param[1] = 0xE8;
+    param[0] = 0x03;
+    param[1] = 0xE8;
     /* SH1 24 ohm */
-    param[2] = 0x00; param[3] = 0x18;
+    param[2] = 0x00;
+    param[3] = 0x18;
     /* SH2 620 ohm */
-    param[4] = 0x02; param[5] = 0x6C;
+    param[4] = 0x02;
+    param[5] = 0x6C;
     /* SH3 not exist with STM32L0538 discovery */
-    param[6] = 0x00; param[7] = 0x00;
+    param[6] = 0x00;
+    param[7] = 0x00;
     /* SH4 10000 ohm */
-    param[8] = 0x27; param[9] = 0x10;
+    param[8] = 0x27;
+    param[9] = 0x10;
     /* gain x49.9 (4990)*/
-    param[10] = 0x13; param[11] = 0x7E;
+    param[10] = 0x13;
+    param[11] = 0x7E;
     /* VDD_MCU min 3000mV (0xBB8) for undershoot detection */
-    param[12] = 0x0B; param[13] = 0xB8;
+    param[12] = 0x0B;
+    param[13] = 0xB8;
 
     /* Send 12 parameters */
     if( HAL_I2C_Mem_Write( &I2CxHandle, 0x84, 0x82, I2C_MEMADD_SIZE_8BIT, param, 0xE, 10000 ) != HAL_OK )
@@ -206,19 +213,26 @@ void Idd_Sleep_process( void )
     }
 
     /* SH0 1000 mohm */
-    param[0] = 0x03; param[1] = 0xE8;
+    param[0] = 0x03;
+    param[1] = 0xE8;
     /* SH1 24 ohm */
-    param[2] = 0x00; param[3] = 0x18;
+    param[2] = 0x00;
+    param[3] = 0x18;
     /* SH2 620 ohm */
-    param[4] = 0x02; param[5] = 0x6C;
+    param[4] = 0x02;
+    param[5] = 0x6C;
     /* SH3 not exist with STM32L0538 discovery */
-    param[6] = 0x00; param[7] = 0x00;
+    param[6] = 0x00;
+    param[7] = 0x00;
     /* SH4 10000 ohm */
-    param[8] = 0x27; param[9] = 0x10;
+    param[8] = 0x27;
+    param[9] = 0x10;
     /* gain x49.9 (4990) */
-    param[10] = 0x13; param[11] = 0x7E;
+    param[10] = 0x13;
+    param[11] = 0x7E;
     /* VDD_MCU min 3000mV (0xBB8) for undershoot detection */
-    param[12] = 0x0B; param[13] = 0xB8;
+    param[12] = 0x0B;
+    param[13] = 0xB8;
 
     /* send 12 parameters */
     if( HAL_I2C_Mem_Write( &I2CxHandle, 0x84, 0x82, I2C_MEMADD_SIZE_8BIT, param, 0xE, 10000 ) != HAL_OK )
@@ -362,19 +376,26 @@ void Idd_LPSleep_process( void )
     }
 
     /* SH0 1000 mohm */
-    param[0] = 0x03; param[1] = 0xE8;
+    param[0] = 0x03;
+    param[1] = 0xE8;
     /* SH1 24 ohm */
-    param[2] = 0x00; param[3] = 0x18;
+    param[2] = 0x00;
+    param[3] = 0x18;
     /* SH2 620 ohm */
-    param[4] = 0x02; param[5] = 0x6C;
+    param[4] = 0x02;
+    param[5] = 0x6C;
     /* SH3 not exist with STM32L0538 discovery */
-    param[6] = 0x00; param[7] = 0x00;
+    param[6] = 0x00;
+    param[7] = 0x00;
     /* SH4 10000 ohm */
-    param[8] = 0x27; param[9] = 0x10;
+    param[8] = 0x27;
+    param[9] = 0x10;
     /* gain x49.9 (4990) */
-    param[10] = 0x13; param[11] = 0x7E;
+    param[10] = 0x13;
+    param[11] = 0x7E;
     /* VDD_MCU min 3000mV (0xBB8) for undershoot detection */
-    param[12] = 0x0B; param[13] = 0xB8;
+    param[12] = 0x0B;
+    param[13] = 0xB8;
 
     /* Send 12 parameters */
     if( HAL_I2C_Mem_Write( &I2CxHandle, 0x84, 0x82, I2C_MEMADD_SIZE_8BIT, param, 0xE, 10000 ) != HAL_OK )
@@ -569,19 +590,26 @@ void Idd_Stop_process( void )
     }
 
     /* SH0 1000 mohm */
-    param[0] = 0x03; param[1] = 0xE8;
+    param[0] = 0x03;
+    param[1] = 0xE8;
     /* SH1 24 ohm */
-    param[2] = 0x00; param[3] = 0x18;
+    param[2] = 0x00;
+    param[3] = 0x18;
     /* SH2 620 ohm */
-    param[4] = 0x02; param[5] = 0x6C;
+    param[4] = 0x02;
+    param[5] = 0x6C;
     /* SH3 not exist with STM32L053 discovery */
-    param[6] = 0x00; param[7] = 0x00;
+    param[6] = 0x00;
+    param[7] = 0x00;
     /* SH4 10000 ohm */
-    param[8] = 0x27; param[9] = 0x10;
+    param[8] = 0x27;
+    param[9] = 0x10;
     /* gain x49.9 (4990) */
-    param[10] = 0x13; param[11] = 0x7E;
+    param[10] = 0x13;
+    param[11] = 0x7E;
     /* VDD_MCU min 3000mV (0xBB8) for undershoot detection */
-    param[12] = 0x0B; param[13] = 0xB8;
+    param[12] = 0x0B;
+    param[13] = 0xB8;
 
     /* send 12 parameters */
     if( HAL_I2C_Mem_Write( &I2CxHandle, 0x84, 0x82, I2C_MEMADD_SIZE_8BIT, param, 0xE, 10000 ) != HAL_OK )

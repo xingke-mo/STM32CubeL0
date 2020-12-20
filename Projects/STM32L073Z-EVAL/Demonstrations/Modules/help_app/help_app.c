@@ -280,13 +280,16 @@ static void SystemHelpApp( void )
 
     switch( clkdef.SYSCLKSource )
     {
-    case RCC_SYSCLKSOURCE_MSI :    sprintf( ( char * )LCDStr, "%s = %s", C_CLK_SRC, "MSI" );
+    case RCC_SYSCLKSOURCE_MSI :
+        sprintf( ( char * )LCDStr, "%s = %s", C_CLK_SRC, "MSI" );
         break;
 
-    case RCC_SYSCLKSOURCE_HSI :    sprintf( ( char * )LCDStr, "%s = %s", C_CLK_SRC, "HSI" );
+    case RCC_SYSCLKSOURCE_HSI :
+        sprintf( ( char * )LCDStr, "%s = %s", C_CLK_SRC, "HSI" );
         break;
 
-    case RCC_SYSCLKSOURCE_HSE :    sprintf( ( char * )LCDStr, "%s = %s", C_CLK_SRC, "HSE" );
+    case RCC_SYSCLKSOURCE_HSE :
+        sprintf( ( char * )LCDStr, "%s = %s", C_CLK_SRC, "HSE" );
         break;
 
     case RCC_SYSCLKSOURCE_PLLCLK :
@@ -294,19 +297,23 @@ static void SystemHelpApp( void )
 
         switch( rcc_oscInitStruct.PLL.PLLSource )
         {
-        case RCC_PLLSOURCE_HSI  : sprintf( ( char * )LCDStr, "%s = %s", C_CLK_SRC, "PLL-HSI" );
+        case RCC_PLLSOURCE_HSI  :
+            sprintf( ( char * )LCDStr, "%s = %s", C_CLK_SRC, "PLL-HSI" );
             break;
 
-        case RCC_PLLSOURCE_HSE  : sprintf( ( char * )LCDStr, "%s = %s", C_CLK_SRC, "PLL-HSE" );
+        case RCC_PLLSOURCE_HSE  :
+            sprintf( ( char * )LCDStr, "%s = %s", C_CLK_SRC, "PLL-HSE" );
             break;
 
-        default                 : sprintf( ( char * )LCDStr, "%s = %s", C_CLK_SRC, "?" );
+        default                 :
+            sprintf( ( char * )LCDStr, "%s = %s", C_CLK_SRC, "?" );
             break;
         }
 
         break;
 
-    default :                      break;
+    default :
+        break;
 
     }
 

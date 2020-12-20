@@ -24,8 +24,12 @@ void ref_cfft_f32(
     {
         if( j > i )
         {
-            tempr = data[j];     data[j] = data[i];     data[i] = tempr;
-            tempr = data[j + 1]; data[j + 1] = data[i + 1]; data[i + 1] = tempr;
+            tempr = data[j];
+            data[j] = data[i];
+            data[i] = tempr;
+            tempr = data[j + 1];
+            data[j + 1] = data[i + 1];
+            data[i + 1] = tempr;
         }
 
         m = n >> 1;

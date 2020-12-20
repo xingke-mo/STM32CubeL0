@@ -899,7 +899,8 @@ static void  RtcClockSetup( rtcConfigClockEnum flag )
 
     switch( flag )
     {
-    case RTC_CLOCK_NONE :   RCC_OscInitStruct.OscillatorType =  RCC_OSCILLATORTYPE_LSI | RCC_OSCILLATORTYPE_LSE;
+    case RTC_CLOCK_NONE :
+        RCC_OscInitStruct.OscillatorType =  RCC_OSCILLATORTYPE_LSI | RCC_OSCILLATORTYPE_LSE;
         RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
         RCC_OscInitStruct.LSIState = RCC_LSI_OFF;
         RCC_OscInitStruct.LSEState = RCC_LSE_OFF;
@@ -914,7 +915,8 @@ static void  RtcClockSetup( rtcConfigClockEnum flag )
         __HAL_RCC_RTC_DISABLE();
         break;
 
-    case RTC_CLOCK_LSI :    RCC_OscInitStruct.OscillatorType =  RCC_OSCILLATORTYPE_LSI | RCC_OSCILLATORTYPE_LSE;
+    case RTC_CLOCK_LSI :
+        RCC_OscInitStruct.OscillatorType =  RCC_OSCILLATORTYPE_LSI | RCC_OSCILLATORTYPE_LSE;
         RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
         RCC_OscInitStruct.LSIState = RCC_LSI_ON;
         RCC_OscInitStruct.LSEState = RCC_LSE_OFF;
@@ -939,7 +941,8 @@ static void  RtcClockSetup( rtcConfigClockEnum flag )
         __HAL_RCC_RTC_ENABLE();
         break;
 
-    case RTC_CLOCK_LSE :     RCC_OscInitStruct.OscillatorType =  RCC_OSCILLATORTYPE_LSI | RCC_OSCILLATORTYPE_LSE;
+    case RTC_CLOCK_LSE :
+        RCC_OscInitStruct.OscillatorType =  RCC_OSCILLATORTYPE_LSI | RCC_OSCILLATORTYPE_LSE;
         RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
         RCC_OscInitStruct.LSIState = RCC_LSI_OFF;
         RCC_OscInitStruct.LSEState = RCC_LSE_ON;
@@ -964,7 +967,8 @@ static void  RtcClockSetup( rtcConfigClockEnum flag )
         __HAL_RCC_RTC_ENABLE();
         break;
 
-    default            :     break;
+    default            :
+        break;
 
     }
 

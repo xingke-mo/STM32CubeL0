@@ -518,10 +518,15 @@ static void Display_ExampleDescription( void )
     BSP_LCD_SetFont( &Font16 );
 
     Ystart = BSP_LCD_GetYSize() / 2 - 105;
-    BSP_LCD_DisplayStringAt( 0, Ystart + id * step, ( uint8_t * )"Please set JP10 to IDD,", CENTER_MODE ); id++;
-    BSP_LCD_DisplayStringAt( 0, Ystart + id * step, ( uint8_t * )"JP12 to +3V3 and connect", CENTER_MODE ); id++;
-    BSP_LCD_DisplayStringAt( 0, Ystart + id * step, ( uint8_t * )"an Hyperterminal with", CENTER_MODE ); id++;
-    BSP_LCD_DisplayStringAt( 0, Ystart + id * step, ( uint8_t * )"following settings:", CENTER_MODE ); id++; id++;
+    BSP_LCD_DisplayStringAt( 0, Ystart + id * step, ( uint8_t * )"Please set JP10 to IDD,", CENTER_MODE );
+    id++;
+    BSP_LCD_DisplayStringAt( 0, Ystart + id * step, ( uint8_t * )"JP12 to +3V3 and connect", CENTER_MODE );
+    id++;
+    BSP_LCD_DisplayStringAt( 0, Ystart + id * step, ( uint8_t * )"an Hyperterminal with", CENTER_MODE );
+    id++;
+    BSP_LCD_DisplayStringAt( 0, Ystart + id * step, ( uint8_t * )"following settings:", CENTER_MODE );
+    id++;
+    id++;
 
     Ystart = Ystart + id * step;
 
@@ -536,17 +541,23 @@ static void Display_ExampleDescription( void )
     {
     case 1:
         BSP_LCD_DisplayStringAt( 0, Ystart, ( uint8_t * )"BaudRate = 9600", CENTER_MODE );
-        BSP_LCD_DisplayStringAt( 0, Ystart + id * step, ( uint8_t * )"Data = 7 bits", CENTER_MODE ); id++;
-        BSP_LCD_DisplayStringAt( 0, Ystart + id * step, ( uint8_t * )"Parity = ODD", CENTER_MODE ); id++;
-        BSP_LCD_DisplayStringAt( 0, Ystart + id * step, ( uint8_t * )"Stop = 1 bit", CENTER_MODE ); id++;
+        BSP_LCD_DisplayStringAt( 0, Ystart + id * step, ( uint8_t * )"Data = 7 bits", CENTER_MODE );
+        id++;
+        BSP_LCD_DisplayStringAt( 0, Ystart + id * step, ( uint8_t * )"Parity = ODD", CENTER_MODE );
+        id++;
+        BSP_LCD_DisplayStringAt( 0, Ystart + id * step, ( uint8_t * )"Stop = 1 bit", CENTER_MODE );
+        id++;
         BSP_LCD_DisplayStringAt( 0, Ystart + id * step, ( uint8_t * )"HwFlowCtl = NONE", CENTER_MODE );
         break;
 
     case 2:
         BSP_LCD_DisplayStringAt( 0, Ystart, ( uint8_t * )"BaudRate = 9600", CENTER_MODE );
-        BSP_LCD_DisplayStringAt( 0, Ystart + id * step, ( uint8_t * )"Data = 7 bits", CENTER_MODE ); id++;
-        BSP_LCD_DisplayStringAt( 0, Ystart + id * step, ( uint8_t * )"Parity = ODD", CENTER_MODE ); id++;
-        BSP_LCD_DisplayStringAt( 0, Ystart + id * step, ( uint8_t * )"Stop = 1 bit", CENTER_MODE ); id++;
+        BSP_LCD_DisplayStringAt( 0, Ystart + id * step, ( uint8_t * )"Data = 7 bits", CENTER_MODE );
+        id++;
+        BSP_LCD_DisplayStringAt( 0, Ystart + id * step, ( uint8_t * )"Parity = ODD", CENTER_MODE );
+        id++;
+        BSP_LCD_DisplayStringAt( 0, Ystart + id * step, ( uint8_t * )"Stop = 1 bit", CENTER_MODE );
+        id++;
         BSP_LCD_DisplayStringAt( 0, Ystart + id * step, ( uint8_t * )"HwFlowCtl = NONE", CENTER_MODE );
         break;
 

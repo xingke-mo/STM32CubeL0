@@ -277,32 +277,38 @@ void TSL_BankConf( uint32_t *BankConf, TSL_Conf_t Conf )
 
     switch( TSL_CHANNEL_PORT( Conf ) )
     {
-    case TSL_BANK_GPIOA: BankConf[2] |= ( 3 << ( 2 * ( TSL_CHANNEL_IO( Conf ) ) ) ); //MODER input
+    case TSL_BANK_GPIOA:
+        BankConf[2] |= ( 3 << ( 2 * ( TSL_CHANNEL_IO( Conf ) ) ) ); //MODER input
         BankConf[3] |= ( 1 << ( 2 * ( TSL_CHANNEL_IO( Conf ) ) ) ); //MODER output
         BankConf[4] |= ( 1 << ( TSL_CHANNEL_IO( Conf ) ) ); //ODR
         break;
 
-    case TSL_BANK_GPIOB: BankConf[5] |= ( 3 << ( 2 * ( TSL_CHANNEL_IO( Conf ) ) ) ); //MODER input
+    case TSL_BANK_GPIOB:
+        BankConf[5] |= ( 3 << ( 2 * ( TSL_CHANNEL_IO( Conf ) ) ) ); //MODER input
         BankConf[6] |= ( 1 << ( 2 * ( TSL_CHANNEL_IO( Conf ) ) ) ); //MODER output
         BankConf[7] |= ( 1 << ( TSL_CHANNEL_IO( Conf ) ) ); //ODR
         break;
 
-    case TSL_BANK_GPIOC: BankConf[8] |= ( 3 << ( 2 * ( TSL_CHANNEL_IO( Conf ) ) ) ); //MODER input
+    case TSL_BANK_GPIOC:
+        BankConf[8] |= ( 3 << ( 2 * ( TSL_CHANNEL_IO( Conf ) ) ) ); //MODER input
         BankConf[9] |= ( 1 << ( 2 * ( TSL_CHANNEL_IO( Conf ) ) ) ); //MODER output
         BankConf[10] |= ( 1 << ( TSL_CHANNEL_IO( Conf ) ) ); //ODR
         break;
 
-    case TSL_BANK_GPIOF: BankConf[11] |= ( 3 << ( 2 * ( TSL_CHANNEL_IO( Conf ) ) ) ); //MODER input
+    case TSL_BANK_GPIOF:
+        BankConf[11] |= ( 3 << ( 2 * ( TSL_CHANNEL_IO( Conf ) ) ) ); //MODER input
         BankConf[12] |= ( 1 << ( 2 * ( TSL_CHANNEL_IO( Conf ) ) ) ); //MODER output
         BankConf[13] |= ( 1 << ( TSL_CHANNEL_IO( Conf ) ) ); //ODR
         break;
 
-    case TSL_BANK_GPIOG: BankConf[14] |= ( 3 << ( 2 * ( TSL_CHANNEL_IO( Conf ) ) ) ); //MODER input
+    case TSL_BANK_GPIOG:
+        BankConf[14] |= ( 3 << ( 2 * ( TSL_CHANNEL_IO( Conf ) ) ) ); //MODER input
         BankConf[15] |= ( 1 << ( 2 * ( TSL_CHANNEL_IO( Conf ) ) ) ); //MODER output
         BankConf[16] |= ( 1 << ( TSL_CHANNEL_IO( Conf ) ) ); //ODR
         break;
 
-    default: break;
+    default:
+        break;
     }
 }
 
@@ -770,26 +776,37 @@ void TSL_acq_BankStartAcq( void )
                     {
 #if (TSLPRM_USE_GPIOA)
 
-                    case 0: GPIO_IDR = TSL_GPIOA_IDR; break;
+                    case 0:
+                        GPIO_IDR = TSL_GPIOA_IDR;
+                        break;
 #endif
 #if (TSLPRM_USE_GPIOB)
 
-                    case 1: GPIO_IDR = TSL_GPIOB_IDR; break;
+                    case 1:
+                        GPIO_IDR = TSL_GPIOB_IDR;
+                        break;
 #endif
 #if (TSLPRM_USE_GPIOC)
 
-                    case 2: GPIO_IDR = TSL_GPIOC_IDR; break;
+                    case 2:
+                        GPIO_IDR = TSL_GPIOC_IDR;
+                        break;
 #endif
 #if (TSLPRM_USE_GPIOF)
 
-                    case 5: GPIO_IDR = TSL_GPIOF_IDR; break;
+                    case 5:
+                        GPIO_IDR = TSL_GPIOF_IDR;
+                        break;
 #endif
 #if (TSLPRM_USE_GPIOG)
 
-                    case 6: GPIO_IDR = TSL_GPIOG_IDR; break;
+                    case 6:
+                        GPIO_IDR = TSL_GPIOG_IDR;
+                        break;
 #endif
 
-                    default: break;
+                    default:
+                        break;
                     }
 
                     if( ( GPIO_IDR & GPIO_IDR_Mask ) == GPIO_IDR_Mask )

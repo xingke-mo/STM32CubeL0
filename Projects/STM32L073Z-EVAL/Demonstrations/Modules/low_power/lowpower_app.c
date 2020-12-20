@@ -1005,25 +1005,30 @@ static void DisplayNewClockConfig( clockConfigTypeEnum clockConfig )
      */
     switch( clockConfig )
     {
-    case CONFIG_CLOCK_HSE_32M : BSP_LCD_DisplayStringAtLine( 7, ( uint8_t * )"  System Clock : PLL-HSE" );
+    case CONFIG_CLOCK_HSE_32M :
+        BSP_LCD_DisplayStringAtLine( 7, ( uint8_t * )"  System Clock : PLL-HSE" );
         BSP_LCD_DisplayStringAtLine( 8, ( uint8_t * )"  SYSCLK       : 32 MHz" );
         BSP_LCD_DisplayStringAtLine( 9, ( uint8_t * )"  HCLK         : 32 MHz" );
         break;
 
-    case CONFIG_CLOCK_MSI_64K : BSP_LCD_DisplayStringAtLine( 7, ( uint8_t * )"  System Clock : MSI" );
+    case CONFIG_CLOCK_MSI_64K :
+        BSP_LCD_DisplayStringAtLine( 7, ( uint8_t * )"  System Clock : MSI" );
         BSP_LCD_DisplayStringAtLine( 8, ( uint8_t * )"  SYSCLK       : 64 kHz" );
         BSP_LCD_DisplayStringAtLine( 9, ( uint8_t * )"  HCLK         : 32 kHz" );
         break;
 
-    case CONFIG_CLOCK_HSI_16M : BSP_LCD_DisplayStringAtLine( 7, ( uint8_t * )"  System Clock : HSI" );
+    case CONFIG_CLOCK_HSI_16M :
+        BSP_LCD_DisplayStringAtLine( 7, ( uint8_t * )"  System Clock : HSI" );
         BSP_LCD_DisplayStringAtLine( 8, ( uint8_t * )"  SYSCLK       : 16 MHz" );
         BSP_LCD_DisplayStringAtLine( 9, ( uint8_t * )"  HCLK         : 16 MHz" );
         break;
 
-    case CONFIG_CLOCK_DEFAULT : BSP_LCD_DisplayStringAtLine( 7, ( uint8_t * )"" );
+    case CONFIG_CLOCK_DEFAULT :
+        BSP_LCD_DisplayStringAtLine( 7, ( uint8_t * )"" );
         break;
 
-    default                :   break;
+    default                :
+        break;
     }
 
     BSP_LCD_SetFont( &Font24 );
@@ -1035,7 +1040,8 @@ static void ApplyNewClockConfig( clockConfigTypeEnum clockConfig )
 
     switch( clockConfig )
     {
-    case CONFIG_CLOCK_HSE_32M : SystemClock_Config();
+    case CONFIG_CLOCK_HSE_32M :
+        SystemClock_Config();
         /*         The system Clock is configured as follow :
          *            System Clock source            = PLL (HSE)
          *            SYSCLK(Hz)                     = 32000000
@@ -1043,14 +1049,16 @@ static void ApplyNewClockConfig( clockConfigTypeEnum clockConfig )
          */
         break;
 
-    case CONFIG_CLOCK_MSI_64K : SystemClock_ConfigMSI();
+    case CONFIG_CLOCK_MSI_64K :
+        SystemClock_ConfigMSI();
         /*            System Clock source            = (MSI)
          *            SYSCLK(Hz)                     = 64000
          *            HCLK(Hz)                       = 32000
          */
         break;
 
-    case CONFIG_CLOCK_HSI_16M : SystemClock_ConfigHSI_noPLL_16M();
+    case CONFIG_CLOCK_HSI_16M :
+        SystemClock_ConfigHSI_noPLL_16M();
         /*            System Clock source            = HSI
          *            SYSCLK(Hz)                     = 16000000
          *            HCLK(Hz)                       = 16000000
@@ -1060,7 +1068,8 @@ static void ApplyNewClockConfig( clockConfigTypeEnum clockConfig )
     case CONFIG_CLOCK_DEFAULT :
         break;
 
-    default                :   break;
+    default                :
+        break;
 
     }
 }

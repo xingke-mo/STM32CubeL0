@@ -132,11 +132,16 @@ int main( void )
 
     HAL_Delay( 1000 );
 
-    BSP_LCD_GLASS_BarLevelConfig( BATTERYLEVEL_OFF );  HAL_Delay( 400 );
-    BSP_LCD_GLASS_BarLevelConfig( BATTERYLEVEL_1_4 );  HAL_Delay( 400 );
-    BSP_LCD_GLASS_BarLevelConfig( BATTERYLEVEL_1_2 );  HAL_Delay( 400 );
-    BSP_LCD_GLASS_BarLevelConfig( BATTERYLEVEL_3_4 );  HAL_Delay( 400 );
-    BSP_LCD_GLASS_BarLevelConfig( BATTERYLEVEL_FULL ); HAL_Delay( 400 );
+    BSP_LCD_GLASS_BarLevelConfig( BATTERYLEVEL_OFF );
+    HAL_Delay( 400 );
+    BSP_LCD_GLASS_BarLevelConfig( BATTERYLEVEL_1_4 );
+    HAL_Delay( 400 );
+    BSP_LCD_GLASS_BarLevelConfig( BATTERYLEVEL_1_2 );
+    HAL_Delay( 400 );
+    BSP_LCD_GLASS_BarLevelConfig( BATTERYLEVEL_3_4 );
+    HAL_Delay( 400 );
+    BSP_LCD_GLASS_BarLevelConfig( BATTERYLEVEL_FULL );
+    HAL_Delay( 400 );
 
     BSP_LED_Off( LED2 );
     /*----------------------------*/
@@ -170,35 +175,55 @@ int main( void )
     BSP_LCD_GLASS_DisplayLogo( ENABLE ); /*ST logo*/
     HAL_Delay( 1000 );
 
-    BSP_LCD_GLASS_ArrowConfig( ARROWDIRECTION_OFF ); HAL_Delay( 200 );
-    BSP_LCD_GLASS_ArrowConfig( ARROWDIRECTION_DOWN ); HAL_Delay( 200 );
-    BSP_LCD_GLASS_ArrowConfig( ARROWDIRECTION_LEFT ); HAL_Delay( 200 );
-    BSP_LCD_GLASS_ArrowConfig( ARROWDIRECTION_UP ); HAL_Delay( 200 );
-    BSP_LCD_GLASS_ArrowConfig( ARROWDIRECTION_RIGHT ); HAL_Delay( 200 );
+    BSP_LCD_GLASS_ArrowConfig( ARROWDIRECTION_OFF );
+    HAL_Delay( 200 );
+    BSP_LCD_GLASS_ArrowConfig( ARROWDIRECTION_DOWN );
+    HAL_Delay( 200 );
+    BSP_LCD_GLASS_ArrowConfig( ARROWDIRECTION_LEFT );
+    HAL_Delay( 200 );
+    BSP_LCD_GLASS_ArrowConfig( ARROWDIRECTION_UP );
+    HAL_Delay( 200 );
+    BSP_LCD_GLASS_ArrowConfig( ARROWDIRECTION_RIGHT );
+    HAL_Delay( 200 );
     HAL_Delay( 1000 );
 
     BSP_LCD_GLASS_WriteMatrixPixel( PIXELROW_5, PIXELCOLUMN_10 ); /*UL:10*19*/
     HAL_Delay( 1000 );
 
-    BSP_LCD_GLASS_TemperatureConfig( TEMPERATURELEVEL_OFF ); HAL_Delay( 100 );
-    BSP_LCD_GLASS_TemperatureConfig( TEMPERATURELEVEL_1 ); HAL_Delay( 100 );
-    BSP_LCD_GLASS_TemperatureConfig( TEMPERATURELEVEL_2 ); HAL_Delay( 100 );
-    BSP_LCD_GLASS_TemperatureConfig( TEMPERATURELEVEL_3 ); HAL_Delay( 100 );
-    BSP_LCD_GLASS_TemperatureConfig( TEMPERATURELEVEL_4 ); HAL_Delay( 100 );
-    BSP_LCD_GLASS_TemperatureConfig( TEMPERATURELEVEL_5 ); HAL_Delay( 100 );
-    BSP_LCD_GLASS_TemperatureConfig( TEMPERATURELEVEL_6 ); HAL_Delay( 100 );
+    BSP_LCD_GLASS_TemperatureConfig( TEMPERATURELEVEL_OFF );
+    HAL_Delay( 100 );
+    BSP_LCD_GLASS_TemperatureConfig( TEMPERATURELEVEL_1 );
+    HAL_Delay( 100 );
+    BSP_LCD_GLASS_TemperatureConfig( TEMPERATURELEVEL_2 );
+    HAL_Delay( 100 );
+    BSP_LCD_GLASS_TemperatureConfig( TEMPERATURELEVEL_3 );
+    HAL_Delay( 100 );
+    BSP_LCD_GLASS_TemperatureConfig( TEMPERATURELEVEL_4 );
+    HAL_Delay( 100 );
+    BSP_LCD_GLASS_TemperatureConfig( TEMPERATURELEVEL_5 );
+    HAL_Delay( 100 );
+    BSP_LCD_GLASS_TemperatureConfig( TEMPERATURELEVEL_6 );
+    HAL_Delay( 100 );
     HAL_Delay( 1000 );
 
-    BSP_LCD_GLASS_ValueUnitConfig( VALUEUNIT_OFF );  HAL_Delay( 100 );
-    BSP_LCD_GLASS_ValueUnitConfig( VALUEUNIT_MILLIAMPERE ); HAL_Delay( 100 );
-    BSP_LCD_GLASS_ValueUnitConfig( VALUEUNIT_MICROAMPERE ); HAL_Delay( 100 );
-    BSP_LCD_GLASS_ValueUnitConfig( VALUEUNIT_NANOAMPERE ); HAL_Delay( 100 );
+    BSP_LCD_GLASS_ValueUnitConfig( VALUEUNIT_OFF );
+    HAL_Delay( 100 );
+    BSP_LCD_GLASS_ValueUnitConfig( VALUEUNIT_MILLIAMPERE );
+    HAL_Delay( 100 );
+    BSP_LCD_GLASS_ValueUnitConfig( VALUEUNIT_MICROAMPERE );
+    HAL_Delay( 100 );
+    BSP_LCD_GLASS_ValueUnitConfig( VALUEUNIT_NANOAMPERE );
+    HAL_Delay( 100 );
     HAL_Delay( 1000 );
 
-    BSP_LCD_GLASS_SignCmd( SIGN_NEGATIVE, ENABLE ); HAL_Delay( 100 );
-    BSP_LCD_GLASS_SignCmd( SIGN_NEGATIVE, DISABLE ); HAL_Delay( 100 );
-    BSP_LCD_GLASS_SignCmd( SIGN_NEGATIVE, ENABLE ); HAL_Delay( 100 );
-    BSP_LCD_GLASS_SignCmd( SIGN_POSITIVE, ENABLE ); HAL_Delay( 100 );
+    BSP_LCD_GLASS_SignCmd( SIGN_NEGATIVE, ENABLE );
+    HAL_Delay( 100 );
+    BSP_LCD_GLASS_SignCmd( SIGN_NEGATIVE, DISABLE );
+    HAL_Delay( 100 );
+    BSP_LCD_GLASS_SignCmd( SIGN_NEGATIVE, ENABLE );
+    HAL_Delay( 100 );
+    BSP_LCD_GLASS_SignCmd( SIGN_POSITIVE, ENABLE );
+    HAL_Delay( 100 );
     HAL_Delay( 1000 );
 
     BSP_LCD_GLASS_ClearMatrixPixel( PIXELROW_5, PIXELCOLUMN_10 ); /*UL:10*19*/

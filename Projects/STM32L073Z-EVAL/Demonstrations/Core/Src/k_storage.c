@@ -425,7 +425,8 @@ void kStorage_GetExt( char *pFile, char *pExt )
     do
     {
         pExt[j] = pFile[i];
-        j++; i++;
+        j++;
+        i++;
     } while( pFile[i] != '\0' );
 
     pExt[j] = '\0';

@@ -4370,19 +4370,24 @@ void vTaskList( char *pcWriteBuffer )
         {
             switch( pxTaskStatusArray[ x ].eCurrentState )
             {
-            case eRunning:      cStatus = tskRUNNING_CHAR;
+            case eRunning:
+                cStatus = tskRUNNING_CHAR;
                 break;
 
-            case eReady:        cStatus = tskREADY_CHAR;
+            case eReady:
+                cStatus = tskREADY_CHAR;
                 break;
 
-            case eBlocked:      cStatus = tskBLOCKED_CHAR;
+            case eBlocked:
+                cStatus = tskBLOCKED_CHAR;
                 break;
 
-            case eSuspended:    cStatus = tskSUSPENDED_CHAR;
+            case eSuspended:
+                cStatus = tskSUSPENDED_CHAR;
                 break;
 
-            case eDeleted:      cStatus = tskDELETED_CHAR;
+            case eDeleted:
+                cStatus = tskDELETED_CHAR;
                 break;
 
             case eInvalid:      /* Fall through. */

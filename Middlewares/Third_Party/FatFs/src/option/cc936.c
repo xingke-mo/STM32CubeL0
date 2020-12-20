@@ -11052,29 +11052,49 @@ WCHAR ff_wtoupper(  /* Returns upper converted character */
             break;
         }
 
-        nc = *p++; cmd = nc >> 8; nc &= 0xFF;   /* Get processing command and block size */
+        nc = *p++;
+        cmd = nc >> 8;
+        nc &= 0xFF;   /* Get processing command and block size */
 
         if( chr < bc + nc )     /* In the block? */
         {
             switch( cmd )
             {
-            case 0: chr = p[chr - bc]; break;       /* Table conversion */
+            case 0:
+                chr = p[chr - bc];
+                break;       /* Table conversion */
 
-            case 1: chr -= ( chr - bc ) & 1; break; /* Case pairs */
+            case 1:
+                chr -= ( chr - bc ) & 1;
+                break; /* Case pairs */
 
-            case 2: chr -= 16; break;               /* Shift -16 */
+            case 2:
+                chr -= 16;
+                break;               /* Shift -16 */
 
-            case 3: chr -= 32; break;               /* Shift -32 */
+            case 3:
+                chr -= 32;
+                break;               /* Shift -32 */
 
-            case 4: chr -= 48; break;               /* Shift -48 */
+            case 4:
+                chr -= 48;
+                break;               /* Shift -48 */
 
-            case 5: chr -= 26; break;               /* Shift -26 */
+            case 5:
+                chr -= 26;
+                break;               /* Shift -26 */
 
-            case 6: chr += 8; break;                /* Shift +8 */
+            case 6:
+                chr += 8;
+                break;                /* Shift +8 */
 
-            case 7: chr -= 80; break;               /* Shift -80 */
+            case 7:
+                chr -= 80;
+                break;               /* Shift -80 */
 
-            case 8: chr -= 0x1C60; break;           /* Shift -0x1C60 */
+            case 8:
+                chr -= 0x1C60;
+                break;           /* Shift -0x1C60 */
             }
 
             break;

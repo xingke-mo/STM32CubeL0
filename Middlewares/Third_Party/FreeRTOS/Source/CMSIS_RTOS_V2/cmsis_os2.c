@@ -581,17 +581,27 @@ osThreadState_t osThreadGetState( osThreadId_t thread_id )
     {
         switch( eTaskGetState( hTask ) )
         {
-        case eRunning:   state = osThreadRunning;    break;
+        case eRunning:
+            state = osThreadRunning;
+            break;
 
-        case eReady:     state = osThreadReady;      break;
+        case eReady:
+            state = osThreadReady;
+            break;
 
         case eBlocked:
-        case eSuspended: state = osThreadBlocked;    break;
+        case eSuspended:
+            state = osThreadBlocked;
+            break;
 
-        case eDeleted:   state = osThreadTerminated; break;
+        case eDeleted:
+            state = osThreadTerminated;
+            break;
 
         case eInvalid:
-        default:         state = osThreadError;      break;
+        default:
+            state = osThreadError;
+            break;
         }
     }
 
